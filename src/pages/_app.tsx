@@ -1,11 +1,10 @@
-import { Inter } from 'next/font/google';
+import { Source_Code_Pro } from 'next/font/google';
 import Head from 'next/head';
-
 import type { AppProps } from 'next/app';
 
-import '@/styles/globals.scss';
+import '@/styles/globals.css';
 
-const inter = Inter({
+const globalFont = Source_Code_Pro({
   subsets: ['latin'],
 });
 
@@ -15,7 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>network-client</title>
       </Head>
-      <main className={`${inter.className}`}>
+      <main className={`${globalFont.className} main`}>
         <Component {...pageProps} />
       </main>
     </>
