@@ -1,5 +1,14 @@
-import { SignUpForm } from '@/components/signup-form';
+import { ReactElement } from 'react';
 
-export default function SignUp() {
+import { NextPageWithLayout } from './_app';
+
+import { SignUpForm } from '@/components/signup-form';
+import { Auth } from '@/layouts/Auth';
+
+const SignUp: NextPageWithLayout = () => {
   return <SignUpForm />;
-}
+};
+
+SignUp.getLayout = (page: ReactElement) => <Auth>{page}</Auth>;
+
+export default SignUp;

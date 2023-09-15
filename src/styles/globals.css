@@ -20,13 +20,6 @@ body {
   height: 100%;
 }
 
-.main {
-  display: grid;
-  height: 100%;
-  width: 100%;
-  place-items: center;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
