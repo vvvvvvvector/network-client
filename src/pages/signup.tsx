@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 
 import { NextPageWithLayout } from './_app';
 
-import { SignUpForm } from '@/components/signup-form';
+import { SignUpForm } from '@/components/forms/signup-form';
 
 import { Auth } from '@/layouts/Auth';
 import { Main } from '@/layouts/Main';
