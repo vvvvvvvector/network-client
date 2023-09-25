@@ -20,6 +20,8 @@ import { useToast } from '@/components/ui/use-toast';
 import * as Api from '@/api';
 import axios from 'axios';
 
+import { useRouter } from 'next/router';
+
 import { setCookie } from 'nookies';
 
 const formSchema = z.object({
@@ -29,6 +31,8 @@ const formSchema = z.object({
 
 export function SignInForm() {
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const { toast } = useToast();
 
@@ -56,7 +60,7 @@ export function SignInForm() {
         description: 'You have successfully signed in.',
       });
 
-      location.href = '/app';
+      router.push('/profile');
     } catch (error) {
       setLoading(false);
 

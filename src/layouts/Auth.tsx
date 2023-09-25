@@ -29,7 +29,7 @@ export const Auth: FC<PropsWithChildren> = ({ children }) => {
                 : () => router.push('/')
             }
           >
-            {`${router.asPath === '/' ? 'Sign in' : 'Sign up'}`}
+            {`${router.asPath === '/' ? 'Sign up' : 'Sign in'}`}
           </button>
         </div>
       </div>
