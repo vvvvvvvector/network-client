@@ -7,14 +7,14 @@ import { SignInForm } from '@/components/forms/signin-form';
 import { Auth } from '@/layouts/Auth';
 import { Main } from '@/layouts/Main';
 
-const SignIn: NextPageWithLayout = () => {
+const Index: NextPageWithLayout = () => {
   return <SignInForm />;
 };
 
-SignIn.getLayout = (page: ReactElement) => (
+Index.getLayout = (page: ReactElement) => (
   <Main title='Auth / Sign In'>
     <Auth>{page}</Auth>
   </Main>
 );
 
-export default SignIn;
+export default Index;

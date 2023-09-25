@@ -5,7 +5,7 @@ import { Main } from '@/layouts/Main';
 import { Authorized } from '@/layouts/Authorised';
 
 const Profile: NextPageWithLayout = () => {
-  return <div className='w-full h-full bg-emerald-200'>Profile</div>;
+  return <div className='bg-white p-5 rounded-lg'>Profile</div>;
 };
 
 Profile.getLayout = (page) => (

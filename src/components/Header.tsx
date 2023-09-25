@@ -25,8 +25,8 @@ const Header = () => {
   const router = useRouter();
 
   return (
-    <header className='sticky top-0 z-50 w-full border-b flex justify-center items-center'>
-      <div className='w-full max-w-[1100px] h-14 flex items-center px-10'>
+    <header className='static top-0 z-50 w-full border-b flex justify-center items-center'>
+      <div className='w-full max-w-[1150px] h-14 flex items-center px-10'>
         <ul className='w-full h-full flex items-center justify-between'>
           <li>
             <div className='flex items-center gap-3'>

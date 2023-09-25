@@ -8,12 +8,12 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
 
   return (
-    <div className='relative flex flex-col min-h-screen'>
+    <div className='flex flex-col min-h-screen'>
       <Header />
       <div className='flex-1 flex justify-center bg-gray-100'>
-        <div className='w-full max-w-[1100px] px-10 mt-5'>
-          <div className='flex-1 flex gap-4'>
-            <ul className='flex flex-col gap-5 w-full max-w-[175px]'>
+        <div className='w-full max-w-[1150px] px-10 mt-5 mb-5'>
+          <div className='grid grid-cols-[175px_minmax(0,1fr)] gap-5'>
+            <ul className='flex gap-5 flex-col'>
               <li
                 onClick={() => {
                   router.push('/profile');
@@ -42,7 +42,7 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
                 <span>Friends</span>
               </li>
             </ul>
-            <main className='flex-1'>{children}</main>
+            <main>{children}</main>
           </div>
         </div>
       </div>
