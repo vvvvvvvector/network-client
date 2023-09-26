@@ -9,6 +9,8 @@ import { getMyData } from '@/api/users';
 import { Separator } from '@/components/ui/separator';
 import { axiosApiInstance } from '@/axios';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
 import nookies from 'nookies';
 
 interface Props {
@@ -34,10 +36,17 @@ interface Props {
 const Profile: NextPageWithLayout<Props> = ({ me }) => {
   return (
     <div className='bg-white p-5 rounded-lg'>
-      <h2 className='text-lg font-bold'>My profile</h2>
+      <div className='flex gap-3 items-center'>
+        <Avatar>
+          <AvatarImage src='https://avatars.githubusercontent.com/u/57532024?v=4' />
+          <AvatarFallback>A</AvatarFallback>
+        </Avatar>
+        <span className='text-2xl font-semibold'>{`${
+          me?.username || 'x'
+        } (My Profile)`}</span>
+      </div>
       <Separator className='mt-4 mb-4' />
       <ul className='flex flex-col gap-5'>
-        <li>{`username: ${me?.username || 'x'}`}</li>
         <li>{`is profile activated: ${me?.profile.isActivated || 'x'}`}</li>
         <li>{`profile created at: ${me?.profile.createdAt || 'x'}`}</li>
         <li>{`email: ${me?.contacts.email.contact || 'x'}`}</li>
@@ -59,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (
   try {
     const { token } = nookies.get(ctx); // get token from the request
 
-    axiosApiInstance.defaults.headers.Authorization = 'Bearer ' + token; // set cookie / token on the server
+    axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`; // set cookie / token on the server
 
     const me = await getMyData();
 

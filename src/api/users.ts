@@ -12,4 +12,14 @@ const getUserPublicAvailableDataByUsername = async (username: string) => {
   return data;
 };
 
-export { getMyData, getUserPublicAvailableDataByUsername };
+const getAllUsersUsernames = async () => {
+  const { data } = await axiosApiInstance.get('/users/usernames');
+
+  return data;
+};
+
+export {
+  getMyData,
+  getUserPublicAvailableDataByUsername,
+  getAllUsersUsernames,
+};
