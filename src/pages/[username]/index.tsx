@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import { NextPageWithLayout } from '../_app';
 
@@ -8,6 +8,9 @@ import { Authorized } from '@/layouts/Authorised';
 
 import { getUserPublicAvailableDataByUsername } from '@/api/users';
 import { Separator } from '@/components/ui/separator';
+import { axiosApiInstance } from '@/axios';
+
+import nookies from 'nookies';
 
 interface Props {
   user: {
@@ -31,11 +34,11 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
       <h2 className='text-lg font-bold'>Someone profile</h2>
       <Separator className='mt-4 mb-4' />
       <ul className='flex flex-col gap-5'>
-        <li>{`username: ${'x'}`}</li>
-        <li>{`is profile activated: ${'x'}`}</li>
-        <li>{`profile created at: ${'x'}`}</li>
-        <li>{`email: ${'x'}`}</li>
-        <li>{`is email public: ${'x'}`}</li>
+        <li>{`username: ${user?.username || 'x'}`}</li>
+        <li>{`is profile activated: ${user?.profile.isActivated || 'x'}`}</li>
+        <li>{`profile created at: ${user?.profile.createdAt || 'x'}`}</li>
+        <li>{`email: ${user?.contacts.email.contact || 'x'}`}</li>
+        <li>{`is email public: ${user?.contacts.email.isPublic || 'x'}`}</li>
       </ul>
     </div>
   );
@@ -47,10 +50,16 @@ Index.getLayout = (page) => (
   </Main>
 );
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext
+) => {
   try {
+    const { token } = nookies.get(ctx); // get token from the request
+
+    axiosApiInstance.defaults.headers.Authorization = 'Bearer ' + token; // set cookie / token on the server
+
     const user = await getUserPublicAvailableDataByUsername(
-      params?.username as string
+      ctx.query.username as string
     );
 
     return {

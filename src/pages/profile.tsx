@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import { NextPageWithLayout } from './_app';
 
@@ -7,6 +7,9 @@ import { Authorized } from '@/layouts/Authorised';
 
 import { getMyData } from '@/api/users';
 import { Separator } from '@/components/ui/separator';
+import { axiosApiInstance } from '@/axios';
+
+import nookies from 'nookies';
 
 interface Props {
   me: {
@@ -50,8 +53,14 @@ Profile.getLayout = (page) => (
   </Main>
 );
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext
+) => {
   try {
+    const { token } = nookies.get(ctx); // get token from the request
+
+    axiosApiInstance.defaults.headers.Authorization = 'Bearer ' + token; // set cookie / token on the server
+
     const me = await getMyData();
 
     return {
@@ -60,8 +69,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
       },
     };
   } catch (error) {
-    console.log(error);
-
     return {
       props: {
         me: null,
