@@ -17,8 +17,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
-import * as Api from '@/api';
+import { signUp } from '@/api/auth';
+
 import axios from 'axios';
+
+import { useRouter } from 'next/router';
 
 const formSchema = z.object({
   email: z
@@ -39,6 +42,8 @@ export function SignUpForm() {
 
   const { toast } = useToast();
 
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,7 +57,7 @@ export function SignUpForm() {
     try {
       setLoading(true);
 
-      const { receiver, link } = await Api.auth.signUp(data);
+      const { receiver, link } = await signUp(data);
 
       setLoading(false);
 
@@ -60,6 +65,8 @@ export function SignUpForm() {
         title: `Activation link has been sent to ${receiver}.`,
         description: `Link: ${link}`,
       });
+
+      router.push('/');
     } catch (error) {
       setLoading(false);
 

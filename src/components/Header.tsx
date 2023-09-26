@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import * as Api from '@/api';
+import { signOut } from '@/api/auth';
 
 import { useRouter } from 'next/router';
 import { useToast } from './ui/use-toast';
@@ -58,7 +58,7 @@ const Header = () => {
                 <DropdownMenuItem
                   className='cursor-pointer'
                   onClick={() => {
-                    Api.auth.signOut();
+                    signOut();
 
                     toast({
                       description: 'You have successfully signed out.',

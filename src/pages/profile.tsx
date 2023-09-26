@@ -1,17 +1,73 @@
+import { GetServerSideProps } from 'next';
+
 import { NextPageWithLayout } from './_app';
 
 import { Main } from '@/layouts/Main';
-
 import { Authorized } from '@/layouts/Authorised';
 
-const Profile: NextPageWithLayout = () => {
-  return <div className='bg-white p-5 rounded-lg'>Profile</div>;
+import { getMyData } from '@/api/users';
+import { Separator } from '@/components/ui/separator';
+
+interface Props {
+  me: {
+    id: number;
+    username: string;
+    profile: {
+      uuid: string;
+      isActivated: boolean;
+      createdAt: string;
+    };
+    contacts: {
+      id: number;
+      email: {
+        id: number;
+        contact: string;
+        isPublic: boolean;
+      };
+    };
+  };
+}
+
+const Profile: NextPageWithLayout<Props> = ({ me }) => {
+  return (
+    <div className='bg-white p-5 rounded-lg'>
+      <h2 className='text-lg font-bold'>My profile</h2>
+      <Separator className='mt-4 mb-4' />
+      <ul className='flex flex-col gap-5'>
+        <li>{`username: ${me?.username || 'x'}`}</li>
+        <li>{`is profile activated: ${me?.profile.isActivated || 'x'}`}</li>
+        <li>{`profile created at: ${me?.profile.createdAt || 'x'}`}</li>
+        <li>{`email: ${me?.contacts.email.contact || 'x'}`}</li>
+        <li>{`is email public: ${me?.contacts.email.isPublic || 'x'}`}</li>
+      </ul>
+    </div>
+  );
 };
 
 Profile.getLayout = (page) => (
-  <Main title='Authorised / Profile'>
+  <Main title='Authorised / My Profile'>
     <Authorized>{page}</Authorized>
   </Main>
 );
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  try {
+    const me = await getMyData();
+
+    return {
+      props: {
+        me,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+
+    return {
+      props: {
+        me: null,
+      },
+    };
+  }
+};
 
 export default Profile;

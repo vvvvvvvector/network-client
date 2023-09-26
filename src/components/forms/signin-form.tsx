@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
-import * as Api from '@/api';
+import { signIn } from '@/api/auth';
 import axios from 'axios';
 
 import { useRouter } from 'next/router';
@@ -48,11 +48,11 @@ export function SignInForm() {
     try {
       setLoading(true);
 
-      const { token } = await Api.auth.signIn(data);
+      const { token } = await signIn(data);
 
       setLoading(false);
 
-      setCookie(null, 'next-network-token', token, {
+      setCookie(null, 'token', token, {
         path: '/',
       });
 

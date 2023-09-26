@@ -2,16 +2,18 @@ import axios from 'axios';
 
 import { parseCookies } from 'nookies';
 
-axios.defaults.baseURL = 'http://localhost:5173';
+const axiosApiInstance = axios.create();
 
-axios.interceptors.request.use((config) => {
-  if (typeof window !== 'undefined') {
-    const token = parseCookies()['next-network-token'];
+axiosApiInstance.defaults.baseURL = 'http://localhost:5173';
 
-    config.headers['Authorization'] = `Bearer ${token}`;
+axiosApiInstance.interceptors.request.use((req) => {
+  const { token } = parseCookies();
+
+  if (token) {
+    req.headers['Authorization'] = `Bearer ${token}`;
   }
 
-  return config;
+  return req;
 });
 
-export default axios;
+export { axiosApiInstance };

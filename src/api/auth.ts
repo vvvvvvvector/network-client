@@ -1,6 +1,6 @@
 import { destroyCookie } from 'nookies';
 
-import axios from '@/axios';
+import { axiosApiInstance } from '@/axios';
 
 type SignInForm = {
   username: string;
@@ -22,20 +22,28 @@ type SignUpResponse = {
   link: string;
 };
 
-export const signIn = async (values: SignInForm): Promise<SignInResponse> => {
-  const { data } = await axios.post<SignInResponse>('/auth/signin', values);
+const signIn = async (values: SignInForm): Promise<SignInResponse> => {
+  const { data } = await axiosApiInstance.post<SignInResponse>(
+    '/auth/signin',
+    values
+  );
 
   return data;
 };
 
-export const signUp = async (values: SignUpForm): Promise<SignUpResponse> => {
-  const { data } = await axios.post<SignUpResponse>('/auth/signup', values);
+const signUp = async (values: SignUpForm): Promise<SignUpResponse> => {
+  const { data } = await axiosApiInstance.post<SignUpResponse>(
+    '/auth/signup',
+    values
+  );
 
   return data;
 };
 
-export const signOut = () => {
-  destroyCookie(null, 'next-network-token', {
+const signOut = () => {
+  destroyCookie(null, 'token', {
     path: '/',
   });
 };
+
+export { signIn, signUp, signOut };
