@@ -1,5 +1,5 @@
 import { Header } from '@/components/Header';
-import { MessageCircle, Users, User } from 'lucide-react';
+import { MessageCircle, Users, User, Newspaper } from 'lucide-react';
 import { FC, PropsWithChildren } from 'react';
 
 import { useRouter } from 'next/navigation';
@@ -22,6 +22,15 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
               >
                 <User size={20} />
                 <span>My profile</span>
+              </li>
+              <li
+                onClick={() => {
+                  router.push('/news');
+                }}
+                className='text-sm hover:bg-gray-200 rounded p-2 cursor-pointer flex gap-2 items-center'
+              >
+                <Newspaper size={20} />
+                <span>News</span>
               </li>
               <li
                 onClick={() => {

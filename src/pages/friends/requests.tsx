@@ -276,19 +276,25 @@ const Requests: NextPageWithLayout<Props> = ({
         <ul className='flex gap-7'>
           <li
             onClick={() => setList('incoming')}
-            className={`hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
+            className={`${
+              list === 'incoming' && 'bg-gray-50 font-semibold'
+            } hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
           >
             {`Incoming (${incoming.length})`}
           </li>
           <li
             onClick={() => setList('outgoing')}
-            className={`hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
+            className={`${
+              list === 'outgoing' && 'bg-gray-50 font-semibold'
+            } hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
           >
             {`Outgoing (${outgoing.length})`}
           </li>
           <li
             onClick={() => setList('rejected')}
-            className={`hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
+            className={`${
+              list === 'rejected' && 'bg-gray-50 font-semibold'
+            } hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
           >
             {`Rejected (${rejected.length})`}
           </li>
@@ -339,6 +345,7 @@ export const getServerSideProps: GetServerSideProps = async (
       props: {
         incoming: [],
         outgoing: [],
+        rejected: [],
       },
     };
   }

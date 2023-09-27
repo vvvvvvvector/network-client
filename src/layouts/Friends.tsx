@@ -13,7 +13,7 @@ export const Friends: FC<PropsWithChildren> = ({ children }) => {
           <li
             onClick={() => router.push('/friends')}
             className={`${
-              router.asPath === '/friends' ? 'bg-gray-50' : ''
+              router.asPath === '/friends' && 'bg-gray-50 font-semibold'
             } text-sm hover:bg-gray-50 rounded p-2 cursor-pointer`}
           >
             My friends
@@ -21,7 +21,8 @@ export const Friends: FC<PropsWithChildren> = ({ children }) => {
           <li
             onClick={() => router.push('/friends/requests')}
             className={`${
-              router.asPath === '/friends/requests' ? 'bg-gray-50' : ''
+              router.asPath === '/friends/requests' &&
+              'bg-gray-50 font-semibold'
             } text-sm hover:bg-gray-50 rounded p-2 cursor-pointer`}
           >
             Friend requests

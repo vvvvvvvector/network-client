@@ -36,6 +36,12 @@ const getRejectedFriendRequests = async () => {
   return data;
 };
 
+const getNetworkUsersUsernames = async () => {
+  const { data } = await axiosApiInstance.get('/friend-requests/find');
+
+  return data;
+};
+
 export {
   sendFriendRequest,
   getMyFriends,
@@ -44,4 +50,5 @@ export {
   getRejectedFriendRequests,
   acceptFriendRequest,
   rejectFriendRequest,
+  getNetworkUsersUsernames,
 };

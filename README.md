@@ -1,4 +1,4 @@
-![network_v0.1](./public/network_v0.1.png)
+![network_screenshot](./public/network_v0.2.png)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
