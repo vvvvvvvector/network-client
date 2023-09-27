@@ -10,26 +10,19 @@ import { Separator } from '@/components/ui/separator';
 import { useRouter } from 'next/router';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { axiosApiInstance } from '@/axios';
 
-const Index: NextPageWithLayout = () => {
-  const users = [
-    {
-      username: 'friend 1',
-    },
-    {
-      username: 'friend 2',
-    },
-    {
-      username: 'friend 3',
-    },
-    {
-      username: 'friend 4',
-    },
-    {
-      username: 'friend 5',
-    },
-  ];
+import nookies from 'nookies';
+import { getMyFriends } from '@/api/friends';
 
+interface Props {
+  users: {
+    username: string;
+  }[];
+}
+
+const Index: NextPageWithLayout<Props> = ({ users }) => {
   const router = useRouter();
 
   return (
@@ -62,7 +55,9 @@ const Index: NextPageWithLayout = () => {
               <div className='flex gap-3 items-center'>
                 <Avatar>
                   <AvatarImage src='' />
-                  <AvatarFallback>A</AvatarFallback>
+                  <AvatarFallback>
+                    {user?.username[0].toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
                 <span
                   onClick={() => router.push(`/${user.username}`)}
@@ -75,7 +70,7 @@ const Index: NextPageWithLayout = () => {
           ))}
         </ul>
       ) : (
-        <span className='text-center'>You don't have any friends yet :(</span>
+        <span className='text-center'>You don't have any friends yet.</span>
       )}
     </>
   );
@@ -88,5 +83,29 @@ Index.getLayout = (page) => (
     </Authorized>
   </Main>
 );
+
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext
+) => {
+  try {
+    const { token } = nookies.get(ctx); // get token from the request
+
+    axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`; // set cookie / token on the server
+
+    const users = await getMyFriends();
+
+    return {
+      props: {
+        users,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        users: [],
+      },
+    };
+  }
+};
 
 export default Index;

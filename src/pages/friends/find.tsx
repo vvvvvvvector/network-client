@@ -21,18 +21,22 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Search, UserPlus } from 'lucide-react';
 
 import { useRouter } from 'next/router';
+import { useToast } from '@/components/ui/use-toast';
+import { sendFriendRequest } from '@/api/friends';
+import axios from 'axios';
 
 interface Props {
-  users:
-    | {
-        username: string;
-      }[];
+  users: {
+    username: string;
+  }[];
 }
 
 const Find: NextPageWithLayout<Props> = ({ users }) => {
   const [searchValue, setSearchValue] = useState('');
 
   const router = useRouter();
+
+  const { toast } = useToast();
 
   const filteredUsers = users.filter((user) =>
     user.username.toLowerCase().includes(searchValue.toLocaleLowerCase())
@@ -65,7 +69,9 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
               <div className='flex gap-3 items-center'>
                 <Avatar>
                   <AvatarImage src='' />
-                  <AvatarFallback>A</AvatarFallback>
+                  <AvatarFallback>
+                    {user.username[0].toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
                 <span
                   onClick={() => router.push(`/${user.username}`)}
@@ -75,8 +81,23 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
                 </span>
               </div>
               <Button
-                onClick={(e) => {
+                onClick={async (e) => {
                   e.stopPropagation();
+
+                  try {
+                    await sendFriendRequest(user.username);
+
+                    toast({
+                      description: 'Friend request was successfully sent.',
+                    });
+                  } catch (error) {
+                    if (axios.isAxiosError(error)) {
+                      toast({
+                        variant: 'destructive',
+                        description: `${error.response?.data.message}`,
+                      });
+                    }
+                  }
                 }}
                 variant='outline'
               >

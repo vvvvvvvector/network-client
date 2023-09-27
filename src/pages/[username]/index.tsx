@@ -36,7 +36,7 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
       <div className='flex gap-3 items-center'>
         <Avatar>
           <AvatarImage src='' />
-          <AvatarFallback>A</AvatarFallback>
+          <AvatarFallback>{user.username[0].toUpperCase()}</AvatarFallback>
         </Avatar>
         <span className='text-2xl font-semibold'>{`${
           user?.username || 'x'
