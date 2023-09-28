@@ -6,10 +6,20 @@ const getMyData = async () => {
   return data;
 };
 
+const getAuthorizedUserUsername = async () => {
+  const { data } = await axiosApiInstance.get('/users/me/username');
+
+  return data;
+};
+
 const getUserPublicAvailableDataByUsername = async (username: string) => {
   const { data } = await axiosApiInstance.get(`/users/${username}`);
 
   return data;
 };
 
-export { getMyData, getUserPublicAvailableDataByUsername };
+export {
+  getMyData,
+  getUserPublicAvailableDataByUsername,
+  getAuthorizedUserUsername,
+};

@@ -8,11 +8,10 @@ import { Authorized } from '@/layouts/Authorised';
 
 import { getUserPublicAvailableDataByUsername } from '@/api/users';
 import { Separator } from '@/components/ui/separator';
-import { axiosApiInstance } from '@/axios';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-import nookies from 'nookies';
+import { isAuthorized } from '@/lib/auth';
 
 interface Props {
   user: {
@@ -63,9 +62,9 @@ export const getServerSideProps: GetServerSideProps = async (
   ctx: GetServerSidePropsContext
 ) => {
   try {
-    const { token } = nookies.get(ctx); // get token from the request
+    const res = await isAuthorized(ctx);
 
-    axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`; // set cookie / token on the server
+    if (res && 'redirect' in res) return res;
 
     const user = await getUserPublicAvailableDataByUsername(
       ctx.query.username as string

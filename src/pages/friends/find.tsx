@@ -9,10 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Friends } from '@/layouts/Friends';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
-import { axiosApiInstance } from '@/axios';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-
-import nookies from 'nookies';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
@@ -23,6 +20,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { getNetworkUsersUsernames, sendFriendRequest } from '@/api/friends';
 
 import axios from 'axios';
+import { isAuthorized } from '@/lib/auth';
 
 type RequestStatus = 'rejected' | 'accepted' | 'pending' | "doesn't exist";
 
@@ -135,9 +133,9 @@ export const getServerSideProps: GetServerSideProps = async (
   ctx: GetServerSidePropsContext
 ) => {
   try {
-    const { token } = nookies.get(ctx); // get token from the request
+    const res = await isAuthorized(ctx);
 
-    axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`; // set cookie / token on the server
+    if (res && 'redirect' in res) return res;
 
     const users = await getNetworkUsersUsernames();
 

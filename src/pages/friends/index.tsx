@@ -11,10 +11,9 @@ import { useRouter } from 'next/router';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { axiosApiInstance } from '@/axios';
 
-import nookies from 'nookies';
 import { getMyFriends } from '@/api/friends';
+import { isAuthorized } from '@/lib/auth';
 
 interface Props {
   users: {
@@ -88,9 +87,9 @@ export const getServerSideProps: GetServerSideProps = async (
   ctx: GetServerSidePropsContext
 ) => {
   try {
-    const { token } = nookies.get(ctx); // get token from the request
+    const res = await isAuthorized(ctx);
 
-    axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`; // set cookie / token on the server
+    if (res && 'redirect' in res) return res;
 
     const users = await getMyFriends();
 
