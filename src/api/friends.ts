@@ -1,5 +1,7 @@
 import { axiosApiInstance } from '@/axios';
 
+const unfriend = async (username: string) => {};
+
 const sendFriendRequest = async (username: string) => {
   await axiosApiInstance.post('/friend-requests/create', { username });
 };

@@ -1,19 +1,30 @@
 import { NextPageWithLayout } from '../_app';
 
 import { Main } from '@/layouts/Main';
-
 import { Authorized } from '@/layouts/Authorised';
-import { Button } from '@/components/ui/button';
 import { Friends } from '@/layouts/Friends';
+
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { useRouter } from 'next/router';
-
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import { getMyFriends } from '@/api/friends';
+
 import { isAuthorized } from '@/lib/auth';
+
+import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface Props {
   users: {
@@ -29,7 +40,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
       <div className='text-sm flex items-center justify-between'>
         <ul className='flex gap-7'>
           <li
-            className={` hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
+            className={`hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
           >
             {`All friends (${users.length})`}
           </li>
@@ -65,6 +76,32 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
                   {user.username}
                 </span>
               </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant='ghost' size='icon'>
+                    <MoreHorizontal size={20} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem onClick={() => router.push('/messenger')}>
+                      <MessagesSquare className='mr-2 h-4 w-4' />
+                      <span>Write message</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem
+                      onClick={async () => {
+                        router.replace(router.asPath);
+                      }}
+                    >
+                      <UserMinus className='mr-2 h-4 w-4' />
+                      <span>Unfriend</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </li>
           ))}
         </ul>

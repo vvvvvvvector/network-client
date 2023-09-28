@@ -45,8 +45,11 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
       <ul className='flex flex-col gap-5'>
         <li>{`is profile activated: ${user?.profile.isActivated || 'x'}`}</li>
         <li>{`profile created at: ${user?.profile.createdAt || 'x'}`}</li>
-        <li>{`email: ${user?.contacts.email.contact || 'x'}`}</li>
-        <li>{`is email public: ${user?.contacts.email.isPublic || 'x'}`}</li>
+        <li>{`email: ${
+          user?.contacts.email.isPublic
+            ? user?.contacts.email.contact
+            : 'private'
+        }`}</li>
       </ul>
     </div>
   );

@@ -1,8 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
-import { ChevronDown, Settings } from 'lucide-react';
-
-import { LogOut, Network } from 'lucide-react';
+import { ChevronDown, Palette, Settings, LogOut, Network } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -13,10 +9,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { signOut } from '@/api/auth';
 
 import { useRouter } from 'next/router';
+
 import { useToast } from './ui/use-toast';
 
 const Header = () => {
@@ -47,6 +45,13 @@ const Header = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent className='w-56'>
                 <DropdownMenuLabel>My profile</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className='cursor-pointer'>
+                    <Palette className='mr-2 h-4 w-4' />
+                    <span>Mode</span>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem className='cursor-pointer'>

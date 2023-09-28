@@ -42,14 +42,16 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
         </Avatar>
         <span className='text-2xl font-semibold'>{`${
           me?.username || 'x'
-        } (My Profile)`}</span>
+        }`}</span>
       </div>
       <Separator className='mt-4 mb-4' />
       <ul className='flex flex-col gap-5'>
         <li>{`is profile activated: ${me?.profile.isActivated || 'x'}`}</li>
         <li>{`profile created at: ${me?.profile.createdAt || 'x'}`}</li>
         <li>{`email: ${me?.contacts.email.contact || 'x'}`}</li>
-        <li>{`is email public: ${me?.contacts.email.isPublic || 'x'}`}</li>
+        <li>{`is email public: ${
+          me?.contacts.email.isPublic ? 'True' : 'False'
+        }`}</li>
       </ul>
     </div>
   );

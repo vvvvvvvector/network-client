@@ -12,6 +12,13 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+
+import {
   acceptFriendRequest,
   getIncomingFriendRequests,
   getOutgoingFriendRequests,
@@ -98,58 +105,80 @@ const List: FC<{
                     </span>
                   </div>
                   <div className='flex gap-3'>
-                    <Button
-                      onClick={async (e) => {
-                        e.stopPropagation();
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            onClick={async (e) => {
+                              e.stopPropagation();
 
-                        try {
-                          await acceptFriendRequest(request.sender.username);
+                              try {
+                                await acceptFriendRequest(
+                                  request.sender.username
+                                );
 
-                          toast({
-                            description:
-                              'Friend request was successfully accepted.',
-                          });
+                                toast({
+                                  description:
+                                    'Friend request was successfully accepted.',
+                                });
 
-                          router.replace(router.asPath);
-                        } catch (error) {
-                          if (axios.isAxiosError(error)) {
-                            toast({
-                              variant: 'destructive',
-                              description: `${error.response?.data.message}`,
-                            });
-                          }
-                        }
-                      }}
-                      variant='outline'
-                    >
-                      <Check size={20} />
-                    </Button>
-                    <Button
-                      onClick={async (e) => {
-                        e.stopPropagation();
+                                router.replace(router.asPath);
+                              } catch (error) {
+                                if (axios.isAxiosError(error)) {
+                                  toast({
+                                    variant: 'destructive',
+                                    description: `${error.response?.data.message}`,
+                                  });
+                                }
+                              }
+                            }}
+                            variant='outline'
+                          >
+                            <Check size={20} />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Accept friend request</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            onClick={async (e) => {
+                              e.stopPropagation();
 
-                        try {
-                          await rejectFriendRequest(request.sender.username);
+                              try {
+                                await rejectFriendRequest(
+                                  request.sender.username
+                                );
 
-                          toast({
-                            description:
-                              'Friend request was successfully rejected.',
-                          });
+                                toast({
+                                  description:
+                                    'Friend request was successfully rejected.',
+                                });
 
-                          router.replace(router.asPath);
-                        } catch (error) {
-                          if (axios.isAxiosError(error)) {
-                            toast({
-                              variant: 'destructive',
-                              description: `${error.response?.data.message}`,
-                            });
-                          }
-                        }
-                      }}
-                      variant='outline'
-                    >
-                      <X size={20} />
-                    </Button>
+                                router.replace(router.asPath);
+                              } catch (error) {
+                                if (axios.isAxiosError(error)) {
+                                  toast({
+                                    variant: 'destructive',
+                                    description: `${error.response?.data.message}`,
+                                  });
+                                }
+                              }
+                            }}
+                            variant='outline'
+                          >
+                            <X size={20} />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Reject friend request</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
                 </li>
               ))}
@@ -221,32 +250,43 @@ const List: FC<{
                       {request.sender.username}
                     </span>
                   </div>
-                  <Button
-                    onClick={async (e) => {
-                      e.stopPropagation();
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          onClick={async (e) => {
+                            e.stopPropagation();
 
-                      try {
-                        await acceptFriendRequest(request.sender.username);
+                            try {
+                              await acceptFriendRequest(
+                                request.sender.username
+                              );
 
-                        toast({
-                          description:
-                            'Friend request was successfully accepted.',
-                        });
+                              toast({
+                                description:
+                                  'Friend request was successfully accepted.',
+                              });
 
-                        router.replace(router.asPath);
-                      } catch (error) {
-                        if (axios.isAxiosError(error)) {
-                          toast({
-                            variant: 'destructive',
-                            description: `${error.response?.data.message}`,
-                          });
-                        }
-                      }
-                    }}
-                    variant='outline'
-                  >
-                    <Check size={20} />
-                  </Button>
+                              router.replace(router.asPath);
+                            } catch (error) {
+                              if (axios.isAxiosError(error)) {
+                                toast({
+                                  variant: 'destructive',
+                                  description: `${error.response?.data.message}`,
+                                });
+                              }
+                            }
+                          }}
+                          variant='outline'
+                        >
+                          <Check size={20} />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Add to friends</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </li>
               ))}
             </ul>

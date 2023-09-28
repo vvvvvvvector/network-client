@@ -11,6 +11,13 @@ import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { Search, UserPlus } from 'lucide-react';
@@ -81,31 +88,41 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
                 </span>
               </div>
               {user.requestStatus === "doesn't exist" ? (
-                <Button
-                  onClick={async (e) => {
-                    e.stopPropagation();
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={async (e) => {
+                          e.stopPropagation();
 
-                    try {
-                      await sendFriendRequest(user.username);
+                          try {
+                            await sendFriendRequest(user.username);
 
-                      toast({
-                        description: 'Friend request was successfully sent.',
-                      });
+                            toast({
+                              description:
+                                'Friend request was successfully sent.',
+                            });
 
-                      router.replace(router.asPath);
-                    } catch (error) {
-                      if (axios.isAxiosError(error)) {
-                        toast({
-                          variant: 'destructive',
-                          description: `${error.response?.data.message}`,
-                        });
-                      }
-                    }
-                  }}
-                  variant='outline'
-                >
-                  <UserPlus size={20} />
-                </Button>
+                            router.replace(router.asPath);
+                          } catch (error) {
+                            if (axios.isAxiosError(error)) {
+                              toast({
+                                variant: 'destructive',
+                                description: `${error.response?.data.message}`,
+                              });
+                            }
+                          }
+                        }}
+                        variant='outline'
+                      >
+                        <UserPlus size={20} />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Send a friend request</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               ) : user.requestStatus === 'accepted' ? (
                 <>Already friends</>
               ) : (
