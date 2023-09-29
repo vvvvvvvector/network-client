@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useRouter } from 'next/router';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
-import { getMyFriends } from '@/api/friends';
+import { getMyFriends, unfriend } from '@/api/friends';
 
 import { isAuthorized } from '@/lib/auth';
 
@@ -25,6 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useToast } from '@/components/ui/use-toast';
 
 interface Props {
   users: {
@@ -34,6 +35,8 @@ interface Props {
 
 const Index: NextPageWithLayout<Props> = ({ users }) => {
   const router = useRouter();
+
+  const { toast } = useToast();
 
   return (
     <>
@@ -93,6 +96,12 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
                   <DropdownMenuGroup>
                     <DropdownMenuItem
                       onClick={async () => {
+                        await unfriend(user.username);
+
+                        toast({
+                          description: `${user.username} was successfully deleted from your friends list.`,
+                        });
+
                         router.replace(router.asPath);
                       }}
                     >
