@@ -44,7 +44,9 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
       <Separator className='mt-4 mb-4' />
       <ul className='flex flex-col gap-5'>
         <li>{`is profile activated: ${user?.profile.isActivated || 'x'}`}</li>
-        <li>{`profile created at: ${user?.profile.createdAt || 'x'}`}</li>
+        <li>{`profile created at: ${
+          new Date(user?.profile.createdAt) || 'x'
+        }`}</li>
         <li>{`email: ${
           user?.contacts.email.isPublic
             ? user?.contacts.email.contact
