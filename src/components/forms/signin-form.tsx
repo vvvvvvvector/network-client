@@ -15,14 +15,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
 
 import { signIn } from '@/api/auth';
 import axios from 'axios';
 
-import { useRouter } from 'next/router';
-
 import { setCookie } from 'nookies';
+import { useDefault } from '@/lib/hooks';
 
 const formSchema = z.object({
   username: z.string().nonempty({ message: 'Username is required' }),
@@ -32,9 +30,7 @@ const formSchema = z.object({
 export function SignInForm() {
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
-
-  const { toast } = useToast();
+  const { router, toast } = useDefault();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

@@ -20,14 +20,14 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-import { Search, UserPlus } from 'lucide-react';
+import { Search, UserPlus, SearchSlash } from 'lucide-react';
 
-import { useRouter } from 'next/router';
-import { useToast } from '@/components/ui/use-toast';
 import { getNetworkUsersUsernames, sendFriendRequest } from '@/api/friends';
 
 import axios from 'axios';
+
 import { isAuthorized } from '@/lib/auth';
+import { useDefault } from '@/lib/hooks';
 
 type RequestStatus = 'rejected' | 'accepted' | 'pending' | "doesn't exist";
 
@@ -41,9 +41,7 @@ interface Props {
 const Find: NextPageWithLayout<Props> = ({ users }) => {
   const [searchValue, setSearchValue] = useState('');
 
-  const router = useRouter();
-
-  const { toast } = useToast();
+  const { router, toast } = useDefault();
 
   const filteredUsers = users.filter((user) =>
     user.username.toLowerCase().includes(searchValue.toLocaleLowerCase())
@@ -53,7 +51,7 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
     <>
       <div className='flex gap-2 mb-4'>
         <span>People:</span>
-        <span className='text-gray-400'>{`${users.length}`}</span>
+        <span className='text-gray-400'>{`${filteredUsers.length}`}</span>
       </div>
       <div className='text-sm flex gap-5 justify-between'>
         <Input
@@ -61,9 +59,28 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder='Search...'
         />
-        <Button size='icon' className='w-16'>
-          <Search className='h-5 w-5' />
-        </Button>
+        {searchValue === '' ? (
+          <Button size='icon' className='w-16'>
+            <Search className='h-5 w-5' />
+          </Button>
+        ) : (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={() => setSearchValue('')}
+                  size='icon'
+                  className='w-16'
+                >
+                  <SearchSlash className='h-5 w-5' />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Reset search</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
       </div>
       <Separator className='mt-4 mb-4' />
       {filteredUsers.length > 0 ? (

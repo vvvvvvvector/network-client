@@ -39,7 +39,7 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
         </Avatar>
         <span className='text-2xl font-semibold'>{`${
           user?.username || 'x'
-        } (Public Profile)`}</span>
+        }`}</span>
       </div>
       <Separator className='mt-4 mb-4' />
       <ul className='flex flex-col gap-5'>

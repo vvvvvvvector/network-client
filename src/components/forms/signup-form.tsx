@@ -15,13 +15,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
 
 import { signUp } from '@/api/auth';
 
 import axios from 'axios';
 
-import { useRouter } from 'next/router';
+import { useDefault } from '@/lib/hooks';
 
 const formSchema = z.object({
   email: z
@@ -40,9 +39,7 @@ const formSchema = z.object({
 export function SignUpForm() {
   const [loading, setLoading] = useState(false);
 
-  const { toast } = useToast();
-
-  const router = useRouter();
+  const { router, toast } = useDefault();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

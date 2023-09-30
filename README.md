@@ -1,4 +1,6 @@
-![network_screenshot](./public/network_v0.2.png)
+![network_screenshot-1](./public/network_friends_1.png)
+![network_screenshot-2](./public/network_friends_2.png)
+![network_screenshot-3](./public/network_friends_3.png)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

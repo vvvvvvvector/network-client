@@ -8,7 +8,6 @@ import { Separator } from '@/components/ui/separator';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-import { useRouter } from 'next/router';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import {
@@ -26,7 +25,6 @@ import {
   rejectFriendRequest,
 } from '@/api/friends';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
 
 import { Check, X } from 'lucide-react';
 
@@ -36,6 +34,7 @@ import { useState } from 'react';
 
 import { isAuthorized } from '@/lib/auth';
 import { cn } from '@/lib/utils';
+import { useDefault } from '@/lib/hooks';
 
 type GenericRequest = {
   createdAt: string;
@@ -76,9 +75,7 @@ const List = ({
   type: RequestsTypes;
   data: Array<GenericRequest>;
 }) => {
-  const router = useRouter();
-
-  const { toast } = useToast();
+  const { router, toast } = useDefault();
 
   const onClickAcceptFriendRequest = (username: string) => {
     return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -228,6 +225,7 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
         <ul className='flex gap-7'>
           {lis.map((li) => (
             <li
+              key={li}
               onClick={() => setList(li)}
               className={cn(
                 'hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]',

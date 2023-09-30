@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-import { useRouter } from 'next/router';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import { getMyFriends, unfriend } from '@/api/friends';
@@ -25,7 +24,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useToast } from '@/components/ui/use-toast';
+
+import { useDefault } from '@/lib/hooks';
 
 interface Props {
   users: {
@@ -34,9 +34,7 @@ interface Props {
 }
 
 const Index: NextPageWithLayout<Props> = ({ users }) => {
-  const router = useRouter();
-
-  const { toast } = useToast();
+  const { router, toast } = useDefault();
 
   return (
     <>

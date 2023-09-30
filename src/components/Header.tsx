@@ -13,14 +13,20 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { signOut } from '@/api/auth';
 
-import { useRouter } from 'next/router';
-
-import { useToast } from './ui/use-toast';
+import { useDefault } from '@/lib/hooks';
 
 const Header = () => {
-  const { toast } = useToast();
+  const { router, toast } = useDefault();
 
-  const router = useRouter();
+  const onClickSignOut = () => {
+    signOut();
+
+    toast({
+      description: 'You have successfully signed out.',
+    });
+
+    router.push('/');
+  };
 
   return (
     <header className='static top-0 z-50 w-full border-b flex justify-center items-center'>
@@ -48,33 +54,27 @@ const Header = () => {
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem className='cursor-pointer'>
+                    <Settings className='mr-2 h-4 w-4' />
+                    <span>Settings</span>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className='cursor-pointer'>
                     <Palette className='mr-2 h-4 w-4' />
                     <span>Mode</span>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem className='cursor-pointer'>
-                    <Settings className='mr-2 h-4 w-4' />
-                    <span>Settings</span>
+                  <DropdownMenuItem
+                    className='cursor-pointer'
+                    onClick={onClickSignOut}
+                  >
+                    <LogOut className='mr-2 h-4 w-4' />
+                    <span>Sign out</span>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className='cursor-pointer'
-                  onClick={() => {
-                    signOut();
-
-                    toast({
-                      description: 'You have successfully signed out.',
-                    });
-
-                    router.push('/');
-                  }}
-                >
-                  <LogOut className='mr-2 h-4 w-4' />
-                  <span>Sign out</span>
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </li>

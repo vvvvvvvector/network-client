@@ -1,5 +1,11 @@
 import { Header } from '@/components/Header';
-import { MessageCircle, Users, User, Newspaper } from 'lucide-react';
+import {
+  MessageCircle,
+  Users,
+  User,
+  Newspaper,
+  AlertOctagon,
+} from 'lucide-react';
 import { FC, PropsWithChildren } from 'react';
 
 import { useRouter } from 'next/navigation';
@@ -16,6 +22,8 @@ const icon = (type: (typeof lis)[number], size: number) => {
       return <MessageCircle size={size} />;
     case 'friends':
       return <Users size={size} />;
+    default:
+      return <AlertOctagon size={size} />;
   }
 };
 
@@ -31,6 +39,7 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
             <ul className='flex gap-5 flex-col'>
               {lis.map((li) => (
                 <li
+                  key={li}
                   onClick={() => {
                     router.push(`/${li}`);
                   }}
