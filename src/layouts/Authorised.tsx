@@ -4,6 +4,21 @@ import { FC, PropsWithChildren } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+const lis = ['profile', 'news', 'messenger', 'friends'] as const;
+
+const icon = (type: (typeof lis)[number], size: number) => {
+  switch (type) {
+    case 'profile':
+      return <User size={size} />;
+    case 'news':
+      return <Newspaper size={size} />;
+    case 'messenger':
+      return <MessageCircle size={size} />;
+    case 'friends':
+      return <Users size={size} />;
+  }
+};
+
 export const Authorized: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
 
@@ -14,42 +29,21 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
         <div className='w-full max-w-[1150px] px-10 mt-5 mb-5'>
           <div className='grid grid-cols-[175px_minmax(0,1fr)] gap-5'>
             <ul className='flex gap-5 flex-col'>
-              <li
-                onClick={() => {
-                  router.push('/profile');
-                }}
-                className='text-sm hover:bg-gray-200 rounded p-2 cursor-pointer flex gap-2 items-center'
-              >
-                <User size={20} />
-                <span>My profile</span>
-              </li>
-              <li
-                onClick={() => {
-                  router.push('/news');
-                }}
-                className='text-sm hover:bg-gray-200 rounded p-2 cursor-pointer flex gap-2 items-center'
-              >
-                <Newspaper size={20} />
-                <span>News</span>
-              </li>
-              <li
-                onClick={() => {
-                  router.push('/messenger');
-                }}
-                className='text-sm hover:bg-gray-200 rounded p-2 cursor-pointer flex gap-2 items-center'
-              >
-                <MessageCircle size={20} />
-                <span>Messenger</span>
-              </li>
-              <li
-                onClick={() => {
-                  router.push('/friends');
-                }}
-                className='text-sm hover:bg-gray-200 rounded p-2 cursor-pointer flex gap-2 items-center'
-              >
-                <Users size={20} />
-                <span>Friends</span>
-              </li>
+              {lis.map((li) => (
+                <li
+                  onClick={() => {
+                    router.push(`/${li}`);
+                  }}
+                  className='text-sm hover:bg-gray-200 rounded p-2 cursor-pointer flex gap-2 items-center'
+                >
+                  {icon(li, 20)}
+                  <span>
+                    {li === 'profile'
+                      ? 'My profile'
+                      : `${li[0].toUpperCase() + li.substring(1)}`}
+                  </span>
+                </li>
+              ))}
             </ul>
             <main>{children}</main>
           </div>

@@ -35,6 +35,7 @@ import axios from 'axios';
 import { useState } from 'react';
 
 import { isAuthorized } from '@/lib/auth';
+import { cn } from '@/lib/utils';
 
 type GenericRequest = {
   createdAt: string;
@@ -65,7 +66,8 @@ interface Props {
   };
 }
 
-type RequestsTypes = 'incoming' | 'outgoing' | 'rejected';
+const lis = ['incoming', 'outgoing', 'rejected'] as const;
+type RequestsTypes = (typeof lis)[number];
 
 const List = ({
   type,
@@ -77,6 +79,52 @@ const List = ({
   const router = useRouter();
 
   const { toast } = useToast();
+
+  const onClickAcceptFriendRequest = (username: string) => {
+    return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+
+      try {
+        await acceptFriendRequest(username);
+
+        toast({
+          description: 'Friend request was successfully accepted.',
+        });
+
+        router.replace(router.asPath);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast({
+            variant: 'destructive',
+            description: `${error.response?.data.message}`,
+          });
+        }
+      }
+    };
+  };
+
+  const onClickRejectFriendRequest = (username: string) => {
+    return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+
+      try {
+        await rejectFriendRequest(username);
+
+        toast({
+          description: 'Friend request was successfully rejected.',
+        });
+
+        router.replace(router.asPath);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast({
+            variant: 'destructive',
+            description: `${error.response?.data.message}`,
+          });
+        }
+      }
+    };
+  };
 
   return (
     <>
@@ -107,27 +155,9 @@ const List = ({
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
-                          onClick={async (e) => {
-                            e.stopPropagation();
-
-                            try {
-                              await acceptFriendRequest(request.user.username);
-
-                              toast({
-                                description:
-                                  'Friend request was successfully accepted.',
-                              });
-
-                              router.replace(router.asPath);
-                            } catch (error) {
-                              if (axios.isAxiosError(error)) {
-                                toast({
-                                  variant: 'destructive',
-                                  description: `${error.response?.data.message}`,
-                                });
-                              }
-                            }
-                          }}
+                          onClick={onClickAcceptFriendRequest(
+                            request.user.username
+                          )}
                           variant='outline'
                         >
                           <Check size={20} />
@@ -142,27 +172,9 @@ const List = ({
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
-                          onClick={async (e) => {
-                            e.stopPropagation();
-
-                            try {
-                              await rejectFriendRequest(request.user.username);
-
-                              toast({
-                                description:
-                                  'Friend request was successfully rejected.',
-                              });
-
-                              router.replace(router.asPath);
-                            } catch (error) {
-                              if (axios.isAxiosError(error)) {
-                                toast({
-                                  variant: 'destructive',
-                                  description: `${error.response?.data.message}`,
-                                });
-                              }
-                            }
-                          }}
+                          onClick={onClickRejectFriendRequest(
+                            request.user.username
+                          )}
                           variant='outline'
                         >
                           <X size={20} />
@@ -181,27 +193,9 @@ const List = ({
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
-                        onClick={async (e) => {
-                          e.stopPropagation();
-
-                          try {
-                            await acceptFriendRequest(request.user.username);
-
-                            toast({
-                              description:
-                                'Friend request was successfully accepted.',
-                            });
-
-                            router.replace(router.asPath);
-                          } catch (error) {
-                            if (axios.isAxiosError(error)) {
-                              toast({
-                                variant: 'destructive',
-                                description: `${error.response?.data.message}`,
-                              });
-                            }
-                          }
-                        }}
+                        onClick={onClickAcceptFriendRequest(
+                          request.user.username
+                        )}
                         variant='outline'
                       >
                         <Check size={20} />
@@ -232,30 +226,19 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
     <>
       <div className='text-sm'>
         <ul className='flex gap-7'>
-          <li
-            onClick={() => setList('incoming')}
-            className={`${
-              list === 'incoming' && 'bg-gray-50 font-semibold'
-            } hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
-          >
-            {`Incoming (${requests['incoming'].length})`}
-          </li>
-          <li
-            onClick={() => setList('outgoing')}
-            className={`${
-              list === 'outgoing' && 'bg-gray-50 font-semibold'
-            } hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
-          >
-            {`Outgoing (${requests['outgoing'].length})`}
-          </li>
-          <li
-            onClick={() => setList('rejected')}
-            className={`${
-              list === 'rejected' && 'bg-gray-50 font-semibold'
-            } hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
-          >
-            {`Rejected (${requests['rejected'].length})`}
-          </li>
+          {lis.map((li) => (
+            <li
+              onClick={() => setList(li)}
+              className={cn(
+                'hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]',
+                { 'bg-gray-50 font-semibold': list === li }
+              )}
+            >
+              {`${li[0].toUpperCase() + li.substring(1)} (${
+                requests[li].length
+              })`}
+            </li>
+          ))}
         </ul>
       </div>
       <Separator className='mt-4 mb-4' />

@@ -1,6 +1,7 @@
 import { FC, PropsWithChildren } from 'react';
 
 import { useRouter } from 'next/router';
+import { cn } from '@/lib/utils';
 
 export const Friends: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
@@ -12,18 +13,22 @@ export const Friends: FC<PropsWithChildren> = ({ children }) => {
         <ul className='flex flex-col gap-2'>
           <li
             onClick={() => router.push('/friends')}
-            className={`${
-              router.asPath === '/friends' && 'bg-gray-50 font-semibold'
-            } text-sm hover:bg-gray-50 rounded p-2 cursor-pointer`}
+            className={cn(
+              'text-sm hover:bg-gray-50 rounded p-2 cursor-pointer',
+              { 'bg-gray-50 font-semibold': router.asPath === '/friends' }
+            )}
           >
             My friends
           </li>
           <li
             onClick={() => router.push('/friends/requests')}
-            className={`${
-              router.asPath === '/friends/requests' &&
-              'bg-gray-50 font-semibold'
-            } text-sm hover:bg-gray-50 rounded p-2 cursor-pointer`}
+            className={cn(
+              'text-sm hover:bg-gray-50 rounded p-2 cursor-pointer',
+              {
+                'bg-gray-50 font-semibold':
+                  router.asPath === '/friends/requests',
+              }
+            )}
           >
             Friend requests
           </li>
