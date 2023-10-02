@@ -15,6 +15,7 @@ import { isAuthorized } from '@/lib/auth';
 
 interface Props {
   user: {
+    isFriend: boolean;
     username: string;
     profile: {
       isActivated: boolean;
@@ -37,8 +38,8 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
           <AvatarImage src='' />
           <AvatarFallback>{user.username[0].toUpperCase()}</AvatarFallback>
         </Avatar>
-        <span className='text-2xl font-semibold'>{`${
-          user?.username || 'x'
+        <span className='text-2xl font-semibold'>{`${user?.username || 'x'} ${
+          user.isFriend ? "(it's your friend)" : ''
         }`}</span>
       </div>
       <Separator className='mt-4 mb-4' />
