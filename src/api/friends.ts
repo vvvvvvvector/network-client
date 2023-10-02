@@ -16,6 +16,14 @@ const rejectFriendRequest = async (username: string) => {
   await axiosApiInstance.patch('/friend-requests/reject', { username });
 };
 
+const cancelFriendRequest = async (username: string) => {
+  await axiosApiInstance.delete('/friend-requests/cancel', {
+    data: {
+      username,
+    },
+  });
+};
+
 const getMyFriends = async () => {
   const { data } = await axiosApiInstance.get('/friend-requests/accepted');
 
@@ -56,4 +64,5 @@ export {
   rejectFriendRequest,
   getNetworkUsersUsernames,
   unfriend,
+  cancelFriendRequest,
 };

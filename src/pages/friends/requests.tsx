@@ -23,10 +23,11 @@ import {
   getOutgoingFriendRequests,
   getRejectedFriendRequests,
   rejectFriendRequest,
+  cancelFriendRequest,
 } from '@/api/friends';
 import { Button } from '@/components/ui/button';
 
-import { Check, X } from 'lucide-react';
+import { Check, X, Undo2 } from 'lucide-react';
 
 import axios from 'axios';
 
@@ -123,6 +124,29 @@ const List = ({
     };
   };
 
+  const onClickCancelRequest = (username: string) => {
+    return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+
+      try {
+        await cancelFriendRequest(username);
+
+        toast({
+          description: 'Friend request was successfully canceled.',
+        });
+
+        router.replace(router.asPath);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast({
+            variant: 'destructive',
+            description: `${error.response?.data.message}`,
+          });
+        }
+      }
+    };
+  };
+
   return (
     <>
       {data.length > 0 ? (
@@ -184,7 +208,21 @@ const List = ({
                   </TooltipProvider>
                 </div>
               ) : type === 'outgoing' ? (
-                <></>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={onClickCancelRequest(request.user.username)}
+                        variant='outline'
+                      >
+                        <Undo2 size={20} />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Cancel request</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               ) : (
                 <TooltipProvider>
                   <Tooltip>

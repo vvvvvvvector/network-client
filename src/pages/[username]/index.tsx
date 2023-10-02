@@ -53,6 +53,9 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
             ? user?.contacts.email.contact
             : 'private'
         }`}</li>
+        {user.isFriend && (
+          <li>{'for instance, only for friends content here...'}</li>
+        )}
       </ul>
     </div>
   );

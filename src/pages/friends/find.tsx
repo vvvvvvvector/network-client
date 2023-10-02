@@ -29,7 +29,7 @@ import axios from 'axios';
 import { isAuthorized } from '@/lib/auth';
 import { useDefault } from '@/lib/hooks';
 
-type RequestStatus = 'rejected' | 'accepted' | 'pending' | "doesn't exist";
+type RequestStatus = 'rejected' | 'accepted' | 'pending' | 'lack';
 
 interface Props {
   users: {
@@ -37,6 +37,15 @@ interface Props {
     requestStatus: RequestStatus;
   }[];
 }
+
+const REQUEST_INFO: Record<
+  Exclude<RequestStatus, 'lack'>,
+  React.JSX.Element
+> = {
+  rejected: <>Request already exists</>,
+  accepted: <>Already friends</>,
+  pending: <>Request already exists</>,
+};
 
 const Find: NextPageWithLayout<Props> = ({ users }) => {
   const [searchValue, setSearchValue] = useState('');
@@ -46,6 +55,29 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
   const filteredUsers = users.filter((user) =>
     user.username.toLowerCase().includes(searchValue.toLocaleLowerCase())
   );
+
+  const onClickSendFriendRequest = (username: string) => {
+    return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+
+      try {
+        await sendFriendRequest(username);
+
+        toast({
+          description: 'Friend request was successfully sent.',
+        });
+
+        router.replace(router.asPath);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast({
+            variant: 'destructive',
+            description: `${error.response?.data.message}`,
+          });
+        }
+      }
+    };
+  };
 
   return (
     <>
@@ -104,32 +136,12 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
                   {user.username}
                 </span>
               </div>
-              {user.requestStatus === "doesn't exist" ? (
+              {user.requestStatus === 'lack' ? (
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
-                        onClick={async (e) => {
-                          e.stopPropagation();
-
-                          try {
-                            await sendFriendRequest(user.username);
-
-                            toast({
-                              description:
-                                'Friend request was successfully sent.',
-                            });
-
-                            router.replace(router.asPath);
-                          } catch (error) {
-                            if (axios.isAxiosError(error)) {
-                              toast({
-                                variant: 'destructive',
-                                description: `${error.response?.data.message}`,
-                              });
-                            }
-                          }
-                        }}
+                        onClick={onClickSendFriendRequest(user.username)}
                         variant='outline'
                       >
                         <UserPlus size={20} />
@@ -140,10 +152,8 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
-              ) : user.requestStatus === 'accepted' ? (
-                <>Already friends</>
               ) : (
-                <>Request already exists</>
+                REQUEST_INFO[user.requestStatus]
               )}
             </li>
           ))}
