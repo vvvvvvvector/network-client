@@ -34,7 +34,7 @@ import axios from 'axios';
 import { useState } from 'react';
 
 import { isAuthorized } from '@/lib/auth';
-import { cn } from '@/lib/utils';
+import { capitalize, cn } from '@/lib/utils';
 import { useDefault } from '@/lib/hooks';
 
 type GenericRequest = {
@@ -68,6 +68,78 @@ interface Props {
 
 const lis = ['incoming', 'outgoing', 'rejected'] as const;
 type RequestsTypes = (typeof lis)[number];
+
+const BUTTONS: Record<
+  RequestsTypes,
+  React.FC<{
+    onClicks: Array<
+      (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>
+    >;
+  }>
+> = {
+  incoming: ({ onClicks }) => {
+    return (
+      <div className='flex gap-3'>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button onClick={onClicks[0]} variant='outline'>
+                <Check size={20} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Accept friend request</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button onClick={onClicks[1]} variant='outline'>
+                <X size={20} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Reject friend request</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+    );
+  },
+  outgoing: ({ onClicks }) => {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button onClick={onClicks[0]} variant='outline'>
+              <Undo2 size={20} />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Cancel request</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  },
+  rejected: ({ onClicks }) => {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button onClick={onClicks[0]} variant='outline'>
+              <Check size={20} />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Add to friends</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  },
+};
 
 const List = ({
   type,
@@ -147,6 +219,22 @@ const List = ({
     };
   };
 
+  const ON_CLICKS = (type: RequestsTypes) => {
+    return (username: string) => {
+      switch (type) {
+        case 'incoming':
+          return [
+            onClickAcceptFriendRequest(username),
+            onClickRejectFriendRequest(username),
+          ];
+        case 'outgoing':
+          return [onClickCancelRequest(username)];
+        case 'rejected':
+          return [onClickAcceptFriendRequest(username)];
+      }
+    };
+  };
+
   return (
     <>
       {data.length > 0 ? (
@@ -170,78 +258,9 @@ const List = ({
                   {request.user.username}
                 </span>
               </div>
-              {type === 'incoming' ? (
-                <div className='flex gap-3'>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          onClick={onClickAcceptFriendRequest(
-                            request.user.username
-                          )}
-                          variant='outline'
-                        >
-                          <Check size={20} />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Accept friend request</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          onClick={onClickRejectFriendRequest(
-                            request.user.username
-                          )}
-                          variant='outline'
-                        >
-                          <X size={20} />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Reject friend request</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              ) : type === 'outgoing' ? (
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        onClick={onClickCancelRequest(request.user.username)}
-                        variant='outline'
-                      >
-                        <Undo2 size={20} />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Cancel request</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              ) : (
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        onClick={onClickAcceptFriendRequest(
-                          request.user.username
-                        )}
-                        variant='outline'
-                      >
-                        <Check size={20} />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Add to friends</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              )}
+              {BUTTONS[type]({
+                onClicks: ON_CLICKS(type)(request.user.username),
+              })}
             </li>
           ))}
         </ul>
@@ -270,9 +289,7 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
                 { 'bg-gray-50 font-semibold': list === li }
               )}
             >
-              {`${li[0].toUpperCase() + li.substring(1)} (${
-                requests[li].length
-              })`}
+              {`${capitalize(li)} (${requests[li].length})`}
             </li>
           ))}
         </ul>
@@ -285,11 +302,8 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
 
           let username = '';
 
-          if ('sender' in rest) {
-            username = rest.sender.username;
-          } else {
-            username = rest.receiver.username;
-          }
+          if ('sender' in rest) username = rest.sender.username;
+          else username = rest.receiver.username;
 
           return {
             ...i,

@@ -10,6 +10,8 @@ import { FC, PropsWithChildren } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+import { capitalize } from '@/lib/utils';
+
 const lis = ['profile', 'news', 'messenger', 'friends'] as const;
 
 const icon = (type: (typeof lis)[number], size: number) => {
@@ -47,9 +49,7 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
                 >
                   {icon(li, 20)}
                   <span>
-                    {li === 'profile'
-                      ? 'My profile'
-                      : `${li[0].toUpperCase() + li.substring(1)}`}
+                    {li === 'profile' ? 'My profile' : `${capitalize(li)}`}
                   </span>
                 </li>
               ))}
