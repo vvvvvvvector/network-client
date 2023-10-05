@@ -127,7 +127,7 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
             >
               <div className='flex gap-3 items-center'>
                 <Avatar>
-                  <AvatarImage src={user.profile.avatar} />
+                  <AvatarImage src={user.profile?.avatar} />
                   <AvatarFallback>
                     {user.username[0].toUpperCase()}
                   </AvatarFallback>

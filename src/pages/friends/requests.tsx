@@ -252,7 +252,7 @@ const List = ({
             >
               <div className='flex gap-3 items-center'>
                 <Avatar>
-                  <AvatarImage src={request.user.profile.avatar} />
+                  <AvatarImage src={request.user.profile?.avatar} />
                   <AvatarFallback>
                     {request.user.username[0].toUpperCase()}
                   </AvatarFallback>
@@ -311,10 +311,10 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
 
           if ('sender' in rest) {
             username = rest.sender.username;
-            avatar = rest.sender.profile.avatar;
+            avatar = rest.sender.profile?.avatar;
           } else {
             username = rest.receiver.username;
-            avatar = rest.receiver.profile.avatar;
+            avatar = rest.receiver.profile?.avatar;
           }
 
           return {

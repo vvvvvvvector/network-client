@@ -15,8 +15,21 @@ import { signOut } from '@/api/auth';
 
 import { useDefault } from '@/lib/hooks';
 
+import useSWR from 'swr';
+
+import { useState } from 'react';
+
+import { getMyUsernameAndAvatar } from '@/api/users';
+
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const { router, toast } = useDefault();
+
+  const { data, error } = useSWR<{
+    username: string;
+    avatar?: string;
+  }>('/users/me/username-avatar', getMyUsernameAndAvatar);
 
   const onClickSignOut = () => {
     signOut();
@@ -39,18 +52,37 @@ const Header = () => {
             </div>
           </li>
           <li className='h-full'>
-            <DropdownMenu>
+            <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
               <DropdownMenuTrigger asChild>
-                <div className='cursor-pointer hover:bg-gray-50 h-full w-[100px] flex gap-2 items-center justify-center'>
+                <div
+                  onClick={() => setIsOpen(true)}
+                  className='cursor-pointer hover:bg-gray-50 h-full w-[100px] flex gap-2 items-center justify-center'
+                >
                   <Avatar>
-                    <AvatarImage src='' />
-                    <AvatarFallback>P</AvatarFallback>
+                    <AvatarImage src={data?.avatar} />
+                    <AvatarFallback>
+                      {data?.username.charAt(0).toLocaleUpperCase()}
+                    </AvatarFallback>
                   </Avatar>
                   <ChevronDown size={16} />
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className='w-56'>
-                <DropdownMenuLabel>My profile</DropdownMenuLabel>
+                <DropdownMenuLabel>
+                  <div className='flex gap-2'>
+                    <span>Profile: </span>
+                    <span
+                      onClick={() => {
+                        router.push('/profile');
+
+                        setIsOpen(false);
+                      }}
+                      className='hover:underline cursor-pointer'
+                    >
+                      {data?.username}
+                    </span>
+                  </div>
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem className='cursor-pointer'>
