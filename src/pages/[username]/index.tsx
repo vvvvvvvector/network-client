@@ -20,6 +20,7 @@ interface Props {
     profile: {
       isActivated: boolean;
       createdAt: string;
+      avatar?: string;
     };
     contacts: {
       email: {
@@ -35,7 +36,7 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
     <div className='bg-white p-5 rounded-lg'>
       <div className='flex gap-3 items-center'>
         <Avatar>
-          <AvatarImage src='' />
+          <AvatarImage src={user.profile.avatar} />
           <AvatarFallback>{user.username[0].toUpperCase()}</AvatarFallback>
         </Avatar>
         <span className='text-2xl font-semibold'>{`${user?.username || 'x'} ${

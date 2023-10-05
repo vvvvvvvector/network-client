@@ -43,7 +43,7 @@ const Header = () => {
               <DropdownMenuTrigger asChild>
                 <div className='cursor-pointer hover:bg-gray-50 h-full w-[100px] flex gap-2 items-center justify-center'>
                   <Avatar>
-                    <AvatarImage src='https://avatars.githubusercontent.com/u/57532024?v=4' />
+                    <AvatarImage src='' />
                     <AvatarFallback>P</AvatarFallback>
                   </Avatar>
                   <ChevronDown size={16} />

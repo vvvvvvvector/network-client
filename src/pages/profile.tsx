@@ -20,6 +20,7 @@ interface Props {
       uuid: string;
       isActivated: boolean;
       createdAt: string;
+      avatar?: string;
     };
     contacts: {
       id: number;
@@ -37,7 +38,7 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
     <div className='bg-white p-5 rounded-lg'>
       <div className='flex gap-3 items-center'>
         <Avatar>
-          <AvatarImage src='https://avatars.githubusercontent.com/u/57532024?v=4' />
+          <AvatarImage src={me.profile.avatar} />
           <AvatarFallback>A</AvatarFallback>
         </Avatar>
         <span className='text-2xl font-semibold'>{`${

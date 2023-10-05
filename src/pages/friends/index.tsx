@@ -30,6 +30,9 @@ import { useDefault } from '@/lib/hooks';
 interface Props {
   users: {
     username: string;
+    profile: {
+      avatar?: string;
+    };
   }[];
 }
 
@@ -65,7 +68,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
             >
               <div className='flex gap-3 items-center'>
                 <Avatar>
-                  <AvatarImage src='' />
+                  <AvatarImage src={user.profile.avatar} />
                   <AvatarFallback>
                     {user?.username[0].toUpperCase()}
                   </AvatarFallback>

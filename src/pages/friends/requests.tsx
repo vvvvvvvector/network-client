@@ -37,25 +37,31 @@ import { isAuthorized } from '@/lib/auth';
 import { capitalize, cn } from '@/lib/utils';
 import { useDefault } from '@/lib/hooks';
 
+type Profile = {
+  profile: {
+    avatar?: string;
+  };
+};
+
 type GenericRequest = {
   createdAt: string;
   user: {
     username: string;
-  };
+  } & Profile;
 };
 
 type Sender = {
   createdAt: string;
   sender: {
     username: string;
-  };
+  } & Profile;
 };
 
 type Receiver = {
   createdAt: string;
   receiver: {
     username: string;
-  };
+  } & Profile;
 };
 
 interface Props {
@@ -246,7 +252,7 @@ const List = ({
             >
               <div className='flex gap-3 items-center'>
                 <Avatar>
-                  <AvatarImage src='' />
+                  <AvatarImage src={request.user.profile.avatar} />
                   <AvatarFallback>
                     {request.user.username[0].toUpperCase()}
                   </AvatarFallback>
@@ -301,14 +307,23 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
           const { createdAt, ...rest } = i;
 
           let username = '';
+          let avatar: string | undefined = '';
 
-          if ('sender' in rest) username = rest.sender.username;
-          else username = rest.receiver.username;
+          if ('sender' in rest) {
+            username = rest.sender.username;
+            avatar = rest.sender.profile.avatar;
+          } else {
+            username = rest.receiver.username;
+            avatar = rest.receiver.profile.avatar;
+          }
 
           return {
             ...i,
             user: {
               username,
+              profile: {
+                avatar,
+              },
             },
           };
         })}

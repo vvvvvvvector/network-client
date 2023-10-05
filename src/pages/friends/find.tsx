@@ -34,6 +34,9 @@ type RequestStatus = 'rejected' | 'accepted' | 'pending' | 'lack';
 interface Props {
   users: {
     username: string;
+    profile: {
+      avatar?: string;
+    };
     requestStatus: RequestStatus;
   }[];
 }
@@ -124,7 +127,7 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
             >
               <div className='flex gap-3 items-center'>
                 <Avatar>
-                  <AvatarImage src='' />
+                  <AvatarImage src={user.profile.avatar} />
                   <AvatarFallback>
                     {user.username[0].toUpperCase()}
                   </AvatarFallback>
