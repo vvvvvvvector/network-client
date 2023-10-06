@@ -36,7 +36,7 @@ export function SignInForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
-      password: '',
+      password: process.env.NEXT_PUBLIC_SIGN_IN_PASSWORD || '',
     },
   });
 

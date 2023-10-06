@@ -36,8 +36,8 @@ interface Props {
 const Profile: NextPageWithLayout<Props> = ({ me }) => {
   return (
     <div className='bg-white p-5 rounded-lg'>
-      <div className='flex gap-3 items-center'>
-        <Avatar>
+      <div className='flex gap-5 items-center'>
+        <Avatar className='w-24 h-24'>
           <AvatarImage src={me.profile.avatar} />
           <AvatarFallback>A</AvatarFallback>
         </Avatar>

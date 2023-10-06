@@ -46,12 +46,12 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
           <li
             className={`hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
           >
-            {`All friends (${users.length})`}
+            {`All friends [${users.length}]`}
           </li>
           <li
             className={` hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
           >
-            {`Online (${0})`}
+            {`Online [${0}]`}
           </li>
         </ul>
         <Button onClick={() => router.push('/friends/find')}>

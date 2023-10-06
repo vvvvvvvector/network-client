@@ -12,6 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { isAuthorized } from '@/lib/auth';
+import { Badge } from '@/components/ui/badge';
 
 interface Props {
   user: {
@@ -34,14 +35,15 @@ interface Props {
 const Index: NextPageWithLayout<Props> = ({ user }) => {
   return (
     <div className='bg-white p-5 rounded-lg'>
-      <div className='flex gap-3 items-center'>
-        <Avatar>
+      <div className='flex gap-5 items-center'>
+        <Avatar className='w-24 h-24'>
           <AvatarImage src={user.profile.avatar} />
           <AvatarFallback>{user.username[0].toUpperCase()}</AvatarFallback>
         </Avatar>
-        <span className='text-2xl font-semibold'>{`${user?.username || 'x'} ${
-          user.isFriend ? "(it's your friend)" : ''
+        <span className='text-2xl font-semibold'>{`${
+          user?.username || 'x'
         }`}</span>
+        {user.isFriend && <Badge>Friend</Badge>}
       </div>
       <Separator className='mt-4 mb-4' />
       <ul className='flex flex-col gap-5'>

@@ -295,7 +295,7 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
                 { 'bg-gray-50 font-semibold': list === li }
               )}
             >
-              {`${capitalize(li)} (${requests[li].length})`}
+              {`${capitalize(li)} [${requests[li].length}]`}
             </li>
           ))}
         </ul>
