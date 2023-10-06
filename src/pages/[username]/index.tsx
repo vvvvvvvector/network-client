@@ -13,6 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { isAuthorized } from '@/lib/auth';
 import { Badge } from '@/components/ui/badge';
+import { firstLetterToUpperCase } from '@/lib/utils';
 
 interface Props {
   user: {
@@ -36,13 +37,17 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
   return (
     <div className='bg-white p-5 rounded-lg'>
       <div className='flex gap-5 items-center'>
-        <Avatar className='w-24 h-24'>
-          <AvatarImage src={user.profile.avatar} />
-          <AvatarFallback>{user.username[0].toUpperCase()}</AvatarFallback>
+        <Avatar className='w-36 h-36'>
+          <AvatarImage src={user.profile?.avatar} />
+          <AvatarFallback>
+            {firstLetterToUpperCase(user.username)}
+          </AvatarFallback>
         </Avatar>
-        <span className='text-2xl font-semibold'>{`${
-          user?.username || 'x'
-        }`}</span>
+        <div>
+          <span className='text-2xl font-semibold'>{`${
+            user?.username || 'x'
+          }`}</span>
+        </div>
         {user.isFriend && <Badge>Friend</Badge>}
       </div>
       <Separator className='mt-4 mb-4' />

@@ -34,7 +34,7 @@ import axios from 'axios';
 import { useState } from 'react';
 
 import { isAuthorized } from '@/lib/auth';
-import { capitalize, cn } from '@/lib/utils';
+import { capitalize, cn, firstLetterToUpperCase } from '@/lib/utils';
 import { useDefault } from '@/lib/hooks';
 
 type Profile = {
@@ -254,7 +254,7 @@ const List = ({
                 <Avatar>
                   <AvatarImage src={request.user.profile?.avatar} />
                   <AvatarFallback>
-                    {request.user.username[0].toUpperCase()}
+                    {firstLetterToUpperCase(request.user.username)}
                   </AvatarFallback>
                 </Avatar>
                 <span

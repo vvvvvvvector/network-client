@@ -9,8 +9,18 @@ import { getMyData } from '@/api/users';
 import { Separator } from '@/components/ui/separator';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 import { isAuthorized } from '@/lib/auth';
+
+import { Pencil, Trash2, Upload, Image } from 'lucide-react';
+import { firstLetterToUpperCase } from '@/lib/utils';
 
 interface Props {
   me: {
@@ -37,10 +47,46 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
   return (
     <div className='bg-white p-5 rounded-lg'>
       <div className='flex gap-5 items-center'>
-        <Avatar className='w-24 h-24'>
-          <AvatarImage src={me.profile.avatar} />
-          <AvatarFallback>A</AvatarFallback>
-        </Avatar>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Avatar className='w-36 h-36'>
+              <AvatarImage src={me.profile?.avatar} />
+              <AvatarFallback>
+                {firstLetterToUpperCase(me.username)}
+              </AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className=''>
+            {me.profile?.avatar && (
+              <DropdownMenuItem>
+                <Image className='mr-2 h-4 w-4' />
+                <span>Open photo</span>
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuItem>
+              <input id='avatar' type='file' hidden />
+              <label htmlFor='avatar' className='flex items-center'>
+                {me.profile?.avatar ? (
+                  <>
+                    <Pencil className='mr-2 h-4 w-4' />
+                    <span>Update photo</span>
+                  </>
+                ) : (
+                  <>
+                    <Upload className='mr-2 h-4 w-4' />
+                    <span>Upload photo</span>
+                  </>
+                )}
+              </label>
+            </DropdownMenuItem>
+            {me.profile?.avatar && (
+              <DropdownMenuItem>
+                <Trash2 color='hsl(0 84.2% 60.2%)' className='mr-2 h-4 w-4' />
+                <span>Delete photo</span>
+              </DropdownMenuItem>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
         <span className='text-2xl font-semibold'>{`${
           me?.username || 'x'
         }`}</span>

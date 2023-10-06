@@ -20,6 +20,7 @@ import useSWR from 'swr';
 import { useState } from 'react';
 
 import { getMyUsernameAndAvatar } from '@/api/users';
+import { firstLetterToUpperCase } from '@/lib/utils';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +62,7 @@ const Header = () => {
                   <Avatar>
                     <AvatarImage src={data?.avatar} />
                     <AvatarFallback>
-                      {data?.username.charAt(0).toLocaleUpperCase()}
+                      {firstLetterToUpperCase(data?.username)}
                     </AvatarFallback>
                   </Avatar>
                   <ChevronDown size={16} />

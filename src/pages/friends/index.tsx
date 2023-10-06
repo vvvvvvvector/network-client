@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { useDefault } from '@/lib/hooks';
+import { firstLetterToUpperCase } from '@/lib/utils';
 
 interface Props {
   users: {
@@ -70,7 +71,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
                 <Avatar>
                   <AvatarImage src={user.profile?.avatar} />
                   <AvatarFallback>
-                    {user?.username[0].toUpperCase()}
+                    {firstLetterToUpperCase(user.username)}
                   </AvatarFallback>
                 </Avatar>
                 <span
