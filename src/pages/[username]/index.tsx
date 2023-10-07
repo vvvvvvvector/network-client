@@ -13,7 +13,15 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { isAuthorized } from '@/lib/auth';
 import { Badge } from '@/components/ui/badge';
-import { firstLetterToUpperCase } from '@/lib/utils';
+import { avatarSource, firstLetterToUpperCase } from '@/lib/utils';
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Heart, Image } from 'lucide-react';
 
 interface Props {
   user: {
@@ -36,35 +44,63 @@ interface Props {
 const Index: NextPageWithLayout<Props> = ({ user }) => {
   return (
     <div className='bg-white p-5 rounded-lg'>
-      <div className='flex gap-5 items-center'>
-        <Avatar className='w-36 h-36'>
-          <AvatarImage src={user.profile?.avatar} />
-          <AvatarFallback>
-            {firstLetterToUpperCase(user.username)}
-          </AvatarFallback>
-        </Avatar>
-        <div>
-          <span className='text-2xl font-semibold'>{`${
-            user?.username || 'x'
-          }`}</span>
-        </div>
-        {user.isFriend && <Badge>Friend</Badge>}
-      </div>
-      <Separator className='mt-4 mb-4' />
-      <ul className='flex flex-col gap-5'>
-        <li>{`is profile activated: ${user?.profile.isActivated || 'x'}`}</li>
-        <li>{`profile created at: ${
-          new Date(user?.profile.createdAt) || 'x'
-        }`}</li>
-        <li>{`email: ${
-          user?.contacts.email.isPublic
-            ? user?.contacts.email.contact
-            : 'private'
-        }`}</li>
-        {user.isFriend && (
-          <li>{'for instance, only for friends content here...'}</li>
-        )}
-      </ul>
+      {user ? (
+        <>
+          <div className='flex gap-5 items-center'>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar className='w-36 h-36'>
+                  <AvatarImage src={avatarSource(user.profile?.avatar)} />
+                  <AvatarFallback>
+                    {firstLetterToUpperCase(user?.username)}
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              {user.profile?.avatar && (
+                <DropdownMenuContent>
+                  <DropdownMenuItem
+                    onClick={() =>
+                      (location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${user?.profile?.avatar}`)
+                    }
+                  >
+                    <Image className='mr-2 h-4 w-4' />
+                    <span>Open photo</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Heart className='mr-2 h-4 w-4' />
+                    <span>Like photo</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              )}
+            </DropdownMenu>
+            <div>
+              <span className='text-2xl font-semibold'>{`${
+                user.username || 'x'
+              }`}</span>
+            </div>
+            {user.isFriend && <Badge>Friend</Badge>}
+          </div>
+          <Separator className='mt-4 mb-4' />
+          <ul className='flex flex-col gap-5'>
+            <li>{`is profile activated: ${
+              user.profile.isActivated || 'x'
+            }`}</li>
+            <li>{`profile created at: ${
+              new Date(user.profile.createdAt) || 'x'
+            }`}</li>
+            <li>{`email: ${
+              user.contacts.email.isPublic
+                ? user.contacts.email.contact
+                : 'private'
+            }`}</li>
+            {user.isFriend && (
+              <li>{'for instance, only for friends content here...'}</li>
+            )}
+          </ul>
+        </>
+      ) : (
+        <span>Error while loading user data.</span>
+      )}
     </div>
   );
 };

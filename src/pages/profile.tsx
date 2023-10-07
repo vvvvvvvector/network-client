@@ -13,14 +13,16 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
 import { isAuthorized } from '@/lib/auth';
 
 import { Pencil, Trash2, Upload, Image } from 'lucide-react';
-import { firstLetterToUpperCase } from '@/lib/utils';
+import { avatarSource, firstLetterToUpperCase } from '@/lib/utils';
+import { deleteAvatar } from '@/api/profiles';
+import { useDefault } from '@/lib/hooks';
+import { ChangeEvent } from 'react';
 
 interface Props {
   me: {
@@ -44,64 +46,85 @@ interface Props {
 }
 
 const Profile: NextPageWithLayout<Props> = ({ me }) => {
+  const { toast, router } = useDefault();
+
   return (
     <div className='bg-white p-5 rounded-lg'>
-      <div className='flex gap-5 items-center'>
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Avatar className='w-36 h-36'>
-              <AvatarImage src={me.profile?.avatar} />
-              <AvatarFallback>
-                {firstLetterToUpperCase(me.username)}
-              </AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className=''>
-            {me.profile?.avatar && (
-              <DropdownMenuItem>
-                <Image className='mr-2 h-4 w-4' />
-                <span>Open photo</span>
-              </DropdownMenuItem>
-            )}
-            <DropdownMenuItem>
-              <input id='avatar' type='file' hidden />
-              <label htmlFor='avatar' className='flex items-center'>
-                {me.profile?.avatar ? (
-                  <>
-                    <Pencil className='mr-2 h-4 w-4' />
-                    <span>Update photo</span>
-                  </>
-                ) : (
-                  <>
-                    <Upload className='mr-2 h-4 w-4' />
-                    <span>Upload photo</span>
-                  </>
+      {me ? (
+        <>
+          <div className='flex gap-5 items-center'>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar className='w-36 h-36'>
+                  <AvatarImage src={avatarSource(me.profile?.avatar)} />
+                  <AvatarFallback>
+                    {firstLetterToUpperCase(me.username)}
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {me.profile?.avatar && (
+                  <DropdownMenuItem
+                    onClick={() =>
+                      (location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${me?.profile?.avatar}`)
+                    }
+                  >
+                    <Image className='mr-2 h-4 w-4' />
+                    <span>Open photo</span>
+                  </DropdownMenuItem>
                 )}
-              </label>
-            </DropdownMenuItem>
-            {me.profile?.avatar && (
-              <DropdownMenuItem>
-                <Trash2 color='hsl(0 84.2% 60.2%)' className='mr-2 h-4 w-4' />
-                <span>Delete photo</span>
-              </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <span className='text-2xl font-semibold'>{`${
-          me?.username || 'x'
-        }`}</span>
-      </div>
-      <Separator className='mt-4 mb-4' />
-      <ul className='flex flex-col gap-5'>
-        <li>{`is profile activated: ${me?.profile.isActivated || 'x'}`}</li>
-        <li>{`profile created at: ${
-          new Date(me?.profile.createdAt) || 'x'
-        }`}</li>
-        <li>{`email: ${me?.contacts.email.contact || 'x'}`}</li>
-        <li>{`is email public: ${
-          me?.contacts.email.isPublic ? 'True' : 'False'
-        }`}</li>
-      </ul>
+                <DropdownMenuItem>
+                  <input id='avatar' type='file' hidden />
+                  <label htmlFor='avatar' className='flex items-center'>
+                    {me.profile?.avatar ? (
+                      <>
+                        <Pencil className='mr-2 h-4 w-4' />
+                        <span>Update photo</span>
+                      </>
+                    ) : (
+                      <>
+                        <Upload className='mr-2 h-4 w-4' />
+                        <span>Upload photo</span>
+                      </>
+                    )}
+                  </label>
+                </DropdownMenuItem>
+                {me.profile?.avatar && (
+                  <DropdownMenuItem
+                    onClick={async () => {
+                      await deleteAvatar();
+
+                      toast({
+                        description: 'An avatar was successfully deleted.',
+                      });
+
+                      router.replace(router.asPath);
+                    }}
+                  >
+                    <Trash2
+                      color='hsl(0 84.2% 60.2%)'
+                      className='mr-2 h-4 w-4'
+                    />
+                    <span>Delete photo</span>
+                  </DropdownMenuItem>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <span className='text-2xl font-semibold'>{`${me.username}`}</span>
+          </div>
+          <Separator className='mt-4 mb-4' />
+          <ul className='flex flex-col gap-5'>
+            <li>{`is profile activated: ${me.profile.isActivated}`}</li>
+            <li>{`profile created at: ${new Date(me.profile.createdAt)}`}</li>
+            <li>{`email: ${me.contacts.email.contact}`}</li>
+            <li>{`is email public: ${
+              me.contacts.email.isPublic ? 'True' : 'False'
+            }`}</li>
+          </ul>
+        </>
+      ) : (
+        <span>Error while loading Your data.</span>
+      )}
     </div>
   );
 };

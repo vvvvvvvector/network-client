@@ -34,7 +34,12 @@ import axios from 'axios';
 import { useState } from 'react';
 
 import { isAuthorized } from '@/lib/auth';
-import { capitalize, cn, firstLetterToUpperCase } from '@/lib/utils';
+import {
+  avatarSource,
+  capitalize,
+  cn,
+  firstLetterToUpperCase,
+} from '@/lib/utils';
 import { useDefault } from '@/lib/hooks';
 
 type Profile = {
@@ -252,7 +257,9 @@ const List = ({
             >
               <div className='flex gap-3 items-center'>
                 <Avatar>
-                  <AvatarImage src={request.user.profile?.avatar} />
+                  <AvatarImage
+                    src={avatarSource(request.user.profile?.avatar)}
+                  />
                   <AvatarFallback>
                     {firstLetterToUpperCase(request.user.username)}
                   </AvatarFallback>

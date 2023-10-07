@@ -9,10 +9,17 @@ export function capitalize(str: string) {
   return str[0].toUpperCase() + str.substring(1);
 }
 
-export function firstLetterToUpperCase(str: string | undefined) {
+export function firstLetterToUpperCase(str?: string) {
   if (str) {
     return str[0].toLocaleUpperCase();
   }
 
-  return 'x';
+  return '?';
+}
+
+export function avatarSource(avatar?: string) {
+  if (avatar)
+    return `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${avatar}`;
+
+  return undefined;
 }

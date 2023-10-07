@@ -26,7 +26,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { useDefault } from '@/lib/hooks';
-import { firstLetterToUpperCase } from '@/lib/utils';
+import { avatarSource, firstLetterToUpperCase } from '@/lib/utils';
 
 interface Props {
   users: {
@@ -69,7 +69,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
             >
               <div className='flex gap-3 items-center'>
                 <Avatar>
-                  <AvatarImage src={user.profile?.avatar} />
+                  <AvatarImage src={avatarSource(user.profile?.avatar)} />{' '}
                   <AvatarFallback>
                     {firstLetterToUpperCase(user.username)}
                   </AvatarFallback>

@@ -20,7 +20,7 @@ import useSWR from 'swr';
 import { useState } from 'react';
 
 import { getMyUsernameAndAvatar } from '@/api/users';
-import { firstLetterToUpperCase } from '@/lib/utils';
+import { avatarSource, firstLetterToUpperCase } from '@/lib/utils';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,16 +31,6 @@ const Header = () => {
     username: string;
     avatar?: string;
   }>('/users/me/username-avatar', getMyUsernameAndAvatar);
-
-  const onClickSignOut = () => {
-    signOut();
-
-    toast({
-      description: 'You have successfully signed out.',
-    });
-
-    router.push('/');
-  };
 
   return (
     <header className='static top-0 z-50 w-full border-b flex justify-center items-center'>
@@ -60,7 +50,7 @@ const Header = () => {
                   className='cursor-pointer hover:bg-gray-50 h-full w-[100px] flex gap-2 items-center justify-center'
                 >
                   <Avatar>
-                    <AvatarImage src={data?.avatar} />
+                    <AvatarImage src={avatarSource(data?.avatar)} />
                     <AvatarFallback>
                       {firstLetterToUpperCase(data?.username)}
                     </AvatarFallback>
@@ -102,7 +92,15 @@ const Header = () => {
                 <DropdownMenuGroup>
                   <DropdownMenuItem
                     className='cursor-pointer'
-                    onClick={onClickSignOut}
+                    onClick={() => {
+                      signOut();
+
+                      toast({
+                        description: 'You have successfully signed out.',
+                      });
+
+                      router.push('/');
+                    }}
                   >
                     <LogOut className='mr-2 h-4 w-4' />
                     <span>Sign out</span>
