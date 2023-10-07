@@ -19,10 +19,10 @@ import {
 import { isAuthorized } from '@/lib/auth';
 
 import { Pencil, Trash2, Upload, Image } from 'lucide-react';
-import { avatarSource, firstLetterToUpperCase } from '@/lib/utils';
+import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
 import { deleteAvatar } from '@/api/profiles';
 import { useDefault } from '@/lib/hooks';
-import { ChangeEvent } from 'react';
+import { useSWRConfig } from 'swr';
 
 interface Props {
   me: {
@@ -48,6 +48,8 @@ interface Props {
 const Profile: NextPageWithLayout<Props> = ({ me }) => {
   const { toast, router } = useDefault();
 
+  const { mutate } = useSWRConfig();
+
   return (
     <div className='bg-white p-5 rounded-lg'>
       {me ? (
@@ -58,7 +60,7 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
                 <Avatar className='w-36 h-36'>
                   <AvatarImage src={avatarSource(me.profile?.avatar)} />
                   <AvatarFallback>
-                    {firstLetterToUpperCase(me.username)}
+                    {getFirstLetterInUpperCase(me.username)}
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
@@ -74,7 +76,14 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuItem>
-                  <input id='avatar' type='file' hidden />
+                  <input
+                    onChange={() => {
+                      console.log('hello world');
+                    }}
+                    id='avatar'
+                    type='file'
+                    hidden
+                  />
                   <label htmlFor='avatar' className='flex items-center'>
                     {me.profile?.avatar ? (
                       <>
@@ -93,6 +102,8 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
                   <DropdownMenuItem
                     onClick={async () => {
                       await deleteAvatar();
+
+                      mutate('/users/me/username-avatar');
 
                       toast({
                         description: 'An avatar was successfully deleted.',

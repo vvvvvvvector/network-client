@@ -38,7 +38,7 @@ import {
   avatarSource,
   capitalize,
   cn,
-  firstLetterToUpperCase,
+  getFirstLetterInUpperCase,
 } from '@/lib/utils';
 import { useDefault } from '@/lib/hooks';
 
@@ -261,7 +261,7 @@ const List = ({
                     src={avatarSource(request.user.profile?.avatar)}
                   />
                   <AvatarFallback>
-                    {firstLetterToUpperCase(request.user.username)}
+                    {getFirstLetterInUpperCase(request.user.username)}
                   </AvatarFallback>
                 </Avatar>
                 <span

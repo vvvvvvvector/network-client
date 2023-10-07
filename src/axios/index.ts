@@ -4,7 +4,7 @@ import { parseCookies } from 'nookies';
 
 const axiosApiInstance = axios.create();
 
-axiosApiInstance.defaults.baseURL = 'http://localhost:5173';
+axiosApiInstance.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 axiosApiInstance.interceptors.request.use((req) => {
   const token = parseCookies()['token'];

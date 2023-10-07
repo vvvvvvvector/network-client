@@ -28,7 +28,7 @@ import axios from 'axios';
 
 import { isAuthorized } from '@/lib/auth';
 import { useDefault } from '@/lib/hooks';
-import { avatarSource, firstLetterToUpperCase } from '@/lib/utils';
+import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
 
 type RequestStatus = 'rejected' | 'accepted' | 'pending' | 'lack';
 
@@ -130,7 +130,7 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
                 <Avatar>
                   <AvatarImage src={avatarSource(user.profile?.avatar)} />
                   <AvatarFallback>
-                    {firstLetterToUpperCase(user.username)}
+                    {getFirstLetterInUpperCase(user.username)}
                   </AvatarFallback>
                 </Avatar>
                 <span

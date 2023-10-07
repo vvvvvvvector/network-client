@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { isAuthorized } from '@/lib/auth';
 import { Badge } from '@/components/ui/badge';
-import { avatarSource, firstLetterToUpperCase } from '@/lib/utils';
+import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
 
 import {
   DropdownMenu,
@@ -52,7 +52,7 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
                 <Avatar className='w-36 h-36'>
                   <AvatarImage src={avatarSource(user.profile?.avatar)} />
                   <AvatarFallback>
-                    {firstLetterToUpperCase(user?.username)}
+                    {getFirstLetterInUpperCase(user?.username)}
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
