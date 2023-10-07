@@ -23,7 +23,7 @@ import { getMyUsernameAndAvatar } from '@/api/users';
 import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { router, toast } = useDefault();
 
@@ -43,10 +43,10 @@ const Header = () => {
             </div>
           </li>
           <li className='h-full'>
-            <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+            <DropdownMenu open={open} defaultOpen={open} onOpenChange={setOpen}>
               <DropdownMenuTrigger asChild>
                 <div
-                  onClick={() => setIsOpen(true)}
+                  onClick={() => setOpen(true)}
                   className='cursor-pointer hover:bg-gray-50 h-full w-[100px] flex gap-2 items-center justify-center'
                 >
                   <Avatar>
@@ -66,7 +66,7 @@ const Header = () => {
                       onClick={() => {
                         router.push('/profile');
 
-                        setIsOpen(false);
+                        setOpen(false);
                       }}
                       className='hover:underline cursor-pointer'
                     >

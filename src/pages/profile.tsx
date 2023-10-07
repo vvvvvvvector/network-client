@@ -5,9 +5,7 @@ import { NextPageWithLayout } from './_app';
 import { Main } from '@/layouts/Main';
 import { Authorized } from '@/layouts/Authorised';
 
-import { getMyData } from '@/api/users';
 import { Separator } from '@/components/ui/separator';
-
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -16,13 +14,17 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { isAuthorized } from '@/lib/auth';
-
 import { Pencil, Trash2, Upload, Image } from 'lucide-react';
+
+import { isAuthorized } from '@/lib/auth';
 import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
-import { deleteAvatar } from '@/api/profiles';
 import { useDefault } from '@/lib/hooks';
+
+import { getMyData } from '@/api/users';
+import { deleteAvatar } from '@/api/profiles';
+
 import { useSWRConfig } from 'swr';
+import { ChangeEvent, useState } from 'react';
 
 interface Props {
   me: {
@@ -46,16 +48,64 @@ interface Props {
 }
 
 const Profile: NextPageWithLayout<Props> = ({ me }) => {
+  const [open, setOpen] = useState(false);
+
   const { toast, router } = useDefault();
 
   const { mutate } = useSWRConfig();
+
+  const onAvatarUpdate = () => {
+    return (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files instanceof FileList) {
+        const avatar = e.target.files[0];
+
+        console.log(avatar);
+
+        console.log('update');
+      }
+
+      e.target.value = '';
+
+      setOpen(false);
+    };
+  };
+
+  const onAvatarUpload = () => {
+    return (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files instanceof FileList) {
+        const avatar = e.target.files[0];
+
+        console.log(avatar);
+
+        console.log('upload');
+      }
+
+      e.target.value = '';
+
+      setOpen(false);
+    };
+  };
+
+  const onAvatarDelete = () => {
+    return async () => {
+      await deleteAvatar();
+
+      mutate('/users/me/username-avatar');
+
+      toast({
+        description: 'An avatar was successfully deleted.',
+      });
+
+      router.replace(router.asPath);
+    };
+  };
 
   return (
     <div className='bg-white p-5 rounded-lg'>
       {me ? (
         <>
           <div className='flex gap-5 items-center'>
-            <DropdownMenu>
+            <DropdownMenu open={open} defaultOpen={open} onOpenChange={setOpen}>
               <DropdownMenuTrigger>
                 <Avatar className='w-36 h-36'>
                   <AvatarImage src={avatarSource(me.profile?.avatar)} />
@@ -75,11 +125,11 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
                     <span>Open photo</span>
                   </DropdownMenuItem>
                 )}
-                <DropdownMenuItem>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                   <input
-                    onChange={() => {
-                      console.log('hello world');
-                    }}
+                    onChange={
+                      me.profile?.avatar ? onAvatarUpdate() : onAvatarUpload()
+                    }
                     id='avatar'
                     type='file'
                     hidden
@@ -99,19 +149,7 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
                   </label>
                 </DropdownMenuItem>
                 {me.profile?.avatar && (
-                  <DropdownMenuItem
-                    onClick={async () => {
-                      await deleteAvatar();
-
-                      mutate('/users/me/username-avatar');
-
-                      toast({
-                        description: 'An avatar was successfully deleted.',
-                      });
-
-                      router.replace(router.asPath);
-                    }}
-                  >
+                  <DropdownMenuItem onClick={onAvatarDelete()}>
                     <Trash2
                       color='hsl(0 84.2% 60.2%)'
                       className='mr-2 h-4 w-4'
