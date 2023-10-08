@@ -172,7 +172,7 @@ const List = ({
           description: 'Friend request was successfully accepted.',
         });
 
-        router.replace(router.asPath);
+        router.replace(router.asPath, undefined, { scroll: false });
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast({
@@ -195,7 +195,7 @@ const List = ({
           description: 'Friend request was successfully rejected.',
         });
 
-        router.replace(router.asPath);
+        router.replace(router.asPath, undefined, { scroll: false });
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast({
@@ -218,7 +218,7 @@ const List = ({
           description: 'Friend request was successfully canceled.',
         });
 
-        router.replace(router.asPath);
+        router.replace(router.asPath, undefined, { scroll: false });
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast({
@@ -256,7 +256,7 @@ const List = ({
               key={request.user.username}
             >
               <div className='flex gap-3 items-center'>
-                <Avatar>
+                <Avatar className='w-[4.5rem] h-[4.5rem]'>
                   <AvatarImage
                     src={avatarSource(request.user.profile?.avatar)}
                   />

@@ -25,6 +25,7 @@ import { deleteAvatar, updateAvatar, uploadAvatar } from '@/api/profiles';
 
 import { useSWRConfig } from 'swr';
 import { ChangeEvent, useState } from 'react';
+import axios from 'axios';
 
 interface Props {
   me: {
@@ -56,59 +57,82 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
 
   const onAvatarUpdate = () => {
     return async (e: ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files instanceof FileList) {
-        await updateAvatar(e.target.files[0]);
+      try {
+        if (e.target.files instanceof FileList) {
+          await updateAvatar(e.target.files[0]);
+        }
 
-        console.log('avatar has been updated.');
+        mutate('/users/me/username-avatar');
+
+        toast({
+          description: 'An avatar was successfully updated.',
+        });
+
+        e.target.value = '';
+
+        router.replace(router.asPath, undefined, { scroll: false });
+
+        setOpen(false);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast({
+            variant: 'destructive',
+            description: `${error.response?.data.message}`,
+          });
+        }
       }
-
-      mutate('/users/me/username-avatar');
-
-      toast({
-        description: 'An avatar was successfully updated.',
-      });
-
-      e.target.value = '';
-
-      router.replace(router.asPath);
-
-      setOpen(false);
     };
   };
 
   const onAvatarUpload = () => {
     return async (e: ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files instanceof FileList) {
-        await uploadAvatar(e.target.files[0]);
+      try {
+        if (e.target.files instanceof FileList) {
+          await uploadAvatar(e.target.files[0]);
+        }
 
-        console.log('avatar has been uploaded.');
+        mutate('/users/me/username-avatar');
+
+        toast({
+          description: 'An avatar was successfully uploaded.',
+        });
+
+        e.target.value = '';
+
+        router.replace(router.asPath, undefined, { scroll: false });
+
+        setOpen(false);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast({
+            variant: 'destructive',
+            description: `${error.response?.data.message}`,
+          });
+        }
       }
-
-      mutate('/users/me/username-avatar');
-
-      toast({
-        description: 'An avatar was successfully uploaded.',
-      });
-
-      e.target.value = '';
-
-      router.replace(router.asPath);
-
-      setOpen(false);
     };
   };
 
   const onAvatarDelete = () => {
     return async () => {
-      await deleteAvatar();
+      try {
+        await deleteAvatar();
 
-      mutate('/users/me/username-avatar');
+        mutate('/users/me/username-avatar');
 
-      toast({
-        description: 'An avatar was successfully deleted.',
-      });
+        toast({
+          description: 'An avatar was successfully deleted.',
+        });
 
-      router.replace(router.asPath);
+        router.replace(router.asPath, undefined, { scroll: false });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast({
+            variant: 'destructive',
+            description: `${error.response?.data.message}`,
+          });
+        }
+      }
     };
   };
 
@@ -144,6 +168,7 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
                     }
                     id='avatar'
                     type='file'
+                    accept='image/jpeg, image/png, image/jpg'
                     hidden
                   />
                   <label htmlFor='avatar' className='flex items-center'>

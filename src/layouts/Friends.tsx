@@ -9,7 +9,7 @@ export const Friends: FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className='grid grid-cols-[600px_minmax(0,1fr)] gap-5'>
       <div className='flex flex-col bg-white p-5 rounded-lg'>{children}</div>
-      <div className='flex-1 bg-white p-5 rounded-lg h-[125px]'>
+      <div className='bg-white p-5 rounded-lg h-[125px]'>
         <ul className='flex flex-col gap-2'>
           <li
             onClick={() => router.push('/friends')}

@@ -71,7 +71,7 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
           description: 'Friend request was successfully sent.',
         });
 
-        router.replace(router.asPath);
+        router.replace(router.asPath, undefined, { scroll: false });
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast({
@@ -127,7 +127,7 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
               key={user.username}
             >
               <div className='flex gap-3 items-center'>
-                <Avatar>
+                <Avatar className='w-[4.5rem] h-[4.5rem]'>
                   <AvatarImage src={avatarSource(user.profile?.avatar)} />
                   <AvatarFallback>
                     {getFirstLetterInUpperCase(user.username)}
