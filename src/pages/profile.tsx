@@ -21,7 +21,7 @@ import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
 import { useDefault } from '@/lib/hooks';
 
 import { getMyData } from '@/api/users';
-import { deleteAvatar } from '@/api/profiles';
+import { deleteAvatar, updateAvatar, uploadAvatar } from '@/api/profiles';
 
 import { useSWRConfig } from 'swr';
 import { ChangeEvent, useState } from 'react';
@@ -55,32 +55,44 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
   const { mutate } = useSWRConfig();
 
   const onAvatarUpdate = () => {
-    return (e: ChangeEvent<HTMLInputElement>) => {
+    return async (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files instanceof FileList) {
-        const avatar = e.target.files[0];
+        await updateAvatar(e.target.files[0]);
 
-        console.log(avatar);
-
-        console.log('update');
+        console.log('avatar has been updated.');
       }
 
+      mutate('/users/me/username-avatar');
+
+      toast({
+        description: 'An avatar was successfully updated.',
+      });
+
       e.target.value = '';
+
+      router.replace(router.asPath);
 
       setOpen(false);
     };
   };
 
   const onAvatarUpload = () => {
-    return (e: ChangeEvent<HTMLInputElement>) => {
+    return async (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files instanceof FileList) {
-        const avatar = e.target.files[0];
+        await uploadAvatar(e.target.files[0]);
 
-        console.log(avatar);
-
-        console.log('upload');
+        console.log('avatar has been uploaded.');
       }
 
+      mutate('/users/me/username-avatar');
+
+      toast({
+        description: 'An avatar was successfully uploaded.',
+      });
+
       e.target.value = '';
+
+      router.replace(router.asPath);
 
       setOpen(false);
     };
