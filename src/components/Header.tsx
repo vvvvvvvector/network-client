@@ -1,3 +1,5 @@
+import useSWR from 'swr';
+import { useState } from 'react';
 import { ChevronDown, Palette, Settings, LogOut, Network } from 'lucide-react';
 
 import {
@@ -12,15 +14,11 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { signOut } from '@/api/auth';
+import { getMyUsernameAndAvatar } from '@/api/users';
 
 import { useDefault } from '@/lib/hooks';
-
-import useSWR from 'swr';
-
-import { useState } from 'react';
-
-import { getMyUsernameAndAvatar } from '@/api/users';
 import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
+import { Pages } from '@/lib/constants';
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -64,7 +62,7 @@ const Header = () => {
                     <span>Profile: </span>
                     <span
                       onClick={() => {
-                        router.push('/profile');
+                        router.push(Pages.PROFILE);
 
                         setOpen(false);
                       }}
@@ -99,7 +97,7 @@ const Header = () => {
                         description: 'You have successfully signed out.',
                       });
 
-                      router.push('/');
+                      router.push(Pages.SIGN_IN);
                     }}
                   >
                     <LogOut className='mr-2 h-4 w-4' />

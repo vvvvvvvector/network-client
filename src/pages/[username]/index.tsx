@@ -1,19 +1,10 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { Heart, Image } from 'lucide-react';
 
 import { NextPageWithLayout } from '../_app';
 
 import { Main } from '@/layouts/Main';
-
 import { Authorized } from '@/layouts/Authorised';
-
-import { getUserPublicAvailableDataByUsername } from '@/api/users';
-import { Separator } from '@/components/ui/separator';
-
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
-import { isAuthorized } from '@/lib/auth';
-import { Badge } from '@/components/ui/badge';
-import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
 
 import {
   DropdownMenu,
@@ -21,7 +12,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Heart, Image } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+
+import { getUserPublicAvailableDataByUsername } from '@/api/users';
+
+import { isAuthorized } from '@/lib/auth';
+import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
 
 interface Props {
   user: {

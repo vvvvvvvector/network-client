@@ -1,3 +1,8 @@
+import axios from 'axios';
+import { useState } from 'react';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { Check, X, Undo2 } from 'lucide-react';
+
 import { NextPageWithLayout } from '../_app';
 
 import { Authorized } from '@/layouts/Authorised';
@@ -5,11 +10,8 @@ import { Friends } from '@/layouts/Friends';
 import { Main } from '@/layouts/Main';
 
 import { Separator } from '@/components/ui/separator';
-
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-
+import { Button } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
@@ -25,13 +27,6 @@ import {
   rejectFriendRequest,
   cancelFriendRequest,
 } from '@/api/friends';
-import { Button } from '@/components/ui/button';
-
-import { Check, X, Undo2 } from 'lucide-react';
-
-import axios from 'axios';
-
-import { useState } from 'react';
 
 import { isAuthorized } from '@/lib/auth';
 import {

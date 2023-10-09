@@ -1,30 +1,27 @@
 import { useState } from 'react';
+import axios from 'axios';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import { NextPageWithLayout } from '../_app';
 
 import { Main } from '@/layouts/Main';
-
 import { Authorized } from '@/layouts/Authorised';
-import { Button } from '@/components/ui/button';
 import { Friends } from '@/layouts/Friends';
+
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { Search, UserPlus, SearchSlash } from 'lucide-react';
 
 import { getNetworkUsersUsernames, sendFriendRequest } from '@/api/friends';
-
-import axios from 'axios';
 
 import { isAuthorized } from '@/lib/auth';
 import { useDefault } from '@/lib/hooks';

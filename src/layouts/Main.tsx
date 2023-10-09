@@ -1,5 +1,4 @@
 import { FC, PropsWithChildren } from 'react';
-
 import Head from 'next/head';
 
 interface MainProps {

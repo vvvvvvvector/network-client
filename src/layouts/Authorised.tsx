@@ -1,4 +1,5 @@
-import { Header } from '@/components/Header';
+import { FC, PropsWithChildren } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   MessageCircle,
   Users,
@@ -6,9 +7,8 @@ import {
   Newspaper,
   AlertOctagon,
 } from 'lucide-react';
-import { FC, PropsWithChildren } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { Header } from '@/components/Header';
 
 import { capitalize } from '@/lib/utils';
 

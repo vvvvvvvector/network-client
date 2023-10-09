@@ -1,6 +1,6 @@
 import { useState } from 'react';
-
 import { z } from 'zod';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useForm } from 'react-hook-form';
@@ -17,10 +17,10 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { signUp } from '@/api/auth';
+import { useDefault } from '@/lib/hooks';
+import { Pages } from '@/lib/constants';
 
 import axios from 'axios';
-
-import { useDefault } from '@/lib/hooks';
 
 const formSchema = z.object({
   email: z
@@ -63,7 +63,7 @@ export function SignUpForm() {
         description: `Link: ${link}`,
       });
 
-      router.push('/');
+      router.push(Pages.SIGN_IN);
     } catch (error) {
       setLoading(false);
 

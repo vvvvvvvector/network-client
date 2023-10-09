@@ -1,4 +1,6 @@
 import { ReactElement } from 'react';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import nookies from 'nookies';
 
 import { NextPageWithLayout } from './_app';
 
@@ -7,13 +9,10 @@ import { SignUpForm } from '@/components/forms/signup-form';
 import { Auth } from '@/layouts/Auth';
 import { Main } from '@/layouts/Main';
 
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-
 import { axiosApiInstance } from '@/axios';
 
-import nookies from 'nookies';
-
 import { getAuthorizedUserUsername } from '@/api/users';
+import { Pages } from '@/lib/constants';
 
 const SignUp: NextPageWithLayout = () => {
   return <SignUpForm />;
@@ -37,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (
 
     return {
       redirect: {
-        destination: '/profile',
+        destination: Pages.PROFILE,
         permanent: false,
       },
     };

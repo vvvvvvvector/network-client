@@ -1,9 +1,10 @@
 import { useState } from 'react';
-
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { setCookie } from 'nookies';
+
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -17,10 +18,9 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { signIn } from '@/api/auth';
-import axios from 'axios';
 
-import { setCookie } from 'nookies';
 import { useDefault } from '@/lib/hooks';
+import { Pages } from '@/lib/constants';
 
 const formSchema = z.object({
   username: z.string().nonempty({ message: 'Username is required' }),
@@ -56,7 +56,7 @@ export function SignInForm() {
         description: 'You have successfully signed in.',
       });
 
-      router.push('/profile');
+      router.push(Pages.PROFILE);
     } catch (error) {
       setLoading(false);
 

@@ -1,10 +1,10 @@
 import { GetServerSidePropsContext } from 'next';
+import nookies from 'nookies';
 
 import { axiosApiInstance } from '@/axios';
 
-import nookies from 'nookies';
-
 import { getAuthorizedUserUsername } from '@/api/users';
+import { Pages } from '@/lib/constants';
 
 export const isAuthorized = async (ctx: GetServerSidePropsContext) => {
   const { token } = nookies.get(ctx); // get token from the request
@@ -16,7 +16,7 @@ export const isAuthorized = async (ctx: GetServerSidePropsContext) => {
   } catch (err) {
     return {
       redirect: {
-        destination: '/',
+        destination: Pages.SIGN_IN,
         permanent: false,
       },
     };

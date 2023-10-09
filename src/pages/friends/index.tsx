@@ -1,3 +1,5 @@
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+
 import { NextPageWithLayout } from '../_app';
 
 import { Main } from '@/layouts/Main';
@@ -7,12 +9,6 @@ import { Friends } from '@/layouts/Friends';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-
-import { getMyFriends, unfriend } from '@/api/friends';
-
-import { isAuthorized } from '@/lib/auth';
 
 import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 
@@ -25,8 +21,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import { getMyFriends, unfriend } from '@/api/friends';
+
+import { isAuthorized } from '@/lib/auth';
 import { useDefault } from '@/lib/hooks';
 import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
+import { Pages } from '@/lib/constants';
 
 interface Props {
   users: {
@@ -55,7 +55,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
             {`Online [${0}]`}
           </li>
         </ul>
-        <Button onClick={() => router.push('/friends/find')}>
+        <Button onClick={() => router.push(Pages.FRIENDS_FIND)}>
           Find friends
         </Button>
       </div>
@@ -104,7 +104,9 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
                           description: `${user.username} was successfully deleted from your friends list.`,
                         });
 
-                        router.replace(router.asPath, undefined, { scroll: false });
+                        router.replace(router.asPath, undefined, {
+                          scroll: false,
+                        });
                       }}
                     >
                       <UserMinus className='mr-2 h-4 w-4' />

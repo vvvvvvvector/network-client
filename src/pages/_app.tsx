@@ -1,12 +1,11 @@
 import type { ReactElement, ReactNode } from 'react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
+import { Source_Code_Pro } from 'next/font/google';
 
 import { Toaster } from '@/components/ui/toaster';
 
 import '@/styles/globals.css';
-
-import { Source_Code_Pro } from 'next/font/google';
 
 const globalFont = Source_Code_Pro({
   subsets: ['latin'],

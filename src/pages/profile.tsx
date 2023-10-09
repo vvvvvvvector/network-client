@@ -1,4 +1,8 @@
+import { useSWRConfig } from 'swr';
+import { ChangeEvent, useState } from 'react';
+import axios from 'axios';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { Pencil, Trash2, Upload, Image } from 'lucide-react';
 
 import { NextPageWithLayout } from './_app';
 
@@ -14,18 +18,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { Pencil, Trash2, Upload, Image } from 'lucide-react';
-
 import { isAuthorized } from '@/lib/auth';
 import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
 import { useDefault } from '@/lib/hooks';
 
 import { getMyData } from '@/api/users';
 import { deleteAvatar, updateAvatar, uploadAvatar } from '@/api/profiles';
-
-import { useSWRConfig } from 'swr';
-import { ChangeEvent, useState } from 'react';
-import axios from 'axios';
 
 interface Props {
   me: {
