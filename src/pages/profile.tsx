@@ -151,6 +151,7 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
               <DropdownMenuContent>
                 {me.profile?.avatar && (
                   <DropdownMenuItem
+                    className='cursor-pointer'
                     onClick={() =>
                       (location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${me?.profile?.avatar}`)
                     }
@@ -169,7 +170,11 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
                     accept='image/jpeg, image/png, image/jpg'
                     hidden
                   />
-                  <label htmlFor='avatar' className='flex items-center'>
+
+                  <label
+                    htmlFor='avatar'
+                    className='cursor-pointer flex items-center'
+                  >
                     {me.profile?.avatar ? (
                       <>
                         <Pencil className='mr-2 h-4 w-4' />
@@ -184,7 +189,10 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
                   </label>
                 </DropdownMenuItem>
                 {me.profile?.avatar && (
-                  <DropdownMenuItem onClick={onAvatarDelete()}>
+                  <DropdownMenuItem
+                    className='cursor-pointer'
+                    onClick={onAvatarDelete()}
+                  >
                     <Trash2
                       color='hsl(0 84.2% 60.2%)'
                       className='mr-2 h-4 w-4'

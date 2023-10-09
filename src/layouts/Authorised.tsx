@@ -49,7 +49,7 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
                 >
                   {icon(li, 20)}
                   <span>
-                    {li === 'profile' ? 'My profile' : `${capitalize(li)}`}
+                    {li === 'profile' ? `My ${li}` : `${capitalize(li)}`}
                   </span>
                 </li>
               ))}

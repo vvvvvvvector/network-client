@@ -89,7 +89,9 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
-                    <DropdownMenuItem onClick={() => router.push('/messenger')}>
+                    <DropdownMenuItem
+                      onClick={() => router.push(Pages.MESSENGER)}
+                    >
                       <MessagesSquare className='mr-2 h-4 w-4' />
                       <span>Write message</span>
                     </DropdownMenuItem>

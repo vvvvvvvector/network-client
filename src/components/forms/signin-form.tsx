@@ -56,7 +56,7 @@ export function SignInForm() {
         description: 'You have successfully signed in.',
       });
 
-      router.push(Pages.PROFILE);
+      router.push(Pages.NEWS);
     } catch (error) {
       setLoading(false);
 

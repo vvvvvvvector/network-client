@@ -5,7 +5,6 @@ import { ChevronDown, Palette, Settings, LogOut, Network } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -30,12 +29,25 @@ const Header = () => {
     avatar?: string;
   }>('/users/me/username-avatar', getMyUsernameAndAvatar);
 
+  const onClickSignOut = () => {
+    signOut();
+
+    toast({
+      description: 'You have successfully signed out.',
+    });
+
+    router.push(Pages.SIGN_IN);
+  };
+
   return (
     <header className='static top-0 z-50 w-full border-b flex justify-center items-center'>
       <div className='w-full max-w-[1150px] h-14 flex items-center px-10'>
         <ul className='w-full h-full flex items-center justify-between'>
           <li>
-            <div className='flex items-center gap-3'>
+            <div
+              onClick={() => router.push(Pages.NEWS)}
+              className='cursor-pointer flex items-center gap-3'
+            >
               <Network />
               <span className='font-bold text-2xl'>Network</span>
             </div>
@@ -73,37 +85,23 @@ const Header = () => {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem className='cursor-pointer'>
-                    <Settings className='mr-2 h-4 w-4' />
-                    <span>Settings</span>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
+                <DropdownMenuItem className='cursor-pointer'>
+                  <Settings className='mr-2 h-4 w-4' />
+                  <span>Settings</span>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem className='cursor-pointer'>
-                    <Palette className='mr-2 h-4 w-4' />
-                    <span>Mode</span>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
+                <DropdownMenuItem className='cursor-pointer'>
+                  <Palette className='mr-2 h-4 w-4' />
+                  <span>{`Mode: Light`}</span>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem
-                    className='cursor-pointer'
-                    onClick={() => {
-                      signOut();
-
-                      toast({
-                        description: 'You have successfully signed out.',
-                      });
-
-                      router.push(Pages.SIGN_IN);
-                    }}
-                  >
-                    <LogOut className='mr-2 h-4 w-4' />
-                    <span>Sign out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
+                <DropdownMenuItem
+                  onClick={onClickSignOut}
+                  className='cursor-pointer'
+                >
+                  <LogOut className='mr-2 h-4 w-4' />
+                  <span>Sign out</span>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </li>
