@@ -40,7 +40,7 @@ const Header = () => {
   };
 
   return (
-    <header className='static top-0 z-50 w-full border-b flex justify-center items-center'>
+    <header className='sticky top-0 z-50 w-full border-b bg-white flex justify-center items-center'>
       <div className='w-full max-w-[1150px] h-14 flex items-center px-10'>
         <ul className='w-full h-full flex items-center justify-between'>
           <li>

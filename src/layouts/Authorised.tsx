@@ -29,6 +29,15 @@ const icon = (type: (typeof lis)[number], size: number) => {
   }
 };
 
+const menuItemName = (type: (typeof lis)[number]) => {
+  switch (type) {
+    case 'profile':
+      return `My ${type}`;
+    default:
+      return capitalize(type);
+  }
+};
+
 export const Authorized: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
 
@@ -48,9 +57,7 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
                   className='text-sm hover:bg-gray-200 rounded p-2 cursor-pointer flex gap-2 items-center'
                 >
                   {icon(li, 20)}
-                  <span>
-                    {li === 'profile' ? `My ${li}` : `${capitalize(li)}`}
-                  </span>
+                  <span>{menuItemName(li)}</span>
                 </li>
               ))}
             </ul>

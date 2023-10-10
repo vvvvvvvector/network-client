@@ -17,7 +17,7 @@ const updateAvatar = async (avatar: File) => {
 
   formData.append('file', avatar);
 
-  await axiosApiInstance.patch('/profiles/update-avatar', formData, {
+  await axiosApiInstance.put('/profiles/update-avatar', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
