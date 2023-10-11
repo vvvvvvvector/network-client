@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { A } from '@/components/A';
+import { TAvatar } from '@/components/TAvatar';
 
 import { signOut } from '@/api/auth';
 import { getMyUsernameAndAvatar } from '@/api/users';
@@ -58,8 +58,8 @@ const Header = () => {
                   onClick={() => setOpen(true)}
                   className='cursor-pointer hover:bg-gray-50 h-full w-[100px] flex gap-2 items-center justify-center'
                 >
-                  <A
-                    username={data?.username || 'Unknown'}
+                  <TAvatar
+                    username={data?.username || '?'}
                     avatar={data?.avatar}
                   />
                   <ChevronDown size={16} />

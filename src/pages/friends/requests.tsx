@@ -17,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { A } from '@/components/A';
+import { TAvatar } from '@/components/TAvatar';
 
 import {
   acceptFriendRequest,
@@ -246,7 +246,7 @@ const List = ({
               key={request.user.username}
             >
               <div className='flex gap-3 items-center'>
-                <A
+                <TAvatar
                   size='medium'
                   username={request.user.username}
                   avatar={request.user.profile?.avatar}

@@ -16,7 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { A } from '@/components/A';
+import { TAvatar } from '@/components/TAvatar';
 
 import { isAuthorized } from '@/lib/auth';
 import { useDefault } from '@/lib/hooks';
@@ -140,7 +140,7 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
           <div className='flex gap-5 items-center'>
             <DropdownMenu open={open} defaultOpen={open} onOpenChange={setOpen}>
               <DropdownMenuTrigger>
-                <A
+                <TAvatar
                   size='large'
                   username={me.username}
                   avatar={me.profile?.avatar}

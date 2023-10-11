@@ -16,7 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { A } from '@/components/A';
+import { TAvatar } from '@/components/TAvatar';
 
 import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 
@@ -66,7 +66,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
               key={user.username}
             >
               <div className='flex gap-3 items-center'>
-                <A
+                <TAvatar
                   size='medium'
                   username={user.username}
                   avatar={user.profile?.avatar}

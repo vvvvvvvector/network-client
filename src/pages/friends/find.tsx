@@ -17,9 +17,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { A } from '@/components/A';
+import { TAvatar } from '@/components/TAvatar';
 
-import { Search, UserPlus, SearchSlash } from 'lucide-react';
+import { Search, UserPlus, SearchSlash, Table } from 'lucide-react';
 
 import { getNetworkUsersUsernames, sendFriendRequest } from '@/api/friends';
 
@@ -123,7 +123,7 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
               key={user.username}
             >
               <div className='flex gap-3 items-center'>
-                <A
+                <TAvatar
                   size='medium'
                   username={user.username}
                   avatar={user.profile?.avatar}
