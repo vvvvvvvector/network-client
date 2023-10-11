@@ -10,14 +10,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { A } from '@/components/A';
 
 import { signOut } from '@/api/auth';
 import { getMyUsernameAndAvatar } from '@/api/users';
 
 import { useDefault } from '@/lib/hooks';
-import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
-import { Pages } from '@/lib/constants';
+import { PAGES } from '@/lib/constants';
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -36,7 +35,7 @@ const Header = () => {
       description: 'You have successfully signed out.',
     });
 
-    router.push(Pages.SIGN_IN);
+    router.push(PAGES.SIGN_IN);
   };
 
   return (
@@ -45,7 +44,7 @@ const Header = () => {
         <ul className='w-full h-full flex items-center justify-between'>
           <li>
             <div
-              onClick={() => router.push(Pages.NEWS)}
+              onClick={() => router.push(PAGES.NEWS)}
               className='cursor-pointer flex items-center gap-3'
             >
               <Network />
@@ -59,12 +58,10 @@ const Header = () => {
                   onClick={() => setOpen(true)}
                   className='cursor-pointer hover:bg-gray-50 h-full w-[100px] flex gap-2 items-center justify-center'
                 >
-                  <Avatar>
-                    <AvatarImage src={avatarSource(data?.avatar)} />
-                    <AvatarFallback>
-                      {getFirstLetterInUpperCase(data?.username)}
-                    </AvatarFallback>
-                  </Avatar>
+                  <A
+                    username={data?.username || 'Unknown'}
+                    avatar={data?.avatar}
+                  />
                   <ChevronDown size={16} />
                 </div>
               </DropdownMenuTrigger>
@@ -74,7 +71,7 @@ const Header = () => {
                     <span>Profile: </span>
                     <span
                       onClick={() => {
-                        router.push(Pages.PROFILE);
+                        router.push(PAGES.PROFILE);
 
                         setOpen(false);
                       }}

@@ -17,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { A } from '@/components/A';
 
 import { Search, UserPlus, SearchSlash } from 'lucide-react';
 
@@ -25,7 +25,6 @@ import { getNetworkUsersUsernames, sendFriendRequest } from '@/api/friends';
 
 import { isAuthorized } from '@/lib/auth';
 import { useDefault } from '@/lib/hooks';
-import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
 
 type RequestStatus = 'rejected' | 'accepted' | 'pending' | 'lack';
 
@@ -124,12 +123,11 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
               key={user.username}
             >
               <div className='flex gap-3 items-center'>
-                <Avatar className='w-[4.5rem] h-[4.5rem]'>
-                  <AvatarImage src={avatarSource(user.profile?.avatar)} />
-                  <AvatarFallback>
-                    {getFirstLetterInUpperCase(user.username)}
-                  </AvatarFallback>
-                </Avatar>
+                <A
+                  size='medium'
+                  username={user.username}
+                  avatar={user.profile?.avatar}
+                />
                 <span
                   onClick={() => router.push(`/${user.username}`)}
                   className='cursor-pointer hover:underline'

@@ -13,13 +13,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { A } from '@/components/A';
 
 import { getUserPublicAvailableDataByUsername } from '@/api/users';
 
 import { isAuthorized } from '@/lib/auth';
-import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
 
 interface Props {
   user: {
@@ -47,12 +46,11 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
           <div className='flex gap-5 items-center'>
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <Avatar className='w-36 h-36'>
-                  <AvatarImage src={avatarSource(user.profile?.avatar)} />
-                  <AvatarFallback>
-                    {getFirstLetterInUpperCase(user?.username)}
-                  </AvatarFallback>
-                </Avatar>
+                <A
+                  size='large'
+                  username={user.username}
+                  avatar={user.profile?.avatar}
+                />
               </DropdownMenuTrigger>
               {user.profile?.avatar && (
                 <DropdownMenuContent>

@@ -10,7 +10,6 @@ import { Friends } from '@/layouts/Friends';
 import { Main } from '@/layouts/Main';
 
 import { Separator } from '@/components/ui/separator';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   Tooltip,
@@ -18,6 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { A } from '@/components/A';
 
 import {
   acceptFriendRequest,
@@ -29,12 +29,7 @@ import {
 } from '@/api/friends';
 
 import { isAuthorized } from '@/lib/auth';
-import {
-  avatarSource,
-  capitalize,
-  cn,
-  getFirstLetterInUpperCase,
-} from '@/lib/utils';
+import { capitalize, cn } from '@/lib/utils';
 import { useDefault } from '@/lib/hooks';
 
 type Profile = {
@@ -251,14 +246,11 @@ const List = ({
               key={request.user.username}
             >
               <div className='flex gap-3 items-center'>
-                <Avatar className='w-[4.5rem] h-[4.5rem]'>
-                  <AvatarImage
-                    src={avatarSource(request.user.profile?.avatar)}
-                  />
-                  <AvatarFallback>
-                    {getFirstLetterInUpperCase(request.user.username)}
-                  </AvatarFallback>
-                </Avatar>
+                <A
+                  size='medium'
+                  username={request.user.username}
+                  avatar={request.user.profile?.avatar}
+                />
                 <span
                   onClick={() => router.push(`/${request.user.username}`)}
                   className='cursor-pointer hover:underline'

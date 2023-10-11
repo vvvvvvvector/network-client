@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input';
 import { signIn } from '@/api/auth';
 
 import { useDefault } from '@/lib/hooks';
-import { Pages } from '@/lib/constants';
+import { PAGES } from '@/lib/constants';
 
 const formSchema = z.object({
   username: z.string().nonempty({ message: 'Username is required' }),
@@ -56,7 +56,7 @@ export function SignInForm() {
         description: 'You have successfully signed in.',
       });
 
-      router.push(Pages.NEWS);
+      router.push(PAGES.NEWS);
     } catch (error) {
       setLoading(false);
 

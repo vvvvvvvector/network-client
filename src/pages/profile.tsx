@@ -10,16 +10,15 @@ import { Main } from '@/layouts/Main';
 import { Authorized } from '@/layouts/Authorised';
 
 import { Separator } from '@/components/ui/separator';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { A } from '@/components/A';
 
 import { isAuthorized } from '@/lib/auth';
-import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
 import { useDefault } from '@/lib/hooks';
 
 import { getMyData } from '@/api/users';
@@ -141,12 +140,11 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
           <div className='flex gap-5 items-center'>
             <DropdownMenu open={open} defaultOpen={open} onOpenChange={setOpen}>
               <DropdownMenuTrigger>
-                <Avatar className='w-36 h-36'>
-                  <AvatarImage src={avatarSource(me.profile?.avatar)} />
-                  <AvatarFallback>
-                    {getFirstLetterInUpperCase(me.username)}
-                  </AvatarFallback>
-                </Avatar>
+                <A
+                  size='large'
+                  username={me.username}
+                  avatar={me.profile?.avatar}
+                />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {me.profile?.avatar && (

@@ -8,10 +8,6 @@ import { Friends } from '@/layouts/Friends';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
-import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,13 +16,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { A } from '@/components/A';
+
+import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 
 import { getMyFriends, unfriend } from '@/api/friends';
 
 import { isAuthorized } from '@/lib/auth';
 import { useDefault } from '@/lib/hooks';
-import { avatarSource, getFirstLetterInUpperCase } from '@/lib/utils';
-import { Pages } from '@/lib/constants';
+import { PAGES } from '@/lib/constants';
 
 interface Props {
   users: {
@@ -55,7 +53,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
             {`Online [${0}]`}
           </li>
         </ul>
-        <Button onClick={() => router.push(Pages.FRIENDS_FIND)}>
+        <Button onClick={() => router.push(PAGES.FRIENDS_FIND)}>
           Find friends
         </Button>
       </div>
@@ -68,12 +66,11 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
               key={user.username}
             >
               <div className='flex gap-3 items-center'>
-                <Avatar className='w-[4.5rem] h-[4.5rem]'>
-                  <AvatarImage src={avatarSource(user.profile?.avatar)} />{' '}
-                  <AvatarFallback>
-                    {getFirstLetterInUpperCase(user.username)}
-                  </AvatarFallback>
-                </Avatar>
+                <A
+                  size='medium'
+                  username={user.username}
+                  avatar={user.profile?.avatar}
+                />
                 <span
                   onClick={() => router.push(`/${user.username}`)}
                   className='cursor-pointer hover:underline'
@@ -90,7 +87,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
                     <DropdownMenuItem
-                      onClick={() => router.push(Pages.MESSENGER)}
+                      onClick={() => router.push(PAGES.MESSENGER)}
                     >
                       <MessagesSquare className='mr-2 h-4 w-4' />
                       <span>Write message</span>

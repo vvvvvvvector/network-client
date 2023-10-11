@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 
 import { signUp } from '@/api/auth';
 import { useDefault } from '@/lib/hooks';
-import { Pages } from '@/lib/constants';
+import { PAGES } from '@/lib/constants';
 
 import axios from 'axios';
 
@@ -63,7 +63,7 @@ export function SignUpForm() {
         description: `Link: ${link}`,
       });
 
-      router.push(Pages.SIGN_IN);
+      router.push(PAGES.SIGN_IN);
     } catch (error) {
       setLoading(false);
 

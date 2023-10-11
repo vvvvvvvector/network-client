@@ -1,4 +1,4 @@
-export const Pages = {
+export const PAGES = {
   SIGN_IN: '/',
   SIGN_UP: '/signup',
   MESSENGER: '/messenger',

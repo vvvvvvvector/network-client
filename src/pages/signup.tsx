@@ -12,7 +12,8 @@ import { Main } from '@/layouts/Main';
 import { axiosApiInstance } from '@/axios';
 
 import { getAuthorizedUserUsername } from '@/api/users';
-import { Pages } from '@/lib/constants';
+
+import { PAGES } from '@/lib/constants';
 
 const SignUp: NextPageWithLayout = () => {
   return <SignUpForm />;
@@ -36,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (
 
     return {
       redirect: {
-        destination: Pages.PROFILE,
+        destination: PAGES.PROFILE,
         permanent: false,
       },
     };
