@@ -19,7 +19,8 @@ import { Input } from '@/components/ui/input';
 
 import { signIn } from '@/api/auth';
 
-import { useDefault } from '@/lib/hooks';
+import { useCombain } from '@/hooks/useCombain';
+
 import { PAGES } from '@/lib/constants';
 
 const formSchema = z.object({
@@ -30,7 +31,7 @@ const formSchema = z.object({
 export function SignInForm() {
   const [loading, setLoading] = useState(false);
 
-  const { router, toast } = useDefault();
+  const { router, toast } = useCombain();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

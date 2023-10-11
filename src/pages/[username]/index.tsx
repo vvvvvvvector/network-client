@@ -9,26 +9,13 @@ import { Authorized } from '@/layouts/Authorised';
 import { getUserPublicAvailableDataByUsername } from '@/api/users';
 
 import { isAuthorized } from '@/lib/auth';
+import { NetworkUser } from '@/lib/types';
 
 import { NotFriendProfile } from '@/components/NotFriendProfile';
 import { FriendProfile } from '@/components/FriendProfile';
 
 export interface UserProfileProps {
-  user: {
-    isFriend: boolean;
-    username: string;
-    profile: {
-      isActivated: boolean;
-      createdAt: string;
-      avatar?: string;
-    };
-    contacts: {
-      email: {
-        isPublic: boolean;
-        contact: string;
-      };
-    };
-  };
+  user: NetworkUser;
 }
 
 const PROFILE: Record<

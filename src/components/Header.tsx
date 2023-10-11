@@ -10,18 +10,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { TAvatar } from '@/components/TAvatar';
+import { Avatar } from '@/components/Avatar';
 
 import { signOut } from '@/api/auth';
 import { getMyUsernameAndAvatar } from '@/api/users';
 
-import { useDefault } from '@/lib/hooks';
+import { useCombain } from '@/hooks/useCombain';
 import { PAGES } from '@/lib/constants';
 
 const Header = () => {
   const [open, setOpen] = useState(false);
 
-  const { router, toast } = useDefault();
+  const { router, toast } = useCombain();
 
   const { data, error } = useSWR<{
     username: string;
@@ -58,7 +58,7 @@ const Header = () => {
                   onClick={() => setOpen(true)}
                   className='cursor-pointer hover:bg-gray-50 h-full w-[100px] flex gap-2 items-center justify-center'
                 >
-                  <TAvatar
+                  <Avatar
                     username={data?.username || '?'}
                     avatar={data?.avatar}
                   />

@@ -16,14 +16,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { TAvatar } from '@/components/TAvatar';
+import { Avatar } from '@/components/Avatar';
 
 import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 
 import { getMyFriends, unfriend } from '@/api/friends';
 
 import { isAuthorized } from '@/lib/auth';
-import { useDefault } from '@/lib/hooks';
+import { useCombain } from '@/hooks/useCombain';
 import { PAGES } from '@/lib/constants';
 
 interface Props {
@@ -36,7 +36,7 @@ interface Props {
 }
 
 const Index: NextPageWithLayout<Props> = ({ users }) => {
-  const { router, toast } = useDefault();
+  const { router, toast } = useCombain();
 
   return (
     <>
@@ -66,7 +66,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
               key={user.username}
             >
               <div className='flex gap-3 items-center'>
-                <TAvatar
+                <Avatar
                   size='medium'
                   username={user.username}
                   avatar={user.profile?.avatar}

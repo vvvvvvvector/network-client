@@ -17,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { TAvatar } from '@/components/TAvatar';
+import { Avatar } from '@/components/Avatar';
 
 import {
   acceptFriendRequest,
@@ -30,7 +30,7 @@ import {
 
 import { isAuthorized } from '@/lib/auth';
 import { capitalize, cn } from '@/lib/utils';
-import { useDefault } from '@/lib/hooks';
+import { useCombain } from '@/hooks/useCombain';
 
 type Profile = {
   profile: {
@@ -149,7 +149,7 @@ const List = ({
   type: RequestsTypes;
   data: Array<GenericRequest>;
 }) => {
-  const { router, toast } = useDefault();
+  const { router, toast } = useCombain();
 
   const onClickAcceptFriendRequest = (username: string) => {
     return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -246,7 +246,7 @@ const List = ({
               key={request.user.username}
             >
               <div className='flex gap-3 items-center'>
-                <TAvatar
+                <Avatar
                   size='medium'
                   username={request.user.username}
                   avatar={request.user.profile?.avatar}

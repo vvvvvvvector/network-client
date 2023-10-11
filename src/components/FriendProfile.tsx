@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { TAvatar } from '@/components/TAvatar';
+import { Avatar } from '@/components/Avatar';
 
 interface NotFriendProfileProps
   extends Omit<UserProfileProps['user'], 'isFriend'> {}
@@ -22,7 +22,7 @@ export const FriendProfile: FC<NotFriendProfileProps> = (user) => {
       <div className='flex gap-5 items-center'>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <TAvatar
+            <Avatar
               size='large'
               username={user.username}
               avatar={user.profile?.avatar}

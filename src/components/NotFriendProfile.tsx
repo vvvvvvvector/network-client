@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { TAvatar } from '@/components/TAvatar';
+import { Avatar } from '@/components/Avatar';
 
 import { UserProfileProps } from '@/pages/[username]';
 
@@ -21,7 +21,7 @@ export const NotFriendProfile: FC<FriendProfileProps> = (user) => {
       <div className='flex gap-5 items-center'>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <TAvatar
+            <Avatar
               size='large'
               username={user.username}
               avatar={user.profile?.avatar}

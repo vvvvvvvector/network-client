@@ -17,14 +17,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { TAvatar } from '@/components/TAvatar';
+import { Avatar } from '@/components/Avatar';
 
 import { Search, UserPlus, SearchSlash, Table } from 'lucide-react';
 
 import { getNetworkUsersUsernames, sendFriendRequest } from '@/api/friends';
 
 import { isAuthorized } from '@/lib/auth';
-import { useDefault } from '@/lib/hooks';
+import { useCombain } from '@/hooks/useCombain';
 
 type RequestStatus = 'rejected' | 'accepted' | 'pending' | 'lack';
 
@@ -50,7 +50,7 @@ const REQUEST_INFO: Record<
 const Find: NextPageWithLayout<Props> = ({ users }) => {
   const [searchValue, setSearchValue] = useState('');
 
-  const { router, toast } = useDefault();
+  const { router, toast } = useCombain();
 
   const filteredUsers = users.filter((user) =>
     user.username.toLowerCase().includes(searchValue.toLocaleLowerCase())
@@ -123,7 +123,7 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
               key={user.username}
             >
               <div className='flex gap-3 items-center'>
-                <TAvatar
+                <Avatar
                   size='medium'
                   username={user.username}
                   avatar={user.profile?.avatar}

@@ -16,39 +16,24 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { TAvatar } from '@/components/TAvatar';
+import { Avatar } from '@/components/Avatar';
 
 import { isAuthorized } from '@/lib/auth';
-import { useDefault } from '@/lib/hooks';
+import { AuthorisedUser } from '@/lib/types';
+
+import { useCombain } from '@/hooks/useCombain';
 
 import { getMyData } from '@/api/users';
 import { deleteAvatar, updateAvatar, uploadAvatar } from '@/api/profiles';
 
-interface Props {
-  me: {
-    id: number;
-    username: string;
-    profile: {
-      uuid: string;
-      isActivated: boolean;
-      createdAt: string;
-      avatar?: string;
-    };
-    contacts: {
-      id: number;
-      email: {
-        id: number;
-        contact: string;
-        isPublic: boolean;
-      };
-    };
-  };
+interface AuthorisedUserProps {
+  me: AuthorisedUser;
 }
 
-const Profile: NextPageWithLayout<Props> = ({ me }) => {
+const Profile: NextPageWithLayout<AuthorisedUserProps> = ({ me }) => {
   const [open, setOpen] = useState(false);
 
-  const { toast, router } = useDefault();
+  const { toast, router } = useCombain();
 
   const { mutate } = useSWRConfig();
 
@@ -140,7 +125,7 @@ const Profile: NextPageWithLayout<Props> = ({ me }) => {
           <div className='flex gap-5 items-center'>
             <DropdownMenu open={open} defaultOpen={open} onOpenChange={setOpen}>
               <DropdownMenuTrigger>
-                <TAvatar
+                <Avatar
                   size='large'
                   username={me.username}
                   avatar={me.profile?.avatar}
