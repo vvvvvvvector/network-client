@@ -22,17 +22,14 @@ import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 
 import { getMyFriends, unfriend } from '@/api/friends';
 
-import { isAuthorized } from '@/lib/auth';
 import { useCombain } from '@/hooks/useCombain';
+
+import { isAuthorized } from '@/lib/auth';
 import { PAGES } from '@/lib/constants';
+import { ProfileWithAvatar, User } from '@/lib/types';
 
 interface Props {
-  users: {
-    username: string;
-    profile: {
-      avatar?: string;
-    };
-  }[];
+  users: (User & ProfileWithAvatar)[];
 }
 
 const Index: NextPageWithLayout<Props> = ({ users }) => {

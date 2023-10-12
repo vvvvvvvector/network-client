@@ -35,7 +35,11 @@ const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
     );
   }
 
-  return PROFILE[user.isFriend ? 'friend' : 'notFriend']({
+  const isFriend = user.isFriend ? 'friend' : 'notFriend';
+
+  const Profile = PROFILE[isFriend];
+
+  return Profile({
     username: user.username,
     profile: user.profile,
     contacts: user.contacts,

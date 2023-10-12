@@ -23,19 +23,15 @@ import { Search, UserPlus, SearchSlash, Table } from 'lucide-react';
 
 import { getNetworkUsersUsernames, sendFriendRequest } from '@/api/friends';
 
-import { isAuthorized } from '@/lib/auth';
 import { useCombain } from '@/hooks/useCombain';
+
+import { isAuthorized } from '@/lib/auth';
+import { ProfileWithAvatar, User } from '@/lib/types';
 
 type RequestStatus = 'rejected' | 'accepted' | 'pending' | 'lack';
 
 interface Props {
-  users: {
-    username: string;
-    profile: {
-      avatar?: string;
-    };
-    requestStatus: RequestStatus;
-  }[];
+  users: (User & ProfileWithAvatar & { requestStatus: RequestStatus })[];
 }
 
 const REQUEST_INFO: Record<

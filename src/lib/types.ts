@@ -4,7 +4,7 @@ export interface NetworkUser extends NetworkUserProfile, Contacts, User {
 
 export interface AuthorisedUser extends AuthorisedUserProfile, Contacts, User {}
 
-interface User {
+export interface User {
   username: string;
 }
 
@@ -12,24 +12,28 @@ interface Avatar {
   avatar?: string;
 }
 
-interface Profile {
-  profile: {
-    uuid: string;
-    isActivated: boolean;
-    createdAt: string;
-  } & Avatar;
+interface Profile extends Avatar {
+  uuid: string;
+  isActivated: boolean;
+  createdAt: string;
 }
 
-type NetworkUserProfile = { profile: Omit<Profile['profile'], 'uuid'> };
-type AuthorisedUserProfile = Profile;
-
-type Contacts = {
-  contacts: Email;
+type CreateProfile<T> = {
+  profile: T;
 };
 
-interface Email {
-  email: {
-    contact: string;
-    isPublic: boolean;
+export type ProfileWithAvatar = CreateProfile<Avatar>;
+
+type NetworkUserProfile = CreateProfile<Omit<Profile, 'uuid'>>;
+type AuthorisedUserProfile = CreateProfile<Profile>;
+
+type Contacts = {
+  contacts: {
+    email: Email;
   };
-}
+};
+
+type Email = {
+  contact?: string;
+  isPublic: boolean;
+};

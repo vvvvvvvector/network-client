@@ -30,33 +30,29 @@ import {
 
 import { isAuthorized } from '@/lib/auth';
 import { capitalize, cn } from '@/lib/utils';
-import { useCombain } from '@/hooks/useCombain';
+import { ProfileWithAvatar } from '@/lib/types';
 
-type Profile = {
-  profile: {
-    avatar?: string;
-  };
-};
+import { useCombain } from '@/hooks/useCombain';
 
 type GenericRequest = {
   createdAt: string;
   user: {
     username: string;
-  } & Profile;
+  } & ProfileWithAvatar;
 };
 
 type Sender = {
   createdAt: string;
   sender: {
     username: string;
-  } & Profile;
+  } & ProfileWithAvatar;
 };
 
 type Receiver = {
   createdAt: string;
   receiver: {
     username: string;
-  } & Profile;
+  } & ProfileWithAvatar;
 };
 
 interface Props {
