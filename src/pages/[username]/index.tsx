@@ -11,19 +11,21 @@ import { getUserPublicAvailableDataByUsername } from '@/api/users';
 import { isAuthorized } from '@/lib/auth';
 import { NetworkUser } from '@/lib/types';
 
-import { NotFriendProfile } from '@/components/NotFriendProfile';
+import { DefaultProfile } from '@/components/DefaultProfile';
 import { FriendProfile } from '@/components/FriendProfile';
 
-export interface UserProfileProps {
+interface UserProfileProps {
   user: NetworkUser;
 }
 
-const PROFILE: Record<
-  'friend' | 'notFriend',
-  FC<Omit<UserProfileProps['user'], 'isFriend'>>
-> = {
+type ProfileType = 'friend' | 'default';
+
+export interface NetworkUserProfileProps
+  extends Omit<UserProfileProps['user'], 'isFriend'> {}
+
+const PROFILE: Record<ProfileType, FC<NetworkUserProfileProps>> = {
   friend: FriendProfile,
-  notFriend: NotFriendProfile,
+  default: DefaultProfile,
 };
 
 const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
@@ -35,7 +37,7 @@ const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
     );
   }
 
-  const isFriend = user.isFriend ? 'friend' : 'notFriend';
+  const isFriend = user.isFriend ? 'friend' : 'default';
 
   const Profile = PROFILE[isFriend];
 

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Heart, Image } from 'lucide-react';
 
-import { UserProfileProps } from '@/pages/[username]';
+import { NetworkUserProfileProps } from '@/pages/[username]';
 
 import {
   DropdownMenu,
@@ -13,10 +13,7 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Avatar } from '@/components/Avatar';
 
-interface NotFriendProfileProps
-  extends Omit<UserProfileProps['user'], 'isFriend'> {}
-
-export const FriendProfile: FC<NotFriendProfileProps> = (user) => {
+export const FriendProfile: FC<NetworkUserProfileProps> = (user) => {
   return (
     <div className='bg-white p-5 rounded-lg'>
       <div className='flex gap-5 items-center'>

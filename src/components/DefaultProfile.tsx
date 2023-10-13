@@ -10,12 +10,9 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Avatar } from '@/components/Avatar';
 
-import { UserProfileProps } from '@/pages/[username]';
+import { NetworkUserProfileProps } from '@/pages/[username]';
 
-interface FriendProfileProps
-  extends Omit<UserProfileProps['user'], 'isFriend'> {}
-
-export const NotFriendProfile: FC<FriendProfileProps> = (user) => {
+export const DefaultProfile: FC<NetworkUserProfileProps> = (user) => {
   return (
     <div className='bg-white p-5 rounded-lg'>
       <div className='flex gap-5 items-center'>
