@@ -1,8 +1,10 @@
-![network_screenshot-1](./public/network_4.png)
-![network_screenshot-2](./public/network_5.png)
-![network_screenshot-3](./public/network_6.png)
-![network_screenshot-4](./public/network_3.png)
-![network_screenshot-5](./public/network_2.png)
+![network_screenshot-1](./public//screenshots-v0.4//network-1.png)
+![network_screenshot-2](./public//screenshots-v0.4//network-2.png)
+![network_screenshot-3](./public//screenshots-v0.4//network-3.png)
+![network_screenshot-4](./public//screenshots-v0.4//network-4.png)
+![network_screenshot-5](./public//screenshots-v0.4//network-5.png)
+![network_screenshot-6](./public//screenshots-v0.4//network-6.png)
+![network_screenshot-7](./public//screenshots-v0.4//network-7.png)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

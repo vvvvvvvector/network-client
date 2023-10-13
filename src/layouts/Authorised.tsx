@@ -6,13 +6,14 @@ import {
   User,
   Newspaper,
   AlertOctagon,
+  Image,
 } from 'lucide-react';
 
 import { Header } from '@/components/Header';
 
 import { capitalize } from '@/lib/utils';
 
-const lis = ['profile', 'news', 'messenger', 'friends'] as const;
+const lis = ['profile', 'news', 'messenger', 'friends', 'photos'] as const;
 
 const icon = (type: (typeof lis)[number], size: number) => {
   switch (type) {
@@ -24,6 +25,8 @@ const icon = (type: (typeof lis)[number], size: number) => {
       return <MessageCircle size={size} />;
     case 'friends':
       return <Users size={size} />;
+    case 'photos':
+      return <Image size={size} />;
     default:
       return <AlertOctagon size={size} />;
   }

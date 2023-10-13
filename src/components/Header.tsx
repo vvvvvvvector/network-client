@@ -1,6 +1,15 @@
 import useSWR from 'swr';
 import { useState } from 'react';
-import { ChevronDown, Palette, Settings, LogOut, Network } from 'lucide-react';
+import {
+  ChevronDown,
+  Palette,
+  Settings,
+  LogOut,
+  Network,
+  Sun,
+  MoonStar,
+  Monitor,
+} from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -16,7 +25,25 @@ import { signOut } from '@/api/auth';
 import { getMyUsernameAndAvatar } from '@/api/users';
 
 import { useCombain } from '@/hooks/useCombain';
+
 import { PAGES } from '@/lib/constants';
+
+const menuIconConfig = 'mr-2 h-4 w-4';
+
+const ThemeMenu = [
+  {
+    text: 'Light',
+    icon: <Sun className={menuIconConfig} />,
+  },
+  {
+    text: 'Dark',
+    icon: <MoonStar className={menuIconConfig} />,
+  },
+  {
+    text: 'System',
+    icon: <Monitor className={menuIconConfig} />,
+  },
+] as const;
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -83,20 +110,41 @@ const Header = () => {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className='cursor-pointer'>
-                  <Settings className='mr-2 h-4 w-4' />
+                  <Settings className={menuIconConfig} />
                   <span>Settings</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className='cursor-pointer'>
-                  <Palette className='mr-2 h-4 w-4' />
-                  <span>{`Mode: Light`}</span>
+                <DropdownMenuItem
+                  className='cursor-pointer'
+                  onSelect={(e) => e.preventDefault()}
+                >
+                  <Palette className={menuIconConfig} />
+                  <div className='flex-1 flex justify-between'>
+                    <span>Theme:</span>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <div className='flex items-center mr-2'>
+                          <Sun className={menuIconConfig} />
+                          <span>Light</span>
+                        </div>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align='end'>
+                        {ThemeMenu.map((item) => (
+                          <DropdownMenuItem key={item.text}>
+                            {item.icon}
+                            <span>{item.text}</span>
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={onClickSignOut}
                   className='cursor-pointer'
                 >
-                  <LogOut className='mr-2 h-4 w-4' />
+                  <LogOut className={menuIconConfig} />
                   <span>Sign out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

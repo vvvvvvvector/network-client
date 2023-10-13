@@ -179,7 +179,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
         <li>{`is email public: ${
           me.contacts.email.isPublic ? 'True' : 'False'
         }`}</li>
-        <li>{`For instance authorised user profile info here...`}</li>
+        <li>{`for instance only for authorised user profile info here...`}</li>
       </ul>
     </div>
   );

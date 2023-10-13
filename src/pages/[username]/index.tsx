@@ -49,7 +49,7 @@ const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
 };
 
 Index.getLayout = (page) => (
-  <Main title='Someone profile'>
+  <Main title='Network user profile'>
     <Authorized>{page}</Authorized>
   </Main>
 );
