@@ -176,7 +176,7 @@ export const getServerSideProps: GetServerSideProps = async (
 
     if (res && 'redirect' in res) return res;
 
-    const users = await getNetworkUsersUsernames();
+    const users = await getNetworkUsersUsernames(+(ctx.query?.page as string));
 
     return {
       props: {

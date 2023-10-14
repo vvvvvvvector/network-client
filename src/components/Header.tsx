@@ -2,7 +2,6 @@ import useSWR from 'swr';
 import { useState } from 'react';
 import {
   ChevronDown,
-  Palette,
   Settings,
   LogOut,
   Network,
@@ -109,22 +108,18 @@ const Header = () => {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className='cursor-pointer'>
+                <DropdownMenuItem>
                   <Settings className={menuIconConfig} />
                   <span>Settings</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className='cursor-pointer'
-                  onSelect={(e) => e.preventDefault()}
-                >
-                  <Palette className={menuIconConfig} />
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  <Sun className={menuIconConfig} />
                   <div className='flex-1 flex justify-between'>
                     <span>Theme:</span>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <div className='flex items-center mr-2'>
-                          <Sun className={menuIconConfig} />
                           <span>Light</span>
                         </div>
                       </DropdownMenuTrigger>
@@ -140,10 +135,7 @@ const Header = () => {
                   </div>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={onClickSignOut}
-                  className='cursor-pointer'
-                >
+                <DropdownMenuItem onClick={onClickSignOut}>
                   <LogOut className={menuIconConfig} />
                   <span>Sign out</span>
                 </DropdownMenuItem>

@@ -50,7 +50,16 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
             {`Online [${0}]`}
           </li>
         </ul>
-        <Button onClick={() => router.push(PAGES.FRIENDS_FIND)}>
+        <Button
+          onClick={() =>
+            router.push({
+              pathname: PAGES.FRIENDS_FIND,
+              query: {
+                page: 1,
+              },
+            })
+          }
+        >
           Find friends
         </Button>
       </div>

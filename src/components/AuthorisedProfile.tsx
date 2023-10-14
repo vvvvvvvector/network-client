@@ -121,7 +121,6 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
           <DropdownMenuContent>
             {me.profile?.avatar && (
               <DropdownMenuItem
-                className='cursor-pointer'
                 onClick={() =>
                   (location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${me?.profile?.avatar}`)
                 }
@@ -159,10 +158,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
               </label>
             </DropdownMenuItem>
             {me.profile?.avatar && (
-              <DropdownMenuItem
-                className='cursor-pointer'
-                onClick={onAvatarDelete()}
-              >
+              <DropdownMenuItem onClick={onAvatarDelete()}>
                 <Trash2 color='hsl(0 84.2% 60.2%)' className='mr-2 h-4 w-4' />
                 <span>Delete photo</span>
               </DropdownMenuItem>
