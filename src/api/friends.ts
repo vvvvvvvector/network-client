@@ -48,9 +48,11 @@ const getRejectedFriendRequests = async () => {
   return data;
 };
 
-const getNetworkUsersUsernames = async (page: number) => {
+const getNetworkUsersUsernames = async (page: string, username: string) => {
   const { data } = await axiosApiInstance.get(
-    `/friend-requests/find?page=${page}`
+    `/friend-requests/find?page=${page}${
+      username ? `&username=${username}` : ''
+    }`
   );
 
   return data;

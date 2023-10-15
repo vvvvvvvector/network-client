@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
@@ -19,7 +19,14 @@ import {
 } from '@/components/ui/tooltip';
 import { Avatar } from '@/components/Avatar';
 
-import { Search, UserPlus, SearchSlash, Table } from 'lucide-react';
+import {
+  Search,
+  UserPlus,
+  SearchSlash,
+  Table,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react';
 
 import { getNetworkUsersUsernames, sendFriendRequest } from '@/api/friends';
 
@@ -32,25 +39,40 @@ type RequestStatus = 'rejected' | 'accepted' | 'pending' | 'lack';
 
 interface Props {
   users: (User & ProfileWithAvatar & { requestStatus: RequestStatus })[];
+  totalPages: number;
 }
 
 const REQUEST_INFO: Record<
   Exclude<RequestStatus, 'lack'>,
   React.JSX.Element
 > = {
-  rejected: <>Request already exists</>,
-  accepted: <>Already friends</>,
-  pending: <>Request already exists</>,
+  rejected: <span>Request already exists</span>,
+  accepted: <span>Already friends</span>,
+  pending: <span>Request already exists</span>,
 };
 
-const Find: NextPageWithLayout<Props> = ({ users }) => {
-  const [searchValue, setSearchValue] = useState('');
-
+const Find: NextPageWithLayout<Props> = ({ users, totalPages }) => {
   const { router, toast } = useCombain();
 
-  const filteredUsers = users.filter((user) =>
-    user.username.toLowerCase().includes(searchValue.toLocaleLowerCase())
-  );
+  const [searchValue, setSearchValue] = useState('');
+
+  const [page, setPage] = useState(router.query.page ? +router.query.page : 1);
+
+  useEffect(() => {
+    router.push({
+      query: {
+        page,
+      },
+    });
+  }, [page]);
+
+  const onClickPrevPage = () => {
+    if (page > 1) setPage((prev) => prev - 1);
+  };
+
+  const onClickNextPage = () => {
+    if (totalPages > page) setPage((prev) => prev + 1);
+  };
 
   const onClickSendFriendRequest = (username: string) => {
     return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -78,8 +100,7 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
   return (
     <>
       <div className='flex gap-2 mb-4'>
-        <span>People:</span>
-        <span className='text-gray-400'>{`${filteredUsers.length}`}</span>
+        <span>Find friends</span>
       </div>
       <div className='text-sm flex gap-5 justify-between'>
         <Input
@@ -87,8 +108,24 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder='Search...'
         />
-        {searchValue === '' ? (
-          <Button size='icon' className='w-16'>
+        {!router.query.username ? (
+          <Button
+            onClick={() => {
+              if (searchValue) {
+                setPage(1);
+
+                router.push({
+                  query: {
+                    page: 1,
+                    username: searchValue,
+                  },
+                });
+              }
+            }}
+            type='submit'
+            size='icon'
+            className='w-16'
+          >
             <Search className='h-5 w-5' />
           </Button>
         ) : (
@@ -96,7 +133,17 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  onClick={() => setSearchValue('')}
+                  onClick={() => {
+                    setPage(1);
+
+                    setSearchValue('');
+
+                    router.push({
+                      query: {
+                        page: 1,
+                      },
+                    });
+                  }}
                   size='icon'
                   className='w-16'
                 >
@@ -111,9 +158,9 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
         )}
       </div>
       <Separator className='mt-4 mb-4' />
-      {filteredUsers.length > 0 ? (
+      {users.length > 0 ? (
         <ul className='flex flex-col gap-5'>
-          {filteredUsers.map((user) => (
+          {users.map((user) => (
             <li
               className='flex py-2 items-center justify-between'
               key={user.username}
@@ -156,6 +203,35 @@ const Find: NextPageWithLayout<Props> = ({ users }) => {
       ) : (
         <span className='text-center'>Your search returned no results.</span>
       )}
+      {users.length > 0 && (
+        <div className='flex justify-center gap-1 mt-4'>
+          <Button
+            variant='ghost'
+            size='icon'
+            disabled={page === 1}
+            onClick={onClickPrevPage}
+          >
+            <ChevronLeft />
+          </Button>
+          {[...Array(totalPages)].map((_, index) => (
+            <Button
+              key={index + 1}
+              onClick={() => setPage(index + 1)}
+              variant={index + 1 === page ? 'outline' : 'ghost'}
+            >
+              {index + 1}
+            </Button>
+          ))}
+          <Button
+            variant='ghost'
+            size='icon'
+            disabled={page === totalPages}
+            onClick={onClickNextPage}
+          >
+            <ChevronRight />
+          </Button>
+        </div>
+      )}
     </>
   );
 };
@@ -176,17 +252,22 @@ export const getServerSideProps: GetServerSideProps = async (
 
     if (res && 'redirect' in res) return res;
 
-    const users = await getNetworkUsersUsernames(+(ctx.query?.page as string));
+    const response = await getNetworkUsersUsernames(
+      ctx.query.page as string,
+      ctx.query.username as string
+    );
 
     return {
       props: {
-        users,
+        users: response.users,
+        totalPages: response.totalPages,
       },
     };
   } catch (error) {
     return {
       props: {
         users: [],
+        totalPages: 0,
       },
     };
   }

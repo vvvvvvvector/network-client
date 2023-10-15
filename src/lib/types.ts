@@ -34,6 +34,6 @@ type Contacts = {
 };
 
 type Email = {
-  contact?: string;
+  contact: string;
   isPublic: boolean;
 };
