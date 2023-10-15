@@ -59,11 +59,20 @@ const Find: NextPageWithLayout<Props> = ({ users, totalPages }) => {
   const [page, setPage] = useState(router.query.page ? +router.query.page : 1);
 
   useEffect(() => {
-    router.push({
-      query: {
-        page,
-      },
-    });
+    if (router.query.username) {
+      router.push({
+        query: {
+          page,
+          username: router.query.username,
+        },
+      });
+    } else {
+      router.push({
+        query: {
+          page,
+        },
+      });
+    }
   }, [page]);
 
   const onClickPrevPage = () => {
@@ -110,19 +119,18 @@ const Find: NextPageWithLayout<Props> = ({ users, totalPages }) => {
         />
         {!router.query.username ? (
           <Button
-            onClick={() => {
+            onClick={async () => {
               if (searchValue) {
-                setPage(1);
-
-                router.push({
+                await router.push({
                   query: {
                     page: 1,
                     username: searchValue,
                   },
                 });
+
+                setPage(1);
               }
             }}
-            type='submit'
             size='icon'
             className='w-16'
           >
@@ -133,16 +141,16 @@ const Find: NextPageWithLayout<Props> = ({ users, totalPages }) => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  onClick={() => {
-                    setPage(1);
-
-                    setSearchValue('');
-
-                    router.push({
+                  onClick={async () => {
+                    await router.push({
                       query: {
                         page: 1,
                       },
                     });
+
+                    setPage(1);
+
+                    setSearchValue('');
                   }}
                   size='icon'
                   className='w-16'
