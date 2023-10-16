@@ -23,7 +23,6 @@ import {
   Search,
   UserPlus,
   SearchSlash,
-  Table,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
@@ -40,47 +39,51 @@ type RequestStatus = 'rejected' | 'accepted' | 'pending' | 'lack';
 interface Props {
   users: (User & ProfileWithAvatar & { requestStatus: RequestStatus })[];
   totalPages: number;
+  limitPerPage: number;
 }
 
-const REQUEST_INFO: Record<
-  Exclude<RequestStatus, 'lack'>,
-  React.JSX.Element
-> = {
-  rejected: <span>Request already exists</span>,
-  accepted: <span>Already friends</span>,
-  pending: <span>Request already exists</span>,
+const REQUEST_INFO: Record<Exclude<RequestStatus, 'lack'>, string> = {
+  rejected: 'Request already exists',
+  accepted: 'Already friends',
+  pending: 'Request already exists',
 };
 
-const Find: NextPageWithLayout<Props> = ({ users, totalPages }) => {
+const Find: NextPageWithLayout<Props> = ({
+  users,
+  totalPages,
+  limitPerPage,
+}) => {
   const { router, toast } = useCombain();
 
   const [searchValue, setSearchValue] = useState('');
 
-  const [page, setPage] = useState(router.query.page ? +router.query.page : 1);
+  const [currentPage, setCurrentPage] = useState(
+    router.query.page ? +router.query.page : 1
+  );
 
   useEffect(() => {
     if (router.query.username) {
       router.push({
         query: {
-          page,
+          page: currentPage,
           username: router.query.username,
         },
       });
     } else {
       router.push({
         query: {
-          page,
+          page: currentPage,
         },
       });
     }
-  }, [page]);
+  }, [currentPage]);
 
   const onClickPrevPage = () => {
-    if (page > 1) setPage((prev) => prev - 1);
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
   };
 
   const onClickNextPage = () => {
-    if (totalPages > page) setPage((prev) => prev + 1);
+    if (totalPages > currentPage) setCurrentPage((prev) => prev + 1);
   };
 
   const onClickSendFriendRequest = (username: string) => {
@@ -128,7 +131,7 @@ const Find: NextPageWithLayout<Props> = ({ users, totalPages }) => {
                   },
                 });
 
-                setPage(1);
+                setCurrentPage(1);
               }
             }}
             size='icon'
@@ -148,7 +151,7 @@ const Find: NextPageWithLayout<Props> = ({ users, totalPages }) => {
                       },
                     });
 
-                    setPage(1);
+                    setCurrentPage(1);
 
                     setSearchValue('');
                   }}
@@ -203,20 +206,22 @@ const Find: NextPageWithLayout<Props> = ({ users, totalPages }) => {
                   </Tooltip>
                 </TooltipProvider>
               ) : (
-                REQUEST_INFO[user.requestStatus]
+                <span>{REQUEST_INFO[user.requestStatus]}</span>
               )}
             </li>
           ))}
         </ul>
       ) : (
-        <span className='text-center'>Your search returned no results.</span>
+        <span className='text-center mt-7 mb-7'>
+          Your search returned no results.
+        </span>
       )}
-      {users.length > 0 && (
+      {users.length > 0 && totalPages > 1 && (
         <div className='flex justify-center gap-1 mt-4'>
           <Button
             variant='ghost'
             size='icon'
-            disabled={page === 1}
+            disabled={currentPage === 1}
             onClick={onClickPrevPage}
           >
             <ChevronLeft />
@@ -224,8 +229,8 @@ const Find: NextPageWithLayout<Props> = ({ users, totalPages }) => {
           {[...Array(totalPages)].map((_, index) => (
             <Button
               key={index + 1}
-              onClick={() => setPage(index + 1)}
-              variant={index + 1 === page ? 'outline' : 'ghost'}
+              onClick={() => setCurrentPage(index + 1)}
+              variant={index + 1 === currentPage ? 'outline' : 'ghost'}
             >
               {index + 1}
             </Button>
@@ -233,7 +238,7 @@ const Find: NextPageWithLayout<Props> = ({ users, totalPages }) => {
           <Button
             variant='ghost'
             size='icon'
-            disabled={page === totalPages}
+            disabled={currentPage === totalPages}
             onClick={onClickNextPage}
           >
             <ChevronRight />
@@ -268,14 +273,16 @@ export const getServerSideProps: GetServerSideProps = async (
     return {
       props: {
         users: response.users,
-        totalPages: response.totalPages,
+        totalPages: response.pages,
+        limitPerPage: response.limit,
       },
     };
   } catch (error) {
     return {
       props: {
         users: [],
-        totalPages: 0,
+        pages: 0,
+        limitPerPage: 0,
       },
     };
   }

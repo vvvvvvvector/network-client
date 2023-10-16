@@ -261,7 +261,7 @@ const List = ({
           ))}
         </ul>
       ) : (
-        <span className='text-center'>
+        <span className='text-center mt-7 mb-7'>
           {`You don't have any ${type} requests yet.`}
         </span>
       )}

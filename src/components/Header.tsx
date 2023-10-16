@@ -46,6 +46,7 @@ const ThemeMenu = [
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const [theme, setTheme] = useState<(typeof ThemeMenu)[number]>(ThemeMenu[0]);
 
   const { router, toast } = useCombain();
 
@@ -114,18 +115,21 @@ const Header = () => {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  <Sun className={menuIconConfig} />
+                  {theme.icon}
                   <div className='flex-1 flex justify-between'>
                     <span>Theme:</span>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <div className='flex items-center mr-2'>
-                          <span>Light</span>
+                          <span>{theme.text}</span>
                         </div>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align='end'>
                         {ThemeMenu.map((item) => (
-                          <DropdownMenuItem key={item.text}>
+                          <DropdownMenuItem
+                            key={item.text}
+                            onClick={() => setTheme({ ...item })}
+                          >
                             {item.icon}
                             <span>{item.text}</span>
                           </DropdownMenuItem>
