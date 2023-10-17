@@ -9,6 +9,7 @@ import {
   MoonStar,
   Monitor,
 } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 import {
   DropdownMenu,
@@ -44,9 +45,27 @@ const ThemeMenu = [
   },
 ] as const;
 
+const whatActiveTheme = (type?: string) => {
+  switch (type) {
+    case 'light':
+      return ThemeMenu[0];
+    case 'dark':
+      return ThemeMenu[1];
+    case 'system':
+      return ThemeMenu[2];
+    default:
+      return ThemeMenu[0];
+  }
+};
+
 const Header = () => {
   const [open, setOpen] = useState(false);
-  const [theme, setTheme] = useState<(typeof ThemeMenu)[number]>(ThemeMenu[0]);
+
+  const { theme, setTheme } = useTheme();
+
+  const [themeMenu, setThemeMenu] = useState<(typeof ThemeMenu)[number]>(
+    whatActiveTheme(theme)
+  );
 
   const { router, toast } = useCombain();
 
@@ -66,7 +85,7 @@ const Header = () => {
   };
 
   return (
-    <header className='sticky top-0 z-50 w-full border-b bg-white flex justify-center items-center'>
+    <header className='bg-background sticky top-0 z-50 w-full border-b border-b-muted flex justify-center items-center'>
       <div className='w-full max-w-[1150px] h-14 flex items-center px-10'>
         <ul className='w-full h-full flex items-center justify-between'>
           <li>
@@ -83,7 +102,7 @@ const Header = () => {
               <DropdownMenuTrigger asChild>
                 <div
                   onClick={() => setOpen(true)}
-                  className='cursor-pointer hover:bg-gray-50 h-full w-[100px] flex gap-2 items-center justify-center'
+                  className='cursor-pointer dark:hover:bg-neutral-900 hover:bg-gray-50 h-full w-[100px] flex gap-2 items-center justify-center'
                 >
                   <Avatar
                     username={data?.username || '?'}
@@ -115,20 +134,24 @@ const Header = () => {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  {theme.icon}
+                  {themeMenu.icon}
                   <div className='flex-1 flex justify-between'>
                     <span>Theme:</span>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <div className='flex items-center mr-2'>
-                          <span>{theme.text}</span>
+                          <span>{themeMenu.text}</span>
                         </div>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align='end'>
                         {ThemeMenu.map((item) => (
                           <DropdownMenuItem
                             key={item.text}
-                            onClick={() => setTheme({ ...item })}
+                            onClick={() => {
+                              setThemeMenu({ ...item });
+
+                              setTheme(item.text.toLowerCase());
+                            }}
                           >
                             {item.icon}
                             <span>{item.text}</span>

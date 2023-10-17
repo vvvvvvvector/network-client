@@ -10,7 +10,7 @@ export const Auth: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
 
   return (
-    <div className='w-full h-full grid place-items-center'>
+    <div className='dark:bg-neutral-800 w-full h-full grid place-items-center'>
       <div className='w-full max-w-[350px] space-y-7'>
         <h3 className='text-lg font-medium text-center'>{`${
           router.asPath === PAGES.SIGN_IN ? 'Hello 👋' : 'Create your account'

@@ -4,7 +4,7 @@ import { Main } from '@/layouts/Main';
 import { Authorized } from '@/layouts/Authorised';
 
 const Messenger: NextPageWithLayout = () => {
-  return <div className='bg-white p-5 rounded-lg'>Messenger</div>;
+  return <div className='bg-background p-5 rounded-lg'>Messenger</div>;
 };
 
 Messenger.getLayout = (page) => (

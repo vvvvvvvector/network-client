@@ -57,9 +57,7 @@ const Find: NextPageWithLayout<Props> = ({
 
   const [searchValue, setSearchValue] = useState('');
 
-  const [currentPage, setCurrentPage] = useState(
-    router.query.page ? +router.query.page : 1
-  );
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (router.query.username) {

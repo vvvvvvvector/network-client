@@ -108,7 +108,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
   };
 
   return (
-    <div className='bg-white p-5 rounded-lg'>
+    <div className='bg-background p-5 rounded-lg'>
       <div className='flex gap-5 items-center'>
         <DropdownMenu open={open} defaultOpen={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger>

@@ -15,7 +15,7 @@ import { Avatar } from '@/components/Avatar';
 
 export const FriendProfile: FC<NetworkUserProfileProps> = (user) => {
   return (
-    <div className='bg-white p-5 rounded-lg'>
+    <div className='bg-background p-5 rounded-lg'>
       <div className='flex gap-5 items-center'>
         <DropdownMenu>
           <DropdownMenuTrigger>

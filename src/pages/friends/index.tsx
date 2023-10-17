@@ -40,12 +40,12 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
       <div className='text-sm flex items-center justify-between'>
         <ul className='flex gap-7'>
           <li
-            className={`hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
+            className={`dark:hover:bg-neutral-800 hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
           >
             {`All friends [${users.length}]`}
           </li>
           <li
-            className={` hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
+            className={` dark:hover:bg-neutral-800 hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
           >
             {`Online [${0}]`}
           </li>

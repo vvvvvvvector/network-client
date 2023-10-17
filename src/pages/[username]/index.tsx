@@ -31,7 +31,7 @@ const PROFILE: Record<ProfileType, FC<NetworkUserProfileProps>> = {
 const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
   if (!user) {
     return (
-      <div className='bg-white p-5 rounded-lg'>
+      <div className='bg-background p-5 rounded-lg'>
         <span>Error while loading user data.</span>
       </div>
     );

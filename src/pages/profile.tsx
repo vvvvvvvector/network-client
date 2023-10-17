@@ -19,7 +19,7 @@ interface AuthorisedUserProps {
 const Profile: NextPageWithLayout<AuthorisedUserProps> = ({ me }) => {
   if (!me) {
     return (
-      <div className='bg-white p-5 rounded-lg'>
+      <div className='bg-background p-5 rounded-lg'>
         <span>Error while loading Your data.</span>
       </div>
     );

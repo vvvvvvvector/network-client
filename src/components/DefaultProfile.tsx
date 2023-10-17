@@ -14,7 +14,7 @@ import { NetworkUserProfileProps } from '@/pages/[username]';
 
 export const DefaultProfile: FC<NetworkUserProfileProps> = (user) => {
   return (
-    <div className='bg-white p-5 rounded-lg'>
+    <div className='bg-background p-5 rounded-lg'>
       <div className='flex gap-5 items-center'>
         <DropdownMenu>
           <DropdownMenuTrigger>
