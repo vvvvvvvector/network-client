@@ -281,8 +281,8 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
               key={li}
               onClick={() => setList(li)}
               className={cn(
-                'dark:hover:bg-neutral-800 hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]',
-                { 'dark:bg-neutral-800 bg-gray-50 font-semibold': list === li }
+                'dark:hover:bg-neutral-900 hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]',
+                { 'dark:bg-neutral-900 bg-gray-50 font-semibold': list === li }
               )}
             >
               {`${capitalize(li)} [${requests[li].length}]`}

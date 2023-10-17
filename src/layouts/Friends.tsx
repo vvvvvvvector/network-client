@@ -18,9 +18,9 @@ export const Friends: FC<PropsWithChildren> = ({ children }) => {
           <li
             onClick={() => router.push(PAGES.FRIENDS_ALL)}
             className={cn(
-              'text-sm dark:hover:bg-neutral-800 hover:bg-gray-50 rounded p-2 cursor-pointer',
+              'text-sm dark:hover:bg-neutral-900 hover:bg-gray-50 rounded p-2 cursor-pointer',
               {
-                'dark:bg-neutral-800 bg-gray-50 font-semibold':
+                'dark:bg-neutral-900 bg-gray-50 font-semibold':
                   router.asPath === PAGES.FRIENDS_ALL,
               }
             )}
@@ -30,9 +30,9 @@ export const Friends: FC<PropsWithChildren> = ({ children }) => {
           <li
             onClick={() => router.push(PAGES.FRIENDS_REQUESTS)}
             className={cn(
-              'text-sm dark:hover:bg-neutral-800 hover:bg-gray-50 rounded p-2 cursor-pointer',
+              'text-sm dark:hover:bg-neutral-900 hover:bg-gray-50 rounded p-2 cursor-pointer',
               {
-                'dark:bg-neutral-800 bg-gray-50 font-semibold':
+                'dark:bg-neutral-900 bg-gray-50 font-semibold':
                   router.asPath === PAGES.FRIENDS_REQUESTS,
               }
             )}

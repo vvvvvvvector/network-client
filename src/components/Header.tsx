@@ -45,8 +45,8 @@ const ThemeMenu = [
   },
 ] as const;
 
-const whatActiveTheme = (type?: string) => {
-  switch (type) {
+const whatActiveTheme = (theme?: string) => {
+  switch (theme) {
     case 'light':
       return ThemeMenu[0];
     case 'dark':

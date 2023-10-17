@@ -47,7 +47,7 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className='flex flex-col min-h-screen'>
       <Header />
-      <div className='flex-1 flex justify-center bg-gray-100 dark:bg-neutral-800'>
+      <div className='flex-1 flex justify-center bg-gray-100 dark:bg-neutral-900'>
         <div className='w-full max-w-[1150px] px-10 mt-5 mb-5'>
           <div className='grid grid-cols-[175px_minmax(0,1fr)] gap-5'>
             <ul className='flex gap-5 flex-col'>
@@ -57,7 +57,7 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
                   onClick={() => {
                     router.push(`/${li}`);
                   }}
-                  className='text-sm dark:hover:bg-neutral-900 hover:bg-gray-200 rounded p-2 cursor-pointer flex gap-2 items-center'
+                  className='text-sm dark:hover:bg-neutral-950 hover:bg-gray-200 rounded p-2 cursor-pointer flex gap-2 items-center'
                 >
                   {icon(li, 20)}
                   <span>{menuItemName(li)}</span>
