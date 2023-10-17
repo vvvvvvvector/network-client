@@ -15,7 +15,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
+  TooltipTrigger
 } from '@/components/ui/tooltip';
 import { Avatar } from '@/components/Avatar';
 
@@ -25,7 +25,7 @@ import {
   getOutgoingFriendRequests,
   getRejectedFriendRequests,
   rejectFriendRequest,
-  cancelFriendRequest,
+  cancelFriendRequest
 } from '@/api/friends';
 
 import { isAuthorized } from '@/lib/auth';
@@ -135,12 +135,12 @@ const BUTTONS: Record<
         </Tooltip>
       </TooltipProvider>
     );
-  },
+  }
 };
 
 const List = ({
   type,
-  data,
+  data
 }: {
   type: RequestsTypes;
   data: Array<GenericRequest>;
@@ -155,7 +155,7 @@ const List = ({
         await acceptFriendRequest(username);
 
         toast({
-          description: 'Friend request was successfully accepted.',
+          description: 'Friend request was successfully accepted.'
         });
 
         router.replace(router.asPath, undefined, { scroll: false });
@@ -163,7 +163,7 @@ const List = ({
         if (axios.isAxiosError(error)) {
           toast({
             variant: 'destructive',
-            description: `${error.response?.data.message}`,
+            description: `${error.response?.data.message}`
           });
         }
       }
@@ -178,7 +178,7 @@ const List = ({
         await rejectFriendRequest(username);
 
         toast({
-          description: 'Friend request was successfully rejected.',
+          description: 'Friend request was successfully rejected.'
         });
 
         router.replace(router.asPath, undefined, { scroll: false });
@@ -186,7 +186,7 @@ const List = ({
         if (axios.isAxiosError(error)) {
           toast({
             variant: 'destructive',
-            description: `${error.response?.data.message}`,
+            description: `${error.response?.data.message}`
           });
         }
       }
@@ -201,7 +201,7 @@ const List = ({
         await cancelFriendRequest(username);
 
         toast({
-          description: 'Friend request was successfully canceled.',
+          description: 'Friend request was successfully canceled.'
         });
 
         router.replace(router.asPath, undefined, { scroll: false });
@@ -209,7 +209,7 @@ const List = ({
         if (axios.isAxiosError(error)) {
           toast({
             variant: 'destructive',
-            description: `${error.response?.data.message}`,
+            description: `${error.response?.data.message}`
           });
         }
       }
@@ -222,7 +222,7 @@ const List = ({
         case 'incoming':
           return [
             onClickAcceptFriendRequest(username),
-            onClickRejectFriendRequest(username),
+            onClickRejectFriendRequest(username)
           ];
         case 'outgoing':
           return [onClickCancelRequest(username)];
@@ -238,10 +238,10 @@ const List = ({
         <ul className='flex flex-col gap-5'>
           {data.map((request) => (
             <li
-              className='flex py-2 items-center justify-between'
+              className='flex items-center justify-between py-2'
               key={request.user.username}
             >
-              <div className='flex gap-3 items-center'>
+              <div className='flex items-center gap-3'>
                 <Avatar
                   size='medium'
                   username={request.user.username}
@@ -255,13 +255,13 @@ const List = ({
                 </span>
               </div>
               {BUTTONS[type]({
-                onClicks: ON_CLICKS(type)(request.user.username),
+                onClicks: ON_CLICKS(type)(request.user.username)
               })}
             </li>
           ))}
         </ul>
       ) : (
-        <span className='text-center mt-7 mb-7'>
+        <span className='mb-7 mt-7 text-center'>
           {`You don't have any ${type} requests yet.`}
         </span>
       )}
@@ -281,8 +281,8 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
               key={li}
               onClick={() => setList(li)}
               className={cn(
-                'dark:hover:bg-neutral-900 hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]',
-                { 'dark:bg-neutral-900 bg-gray-50 font-semibold': list === li }
+                'cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-gray-50 dark:hover:bg-neutral-900',
+                { 'bg-gray-50 font-semibold dark:bg-neutral-900': list === li }
               )}
             >
               {`${capitalize(li)} [${requests[li].length}]`}
@@ -290,7 +290,7 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
           ))}
         </ul>
       </div>
-      <Separator className='mt-4 mb-4' />
+      <Separator className='mb-4 mt-4' />
       <List
         type={list}
         data={requests[list].map((i) => {
@@ -312,9 +312,9 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
             user: {
               username,
               profile: {
-                avatar,
-              },
-            },
+                avatar
+              }
+            }
           };
         })}
       />
@@ -341,7 +341,7 @@ export const getServerSideProps: GetServerSideProps = async (
     const requests = await Promise.all([
       getIncomingFriendRequests(),
       getOutgoingFriendRequests(),
-      getRejectedFriendRequests(),
+      getRejectedFriendRequests()
     ]);
 
     return {
@@ -349,15 +349,15 @@ export const getServerSideProps: GetServerSideProps = async (
         requests: {
           incoming: requests[0],
           outgoing: requests[1],
-          rejected: requests[2],
-        },
-      },
+          rejected: requests[2]
+        }
+      }
     };
   } catch (error) {
     return {
       props: {
-        requests: {},
-      },
+        requests: {}
+      }
     };
   }
 };

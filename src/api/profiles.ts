@@ -7,8 +7,8 @@ const uploadAvatar = async (avatar: File) => {
 
   await axiosApiInstance.post('/profiles/upload-avatar', formData, {
     headers: {
-      'Content-Type': 'multipart/form-data',
-    },
+      'Content-Type': 'multipart/form-data'
+    }
   });
 };
 
@@ -19,8 +19,8 @@ const updateAvatar = async (avatar: File) => {
 
   await axiosApiInstance.put('/profiles/update-avatar', formData, {
     headers: {
-      'Content-Type': 'multipart/form-data',
-    },
+      'Content-Type': 'multipart/form-data'
+    }
   });
 };
 

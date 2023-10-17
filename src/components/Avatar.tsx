@@ -28,7 +28,7 @@ export const Avatar: FC<AvatarProps> = ({ size, username, avatar }) => {
   return (
     <A className={cn(avatarVariants({ size }))}>
       <AvatarImage src={avatarSource(avatar)} />
-      <AvatarFallback>{username[0].toLocaleUpperCase()}</AvatarFallback>
+      <AvatarFallback>{username[0]?.toLocaleUpperCase()}</AvatarFallback>
     </A>
   );
 };

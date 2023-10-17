@@ -38,12 +38,12 @@ export const getServerSideProps: GetServerSideProps = async (
     return {
       redirect: {
         destination: PAGES.PROFILE,
-        permanent: false,
-      },
+        permanent: false
+      }
     };
   } catch (error) {
     return {
-      props: {},
+      props: {}
     };
   }
 };

@@ -15,8 +15,8 @@ import { Avatar } from '@/components/Avatar';
 
 export const FriendProfile: FC<NetworkUserProfileProps> = (user) => {
   return (
-    <div className='bg-background p-5 rounded-lg'>
-      <div className='flex gap-5 items-center'>
+    <div className='rounded-lg bg-background p-5'>
+      <div className='flex items-center gap-5'>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar
@@ -47,7 +47,7 @@ export const FriendProfile: FC<NetworkUserProfileProps> = (user) => {
         </div>
         <Badge>Friend</Badge>
       </div>
-      <Separator className='mt-4 mb-4' />
+      <Separator className='mb-4 mt-4' />
       <ul className='flex flex-col gap-5'>
         <li>{`is profile activated: ${user.profile.isActivated}`}</li>
         <li>{`profile created at: ${new Date(user.profile.createdAt)}`}</li>

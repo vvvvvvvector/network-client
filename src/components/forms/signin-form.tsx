@@ -13,7 +13,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
@@ -25,7 +25,7 @@ import { PAGES } from '@/lib/constants';
 
 const formSchema = z.object({
   username: z.string().nonempty({ message: 'Username is required' }),
-  password: z.string().nonempty({ message: 'Password is required' }),
+  password: z.string().nonempty({ message: 'Password is required' })
 });
 
 export function SignInForm() {
@@ -37,8 +37,8 @@ export function SignInForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
-      password: process.env.NEXT_PUBLIC_SIGN_IN_PASSWORD || '',
-    },
+      password: process.env.NEXT_PUBLIC_SIGN_IN_PASSWORD || ''
+    }
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -50,11 +50,11 @@ export function SignInForm() {
       setLoading(false);
 
       setCookie(null, 'token', token, {
-        path: '/',
+        path: '/'
       });
 
       toast({
-        description: 'You have successfully signed in.',
+        description: 'You have successfully signed in.'
       });
 
       router.push(PAGES.NEWS);
@@ -64,7 +64,7 @@ export function SignInForm() {
       if (axios.isAxiosError(error)) {
         toast({
           variant: 'destructive',
-          description: `${error.response?.data.message}`,
+          description: `${error.response?.data.message}`
         });
       }
     }

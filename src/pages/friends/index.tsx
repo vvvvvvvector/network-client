@@ -14,7 +14,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Avatar } from '@/components/Avatar';
 
@@ -37,15 +37,15 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
 
   return (
     <>
-      <div className='text-sm flex items-center justify-between'>
+      <div className='flex items-center justify-between text-sm'>
         <ul className='flex gap-7'>
           <li
-            className={`dark:hover:bg-neutral-900 hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
+            className={`cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-gray-50 dark:hover:bg-neutral-900`}
           >
             {`All friends [${users.length}]`}
           </li>
           <li
-            className={` dark:hover:bg-neutral-900 hover:bg-gray-50 rounded p-2 cursor-pointer px-[1rem] py-[0.5rem]`}
+            className={` cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-gray-50 dark:hover:bg-neutral-900`}
           >
             {`Online [${0}]`}
           </li>
@@ -55,23 +55,23 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
             router.push({
               pathname: PAGES.FRIENDS_FIND,
               query: {
-                page: 1,
-              },
+                page: 1
+              }
             })
           }
         >
           Find friends
         </Button>
       </div>
-      <Separator className='mt-4 mb-4' />
+      <Separator className='mb-4 mt-4' />
       {users.length > 0 ? (
         <ul className='flex flex-col gap-5'>
           {users.map((user) => (
             <li
-              className='flex py-2 items-center justify-between'
+              className='flex items-center justify-between py-2'
               key={user.username}
             >
-              <div className='flex gap-3 items-center'>
+              <div className='flex items-center gap-3'>
                 <Avatar
                   size='medium'
                   username={user.username}
@@ -106,11 +106,11 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
                         await unfriend(user.username);
 
                         toast({
-                          description: `${user.username} was successfully deleted from your friends list.`,
+                          description: `${user.username} was successfully deleted from your friends list.`
                         });
 
                         router.replace(router.asPath, undefined, {
-                          scroll: false,
+                          scroll: false
                         });
                       }}
                     >
@@ -150,14 +150,14 @@ export const getServerSideProps: GetServerSideProps = async (
 
     return {
       props: {
-        users,
-      },
+        users
+      }
     };
   } catch (error) {
     return {
       props: {
-        users: [],
-      },
+        users: []
+      }
     };
   }
 };

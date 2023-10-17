@@ -4,7 +4,7 @@ import { Main } from '@/layouts/Main';
 import { Authorized } from '@/layouts/Authorised';
 
 const News: NextPageWithLayout = () => {
-  return <div className='bg-background p-5 rounded-lg'>News</div>;
+  return <div className='rounded-lg bg-background p-5'>News</div>;
 };
 
 News.getLayout = (page) => (

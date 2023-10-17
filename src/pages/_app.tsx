@@ -9,7 +9,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import '@/styles/globals.css';
 
 const globalFont = Source_Code_Pro({
-  subsets: ['latin'],
+  subsets: ['latin']
 });
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {

@@ -6,7 +6,7 @@ import {
   User,
   Newspaper,
   AlertOctagon,
-  Image,
+  Image
 } from 'lucide-react';
 
 import { Header } from '@/components/Header';
@@ -45,19 +45,19 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
 
   return (
-    <div className='flex flex-col min-h-screen'>
+    <div className='flex min-h-screen flex-col'>
       <Header />
-      <div className='flex-1 flex justify-center bg-gray-100 dark:bg-neutral-900'>
-        <div className='w-full max-w-[1150px] px-10 mt-5 mb-5'>
+      <div className='flex flex-1 justify-center bg-gray-100 dark:bg-neutral-900'>
+        <div className='mb-5 mt-5 w-full max-w-[1150px] px-10'>
           <div className='grid grid-cols-[175px_minmax(0,1fr)] gap-5'>
-            <ul className='flex gap-5 flex-col'>
+            <ul className='flex flex-col gap-5'>
               {lis.map((li) => (
                 <li
                   key={li}
                   onClick={() => {
                     router.push(`/${li}`);
                   }}
-                  className='text-sm dark:hover:bg-neutral-950 hover:bg-gray-200 rounded p-2 cursor-pointer flex gap-2 items-center'
+                  className='flex cursor-pointer items-center gap-2 rounded p-2 text-sm hover:bg-gray-200 dark:hover:bg-neutral-950'
                 >
                   {icon(li, 20)}
                   <span>{menuItemName(li)}</span>

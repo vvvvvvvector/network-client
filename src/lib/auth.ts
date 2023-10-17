@@ -17,8 +17,8 @@ export const isAuthorized = async (ctx: GetServerSidePropsContext) => {
     return {
       redirect: {
         destination: PAGES.SIGN_IN,
-        permanent: false,
-      },
+        permanent: false
+      }
     };
   }
 };

@@ -28,5 +28,5 @@ export {
   getMyData,
   getUserPublicAvailableDataByUsername,
   getAuthorizedUserUsername,
-  getMyUsernameAndAvatar,
+  getMyUsernameAndAvatar
 };

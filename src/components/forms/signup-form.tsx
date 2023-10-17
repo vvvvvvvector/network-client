@@ -12,7 +12,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
@@ -32,8 +32,8 @@ const formSchema = z.object({
     .string()
     .nonempty({ message: 'Password is required' })
     .regex(new RegExp('^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{8,}$'), {
-      message: 'Minimum 8 characters, at least 1 letter and 1 number',
-    }),
+      message: 'Minimum 8 characters, at least 1 letter and 1 number'
+    })
 });
 
 export function SignUpForm() {
@@ -46,8 +46,8 @@ export function SignUpForm() {
     defaultValues: {
       email: '',
       username: '',
-      password: '',
-    },
+      password: ''
+    }
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -60,7 +60,7 @@ export function SignUpForm() {
 
       toast({
         title: `Activation link has been sent to ${receiver}.`,
-        description: `Link: ${link}`,
+        description: `Link: ${link}`
       });
 
       router.push(PAGES.SIGN_IN);
@@ -70,7 +70,7 @@ export function SignUpForm() {
       if (axios.isAxiosError(error)) {
         toast({
           variant: 'destructive',
-          description: `${error.response?.data.message}`,
+          description: `${error.response?.data.message}`
         });
       }
     }

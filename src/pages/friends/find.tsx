@@ -15,7 +15,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
+  TooltipTrigger
 } from '@/components/ui/tooltip';
 import { Avatar } from '@/components/Avatar';
 
@@ -24,7 +24,7 @@ import {
   UserPlus,
   SearchSlash,
   ChevronLeft,
-  ChevronRight,
+  ChevronRight
 } from 'lucide-react';
 
 import { getNetworkUsersUsernames, sendFriendRequest } from '@/api/friends';
@@ -45,13 +45,13 @@ interface Props {
 const REQUEST_INFO: Record<Exclude<RequestStatus, 'lack'>, string> = {
   rejected: 'Request already exists',
   accepted: 'Already friends',
-  pending: 'Request already exists',
+  pending: 'Request already exists'
 };
 
 const Find: NextPageWithLayout<Props> = ({
   users,
   totalPages,
-  limitPerPage,
+  limitPerPage
 }) => {
   const { router, toast } = useCombain();
 
@@ -64,14 +64,14 @@ const Find: NextPageWithLayout<Props> = ({
       router.push({
         query: {
           page: currentPage,
-          username: router.query.username,
-        },
+          username: router.query.username
+        }
       });
     } else {
       router.push({
         query: {
-          page: currentPage,
-        },
+          page: currentPage
+        }
       });
     }
   }, [currentPage]);
@@ -92,7 +92,7 @@ const Find: NextPageWithLayout<Props> = ({
         await sendFriendRequest(username);
 
         toast({
-          description: 'Friend request was successfully sent.',
+          description: 'Friend request was successfully sent.'
         });
 
         router.replace(router.asPath, undefined, { scroll: false });
@@ -100,7 +100,7 @@ const Find: NextPageWithLayout<Props> = ({
         if (axios.isAxiosError(error)) {
           toast({
             variant: 'destructive',
-            description: `${error.response?.data.message}`,
+            description: `${error.response?.data.message}`
           });
         }
       }
@@ -109,10 +109,10 @@ const Find: NextPageWithLayout<Props> = ({
 
   return (
     <>
-      <div className='flex gap-2 mb-4'>
+      <div className='mb-4 flex gap-2'>
         <span>Find friends</span>
       </div>
-      <div className='text-sm flex gap-5 justify-between'>
+      <div className='flex justify-between gap-5 text-sm'>
         <Input
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
@@ -125,8 +125,8 @@ const Find: NextPageWithLayout<Props> = ({
                 await router.push({
                   query: {
                     page: 1,
-                    username: searchValue,
-                  },
+                    username: searchValue
+                  }
                 });
 
                 setCurrentPage(1);
@@ -145,8 +145,8 @@ const Find: NextPageWithLayout<Props> = ({
                   onClick={async () => {
                     await router.push({
                       query: {
-                        page: 1,
-                      },
+                        page: 1
+                      }
                     });
 
                     setCurrentPage(1);
@@ -166,15 +166,15 @@ const Find: NextPageWithLayout<Props> = ({
           </TooltipProvider>
         )}
       </div>
-      <Separator className='mt-4 mb-4' />
+      <Separator className='mb-4 mt-4' />
       {users.length > 0 ? (
         <ul className='flex flex-col gap-5'>
           {users.map((user) => (
             <li
-              className='flex py-2 items-center justify-between'
+              className='flex items-center justify-between py-2'
               key={user.username}
             >
-              <div className='flex gap-3 items-center'>
+              <div className='flex items-center gap-3'>
                 <Avatar
                   size='medium'
                   username={user.username}
@@ -210,12 +210,12 @@ const Find: NextPageWithLayout<Props> = ({
           ))}
         </ul>
       ) : (
-        <span className='text-center mt-7 mb-7'>
+        <span className='mb-7 mt-7 text-center'>
           Your search returned no results.
         </span>
       )}
       {users.length > 0 && totalPages > 1 && (
-        <div className='flex justify-center gap-1 mt-4'>
+        <div className='mt-4 flex justify-center gap-1'>
           <Button
             variant='ghost'
             size='icon'
@@ -272,16 +272,16 @@ export const getServerSideProps: GetServerSideProps = async (
       props: {
         users: response.users,
         totalPages: response.pages,
-        limitPerPage: response.limit,
-      },
+        limitPerPage: response.limit
+      }
     };
   } catch (error) {
     return {
       props: {
         users: [],
         pages: 0,
-        limitPerPage: 0,
-      },
+        limitPerPage: 0
+      }
     };
   }
 };

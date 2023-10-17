@@ -42,7 +42,7 @@ const signUp = async (values: SignUpForm): Promise<SignUpResponse> => {
 
 const signOut = () => {
   destroyCookie(null, 'token', {
-    path: '/',
+    path: '/'
   });
 };
 

@@ -64,7 +64,7 @@ const Header = () => {
   const { theme, setTheme } = useTheme();
 
   const [themeMenu, setThemeMenu] = useState<(typeof ThemeMenu)[number]>(
-    whatActiveTheme(theme)
+    whatActiveTheme(theme),
   );
 
   const { router, toast } = useCombain();
@@ -85,16 +85,16 @@ const Header = () => {
   };
 
   return (
-    <header className='bg-background sticky top-0 z-50 w-full border-b border-b-muted flex justify-center items-center'>
-      <div className='w-full max-w-[1150px] h-14 flex items-center px-10'>
-        <ul className='w-full h-full flex items-center justify-between'>
+    <header className='sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-muted bg-background'>
+      <div className='flex h-14 w-full max-w-[1150px] items-center px-10'>
+        <ul className='flex h-full w-full items-center justify-between'>
           <li>
             <div
               onClick={() => router.push(PAGES.NEWS)}
-              className='cursor-pointer flex items-center gap-3'
+              className='flex cursor-pointer items-center gap-3'
             >
               <Network />
-              <span className='font-bold text-2xl'>Network</span>
+              <span className='text-2xl font-bold'>Network</span>
             </div>
           </li>
           <li className='h-full'>
@@ -102,7 +102,7 @@ const Header = () => {
               <DropdownMenuTrigger asChild>
                 <div
                   onClick={() => setOpen(true)}
-                  className='cursor-pointer dark:hover:bg-neutral-900 hover:bg-gray-50 h-full w-[100px] flex gap-2 items-center justify-center'
+                  className='flex h-full w-[100px] cursor-pointer items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-neutral-900'
                 >
                   <Avatar
                     username={data?.username || '?'}
@@ -121,7 +121,7 @@ const Header = () => {
 
                         setOpen(false);
                       }}
-                      className='hover:underline cursor-pointer'
+                      className='cursor-pointer hover:underline'
                     >
                       {data?.username}
                     </span>
@@ -135,11 +135,11 @@ const Header = () => {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                   {themeMenu.icon}
-                  <div className='flex-1 flex justify-between'>
+                  <div className='flex flex-1 justify-between'>
                     <span>Theme:</span>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <div className='flex items-center mr-2'>
+                        <div className='mr-2 flex items-center'>
                           <span>{themeMenu.text}</span>
                         </div>
                       </DropdownMenuTrigger>

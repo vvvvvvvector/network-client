@@ -25,13 +25,13 @@ export interface NetworkUserProfileProps
 
 const PROFILE: Record<ProfileType, FC<NetworkUserProfileProps>> = {
   friend: FriendProfile,
-  default: DefaultProfile,
+  default: DefaultProfile
 };
 
 const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
   if (!user) {
     return (
-      <div className='bg-background p-5 rounded-lg'>
+      <div className='rounded-lg bg-background p-5'>
         <span>Error while loading user data.</span>
       </div>
     );
@@ -44,7 +44,7 @@ const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
   return Profile({
     username: user.username,
     profile: user.profile,
-    contacts: user.contacts,
+    contacts: user.contacts
   });
 };
 
@@ -68,14 +68,14 @@ export const getServerSideProps: GetServerSideProps = async (
 
     return {
       props: {
-        user,
-      },
+        user
+      }
     };
   } catch (error) {
     return {
       props: {
-        user: null,
-      },
+        user: null
+      }
     };
   }
 };

@@ -19,7 +19,7 @@ interface AuthorisedUserProps {
 const Profile: NextPageWithLayout<AuthorisedUserProps> = ({ me }) => {
   if (!me) {
     return (
-      <div className='bg-background p-5 rounded-lg'>
+      <div className='rounded-lg bg-background p-5'>
         <span>Error while loading Your data.</span>
       </div>
     );
@@ -46,14 +46,14 @@ export const getServerSideProps: GetServerSideProps = async (
 
     return {
       props: {
-        me,
-      },
+        me
+      }
     };
   } catch (error) {
     return {
       props: {
-        me: null,
-      },
+        me: null
+      }
     };
   }
 };

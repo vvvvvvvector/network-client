@@ -10,18 +10,18 @@ export const Friends: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <div className='grid grid-cols-[600px_minmax(0,1fr)] gap-5'>
-      <div className='flex flex-col bg-background p-5 rounded-lg'>
+      <div className='flex flex-col rounded-lg bg-background p-5'>
         {children}
       </div>
-      <div className='bg-background p-5 rounded-lg h-[125px]'>
+      <div className='h-[125px] rounded-lg bg-background p-5'>
         <ul className='flex flex-col gap-2'>
           <li
             onClick={() => router.push(PAGES.FRIENDS_ALL)}
             className={cn(
-              'text-sm dark:hover:bg-neutral-900 hover:bg-gray-50 rounded p-2 cursor-pointer',
+              'cursor-pointer rounded p-2 text-sm hover:bg-gray-50 dark:hover:bg-neutral-900',
               {
-                'dark:bg-neutral-900 bg-gray-50 font-semibold':
-                  router.asPath === PAGES.FRIENDS_ALL,
+                'bg-gray-50 font-semibold dark:bg-neutral-900':
+                  router.asPath === PAGES.FRIENDS_ALL
               }
             )}
           >
@@ -30,10 +30,10 @@ export const Friends: FC<PropsWithChildren> = ({ children }) => {
           <li
             onClick={() => router.push(PAGES.FRIENDS_REQUESTS)}
             className={cn(
-              'text-sm dark:hover:bg-neutral-900 hover:bg-gray-50 rounded p-2 cursor-pointer',
+              'cursor-pointer rounded p-2 text-sm hover:bg-gray-50 dark:hover:bg-neutral-900',
               {
-                'dark:bg-neutral-900 bg-gray-50 font-semibold':
-                  router.asPath === PAGES.FRIENDS_REQUESTS,
+                'bg-gray-50 font-semibold dark:bg-neutral-900':
+                  router.asPath === PAGES.FRIENDS_REQUESTS
               }
             )}
           >

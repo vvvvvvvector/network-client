@@ -6,5 +6,5 @@ export const PAGES = {
   PROFILE: '/profile',
   FRIENDS_ALL: '/friends',
   FRIENDS_FIND: '/friends/find',
-  FRIENDS_REQUESTS: '/friends/requests',
+  FRIENDS_REQUESTS: '/friends/requests'
 } as const;

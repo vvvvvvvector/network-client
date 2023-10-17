@@ -11,7 +11,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 
 import { PAGES } from '@/lib/constants';
@@ -28,7 +28,7 @@ export const Auth: FC<PropsWithChildren> = ({ children }) => {
           <Button
             size='icon'
             variant='outline'
-            className='absolute top-8 right-8'
+            className='absolute right-8 top-8'
           >
             <Sun className='h-4 w-4 rotate-0 scale-100 dark:-rotate-90 dark:scale-0' />
             <MoonStar className='absolute h-4 w-4 rotate-90 scale-0 dark:rotate-0 dark:scale-100' />
@@ -46,21 +46,21 @@ export const Auth: FC<PropsWithChildren> = ({ children }) => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <div className='dark:bg-neutral-900 w-full h-full grid place-items-center'>
+      <div className='grid h-full w-full place-items-center dark:bg-neutral-900'>
         <div className='w-full max-w-[350px] space-y-7'>
-          <h3 className='text-lg font-medium text-center'>{`${
+          <h3 className='text-center text-lg font-medium'>{`${
             router.asPath === PAGES.SIGN_IN ? 'Hello 👋' : 'Create your account'
           }`}</h3>
           {children}
           <Separator />
-          <div className='text-sm text-muted-foreground text-center space-x-4'>
+          <div className='space-x-4 text-center text-sm text-muted-foreground'>
             <span>{`${
               router.asPath === PAGES.SIGN_IN
                 ? "Don't have an account?"
                 : 'Already have an account?'
             }`}</span>
             <button
-              className='dark:hover:text-foreground hover:text-foreground hover:underline'
+              className='hover:text-foreground hover:underline dark:hover:text-foreground'
               onClick={
                 router.asPath === PAGES.SIGN_IN
                   ? () => router.push(PAGES.SIGN_UP)

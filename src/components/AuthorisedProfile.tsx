@@ -108,8 +108,8 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
   };
 
   return (
-    <div className='bg-background p-5 rounded-lg'>
-      <div className='flex gap-5 items-center'>
+    <div className='rounded-lg bg-background p-5'>
+      <div className='flex items-center gap-5'>
         <DropdownMenu open={open} defaultOpen={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger>
             <Avatar
@@ -142,7 +142,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
 
               <label
                 htmlFor='avatar'
-                className='cursor-pointer flex items-center'
+                className='flex cursor-pointer items-center'
               >
                 {me.profile?.avatar ? (
                   <>
@@ -167,7 +167,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
         </DropdownMenu>
         <span className='text-2xl font-semibold'>{`${me.username}`}</span>
       </div>
-      <Separator className='mt-4 mb-4' />
+      <Separator className='mb-4 mt-4' />
       <ul className='flex flex-col gap-5'>
         <li>{`is profile activated: ${me.profile.isActivated}`}</li>
         <li>{`profile created at: ${new Date(me.profile.createdAt)}`}</li>
