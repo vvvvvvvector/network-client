@@ -60,7 +60,7 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
                   className='flex cursor-pointer items-center gap-2 rounded p-2 text-sm hover:bg-gray-200 dark:hover:bg-neutral-950'
                 >
                   {icon(li, 20)}
-                  <span>{menuItemName(li)}</span>
+                  <span className='ml-1'>{menuItemName(li)}</span>
                 </li>
               ))}
             </ul>

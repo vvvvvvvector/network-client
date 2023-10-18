@@ -25,7 +25,7 @@ import { getMyFriends, unfriend } from '@/api/friends';
 import { useCombain } from '@/hooks/use-combain';
 
 import { isAuthorized } from '@/lib/auth';
-import { PAGES } from '@/lib/constants';
+import { FRIENDS_ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 import { ProfileWithAvatar, User } from '@/lib/types';
 
 interface Props {
@@ -87,7 +87,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant='ghost' size='icon'>
-                    <MoreHorizontal size={20} />
+                    <MoreHorizontal size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>

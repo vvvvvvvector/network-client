@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
@@ -18,14 +18,9 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip';
 import { Avatar } from '@/components/avatar';
+import { Pagination } from '@/components/pagination';
 
-import {
-  Search,
-  UserPlus,
-  SearchSlash,
-  ChevronLeft,
-  ChevronRight
-} from 'lucide-react';
+import { Search, UserPlus, SearchSlash } from 'lucide-react';
 
 import { getNetworkUsersUsernames, sendFriendRequest } from '@/api/friends';
 
@@ -33,6 +28,7 @@ import { useCombain } from '@/hooks/use-combain';
 
 import { isAuthorized } from '@/lib/auth';
 import { ProfileWithAvatar, User } from '@/lib/types';
+import { FRIENDS_ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
 type RequestStatus = 'rejected' | 'accepted' | 'pending' | 'lack';
 
@@ -58,31 +54,6 @@ const Find: NextPageWithLayout<Props> = ({
   const [searchValue, setSearchValue] = useState('');
 
   const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    if (router.query.username) {
-      router.push({
-        query: {
-          page: currentPage,
-          username: router.query.username
-        }
-      });
-    } else {
-      router.push({
-        query: {
-          page: currentPage
-        }
-      });
-    }
-  }, [currentPage]);
-
-  const onClickPrevPage = () => {
-    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
-  };
-
-  const onClickNextPage = () => {
-    if (totalPages > currentPage) setCurrentPage((prev) => prev + 1);
-  };
 
   const onClickSendFriendRequest = (username: string) => {
     return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -133,9 +104,9 @@ const Find: NextPageWithLayout<Props> = ({
               }
             }}
             size='icon'
-            className='w-16'
+            className='w-14'
           >
-            <Search className='h-5 w-5' />
+            <Search size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         ) : (
           <TooltipProvider>
@@ -156,7 +127,7 @@ const Find: NextPageWithLayout<Props> = ({
                   size='icon'
                   className='w-16'
                 >
-                  <SearchSlash className='h-5 w-5' />
+                  <SearchSlash size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -195,7 +166,7 @@ const Find: NextPageWithLayout<Props> = ({
                         onClick={onClickSendFriendRequest(user.username)}
                         variant='outline'
                       >
-                        <UserPlus size={20} />
+                        <UserPlus size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
@@ -215,33 +186,11 @@ const Find: NextPageWithLayout<Props> = ({
         </span>
       )}
       {users.length > 0 && totalPages > 1 && (
-        <div className='mt-4 flex justify-center gap-1'>
-          <Button
-            variant='ghost'
-            size='icon'
-            disabled={currentPage === 1}
-            onClick={onClickPrevPage}
-          >
-            <ChevronLeft />
-          </Button>
-          {[...Array(totalPages)].map((_, index) => (
-            <Button
-              key={index + 1}
-              onClick={() => setCurrentPage(index + 1)}
-              variant={index + 1 === currentPage ? 'outline' : 'ghost'}
-            >
-              {index + 1}
-            </Button>
-          ))}
-          <Button
-            variant='ghost'
-            size='icon'
-            disabled={currentPage === totalPages}
-            onClick={onClickNextPage}
-          >
-            <ChevronRight />
-          </Button>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+        />
       )}
     </>
   );

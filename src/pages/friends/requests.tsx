@@ -31,6 +31,7 @@ import {
 import { isAuthorized } from '@/lib/auth';
 import { capitalize, cn } from '@/lib/utils';
 import { ProfileWithAvatar } from '@/lib/types';
+import { FRIENDS_ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
 import { useCombain } from '@/hooks/use-combain';
 
@@ -81,7 +82,7 @@ const BUTTONS: Record<
           <Tooltip>
             <TooltipTrigger asChild>
               <Button onClick={onClicks[0]} variant='outline'>
-                <Check size={20} />
+                <Check size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -93,7 +94,7 @@ const BUTTONS: Record<
           <Tooltip>
             <TooltipTrigger asChild>
               <Button onClick={onClicks[1]} variant='outline'>
-                <X size={20} />
+                <X size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -110,7 +111,7 @@ const BUTTONS: Record<
         <Tooltip>
           <TooltipTrigger asChild>
             <Button onClick={onClicks[0]} variant='outline'>
-              <Undo2 size={20} />
+              <Undo2 size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -126,7 +127,7 @@ const BUTTONS: Record<
         <Tooltip>
           <TooltipTrigger asChild>
             <Button onClick={onClicks[0]} variant='outline'>
-              <Check size={20} />
+              <Check size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
             </Button>
           </TooltipTrigger>
           <TooltipContent>

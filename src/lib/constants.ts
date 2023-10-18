@@ -1,3 +1,5 @@
+export const FRIENDS_ICON_INSIDE_BUTTON_SIZE = 17;
+
 export const PAGES = {
   SIGN_IN: '/',
   SIGN_UP: '/signup',
