@@ -19,7 +19,7 @@ import { Input } from '@/components/ui/input';
 
 import { signIn } from '@/api/auth';
 
-import { useCombain } from '@/hooks/useCombain';
+import { useCombain } from '@/hooks/use-combain';
 
 import { PAGES } from '@/lib/constants';
 

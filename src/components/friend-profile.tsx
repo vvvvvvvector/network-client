@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import { Heart, Image } from 'lucide-react';
 
+import { NetworkUserProfileProps } from '@/pages/[username]';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,11 +10,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { Avatar } from '@/components/Avatar';
+import { Badge } from '@/components/ui/badge';
+import { Avatar } from '@/components/avatar';
 
-import { NetworkUserProfileProps } from '@/pages/[username]';
-
-export const DefaultProfile: FC<NetworkUserProfileProps> = (user) => {
+export const FriendProfile: FC<NetworkUserProfileProps> = (user) => {
   return (
     <div className='rounded-lg bg-background p-5'>
       <div className='flex items-center gap-5'>
@@ -44,6 +45,7 @@ export const DefaultProfile: FC<NetworkUserProfileProps> = (user) => {
         <div>
           <span className='text-2xl font-semibold'>{user.username}</span>
         </div>
+        <Badge>Friend</Badge>
       </div>
       <Separator className='mb-4 mt-4' />
       <ul className='flex flex-col gap-5'>
@@ -52,6 +54,7 @@ export const DefaultProfile: FC<NetworkUserProfileProps> = (user) => {
         <li>{`email: ${
           user.contacts.email.isPublic ? user.contacts.email.contact : 'private'
         }`}</li>
+        <li>{'for instance, only for friends content here...'}</li>
       </ul>
     </div>
   );

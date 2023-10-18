@@ -2,9 +2,9 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import { NextPageWithLayout } from '../_app';
 
-import { Main } from '@/layouts/Main';
-import { Authorized } from '@/layouts/Authorised';
-import { Friends } from '@/layouts/Friends';
+import { Main } from '@/layouts/main';
+import { Authorized } from '@/layouts/authorised';
+import { Friends } from '@/layouts/friends';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -16,13 +16,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Avatar } from '@/components/Avatar';
+import { Avatar } from '@/components/avatar';
 
 import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 
 import { getMyFriends, unfriend } from '@/api/friends';
 
-import { useCombain } from '@/hooks/useCombain';
+import { useCombain } from '@/hooks/use-combain';
 
 import { isAuthorized } from '@/lib/auth';
 import { PAGES } from '@/lib/constants';

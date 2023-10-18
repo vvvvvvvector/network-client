@@ -19,12 +19,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Avatar } from '@/components/Avatar';
+import { Avatar } from '@/components/avatar';
 
 import { signOut } from '@/api/auth';
 import { getMyUsernameAndAvatar } from '@/api/users';
 
-import { useCombain } from '@/hooks/useCombain';
+import { useCombain } from '@/hooks/use-combain';
 
 import { PAGES } from '@/lib/constants';
 

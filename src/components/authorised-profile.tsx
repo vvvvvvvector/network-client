@@ -11,9 +11,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Avatar } from '@/components/Avatar';
+import { Avatar } from '@/components/avatar';
 
-import { useCombain } from '@/hooks/useCombain';
+import { useCombain } from '@/hooks/use-combain';
 
 import { deleteAvatar, updateAvatar, uploadAvatar } from '@/api/profiles';
 

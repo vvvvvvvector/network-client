@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { signUp } from '@/api/auth';
-import { useCombain } from '@/hooks/useCombain';
+import { useCombain } from '@/hooks/use-combain';
 import { PAGES } from '@/lib/constants';
 
 import axios from 'axios';

@@ -1,7 +1,7 @@
 import { NextPageWithLayout } from '../_app';
 
-import { Main } from '@/layouts/Main';
-import { Authorized } from '@/layouts/Authorised';
+import { Main } from '@/layouts/main';
+import { Authorized } from '@/layouts/authorised';
 
 const Index: NextPageWithLayout = () => {
   return <div className='bg-background p-5 rounded-lg'>My photos</div>;

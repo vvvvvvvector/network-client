@@ -5,9 +5,9 @@ import { Check, X, Undo2 } from 'lucide-react';
 
 import { NextPageWithLayout } from '../_app';
 
-import { Authorized } from '@/layouts/Authorised';
-import { Friends } from '@/layouts/Friends';
-import { Main } from '@/layouts/Main';
+import { Authorized } from '@/layouts/authorised';
+import { Friends } from '@/layouts/friends';
+import { Main } from '@/layouts/main';
 
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from '@/components/ui/tooltip';
-import { Avatar } from '@/components/Avatar';
+import { Avatar } from '@/components/avatar';
 
 import {
   acceptFriendRequest,
@@ -32,7 +32,7 @@ import { isAuthorized } from '@/lib/auth';
 import { capitalize, cn } from '@/lib/utils';
 import { ProfileWithAvatar } from '@/lib/types';
 
-import { useCombain } from '@/hooks/useCombain';
+import { useCombain } from '@/hooks/use-combain';
 
 type GenericRequest = {
   createdAt: string;

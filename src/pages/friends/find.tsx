@@ -4,9 +4,9 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import { NextPageWithLayout } from '../_app';
 
-import { Main } from '@/layouts/Main';
-import { Authorized } from '@/layouts/Authorised';
-import { Friends } from '@/layouts/Friends';
+import { Main } from '@/layouts/main';
+import { Authorized } from '@/layouts/authorised';
+import { Friends } from '@/layouts/friends';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -17,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from '@/components/ui/tooltip';
-import { Avatar } from '@/components/Avatar';
+import { Avatar } from '@/components/avatar';
 
 import {
   Search,
@@ -29,7 +29,7 @@ import {
 
 import { getNetworkUsersUsernames, sendFriendRequest } from '@/api/friends';
 
-import { useCombain } from '@/hooks/useCombain';
+import { useCombain } from '@/hooks/use-combain';
 
 import { isAuthorized } from '@/lib/auth';
 import { ProfileWithAvatar, User } from '@/lib/types';

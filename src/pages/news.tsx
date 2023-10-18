@@ -1,7 +1,7 @@
 import { NextPageWithLayout } from './_app';
 
-import { Main } from '@/layouts/Main';
-import { Authorized } from '@/layouts/Authorised';
+import { Main } from '@/layouts/main';
+import { Authorized } from '@/layouts/authorised';
 
 const News: NextPageWithLayout = () => {
   return <div className='rounded-lg bg-background p-5'>News</div>;

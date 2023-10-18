@@ -6,8 +6,8 @@ import { NextPageWithLayout } from './_app';
 
 import { SignUpForm } from '@/components/forms/signup-form';
 
-import { Auth } from '@/layouts/Auth';
-import { Main } from '@/layouts/Main';
+import { Auth } from '@/layouts/auth';
+import { Main } from '@/layouts/main';
 
 import { axiosApiInstance } from '@/axios';
 

@@ -3,16 +3,16 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import { NextPageWithLayout } from '../_app';
 
-import { Main } from '@/layouts/Main';
-import { Authorized } from '@/layouts/Authorised';
+import { Main } from '@/layouts/main';
+import { Authorized } from '@/layouts/authorised';
 
 import { getUserPublicAvailableDataByUsername } from '@/api/users';
 
 import { isAuthorized } from '@/lib/auth';
 import { NetworkUser } from '@/lib/types';
 
-import { DefaultProfile } from '@/components/DefaultProfile';
-import { FriendProfile } from '@/components/FriendProfile';
+import { DefaultProfile } from '@/components/default-profile';
+import { FriendProfile } from '@/components/friend-profile';
 
 interface UserProfileProps {
   user: NetworkUser;

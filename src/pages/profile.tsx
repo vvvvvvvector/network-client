@@ -2,10 +2,10 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import { NextPageWithLayout } from './_app';
 
-import { Main } from '@/layouts/Main';
-import { Authorized } from '@/layouts/Authorised';
+import { Main } from '@/layouts/main';
+import { Authorized } from '@/layouts/authorised';
 
-import { AuthorisedProfile } from '@/components/AuthorisedProfile';
+import { AuthorisedProfile } from '@/components/authorised-profile';
 
 import { isAuthorized } from '@/lib/auth';
 import { AuthorisedUser } from '@/lib/types';
