@@ -11,12 +11,7 @@ import { Friends } from '@/layouts/friends';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from '@/components/ui/tooltip';
+import { Tooltip } from '@/components/tooltip';
 import { Avatar } from '@/components/avatar';
 import { Pagination } from '@/components/pagination';
 
@@ -78,6 +73,31 @@ const Find: NextPageWithLayout<Props> = ({
     };
   };
 
+  const onClickSearch = () => async () => {
+    if (searchValue) {
+      await router.push({
+        query: {
+          page: 1,
+          username: searchValue
+        }
+      });
+
+      setCurrentPage(1);
+    }
+  };
+
+  const onClickResetSearch = () => async () => {
+    await router.push({
+      query: {
+        page: 1
+      }
+    });
+
+    setCurrentPage(1);
+
+    setSearchValue('');
+  };
+
   return (
     <>
       <div className='mb-4 flex gap-2'>
@@ -90,51 +110,15 @@ const Find: NextPageWithLayout<Props> = ({
           placeholder='Search...'
         />
         {!router.query.username ? (
-          <Button
-            onClick={async () => {
-              if (searchValue) {
-                await router.push({
-                  query: {
-                    page: 1,
-                    username: searchValue
-                  }
-                });
-
-                setCurrentPage(1);
-              }
-            }}
-            size='icon'
-            className='w-14'
-          >
+          <Button onClick={onClickSearch()} size='icon' className='w-14'>
             <Search size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         ) : (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  onClick={async () => {
-                    await router.push({
-                      query: {
-                        page: 1
-                      }
-                    });
-
-                    setCurrentPage(1);
-
-                    setSearchValue('');
-                  }}
-                  size='icon'
-                  className='w-16'
-                >
-                  <SearchSlash size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Reset search</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Tooltip text='Reset search'>
+            <Button onClick={onClickResetSearch()} size='icon' className='w-14'>
+              <SearchSlash size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
+            </Button>
+          </Tooltip>
         )}
       </div>
       <Separator className='mb-4 mt-4' />
@@ -159,21 +143,14 @@ const Find: NextPageWithLayout<Props> = ({
                 </span>
               </div>
               {user.requestStatus === 'lack' ? (
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        onClick={onClickSendFriendRequest(user.username)}
-                        variant='outline'
-                      >
-                        <UserPlus size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Send a friend request</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip text='Send a friend request'>
+                  <Button
+                    onClick={onClickSendFriendRequest(user.username)}
+                    variant='outline'
+                  >
+                    <UserPlus size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
+                  </Button>
+                </Tooltip>
               ) : (
                 <span>{REQUEST_INFO[user.requestStatus]}</span>
               )}
@@ -185,13 +162,12 @@ const Find: NextPageWithLayout<Props> = ({
           Your search returned no results.
         </span>
       )}
-      {users.length > 0 && totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalPages={totalPages}
-        />
-      )}
+      <Pagination
+        display={users.length > 0 && totalPages > 1}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+      />
     </>
   );
 };

@@ -11,12 +11,7 @@ import { Main } from '@/layouts/main';
 
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from '@/components/ui/tooltip';
+import { Tooltip } from '@/components/tooltip';
 import { Avatar } from '@/components/avatar';
 
 import {
@@ -35,22 +30,19 @@ import { FRIENDS_ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
 import { useCombain } from '@/hooks/use-combain';
 
-type GenericRequest = {
-  createdAt: string;
+type Generalized = {
   user: {
     username: string;
   } & ProfileWithAvatar;
 };
 
 type Sender = {
-  createdAt: string;
   sender: {
     username: string;
   } & ProfileWithAvatar;
 };
 
 type Receiver = {
-  createdAt: string;
   receiver: {
     username: string;
   } & ProfileWithAvatar;
@@ -78,63 +70,35 @@ const BUTTONS: Record<
   incoming: ({ onClicks }) => {
     return (
       <div className='flex gap-3'>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button onClick={onClicks[0]} variant='outline'>
-                <Check size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Accept friend request</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button onClick={onClicks[1]} variant='outline'>
-                <X size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Reject friend request</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Tooltip text='Accept friend request'>
+          <Button onClick={onClicks[0]} variant='outline'>
+            <Check size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
+          </Button>
+        </Tooltip>
+        <Tooltip text='Reject friend request'>
+          <Button onClick={onClicks[1]} variant='outline'>
+            <X size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
+          </Button>
+        </Tooltip>
       </div>
     );
   },
   outgoing: ({ onClicks }) => {
     return (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button onClick={onClicks[0]} variant='outline'>
-              <Undo2 size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Cancel request</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Tooltip text='Cancel request'>
+        <Button onClick={onClicks[0]} variant='outline'>
+          <Undo2 size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
+        </Button>
+      </Tooltip>
     );
   },
   rejected: ({ onClicks }) => {
     return (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button onClick={onClicks[0]} variant='outline'>
-              <Check size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Add to friends</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Tooltip text='Add to friends'>
+        <Button onClick={onClicks[0]} variant='outline'>
+          <Check size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
+        </Button>
+      </Tooltip>
     );
   }
 };
@@ -144,7 +108,7 @@ const List = ({
   data
 }: {
   type: RequestsTypes;
-  data: Array<GenericRequest>;
+  data: Array<Generalized>;
 }) => {
   const { router, toast } = useCombain();
 
@@ -271,7 +235,32 @@ const List = ({
 };
 
 const Requests: NextPageWithLayout<Props> = ({ requests }) => {
-  const [list, setList] = useState<RequestsTypes>('incoming');
+  const [requestsListType, setRequestsListType] =
+    useState<RequestsTypes>('incoming');
+
+  const generalize = (input: Array<Sender> | Array<Receiver>) => {
+    return input.map((req) => {
+      let username = '';
+      let avatar: string | undefined = '';
+
+      if ('sender' in req) {
+        username = req.sender.username;
+        avatar = req.sender.profile?.avatar;
+      } else {
+        username = req.receiver.username;
+        avatar = req.receiver.profile?.avatar;
+      }
+
+      return {
+        user: {
+          username,
+          profile: {
+            avatar
+          }
+        }
+      };
+    });
+  };
 
   return (
     <>
@@ -280,10 +269,13 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
           {lis.map((li) => (
             <li
               key={li}
-              onClick={() => setList(li)}
+              onClick={() => setRequestsListType(li)}
               className={cn(
                 'cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-gray-50 dark:hover:bg-neutral-900',
-                { 'bg-gray-50 font-semibold dark:bg-neutral-900': list === li }
+                {
+                  'bg-gray-50 font-semibold dark:bg-neutral-900':
+                    requestsListType === li
+                }
               )}
             >
               {`${capitalize(li)} [${requests[li].length}]`}
@@ -293,31 +285,8 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
       </div>
       <Separator className='mb-4 mt-4' />
       <List
-        type={list}
-        data={requests[list].map((i) => {
-          const { createdAt, ...rest } = i;
-
-          let username = '';
-          let avatar: string | undefined = '';
-
-          if ('sender' in rest) {
-            username = rest.sender.username;
-            avatar = rest.sender.profile?.avatar;
-          } else {
-            username = rest.receiver.username;
-            avatar = rest.receiver.profile?.avatar;
-          }
-
-          return {
-            ...i,
-            user: {
-              username,
-              profile: {
-                avatar
-              }
-            }
-          };
-        })}
+        type={requestsListType}
+        data={generalize(requests[requestsListType])}
       />
     </>
   );

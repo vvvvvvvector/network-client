@@ -27,6 +27,7 @@ import { useCombain } from '@/hooks/use-combain';
 import { isAuthorized } from '@/lib/auth';
 import { FRIENDS_ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 import { ProfileWithAvatar, User } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 interface Props {
   users: (User & ProfileWithAvatar)[];
@@ -35,17 +36,33 @@ interface Props {
 const Index: NextPageWithLayout<Props> = ({ users }) => {
   const { router, toast } = useCombain();
 
+  const onClickUnfriend = (username: string) => async () => {
+    await unfriend(username);
+
+    toast({
+      description: `${username} was successfully deleted from your friends list.`
+    });
+
+    router.replace(router.asPath, undefined, {
+      scroll: false
+    });
+  };
+
   return (
     <>
       <div className='flex items-center justify-between text-sm'>
         <ul className='flex gap-7'>
           <li
-            className={`cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-gray-50 dark:hover:bg-neutral-900`}
+            className={cn(
+              `cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-gray-50 dark:hover:bg-neutral-900`
+            )}
           >
             {`All friends [${users.length}]`}
           </li>
           <li
-            className={` cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-gray-50 dark:hover:bg-neutral-900`}
+            className={cn(
+              `cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-gray-50 dark:hover:bg-neutral-900`
+            )}
           >
             {`Online [${0}]`}
           </li>
@@ -101,19 +118,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem
-                      onClick={async () => {
-                        await unfriend(user.username);
-
-                        toast({
-                          description: `${user.username} was successfully deleted from your friends list.`
-                        });
-
-                        router.replace(router.asPath, undefined, {
-                          scroll: false
-                        });
-                      }}
-                    >
+                    <DropdownMenuItem onClick={onClickUnfriend(user.username)}>
                       <UserMinus className='mr-2 h-4 w-4' />
                       <span>Unfriend</span>
                     </DropdownMenuItem>
@@ -124,7 +129,9 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
           ))}
         </ul>
       ) : (
-        <span className='text-center'>You don't have any friends yet.</span>
+        <span className='mb-7 mt-7 text-center'>
+          You don't have any friends yet.
+        </span>
       )}
     </>
   );

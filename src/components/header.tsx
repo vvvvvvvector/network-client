@@ -111,7 +111,7 @@ const Header = () => {
                   <ChevronDown size={16} />
                 </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className='w-56'>
+              <DropdownMenuContent className='w-52'>
                 <DropdownMenuLabel>
                   <div className='flex gap-2'>
                     <span>Profile: </span>

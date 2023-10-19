@@ -5,12 +5,18 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface Props {
+  display: boolean;
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   totalPages: number;
 }
 
-const Pagination: FC<Props> = ({ totalPages, currentPage, setCurrentPage }) => {
+const Pagination: FC<Props> = ({
+  display,
+  totalPages,
+  currentPage,
+  setCurrentPage
+}) => {
   const router = useRouter();
 
   useEffect(() => {
@@ -37,6 +43,8 @@ const Pagination: FC<Props> = ({ totalPages, currentPage, setCurrentPage }) => {
   const onClickNextPage = () => {
     if (totalPages > currentPage) setCurrentPage((prev) => prev + 1);
   };
+
+  if (!display) return null;
 
   return (
     <div className='mt-4 flex justify-center gap-1'>
