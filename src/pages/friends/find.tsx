@@ -173,7 +173,7 @@ const Find: NextPageWithLayout<Props> = ({
 };
 
 Find.getLayout = (page) => (
-  <Main title='Friends'>
+  <Main title='Friends / Find'>
     <Authorized>
       <Friends>{page}</Friends>
     </Authorized>

@@ -1,11 +1,11 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from 'tailwindcss';
+
+export default {
   darkMode: ['class'],
   content: [
     './src/pages/**/*.{ts,tsx}',
     './src/layouts/**/*.{ts,tsx}',
-    './src/components/**/*.{ts,tsx}',
-    './src/app/**/*.{ts,tsx}'
+    './src/components/**/*.{ts,tsx}'
   ],
   theme: {
     container: {
@@ -17,6 +17,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        authorised: 'hsl(var(--authorised-background))',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -58,12 +59,12 @@ module.exports = {
       },
       keyframes: {
         'accordion-down': {
-          from: { height: 0 },
+          from: { height: '0' },
           to: { height: 'var(--radix-accordion-content-height)' }
         },
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: 0 }
+          to: { height: '0' }
         }
       },
       animation: {
@@ -73,4 +74,4 @@ module.exports = {
     }
   },
   plugins: [require('tailwindcss-animate')]
-};
+} satisfies Config;

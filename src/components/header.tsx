@@ -7,7 +7,7 @@ import {
   Network,
   Sun,
   MoonStar,
-  Monitor,
+  Monitor
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
@@ -17,7 +17,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Avatar } from '@/components/avatar';
 
@@ -26,23 +26,21 @@ import { getMyUsernameAndAvatar } from '@/api/users';
 
 import { useCombain } from '@/hooks/use-combain';
 
-import { PAGES } from '@/lib/constants';
-
-const menuIconConfig = 'mr-2 h-4 w-4';
+import { DROPDOWN_MENU_ICON_STYLES, PAGES } from '@/lib/constants';
 
 const ThemeMenu = [
   {
     text: 'Light',
-    icon: <Sun className={menuIconConfig} />,
+    icon: <Sun className={DROPDOWN_MENU_ICON_STYLES} />
   },
   {
     text: 'Dark',
-    icon: <MoonStar className={menuIconConfig} />,
+    icon: <MoonStar className={DROPDOWN_MENU_ICON_STYLES} />
   },
   {
     text: 'System',
-    icon: <Monitor className={menuIconConfig} />,
-  },
+    icon: <Monitor className={DROPDOWN_MENU_ICON_STYLES} />
+  }
 ] as const;
 
 const whatActiveTheme = (theme?: string) => {
@@ -64,7 +62,7 @@ const Header = () => {
   const { theme, setTheme } = useTheme();
 
   const [themeMenu, setThemeMenu] = useState<(typeof ThemeMenu)[number]>(
-    whatActiveTheme(theme),
+    whatActiveTheme(theme)
   );
 
   const { router, toast } = useCombain();
@@ -78,7 +76,7 @@ const Header = () => {
     signOut();
 
     toast({
-      description: 'You have successfully signed out.',
+      description: 'You have successfully signed out.'
     });
 
     router.push(PAGES.SIGN_IN);
@@ -102,7 +100,7 @@ const Header = () => {
               <DropdownMenuTrigger asChild>
                 <div
                   onClick={() => setOpen(true)}
-                  className='flex h-full w-[100px] cursor-pointer items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-neutral-900'
+                  className='flex h-full w-[100px] cursor-pointer items-center justify-center gap-2 transition-[background-color] hover:bg-accent'
                 >
                   <Avatar
                     username={data?.username || '?'}
@@ -111,7 +109,7 @@ const Header = () => {
                   <ChevronDown size={16} />
                 </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className='w-52'>
+              <DropdownMenuContent align='center' className='w-52'>
                 <DropdownMenuLabel>
                   <div className='flex gap-2'>
                     <span>Profile: </span>
@@ -129,7 +127,7 @@ const Header = () => {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <Settings className={menuIconConfig} />
+                  <Settings className={DROPDOWN_MENU_ICON_STYLES} />
                   <span>Settings</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -163,7 +161,7 @@ const Header = () => {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={onClickSignOut}>
-                  <LogOut className={menuIconConfig} />
+                  <LogOut className={DROPDOWN_MENU_ICON_STYLES} />
                   <span>Sign out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

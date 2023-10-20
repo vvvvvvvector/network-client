@@ -19,7 +19,7 @@ import { PAGES } from '@/lib/constants';
 export const Auth: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
 
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
 
   return (
     <>

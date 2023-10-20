@@ -271,10 +271,9 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
               key={li}
               onClick={() => setRequestsListType(li)}
               className={cn(
-                'cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-gray-50 dark:hover:bg-neutral-900',
+                'cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] transition-[background-color] hover:bg-accent',
                 {
-                  'bg-gray-50 font-semibold dark:bg-neutral-900':
-                    requestsListType === li
+                  'bg-accent': requestsListType === li
                 }
               )}
             >
@@ -293,7 +292,7 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
 };
 
 Requests.getLayout = (page) => (
-  <Main title='Friend Requests'>
+  <Main title='Friends / Requests'>
     <Authorized>
       <Friends>{page}</Friends>
     </Authorized>

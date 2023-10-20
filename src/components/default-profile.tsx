@@ -12,6 +12,8 @@ import { Avatar } from '@/components/avatar';
 
 import { NetworkUserProfileProps } from '@/pages/[username]';
 
+import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
+
 export const DefaultProfile: FC<NetworkUserProfileProps> = (user) => {
   return (
     <div className='rounded-lg bg-background p-5'>
@@ -31,11 +33,11 @@ export const DefaultProfile: FC<NetworkUserProfileProps> = (user) => {
                   (location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${user?.profile?.avatar}`)
                 }
               >
-                <Image className='mr-2 h-4 w-4' />
+                <Image className={DROPDOWN_MENU_ICON_STYLES} />
                 <span>Open photo</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Heart className='mr-2 h-4 w-4' />
+                <Heart className={DROPDOWN_MENU_ICON_STYLES} />
                 <span>Like photo</span>
               </DropdownMenuItem>
             </DropdownMenuContent>

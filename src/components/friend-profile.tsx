@@ -7,11 +7,13 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Avatar } from '@/components/avatar';
+
+import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 
 export const FriendProfile: FC<NetworkUserProfileProps> = (user) => {
   return (
@@ -32,11 +34,11 @@ export const FriendProfile: FC<NetworkUserProfileProps> = (user) => {
                   (location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${user?.profile?.avatar}`)
                 }
               >
-                <Image className='mr-2 h-4 w-4' />
+                <Image className={DROPDOWN_MENU_ICON_STYLES} />
                 <span>Open photo</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Heart className='mr-2 h-4 w-4' />
+                <Heart className={DROPDOWN_MENU_ICON_STYLES} />
                 <span>Like photo</span>
               </DropdownMenuItem>
             </DropdownMenuContent>

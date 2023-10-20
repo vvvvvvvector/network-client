@@ -11,12 +11,12 @@ const avatarVariants = cva('', {
     size: {
       small: 'h-10 w-10',
       medium: 'w-[4.5rem] h-[4.5rem]',
-      large: 'w-36 h-36',
-    },
+      large: 'w-36 h-36'
+    }
   },
   defaultVariants: {
-    size: 'small',
-  },
+    size: 'small'
+  }
 });
 
 interface AvatarProps extends VariantProps<typeof avatarVariants> {

@@ -9,7 +9,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Avatar } from '@/components/avatar';
 
@@ -18,6 +18,7 @@ import { useCombain } from '@/hooks/use-combain';
 import { deleteAvatar, updateAvatar, uploadAvatar } from '@/api/profiles';
 
 import { AuthorisedUser } from '@/lib/types';
+import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 
 export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
   const [open, setOpen] = useState(false);
@@ -36,7 +37,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
         mutate('/users/me/username-avatar');
 
         toast({
-          description: 'An avatar was successfully updated.',
+          description: 'An avatar was successfully updated.'
         });
 
         e.target.value = '';
@@ -48,7 +49,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
         if (axios.isAxiosError(error)) {
           toast({
             variant: 'destructive',
-            description: `${error.response?.data.message}`,
+            description: `${error.response?.data.message}`
           });
         }
       }
@@ -65,7 +66,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
         mutate('/users/me/username-avatar');
 
         toast({
-          description: 'An avatar was successfully uploaded.',
+          description: 'An avatar was successfully uploaded.'
         });
 
         e.target.value = '';
@@ -77,7 +78,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
         if (axios.isAxiosError(error)) {
           toast({
             variant: 'destructive',
-            description: `${error.response?.data.message}`,
+            description: `${error.response?.data.message}`
           });
         }
       }
@@ -92,7 +93,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
         mutate('/users/me/username-avatar');
 
         toast({
-          description: 'An avatar was successfully deleted.',
+          description: 'An avatar was successfully deleted.'
         });
 
         router.replace(router.asPath, undefined, { scroll: false });
@@ -100,7 +101,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
         if (axios.isAxiosError(error)) {
           toast({
             variant: 'destructive',
-            description: `${error.response?.data.message}`,
+            description: `${error.response?.data.message}`
           });
         }
       }
@@ -125,7 +126,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
                   (location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${me?.profile?.avatar}`)
                 }
               >
-                <Image className='mr-2 h-4 w-4' />
+                <Image className={DROPDOWN_MENU_ICON_STYLES} />
                 <span>Open photo</span>
               </DropdownMenuItem>
             )}
@@ -146,12 +147,12 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
               >
                 {me.profile?.avatar ? (
                   <>
-                    <Pencil className='mr-2 h-4 w-4' />
+                    <Pencil className={DROPDOWN_MENU_ICON_STYLES} />
                     <span>Update photo</span>
                   </>
                 ) : (
                   <>
-                    <Upload className='mr-2 h-4 w-4' />
+                    <Upload className={DROPDOWN_MENU_ICON_STYLES} />
                     <span>Upload photo</span>
                   </>
                 )}
@@ -159,7 +160,10 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
             </DropdownMenuItem>
             {me.profile?.avatar && (
               <DropdownMenuItem onClick={onAvatarDelete()}>
-                <Trash2 color='hsl(0 84.2% 60.2%)' className='mr-2 h-4 w-4' />
+                <Trash2
+                  color='hsl(0 84.2% 60.2%)'
+                  className={DROPDOWN_MENU_ICON_STYLES}
+                />
                 <span>Delete photo</span>
               </DropdownMenuItem>
             )}

@@ -25,7 +25,11 @@ import { getMyFriends, unfriend } from '@/api/friends';
 import { useCombain } from '@/hooks/use-combain';
 
 import { isAuthorized } from '@/lib/auth';
-import { FRIENDS_ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
+import {
+  DROPDOWN_MENU_ICON_STYLES,
+  FRIENDS_ICON_INSIDE_BUTTON_SIZE,
+  PAGES
+} from '@/lib/constants';
 import { ProfileWithAvatar, User } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
@@ -48,37 +52,43 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
     });
   };
 
+  const onClickFindFriends = () => {
+    router.push({
+      pathname: PAGES.FRIENDS_FIND,
+      query: {
+        page: 1
+      }
+    });
+  };
+
+  const onClickWriteMessage = (username: string) => () => {
+    router.push(PAGES.MESSENGER);
+  };
+
+  const onClickGoToProfile = (username: string) => {
+    router.push(`/${username}`);
+  };
+
   return (
     <>
       <div className='flex items-center justify-between text-sm'>
         <ul className='flex gap-7'>
           <li
             className={cn(
-              `cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-gray-50 dark:hover:bg-neutral-900`
+              `cursor-pointer rounded bg-accent p-2 px-[1rem] py-[0.5rem] hover:bg-accent`
             )}
           >
             {`All friends [${users.length}]`}
           </li>
           <li
             className={cn(
-              `cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-gray-50 dark:hover:bg-neutral-900`
+              `cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-accent`
             )}
           >
             {`Online [${0}]`}
           </li>
         </ul>
-        <Button
-          onClick={() =>
-            router.push({
-              pathname: PAGES.FRIENDS_FIND,
-              query: {
-                page: 1
-              }
-            })
-          }
-        >
-          Find friends
-        </Button>
+        <Button onClick={onClickFindFriends}>Find friends</Button>
       </div>
       <Separator className='mb-4 mt-4' />
       {users.length > 0 ? (
@@ -95,7 +105,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
                   avatar={user.profile?.avatar}
                 />
                 <span
-                  onClick={() => router.push(`/${user.username}`)}
+                  onClick={() => onClickGoToProfile(user.username)}
                   className='cursor-pointer hover:underline'
                 >
                   {user.username}
@@ -110,16 +120,16 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
                     <DropdownMenuItem
-                      onClick={() => router.push(PAGES.MESSENGER)}
+                      onClick={onClickWriteMessage(user.username)}
                     >
-                      <MessagesSquare className='mr-2 h-4 w-4' />
+                      <MessagesSquare className={DROPDOWN_MENU_ICON_STYLES} />
                       <span>Write message</span>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <DropdownMenuItem onClick={onClickUnfriend(user.username)}>
-                      <UserMinus className='mr-2 h-4 w-4' />
+                      <UserMinus className={DROPDOWN_MENU_ICON_STYLES} />
                       <span>Unfriend</span>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
@@ -138,7 +148,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
 };
 
 Index.getLayout = (page) => (
-  <Main title='Friends'>
+  <Main title='Authorised / My Friends'>
     <Authorized>
       <Friends>{page}</Friends>
     </Authorized>
