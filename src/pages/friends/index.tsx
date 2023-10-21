@@ -20,9 +20,11 @@ import { Avatar } from '@/components/avatar';
 
 import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 
-import { getMyFriends, unfriend } from '@/api/friends';
+import { getMyFriends } from '@/api/friends';
 
 import { useCombain } from '@/hooks/use-combain';
+import { useFriendsActions } from '@/hooks/use-friends-actions';
+import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { isAuthorized } from '@/lib/auth';
 import {
@@ -38,19 +40,11 @@ interface Props {
 }
 
 const Index: NextPageWithLayout<Props> = ({ users }) => {
-  const { router, toast } = useCombain();
+  const { router } = useCombain();
 
-  const onClickUnfriend = (username: string) => async () => {
-    await unfriend(username);
+  const { unfriend } = useFriendsActions();
 
-    toast({
-      description: `${username} was successfully deleted from your friends list.`
-    });
-
-    router.replace(router.asPath, undefined, {
-      scroll: false
-    });
-  };
+  const { goToProfile, writeMessage } = useCommonActions();
 
   const onClickFindFriends = () => {
     router.push({
@@ -59,14 +53,6 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
         page: 1
       }
     });
-  };
-
-  const onClickWriteMessage = (username: string) => () => {
-    router.push(PAGES.MESSENGER);
-  };
-
-  const onClickGoToProfile = (username: string) => {
-    router.push(`/${username}`);
   };
 
   return (
@@ -105,7 +91,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
                   avatar={user.profile?.avatar}
                 />
                 <span
-                  onClick={() => onClickGoToProfile(user.username)}
+                  onClick={goToProfile(user.username)}
                   className='cursor-pointer hover:underline'
                 >
                   {user.username}
@@ -119,16 +105,14 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
-                    <DropdownMenuItem
-                      onClick={onClickWriteMessage(user.username)}
-                    >
+                    <DropdownMenuItem onClick={writeMessage(user.username)}>
                       <MessagesSquare className={DROPDOWN_MENU_ICON_STYLES} />
                       <span>Write message</span>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem onClick={onClickUnfriend(user.username)}>
+                    <DropdownMenuItem onClick={unfriend(user.username)}>
                       <UserMinus className={DROPDOWN_MENU_ICON_STYLES} />
                       <span>Unfriend</span>
                     </DropdownMenuItem>

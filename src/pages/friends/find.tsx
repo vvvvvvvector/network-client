@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import { NextPageWithLayout } from '../_app';
@@ -17,9 +16,11 @@ import { Pagination } from '@/components/pagination';
 
 import { Search, UserPlus, SearchSlash } from 'lucide-react';
 
-import { getNetworkUsersUsernames, sendFriendRequest } from '@/api/friends';
+import { getNetworkUsersUsernames } from '@/api/friends';
 
 import { useCombain } from '@/hooks/use-combain';
+import { useFriendsActions } from '@/hooks/use-friends-actions';
+import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { isAuthorized } from '@/lib/auth';
 import { ProfileWithAvatar, User } from '@/lib/types';
@@ -44,34 +45,14 @@ const Find: NextPageWithLayout<Props> = ({
   totalPages,
   limitPerPage
 }) => {
-  const { router, toast } = useCombain();
+  const { router } = useCombain();
+
+  const { send } = useFriendsActions();
+  const { goToProfile } = useCommonActions();
 
   const [searchValue, setSearchValue] = useState('');
 
   const [currentPage, setCurrentPage] = useState(1);
-
-  const onClickSendFriendRequest = (username: string) => {
-    return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      e.stopPropagation();
-
-      try {
-        await sendFriendRequest(username);
-
-        toast({
-          description: 'Friend request was successfully sent.'
-        });
-
-        router.replace(router.asPath, undefined, { scroll: false });
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
-        }
-      }
-    };
-  };
 
   const onClickSearch = () => async () => {
     if (searchValue) {
@@ -136,7 +117,7 @@ const Find: NextPageWithLayout<Props> = ({
                   avatar={user.profile?.avatar}
                 />
                 <span
-                  onClick={() => router.push(`/${user.username}`)}
+                  onClick={goToProfile(user.username)}
                   className='cursor-pointer hover:underline'
                 >
                   {user.username}
@@ -144,10 +125,7 @@ const Find: NextPageWithLayout<Props> = ({
               </div>
               {user.requestStatus === 'lack' ? (
                 <Tooltip text='Send a friend request'>
-                  <Button
-                    onClick={onClickSendFriendRequest(user.username)}
-                    variant='outline'
-                  >
+                  <Button onClick={send(user.username)} variant='outline'>
                     <UserPlus size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
                   </Button>
                 </Tooltip>

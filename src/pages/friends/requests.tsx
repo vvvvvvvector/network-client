@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { Check, X, Undo2 } from 'lucide-react';
@@ -15,12 +14,9 @@ import { Tooltip } from '@/components/tooltip';
 import { Avatar } from '@/components/avatar';
 
 import {
-  acceptFriendRequest,
   getIncomingFriendRequests,
   getOutgoingFriendRequests,
-  getRejectedFriendRequests,
-  rejectFriendRequest,
-  cancelFriendRequest
+  getRejectedFriendRequests
 } from '@/api/friends';
 
 import { isAuthorized } from '@/lib/auth';
@@ -28,7 +24,8 @@ import { capitalize, cn } from '@/lib/utils';
 import { ProfileWithAvatar } from '@/lib/types';
 import { FRIENDS_ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
-import { useCombain } from '@/hooks/use-combain';
+import { useFriendsActions } from '@/hooks/use-friends-actions';
+import { useCommonActions } from '@/hooks/use-common-actions';
 
 type Generalized = {
   user: {
@@ -110,89 +107,19 @@ const List = ({
   type: RequestsTypes;
   data: Array<Generalized>;
 }) => {
-  const { router, toast } = useCombain();
+  const { accept, reject, cancel } = useFriendsActions();
 
-  const onClickAcceptFriendRequest = (username: string) => {
-    return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      e.stopPropagation();
-
-      try {
-        await acceptFriendRequest(username);
-
-        toast({
-          description: 'Friend request was successfully accepted.'
-        });
-
-        router.replace(router.asPath, undefined, { scroll: false });
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
-        }
-      }
-    };
-  };
-
-  const onClickRejectFriendRequest = (username: string) => {
-    return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      e.stopPropagation();
-
-      try {
-        await rejectFriendRequest(username);
-
-        toast({
-          description: 'Friend request was successfully rejected.'
-        });
-
-        router.replace(router.asPath, undefined, { scroll: false });
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
-        }
-      }
-    };
-  };
-
-  const onClickCancelRequest = (username: string) => {
-    return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      e.stopPropagation();
-
-      try {
-        await cancelFriendRequest(username);
-
-        toast({
-          description: 'Friend request was successfully canceled.'
-        });
-
-        router.replace(router.asPath, undefined, { scroll: false });
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
-        }
-      }
-    };
-  };
+  const { goToProfile } = useCommonActions();
 
   const ON_CLICKS = (type: RequestsTypes) => {
     return (username: string) => {
       switch (type) {
         case 'incoming':
-          return [
-            onClickAcceptFriendRequest(username),
-            onClickRejectFriendRequest(username)
-          ];
+          return [accept(username), reject(username)];
         case 'outgoing':
-          return [onClickCancelRequest(username)];
+          return [cancel(username)];
         case 'rejected':
-          return [onClickAcceptFriendRequest(username)];
+          return [accept(username)];
       }
     };
   };
@@ -213,7 +140,7 @@ const List = ({
                   avatar={request.user.profile?.avatar}
                 />
                 <span
-                  onClick={() => router.push(`/${request.user.username}`)}
+                  onClick={goToProfile(request.user.username)}
                   className='cursor-pointer hover:underline'
                 >
                   {request.user.username}
