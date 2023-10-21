@@ -9,14 +9,21 @@ import {
 
 interface Props {
   text: string;
+  side?: 'top' | 'bottom' | 'left' | 'right';
+  align?: 'start' | 'center' | 'end';
 }
 
-const Tooltip: FC<PropsWithChildren<Props>> = ({ children, text }) => {
+const Tooltip: FC<PropsWithChildren<Props>> = ({
+  side = 'top',
+  align = 'center',
+  children,
+  text
+}) => {
   return (
     <TooltipProvider>
       <ShadcnTooltip>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent side={side} align={align}>
           <p>{text}</p>
         </TooltipContent>
       </ShadcnTooltip>

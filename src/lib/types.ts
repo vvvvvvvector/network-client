@@ -1,5 +1,12 @@
+export type FriendRequestStatus =
+  | 'friend'
+  | 'pending:sender'
+  | 'pending:receiver'
+  | 'rejected:sender'
+  | 'none';
+
 export interface NetworkUser extends NetworkUserProfile, Contacts, User {
-  isFriend: boolean;
+  friendRequestStatus: FriendRequestStatus;
 }
 
 export interface AuthorisedUser extends AuthorisedUserProfile, Contacts, User {}

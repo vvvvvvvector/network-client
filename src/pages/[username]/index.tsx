@@ -1,7 +1,6 @@
-import { FC } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from '@/pages/_app';
 
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
@@ -14,19 +13,11 @@ import { NetworkUser } from '@/lib/types';
 import { DefaultProfile } from '@/components/default-profile';
 import { FriendProfile } from '@/components/friend-profile';
 
-interface UserProfileProps {
+export interface UserProfileProps {
   user: NetworkUser;
 }
 
-type ProfileType = 'friend' | 'default';
-
-export interface NetworkUserProfileProps
-  extends Omit<UserProfileProps['user'], 'isFriend'> {}
-
-const PROFILE: Record<ProfileType, FC<NetworkUserProfileProps>> = {
-  friend: FriendProfile,
-  default: DefaultProfile
-};
+// type ProfileType = 'friend' | 'default';
 
 const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
   if (!user) {
@@ -37,15 +28,9 @@ const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
     );
   }
 
-  const isFriend = user.isFriend ? 'friend' : 'default';
+  if (user.friendRequestStatus === 'friend') return <FriendProfile {...user} />;
 
-  const Profile = PROFILE[isFriend];
-
-  return Profile({
-    username: user.username,
-    profile: user.profile,
-    contacts: user.contacts
-  });
+  return <DefaultProfile {...user} />;
 };
 
 Index.getLayout = (page) => (

@@ -29,8 +29,10 @@ export const useFriendsActions = () => {
     revalidate();
   };
 
-  const onClickAcceptFriendRequest = (username: string) => {
-    return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onClickAcceptFriendRequest = <T = HTMLButtonElement>(
+    username: string
+  ) => {
+    return async (e: React.MouseEvent<T, MouseEvent>) => {
       e.stopPropagation();
 
       try {
@@ -52,8 +54,10 @@ export const useFriendsActions = () => {
     };
   };
 
-  const onClickRejectFriendRequest = (username: string) => {
-    return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onClickRejectFriendRequest = <T = HTMLButtonElement>(
+    username: string
+  ) => {
+    return async (e: React.MouseEvent<T, MouseEvent>) => {
       e.stopPropagation();
 
       try {
@@ -75,8 +79,8 @@ export const useFriendsActions = () => {
     };
   };
 
-  const onClickCancelRequest = (username: string) => {
-    return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onClickCancelRequest = <T = HTMLButtonElement>(username: string) => {
+    return async (e: React.MouseEvent<T, MouseEvent>) => {
       e.stopPropagation();
 
       try {
@@ -98,8 +102,10 @@ export const useFriendsActions = () => {
     };
   };
 
-  const onClickSendFriendRequest = (username: string) => {
-    return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onClickSendFriendRequest = <T = HTMLButtonElement>(
+    username: string
+  ) => {
+    return async (e: React.MouseEvent<T, MouseEvent>) => {
       e.stopPropagation();
 
       try {

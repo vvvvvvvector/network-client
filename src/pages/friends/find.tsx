@@ -24,7 +24,7 @@ import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { isAuthorized } from '@/lib/auth';
 import { ProfileWithAvatar, User } from '@/lib/types';
-import { FRIENDS_ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
+import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
 type RequestStatus = 'rejected' | 'accepted' | 'pending' | 'lack';
 
@@ -92,12 +92,12 @@ const Find: NextPageWithLayout<Props> = ({
         />
         {!router.query.username ? (
           <Button onClick={onClickSearch()} size='icon' className='w-14'>
-            <Search size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
+            <Search size={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         ) : (
           <Tooltip text='Reset search'>
             <Button onClick={onClickResetSearch()} size='icon' className='w-14'>
-              <SearchSlash size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
+              <SearchSlash size={ICON_INSIDE_BUTTON_SIZE} />
             </Button>
           </Tooltip>
         )}
@@ -126,7 +126,7 @@ const Find: NextPageWithLayout<Props> = ({
               {user.requestStatus === 'lack' ? (
                 <Tooltip text='Send a friend request'>
                   <Button onClick={send(user.username)} variant='outline'>
-                    <UserPlus size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
+                    <UserPlus size={ICON_INSIDE_BUTTON_SIZE} />
                   </Button>
                 </Tooltip>
               ) : (

@@ -11,7 +11,6 @@ import { Separator } from '@/components/ui/separator';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger
@@ -29,7 +28,7 @@ import { useCommonActions } from '@/hooks/use-common-actions';
 import { isAuthorized } from '@/lib/auth';
 import {
   DROPDOWN_MENU_ICON_STYLES,
-  FRIENDS_ICON_INSIDE_BUTTON_SIZE,
+  ICON_INSIDE_BUTTON_SIZE,
   PAGES
 } from '@/lib/constants';
 import { ProfileWithAvatar, User } from '@/lib/types';
@@ -100,23 +99,19 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant='ghost' size='icon'>
-                    <MoreHorizontal size={FRIENDS_ICON_INSIDE_BUTTON_SIZE} />
+                    <MoreHorizontal size={ICON_INSIDE_BUTTON_SIZE} />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem onClick={writeMessage(user.username)}>
-                      <MessagesSquare className={DROPDOWN_MENU_ICON_STYLES} />
-                      <span>Write message</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
+                  <DropdownMenuItem onClick={writeMessage(user.username)}>
+                    <MessagesSquare className={DROPDOWN_MENU_ICON_STYLES} />
+                    <span>Write message</span>
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem onClick={unfriend(user.username)}>
-                      <UserMinus className={DROPDOWN_MENU_ICON_STYLES} />
-                      <span>Unfriend</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
+                  <DropdownMenuItem onClick={unfriend(user.username)}>
+                    <UserMinus className={DROPDOWN_MENU_ICON_STYLES} />
+                    <span>Unfriend</span>
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </li>
