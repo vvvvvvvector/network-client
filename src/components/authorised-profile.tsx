@@ -1,7 +1,5 @@
 import { FC } from 'react';
-import { useSWRConfig } from 'swr';
-import { ChangeEvent, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { Pencil, Trash2, Upload, Image } from 'lucide-react';
 
 import { Separator } from '@/components/ui/separator';
@@ -13,9 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar } from '@/components/avatar';
 
-import { useCombain } from '@/hooks/use-combain';
-
-import { deleteAvatar, updateAvatar, uploadAvatar } from '@/api/profiles';
+import { useAvatarActions } from '@/hooks/use-avatar-actions';
 
 import { AuthorisedUser } from '@/lib/types';
 import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
@@ -23,89 +19,11 @@ import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
   const [open, setOpen] = useState(false);
 
-  const { toast, router } = useCombain();
+  const { updateAvatar, uploadAvatar, deleteAvatar } =
+    useAvatarActions(setOpen);
 
-  const { mutate } = useSWRConfig();
-
-  const onAvatarUpdate = () => {
-    return async (e: ChangeEvent<HTMLInputElement>) => {
-      try {
-        if (e.target.files instanceof FileList) {
-          await updateAvatar(e.target.files[0]);
-        }
-
-        mutate('/users/me/username-avatar');
-
-        toast({
-          description: 'An avatar was successfully updated.'
-        });
-
-        e.target.value = '';
-
-        router.replace(router.asPath, undefined, { scroll: false });
-
-        setOpen(false);
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
-        }
-      }
-    };
-  };
-
-  const onAvatarUpload = () => {
-    return async (e: ChangeEvent<HTMLInputElement>) => {
-      try {
-        if (e.target.files instanceof FileList) {
-          await uploadAvatar(e.target.files[0]);
-        }
-
-        mutate('/users/me/username-avatar');
-
-        toast({
-          description: 'An avatar was successfully uploaded.'
-        });
-
-        e.target.value = '';
-
-        router.replace(router.asPath, undefined, { scroll: false });
-
-        setOpen(false);
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
-        }
-      }
-    };
-  };
-
-  const onAvatarDelete = () => {
-    return async () => {
-      try {
-        await deleteAvatar();
-
-        mutate('/users/me/username-avatar');
-
-        toast({
-          description: 'An avatar was successfully deleted.'
-        });
-
-        router.replace(router.asPath, undefined, { scroll: false });
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
-        }
-      }
-    };
+  const onClickOpenPhoto = () => {
+    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${me?.profile?.avatar}`;
   };
 
   return (
@@ -121,20 +39,14 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {me.profile?.avatar && (
-              <DropdownMenuItem
-                onClick={() =>
-                  (location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${me?.profile?.avatar}`)
-                }
-              >
+              <DropdownMenuItem onClick={onClickOpenPhoto}>
                 <Image className={DROPDOWN_MENU_ICON_STYLES} />
                 <span>Open photo</span>
               </DropdownMenuItem>
             )}
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               <input
-                onChange={
-                  me.profile?.avatar ? onAvatarUpdate() : onAvatarUpload()
-                }
+                onChange={me.profile?.avatar ? updateAvatar() : uploadAvatar()}
                 id='avatar'
                 type='file'
                 accept='image/jpeg, image/png, image/jpg'
@@ -159,7 +71,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
               </label>
             </DropdownMenuItem>
             {me.profile?.avatar && (
-              <DropdownMenuItem onClick={onAvatarDelete()}>
+              <DropdownMenuItem onClick={deleteAvatar()}>
                 <Trash2
                   color='hsl(0 84.2% 60.2%)'
                   className={DROPDOWN_MENU_ICON_STYLES}
