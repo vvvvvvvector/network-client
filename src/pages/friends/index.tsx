@@ -1,6 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from '@/pages/_app';
 
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';

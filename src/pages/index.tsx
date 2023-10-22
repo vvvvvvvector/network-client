@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import nookies from 'nookies';
 
-import { NextPageWithLayout } from './_app';
+import { NextPageWithLayout } from '@/pages/_app';
 
 import { SignInForm } from '@/components/forms/signin-form';
 

@@ -28,13 +28,27 @@ const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
     );
   }
 
-  if (user.friendRequestStatus === 'friend') return <FriendProfile {...user} />;
+  if (user.friendRequestStatus === 'friend')
+    return (
+      <FriendProfile
+        username={user.username}
+        profile={user.profile}
+        contacts={user.contacts}
+      />
+    );
 
-  return <DefaultProfile {...user} />;
+  return (
+    <DefaultProfile
+      friendRequestStatus={user.friendRequestStatus}
+      username={user.username}
+      profile={user.profile}
+      contacts={user.contacts}
+    />
+  );
 };
 
 Index.getLayout = (page) => (
-  <Main title='Network user profile'>
+  <Main title={`User / ${page.props.children[1].props.user.username}`}>
     <Authorized>{page}</Authorized>
   </Main>
 );

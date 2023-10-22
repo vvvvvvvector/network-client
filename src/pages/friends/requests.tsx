@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { Check, X, Undo2 } from 'lucide-react';
 
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from '@/pages/_app';
 
 import { Authorized } from '@/layouts/authorised';
 import { Friends } from '@/layouts/friends';
