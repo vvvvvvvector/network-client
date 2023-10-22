@@ -52,6 +52,9 @@ export default {
           foreground: 'hsl(var(--card-foreground))'
         }
       },
+      maxWidth: {
+        authorised: 'var(--authorised-width)'
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

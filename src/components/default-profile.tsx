@@ -35,13 +35,10 @@ import { FriendRequestStatus } from '@/lib/types';
 const BUTTONS: Record<
   Exclude<FriendRequestStatus, 'friend'>,
   React.FC<{
-    onClicks:
-      | Array<
-          (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>
-        >
-      | Array<
-          (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => Promise<void>
-        >;
+    onClicks: Array<
+      | ((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>)
+      | ((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => Promise<void>)
+    >;
   }>
 > = {
   none: ({ onClicks }) => (
@@ -77,7 +74,7 @@ const BUTTONS: Record<
   'pending:sender': ({ onClicks }) => (
     <>
       <Badge className='absolute -right-0 -top-0'>
-        User have sent you a friend request
+        User have sent you a friend request!
       </Badge>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -143,8 +140,6 @@ export const DefaultProfile: FC<
       }
     };
   };
-
-  console.log(user.friendRequestStatus);
 
   return (
     <div className='rounded-lg bg-background p-5'>

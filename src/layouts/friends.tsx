@@ -13,7 +13,7 @@ export const Friends: FC<PropsWithChildren> = ({ children }) => {
   const onClickFriendRequestsTab = () => router.push(PAGES.FRIENDS_REQUESTS);
 
   return (
-    <div className='grid grid-cols-[600px_minmax(0,1fr)] gap-5'>
+    <div className='grid grid-cols-[650px_minmax(0,1fr)] gap-5'>
       <div className='flex flex-col rounded-lg bg-background p-5'>
         {children}
       </div>

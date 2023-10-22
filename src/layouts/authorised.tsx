@@ -48,7 +48,7 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
     <div className='flex min-h-screen flex-col'>
       <Header />
       <div className='bg-authorised flex flex-1 justify-center'>
-        <div className='mb-5 mt-5 w-full max-w-[1150px] px-10'>
+        <div className='max-w-authorised mb-5 mt-5 w-full px-5'>
           <div className='grid grid-cols-[175px_minmax(0,1fr)] gap-5'>
             <ul className='flex flex-col gap-5'>
               {lis.map((li) => (
