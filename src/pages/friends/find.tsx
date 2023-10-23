@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { Search, UserPlus, SearchSlash } from 'lucide-react';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
@@ -13,8 +14,6 @@ import { Input } from '@/components/ui/input';
 import { Tooltip } from '@/components/tooltip';
 import { Avatar } from '@/components/avatar';
 import { Pagination } from '@/components/pagination';
-
-import { Search, UserPlus, SearchSlash } from 'lucide-react';
 
 import { getNetworkUsersUsernames } from '@/api/friends';
 

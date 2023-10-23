@@ -1,4 +1,5 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
@@ -16,8 +17,6 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Avatar } from '@/components/avatar';
-
-import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 
 import { getMyFriends } from '@/api/friends';
 
