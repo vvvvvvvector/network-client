@@ -23,7 +23,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip } from '@/components/tooltip';
 
-import { useFriendsActions } from '@/hooks/use-friends-actions';
+import { useRequestsActions } from '@/hooks/use-requests-actions';
 
 import {
   DROPDOWN_MENU_ICON_STYLES,
@@ -121,7 +121,7 @@ export const DefaultProfile: FC<
     friendRequestStatus: Exclude<FriendRequestStatus, 'friend'>;
   }
 > = (user) => {
-  const { send, cancel, accept, reject } = useFriendsActions();
+  const { send, cancel, accept, reject } = useRequestsActions();
 
   const ON_CLICKS = (type: Exclude<FriendRequestStatus, 'friend'>) => {
     return (username: string) => {

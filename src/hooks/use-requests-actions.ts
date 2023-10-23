@@ -10,7 +10,7 @@ import {
   sendFriendRequest
 } from '@/api/friends';
 
-export const useFriendsActions = () => {
+export const useRequestsActions = () => {
   const { router, toast } = useCombain();
 
   const revalidate = () => {

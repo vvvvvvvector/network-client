@@ -15,9 +15,12 @@ import { Avatar } from '@/components/avatar';
 import { Button } from '@/components/ui/button';
 import { Tooltip } from '@/components/tooltip';
 
-import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
+import {
+  DROPDOWN_MENU_ICON_STYLES,
+  ICON_INSIDE_BUTTON_SIZE
+} from '@/lib/constants';
 
-import { useFriendsActions } from '@/hooks/use-friends-actions';
+import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 export const FriendProfile: FC<
@@ -25,7 +28,7 @@ export const FriendProfile: FC<
 > = (user) => {
   const { writeMessage } = useCommonActions();
 
-  const { unfriend } = useFriendsActions();
+  const { unfriend } = useRequestsActions();
 
   return (
     <div className='rounded-lg bg-background p-5'>
@@ -67,7 +70,7 @@ export const FriendProfile: FC<
               variant='outline'
               size='icon'
             >
-              <UserCheck size={17} />
+              <UserCheck size={ICON_INSIDE_BUTTON_SIZE} />
             </Button>
           </Tooltip>
         </div>

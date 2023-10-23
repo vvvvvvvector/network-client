@@ -22,7 +22,7 @@ import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 import { getMyFriends } from '@/api/friends';
 
 import { useCombain } from '@/hooks/use-combain';
-import { useFriendsActions } from '@/hooks/use-friends-actions';
+import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { isAuthorized } from '@/lib/auth';
@@ -41,7 +41,7 @@ interface Props {
 const Index: NextPageWithLayout<Props> = ({ users }) => {
   const { router } = useCombain();
 
-  const { unfriend } = useFriendsActions();
+  const { unfriend } = useRequestsActions();
 
   const { goToProfile, writeMessage } = useCommonActions();
 

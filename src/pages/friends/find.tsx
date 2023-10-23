@@ -19,7 +19,7 @@ import { Search, UserPlus, SearchSlash } from 'lucide-react';
 import { getNetworkUsersUsernames } from '@/api/friends';
 
 import { useCombain } from '@/hooks/use-combain';
-import { useFriendsActions } from '@/hooks/use-friends-actions';
+import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { isAuthorized } from '@/lib/auth';
@@ -47,7 +47,7 @@ const Find: NextPageWithLayout<Props> = ({
 }) => {
   const { router } = useCombain();
 
-  const { send } = useFriendsActions();
+  const { send } = useRequestsActions();
   const { goToProfile } = useCommonActions();
 
   const [searchValue, setSearchValue] = useState('');

@@ -24,7 +24,7 @@ import { capitalize, cn } from '@/lib/utils';
 import { ProfileWithAvatar } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
-import { useFriendsActions } from '@/hooks/use-friends-actions';
+import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 type Generalized = {
@@ -107,7 +107,7 @@ const List = ({
   type: RequestsTypes;
   data: Array<Generalized>;
 }) => {
-  const { accept, reject, cancel } = useFriendsActions();
+  const { accept, reject, cancel } = useRequestsActions();
 
   const { goToProfile } = useCommonActions();
 
