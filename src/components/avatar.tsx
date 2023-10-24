@@ -22,11 +22,17 @@ const avatarVariants = cva('', {
 interface AvatarProps extends VariantProps<typeof avatarVariants> {
   username: string;
   avatar?: string;
+  className?: string;
 }
 
-export const Avatar: FC<AvatarProps> = ({ size, username, avatar }) => {
+export const Avatar: FC<AvatarProps> = ({
+  size,
+  username,
+  avatar,
+  className
+}) => {
   return (
-    <A className={cn(avatarVariants({ size }))}>
+    <A className={cn(avatarVariants({ size }), className)}>
       <AvatarImage src={avatarSource(avatar)} />
       <AvatarFallback>{username[0]?.toLocaleUpperCase()}</AvatarFallback>
     </A>

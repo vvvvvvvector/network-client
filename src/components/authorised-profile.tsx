@@ -15,6 +15,7 @@ import { useAvatarActions } from '@/hooks/use-avatar-actions';
 
 import { AuthorisedUser } from '@/lib/types';
 import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
+import { formatDate } from '@/lib/utils';
 
 export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
   const [open, setOpen] = useState(false);
@@ -86,7 +87,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
       <Separator className='mb-4 mt-4' />
       <ul className='flex flex-col gap-5'>
         <li>{`is profile activated: ${me.profile.isActivated}`}</li>
-        <li>{`profile created at: ${new Date(me.profile.createdAt)}`}</li>
+        <li>{`joined on: ${formatDate(me.profile.createdAt)}`}</li>
         <li>{`email: ${me.contacts.email.contact}`}</li>
         <li>{`is email public: ${
           me.contacts.email.isPublic ? 'True' : 'False'

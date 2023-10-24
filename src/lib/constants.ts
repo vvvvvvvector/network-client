@@ -6,6 +6,7 @@ export const PAGES = {
   SIGN_IN: '/',
   SIGN_UP: '/signup',
   MESSENGER: '/messenger',
+  MESSENGER_CHAT: '/messenger/chat',
   NEWS: '/news',
   PROFILE: '/profile',
   FRIENDS_ALL: '/friends',

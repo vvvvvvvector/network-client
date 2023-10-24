@@ -19,6 +19,7 @@ import {
   DROPDOWN_MENU_ICON_STYLES,
   ICON_INSIDE_BUTTON_SIZE
 } from '@/lib/constants';
+import { formatDate } from '@/lib/utils';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
@@ -78,7 +79,7 @@ export const FriendProfile: FC<
       <Separator className='mb-4 mt-4' />
       <ul className='flex flex-col gap-5'>
         <li>{`is profile activated: ${user.profile.isActivated}`}</li>
-        <li>{`profile created at: ${new Date(user.profile.createdAt)}`}</li>
+        <li>{`joined on: ${formatDate(user.profile.createdAt)}`}</li>
         <li>{`email: ${
           user.contacts.email.isPublic ? user.contacts.email.contact : 'private'
         }`}</li>
