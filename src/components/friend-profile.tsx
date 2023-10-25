@@ -31,6 +31,10 @@ export const FriendProfile: FC<
 
   const { unfriend } = useRequestsActions();
 
+  const onClickOpenPhoto = () => {
+    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${user.profile.avatar}`;
+  };
+
   return (
     <div className='rounded-lg bg-background p-5'>
       <div className='relative flex items-center justify-between'>
@@ -40,16 +44,12 @@ export const FriendProfile: FC<
               <Avatar
                 size='large'
                 username={user.username}
-                avatar={user.profile?.avatar}
+                avatar={user.profile.avatar}
               />
             </DropdownMenuTrigger>
-            {user.profile?.avatar && (
+            {user.profile.avatar && (
               <DropdownMenuContent>
-                <DropdownMenuItem
-                  onClick={() =>
-                    (location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${user?.profile?.avatar}`)
-                  }
-                >
+                <DropdownMenuItem onClick={onClickOpenPhoto}>
                   <Image className={DROPDOWN_MENU_ICON_STYLES} />
                   <span>Open photo</span>
                 </DropdownMenuItem>

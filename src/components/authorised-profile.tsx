@@ -24,7 +24,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
     useAvatarActions(setOpen);
 
   const onClickOpenPhoto = () => {
-    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${me?.profile?.avatar}`;
+    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${me.profile.avatar}`;
   };
 
   return (
@@ -35,11 +35,11 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
             <Avatar
               size='large'
               username={me.username}
-              avatar={me.profile?.avatar}
+              avatar={me.profile.avatar}
             />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {me.profile?.avatar && (
+            {me.profile.avatar && (
               <DropdownMenuItem onClick={onClickOpenPhoto}>
                 <Image className={DROPDOWN_MENU_ICON_STYLES} />
                 <span>Open photo</span>
@@ -47,7 +47,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
             )}
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               <input
-                onChange={me.profile?.avatar ? updateAvatar() : uploadAvatar()}
+                onChange={me.profile.avatar ? updateAvatar() : uploadAvatar()}
                 id='avatar'
                 type='file'
                 accept='image/jpeg, image/png, image/jpg'
@@ -58,7 +58,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
                 htmlFor='avatar'
                 className='flex cursor-pointer items-center'
               >
-                {me.profile?.avatar ? (
+                {me.profile.avatar ? (
                   <>
                     <Pencil className={DROPDOWN_MENU_ICON_STYLES} />
                     <span>Update photo</span>
@@ -71,7 +71,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
                 )}
               </label>
             </DropdownMenuItem>
-            {me.profile?.avatar && (
+            {me.profile.avatar && (
               <DropdownMenuItem onClick={deleteAvatar()}>
                 <Trash2
                   color='hsl(0 84.2% 60.2%)'

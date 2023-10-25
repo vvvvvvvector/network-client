@@ -9,7 +9,7 @@ export function capitalize(str: string) {
   return str[0].toUpperCase() + str.substring(1);
 }
 
-export function avatarSource(avatar?: string) {
+export function avatarSource(avatar: string | null) {
   if (avatar)
     return `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${avatar}`;
 }

@@ -1,13 +1,6 @@
 import { FC, PropsWithChildren } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-  MessageCircle,
-  Users,
-  User,
-  Newspaper,
-  AlertOctagon,
-  Image
-} from 'lucide-react';
+import { MessageCircle, Users, User, Newspaper, Image } from 'lucide-react';
 
 import { Header } from '@/components/header';
 
@@ -28,7 +21,8 @@ const icon = (type: (typeof lis)[number], size: number) => {
     case 'photos':
       return <Image size={size} />;
     default:
-      return <AlertOctagon size={size} />;
+      const _: never = type;
+      throw 'Not all cases are covered';
   }
 };
 

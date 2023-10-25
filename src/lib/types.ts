@@ -16,7 +16,7 @@ export interface User {
 }
 
 interface Avatar {
-  avatar?: string;
+  avatar: string | null;
 }
 
 interface Profile extends Avatar {

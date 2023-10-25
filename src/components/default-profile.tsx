@@ -137,8 +137,15 @@ export const DefaultProfile: FC<
           ];
         case 'rejected:sender':
           return [accept(username)];
+        default:
+          const _: never = type;
+          throw 'Not all cases are covered';
       }
     };
+  };
+
+  const onClickOpenPhoto = () => {
+    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${user.profile.avatar}`;
   };
 
   return (
@@ -150,16 +157,12 @@ export const DefaultProfile: FC<
               <Avatar
                 size='large'
                 username={user.username}
-                avatar={user.profile?.avatar}
+                avatar={user.profile.avatar}
               />
             </DropdownMenuTrigger>
-            {user.profile?.avatar && (
+            {user.profile.avatar && (
               <DropdownMenuContent>
-                <DropdownMenuItem
-                  onClick={() =>
-                    (location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${user?.profile?.avatar}`)
-                  }
-                >
+                <DropdownMenuItem onClick={onClickOpenPhoto}>
                   <Image className={DROPDOWN_MENU_ICON_STYLES} />
                   <span>Open photo</span>
                 </DropdownMenuItem>

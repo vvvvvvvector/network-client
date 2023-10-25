@@ -43,7 +43,7 @@ const ThemeMenu = [
   }
 ] as const;
 
-const whatActiveTheme = (theme?: string) => {
+const whatActiveTheme = (theme: string | undefined) => {
   switch (theme) {
     case 'light':
       return ThemeMenu[0];
@@ -103,8 +103,8 @@ const Header = () => {
                   className='flex h-full w-[100px] cursor-pointer items-center justify-center gap-2 transition-[background-color] hover:bg-accent'
                 >
                   <Avatar
-                    username={data?.username || '?'}
-                    avatar={data?.avatar}
+                    username={data?.username || 'Unknown'}
+                    avatar={data?.avatar || null}
                   />
                   <ChevronDown size={16} />
                 </div>
@@ -121,7 +121,7 @@ const Header = () => {
                       }}
                       className='cursor-pointer hover:underline'
                     >
-                      {data?.username}
+                      {data?.username || 'Unknown'}
                     </span>
                   </div>
                 </DropdownMenuLabel>

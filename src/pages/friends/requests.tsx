@@ -168,7 +168,7 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
   const generalize = (input: Array<Sender> | Array<Receiver>) => {
     return input.map((req) => {
       let username = '';
-      let avatar: string | undefined = '';
+      let avatar: string | null = null;
 
       if ('sender' in req) {
         username = req.sender.username;
