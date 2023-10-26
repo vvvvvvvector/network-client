@@ -10,7 +10,7 @@ import { AuthorisedProfile } from '@/components/authorised-profile';
 import { isAuthorized } from '@/lib/auth';
 import { AuthorisedUser } from '@/lib/types';
 
-import { getMyData } from '@/api/users';
+import { getAuthorizedUserData } from '@/api/users';
 
 interface AuthorisedUserProps {
   me: AuthorisedUser;
@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (
 
     if (res && 'redirect' in res) return res;
 
-    const me = await getMyData();
+    const me = await getAuthorizedUserData();
 
     return {
       props: {

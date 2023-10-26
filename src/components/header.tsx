@@ -22,7 +22,7 @@ import {
 import { Avatar } from '@/components/avatar';
 
 import { signOut } from '@/api/auth';
-import { getMyUsernameAndAvatar } from '@/api/users';
+import { getAuthorizedUserUsernameAndAvatar } from '@/api/users';
 
 import { useCombain } from '@/hooks/use-combain';
 
@@ -69,8 +69,8 @@ const Header = () => {
 
   const { data, error } = useSWR<{
     username: string;
-    avatar?: string;
-  }>('/users/me/username-avatar', getMyUsernameAndAvatar);
+    avatar: string | null;
+  }>('/users/me/username-avatar', getAuthorizedUserUsernameAndAvatar);
 
   const onClickSignOut = () => {
     signOut();
@@ -84,7 +84,7 @@ const Header = () => {
 
   return (
     <header className='sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-muted bg-background'>
-      <div className='max-w-authorised flex h-14 w-full items-center px-5'>
+      <div className='flex h-14 w-full max-w-authorised items-center px-5'>
         <ul className='flex h-full w-full items-center justify-between'>
           <li>
             <div

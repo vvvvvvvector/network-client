@@ -4,29 +4,7 @@ import { User, ProfileWithAvatar } from '@/lib/types';
 
 import { RequestStatus } from '@/pages/friends/find';
 
-const unfriend = async (username: string) => {
-  await axiosApiInstance.patch('/friend-requests/unfriend', { username });
-};
-
-const sendFriendRequest = async (username: string) => {
-  await axiosApiInstance.post('/friend-requests/create', { username });
-};
-
-const acceptFriendRequest = async (username: string) => {
-  await axiosApiInstance.patch('/friend-requests/accept', { username });
-};
-
-const rejectFriendRequest = async (username: string) => {
-  await axiosApiInstance.patch('/friend-requests/reject', { username });
-};
-
-const cancelFriendRequest = async (username: string) => {
-  await axiosApiInstance.delete('/friend-requests/cancel', {
-    data: {
-      username
-    }
-  });
-};
+// vvv ------------------data------------------ vvv
 
 const getMyFriends = async () => {
   const { data } = await axiosApiInstance.get<(User & ProfileWithAvatar)[]>(
@@ -73,6 +51,36 @@ const getNetworkUsersUsernames = async (page: string, username: string) => {
 
   return data;
 };
+
+// ^^^ ------------------data------------------ ^^^
+
+// vvv ------------------actions------------------ vvv
+
+const unfriend = async (username: string) => {
+  await axiosApiInstance.patch('/friend-requests/unfriend', { username });
+};
+
+const sendFriendRequest = async (username: string) => {
+  await axiosApiInstance.post('/friend-requests/create', { username });
+};
+
+const acceptFriendRequest = async (username: string) => {
+  await axiosApiInstance.patch('/friend-requests/accept', { username });
+};
+
+const rejectFriendRequest = async (username: string) => {
+  await axiosApiInstance.patch('/friend-requests/reject', { username });
+};
+
+const cancelFriendRequest = async (username: string) => {
+  await axiosApiInstance.delete('/friend-requests/cancel', {
+    data: {
+      username
+    }
+  });
+};
+
+// ^^^ ------------------actions------------------ ^^^
 
 export {
   sendFriendRequest,

@@ -4,10 +4,11 @@ import nookies from 'nookies';
 import { axiosApiInstance } from '@/axios';
 
 import { getAuthorizedUserUsername } from '@/api/users';
-import { PAGES } from '@/lib/constants';
+
+import { PAGES, TOKEN } from '@/lib/constants';
 
 export const isAuthorized = async (ctx: GetServerSidePropsContext) => {
-  const { token } = nookies.get(ctx); // get token from the request
+  const token = nookies.get(ctx)[TOKEN]; // get token from the request
 
   axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`; // set cookie / token on the server
 

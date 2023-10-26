@@ -2,28 +2,10 @@ import { destroyCookie } from 'nookies';
 
 import { axiosApiInstance } from '@/axios';
 
-type SignInForm = {
-  username: string;
-  password: string;
-};
+import { TOKEN } from '@/lib/constants';
 
-type SignUpForm = SignInForm & {
-  email: string;
-};
-
-type SignInResponse = {
-  token: string;
-};
-
-type SignUpResponse = {
-  message: string;
-  statusCode: number;
-  receiver: string;
-  link: string;
-};
-
-const signIn = async (values: SignInForm): Promise<SignInResponse> => {
-  const { data } = await axiosApiInstance.post<SignInResponse>(
+const signIn = async (values: { username: string; password: string }) => {
+  const { data } = await axiosApiInstance.post<{ token: string }>(
     '/auth/signin',
     values
   );
@@ -31,17 +13,23 @@ const signIn = async (values: SignInForm): Promise<SignInResponse> => {
   return data;
 };
 
-const signUp = async (values: SignUpForm): Promise<SignUpResponse> => {
-  const { data } = await axiosApiInstance.post<SignUpResponse>(
-    '/auth/signup',
-    values
-  );
+const signUp = async (values: {
+  username: string;
+  password: string;
+  email: string;
+}) => {
+  const { data } = await axiosApiInstance.post<{
+    message: string;
+    statusCode: number;
+    receiver: string;
+    link: string;
+  }>('/auth/signup', values);
 
   return data;
 };
 
 const signOut = () => {
-  destroyCookie(null, 'token', {
+  destroyCookie(null, TOKEN, {
     path: '/'
   });
 };

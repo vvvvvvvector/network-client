@@ -3,7 +3,6 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { setCookie } from 'nookies';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/ui/button';
@@ -21,7 +20,7 @@ import { signIn } from '@/api/auth';
 
 import { useCombain } from '@/hooks/use-combain';
 
-import { PAGES } from '@/lib/constants';
+import { PAGES, TOKEN } from '@/lib/constants';
 
 const formSchema = z.object({
   username: z.string().nonempty({ message: 'Username is required' }),
@@ -49,7 +48,7 @@ export function SignInForm() {
 
       setLoading(false);
 
-      setCookie(null, 'token', token, {
+      setCookie(null, TOKEN, token, {
         path: '/'
       });
 

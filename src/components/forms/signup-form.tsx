@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { z } from 'zod';
-
-import { zodResolver } from '@hookform/resolvers/zod';
-
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -17,10 +16,10 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { signUp } from '@/api/auth';
-import { useCombain } from '@/hooks/use-combain';
-import { PAGES } from '@/lib/constants';
 
-import axios from 'axios';
+import { useCombain } from '@/hooks/use-combain';
+
+import { PAGES } from '@/lib/constants';
 
 const formSchema = z.object({
   email: z

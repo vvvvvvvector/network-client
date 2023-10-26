@@ -5,7 +5,7 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
 
-import { getUserPublicAvailableDataByUsername } from '@/api/users';
+import { getNetworkUserPublicAvailableData } from '@/api/users';
 
 import { isAuthorized } from '@/lib/auth';
 import { NetworkUser } from '@/lib/types';
@@ -61,7 +61,7 @@ export const getServerSideProps: GetServerSideProps = async (
 
     if (res && 'redirect' in res) return res;
 
-    const user = await getUserPublicAvailableDataByUsername(
+    const user = await getNetworkUserPublicAvailableData(
       ctx.query.username as string
     );
 
