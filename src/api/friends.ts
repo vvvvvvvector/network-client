@@ -1,5 +1,9 @@
 import { axiosApiInstance } from '@/axios';
 
+import { User, ProfileWithAvatar } from '@/lib/types';
+
+import { RequestStatus } from '@/pages/friends/find';
+
 const unfriend = async (username: string) => {
   await axiosApiInstance.patch('/friend-requests/unfriend', { username });
 };
@@ -25,31 +29,43 @@ const cancelFriendRequest = async (username: string) => {
 };
 
 const getMyFriends = async () => {
-  const { data } = await axiosApiInstance.get('/friend-requests/accepted');
+  const { data } = await axiosApiInstance.get<(User & ProfileWithAvatar)[]>(
+    '/friend-requests/accepted'
+  );
 
   return data;
 };
 
 const getOutgoingFriendRequests = async () => {
-  const { data } = await axiosApiInstance.get('/friend-requests/sent');
+  const { data } = await axiosApiInstance.get<
+    { receiver: User & ProfileWithAvatar }[]
+  >('/friend-requests/sent');
 
   return data;
 };
 
 const getIncomingFriendRequests = async () => {
-  const { data } = await axiosApiInstance.get('/friend-requests/incoming');
+  const { data } = await axiosApiInstance.get<
+    { sender: User & ProfileWithAvatar }[]
+  >('/friend-requests/incoming');
 
   return data;
 };
 
 const getRejectedFriendRequests = async () => {
-  const { data } = await axiosApiInstance.get('/friend-requests/rejected');
+  const { data } = await axiosApiInstance.get<
+    { sender: User & ProfileWithAvatar }[]
+  >('/friend-requests/rejected');
 
   return data;
 };
 
 const getNetworkUsersUsernames = async (page: string, username: string) => {
-  const { data } = await axiosApiInstance.get(
+  const { data } = await axiosApiInstance.get<{
+    limit: number;
+    pages: number;
+    users: (User & ProfileWithAvatar & { requestStatus: RequestStatus })[];
+  }>(
     `/friend-requests/find?page=${page}${
       username ? `&username=${username}` : ''
     }`

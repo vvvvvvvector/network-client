@@ -21,18 +21,26 @@ const Pagination: FC<Props> = ({
 
   useEffect(() => {
     if (router.query.username) {
-      router.push({
-        query: {
-          page: currentPage,
-          username: router.query.username
-        }
-      });
+      router.push(
+        {
+          query: {
+            page: currentPage,
+            username: router.query.username
+          }
+        },
+        undefined,
+        { scroll: false }
+      );
     } else {
-      router.push({
-        query: {
-          page: currentPage
-        }
-      });
+      router.push(
+        {
+          query: {
+            page: currentPage
+          }
+        },
+        undefined,
+        { scroll: false }
+      );
     }
   }, [currentPage]);
 

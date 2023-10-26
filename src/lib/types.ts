@@ -15,7 +15,7 @@ export interface User {
   username: string;
 }
 
-interface Avatar {
+export interface Avatar {
   avatar: string | null;
 }
 

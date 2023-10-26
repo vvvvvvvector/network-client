@@ -20,13 +20,22 @@ export const useRequestsActions = () => {
   };
 
   const onClickUnfriend = (username: string) => async () => {
-    await unfriend(username);
+    try {
+      await unfriend(username);
 
-    toast({
-      description: `${username} was successfully deleted from your friends list.`
-    });
+      toast({
+        description: `${username} was successfully deleted from your friends list.`
+      });
 
-    revalidate();
+      revalidate();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast({
+          variant: 'destructive',
+          description: `${error.response?.data.message}`
+        });
+      }
+    }
   };
 
   const onClickAcceptFriendRequest = <T = HTMLButtonElement>(

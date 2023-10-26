@@ -25,7 +25,7 @@ import { isAuthorized } from '@/lib/auth';
 import { ProfileWithAvatar, User } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
-type RequestStatus = 'rejected' | 'accepted' | 'pending' | 'lack';
+export type RequestStatus = 'rejected' | 'accepted' | 'pending' | 'lack';
 
 interface Props {
   users: (User & ProfileWithAvatar & { requestStatus: RequestStatus })[];
@@ -55,23 +55,31 @@ const Find: NextPageWithLayout<Props> = ({
 
   const onClickSearch = () => async () => {
     if (searchValue) {
-      await router.push({
-        query: {
-          page: 1,
-          username: searchValue
-        }
-      });
+      await router.push(
+        {
+          query: {
+            page: 1,
+            username: searchValue
+          }
+        },
+        undefined,
+        { scroll: false }
+      );
 
       setCurrentPage(1);
     }
   };
 
   const onClickResetSearch = () => async () => {
-    await router.push({
-      query: {
-        page: 1
-      }
-    });
+    await router.push(
+      {
+        query: {
+          page: 1
+        }
+      },
+      undefined,
+      { scroll: false }
+    );
 
     setCurrentPage(1);
 

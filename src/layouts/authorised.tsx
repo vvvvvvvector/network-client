@@ -6,9 +6,9 @@ import { Header } from '@/components/header';
 
 import { capitalize } from '@/lib/utils';
 
-const lis = ['profile', 'news', 'messenger', 'friends', 'photos'] as const;
+const pages = ['profile', 'news', 'messenger', 'friends', 'photos'] as const;
 
-const icon = (type: (typeof lis)[number], size: number) => {
+const icon = (type: (typeof pages)[number], size: number) => {
   switch (type) {
     case 'profile':
       return <User size={size} />;
@@ -26,7 +26,7 @@ const icon = (type: (typeof lis)[number], size: number) => {
   }
 };
 
-const menuItemName = (type: (typeof lis)[number]) => {
+const menuItemName = (type: (typeof pages)[number]) => {
   switch (type) {
     case 'profile':
       return `My ${type}`;
@@ -38,21 +38,25 @@ const menuItemName = (type: (typeof lis)[number]) => {
 export const Authorized: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
 
+  const onClickGoToPage = (page: (typeof pages)[number]) => () => {
+    router.push(`/${page}`);
+  };
+
   return (
     <div className='flex min-h-screen flex-col'>
       <Header />
-      <div className='bg-authorised flex flex-1 justify-center'>
-        <div className='max-w-authorised mb-5 mt-5 w-full px-5'>
-          <div className='grid grid-cols-[175px_minmax(0,1fr)] gap-5'>
-            <ul className='flex flex-col gap-5'>
-              {lis.map((li) => (
+      <div className='flex flex-1 justify-center bg-authorised'>
+        <div className='mb-5 mt-5 w-full max-w-authorised px-5'>
+          <div className='grid grid-cols-1 gap-5 md:grid-cols-[175px_minmax(0,1fr)]'>
+            <ul className='hidden gap-5 md:flex md:flex-col'>
+              {pages.map((page) => (
                 <li
-                  key={li}
-                  onClick={() => router.push(`/${li}`)}
+                  key={page}
+                  onClick={onClickGoToPage(page)}
                   className='flex cursor-pointer items-center gap-2 rounded p-2 text-sm transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-950'
                 >
-                  {icon(li, 20)}
-                  <span className='ml-1'>{menuItemName(li)}</span>
+                  {icon(page, 20)}
+                  <span className='ml-1'>{menuItemName(page)}</span>
                 </li>
               ))}
             </ul>
