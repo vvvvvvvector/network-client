@@ -1,6 +1,12 @@
 import { FC, PropsWithChildren } from 'react';
 import { useRouter } from 'next/navigation';
-import { MessageCircle, Users, User, Newspaper, Image } from 'lucide-react';
+import {
+  MessageCircle,
+  Users,
+  UserCircle,
+  Newspaper,
+  Image
+} from 'lucide-react';
 
 import { Header } from '@/components/header';
 
@@ -11,7 +17,7 @@ const pages = ['profile', 'news', 'messenger', 'friends', 'photos'] as const;
 const icon = (type: (typeof pages)[number], size: number) => {
   switch (type) {
     case 'profile':
-      return <User size={size} />;
+      return <UserCircle size={size} />;
     case 'news':
       return <Newspaper size={size} />;
     case 'messenger':

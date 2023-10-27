@@ -41,7 +41,6 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
   const { router } = useCombain();
 
   const { unfriend } = useRequestsActions();
-
   const { goToProfile, writeMessage } = useCommonActions();
 
   const onClickFindFriends = () => {

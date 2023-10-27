@@ -50,7 +50,6 @@ const Find: NextPageWithLayout<Props> = ({
   const { goToProfile } = useCommonActions();
 
   const [searchValue, setSearchValue] = useState('');
-
   const [currentPage, setCurrentPage] = useState(1);
 
   const onClickSearch = () => async () => {

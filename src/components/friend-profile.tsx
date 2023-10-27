@@ -28,7 +28,6 @@ export const FriendProfile: FC<
   Omit<UserProfileProps['user'], 'friendRequestStatus'>
 > = (user) => {
   const { writeMessage } = useCommonActions();
-
   const { unfriend } = useRequestsActions();
 
   const onClickOpenPhoto = () => {

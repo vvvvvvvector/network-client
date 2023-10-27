@@ -42,7 +42,7 @@ export function formatDate(createdAt: string) {
       case 12:
         return 'December';
       default:
-        return '';
+        return 'Error';
     }
   };
 

@@ -107,9 +107,8 @@ const List = ({
   type: RequestsTypes;
   data: Array<Generalized>;
 }) => {
-  const { accept, reject, cancel } = useRequestsActions();
-
   const { goToProfile } = useCommonActions();
+  const { accept, reject, cancel } = useRequestsActions();
 
   const ON_CLICKS = (type: RequestsTypes) => {
     return (username: string) => {

@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { setCookie } from 'nookies';
+import { Loader2 } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/ui/button';
@@ -20,7 +21,7 @@ import { signIn } from '@/api/auth';
 
 import { useCombain } from '@/hooks/use-combain';
 
-import { PAGES, TOKEN } from '@/lib/constants';
+import { ICON_INSIDE_BUTTON_SIZE, PAGES, TOKEN } from '@/lib/constants';
 
 const formSchema = z.object({
   username: z.string().nonempty({ message: 'Username is required' }),
@@ -107,7 +108,17 @@ export function SignInForm() {
           )}
         ></FormField>
         <Button type='submit' className='w-full' disabled={loading}>
-          {loading ? 'Loading...' : 'Sign In'}
+          {loading ? (
+            <div className='flex items-center gap-2'>
+              <Loader2
+                size={ICON_INSIDE_BUTTON_SIZE}
+                className='animate-spin'
+              />
+              <span>Loading...</span>
+            </div>
+          ) : (
+            'Sign In'
+          )}
         </Button>
       </form>
     </Form>

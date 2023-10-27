@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { z } from 'zod';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import { Loader2 } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/ui/button';
@@ -19,7 +20,7 @@ import { signUp } from '@/api/auth';
 
 import { useCombain } from '@/hooks/use-combain';
 
-import { PAGES } from '@/lib/constants';
+import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 
 const formSchema = z.object({
   email: z
@@ -130,7 +131,17 @@ export function SignUpForm() {
           )}
         />
         <Button type='submit' className='w-full' disabled={loading}>
-          {loading ? 'Loading...' : 'Sign Up'}
+          {loading ? (
+            <div className='flex items-center gap-2'>
+              <Loader2
+                size={ICON_INSIDE_BUTTON_SIZE}
+                className='animate-spin'
+              />
+              <span>Loading...</span>
+            </div>
+          ) : (
+            'Sign Up'
+          )}
         </Button>
       </form>
     </Form>
