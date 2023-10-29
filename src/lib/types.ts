@@ -1,4 +1,6 @@
-export type FriendRequestStatus =
+export type BaseRequestStatus = 'rejected' | 'accepted' | 'pending';
+
+export type ExtendedFriendRequestStatus =
   | 'friend'
   | 'pending:sender'
   | 'pending:receiver'
@@ -6,7 +8,7 @@ export type FriendRequestStatus =
   | 'none';
 
 export interface NetworkUser extends NetworkUserProfile, Contacts, User {
-  friendRequestStatus: FriendRequestStatus;
+  extendedFriendRequestStatus: ExtendedFriendRequestStatus;
 }
 
 export interface AuthorisedUser extends AuthorisedUserProfile, Contacts, User {}

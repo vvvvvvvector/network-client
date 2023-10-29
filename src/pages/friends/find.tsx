@@ -22,10 +22,10 @@ import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { isAuthorized } from '@/lib/auth';
-import { ProfileWithAvatar, User } from '@/lib/types';
+import { BaseRequestStatus, ProfileWithAvatar, User } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
-export type RequestStatus = 'rejected' | 'accepted' | 'pending' | 'lack';
+export type RequestStatus = BaseRequestStatus | 'none';
 
 interface Props {
   users: (User & ProfileWithAvatar & { requestStatus: RequestStatus })[];
@@ -33,7 +33,7 @@ interface Props {
   limitPerPage: number;
 }
 
-const REQUEST_INFO: Record<Exclude<RequestStatus, 'lack'>, string> = {
+const REQUEST_INFO: Record<Exclude<RequestStatus, 'none'>, string> = {
   rejected: 'Request already exists',
   accepted: 'Already friends',
   pending: 'Request already exists'
@@ -129,7 +129,7 @@ const Find: NextPageWithLayout<Props> = ({
                   {user.username}
                 </span>
               </div>
-              {user.requestStatus === 'lack' ? (
+              {user.requestStatus === 'none' ? (
                 <Tooltip text='Send a friend request'>
                   <Button onClick={send(user.username)} variant='outline'>
                     <UserPlus size={ICON_INSIDE_BUTTON_SIZE} />

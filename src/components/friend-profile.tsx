@@ -25,7 +25,7 @@ import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 export const FriendProfile: FC<
-  Omit<UserProfileProps['user'], 'friendRequestStatus'>
+  Omit<UserProfileProps['user'], 'extendedFriendRequestStatus'>
 > = (user) => {
   const { writeMessage } = useCommonActions();
   const { unfriend } = useRequestsActions();

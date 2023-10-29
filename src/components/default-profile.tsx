@@ -29,11 +29,11 @@ import {
   DROPDOWN_MENU_ICON_STYLES,
   ICON_INSIDE_BUTTON_SIZE
 } from '@/lib/constants';
-import { FriendRequestStatus } from '@/lib/types';
+import { ExtendedFriendRequestStatus } from '@/lib/types';
 import { formatDate } from '@/lib/utils';
 
 const BUTTONS: Record<
-  Exclude<FriendRequestStatus, 'friend'>,
+  Exclude<ExtendedFriendRequestStatus, 'friend'>,
   React.FC<{
     onClicks: Array<
       | ((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>)
@@ -117,13 +117,13 @@ const BUTTONS: Record<
 };
 
 export const DefaultProfile: FC<
-  Omit<UserProfileProps['user'], 'friendRequestStatus'> & {
-    friendRequestStatus: Exclude<FriendRequestStatus, 'friend'>;
+  Omit<UserProfileProps['user'], 'extendedFriendRequestStatus'> & {
+    extendedFriendRequestStatus: Exclude<ExtendedFriendRequestStatus, 'friend'>;
   }
 > = (user) => {
   const { send, cancel, accept, reject } = useRequestsActions();
 
-  const ON_CLICKS = (type: Exclude<FriendRequestStatus, 'friend'>) => {
+  const ON_CLICKS = (type: Exclude<ExtendedFriendRequestStatus, 'friend'>) => {
     return (username: string) => {
       switch (type) {
         case 'none':
@@ -175,8 +175,8 @@ export const DefaultProfile: FC<
           </DropdownMenu>
           <span className='text-2xl font-semibold'>{user.username}</span>
         </div>
-        {BUTTONS[user.friendRequestStatus]({
-          onClicks: ON_CLICKS(user.friendRequestStatus)(user.username)
+        {BUTTONS[user.extendedFriendRequestStatus]({
+          onClicks: ON_CLICKS(user.extendedFriendRequestStatus)(user.username)
         })}
       </div>
       <Separator className='mb-4 mt-4' />

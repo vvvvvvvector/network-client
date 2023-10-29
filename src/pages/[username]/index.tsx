@@ -17,8 +17,6 @@ export interface UserProfileProps {
   user: NetworkUser;
 }
 
-// type ProfileType = 'friend' | 'default';
-
 const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
   if (!user) {
     return (
@@ -28,7 +26,7 @@ const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
     );
   }
 
-  if (user.friendRequestStatus === 'friend')
+  if (user.extendedFriendRequestStatus === 'friend')
     return (
       <FriendProfile
         username={user.username}
@@ -39,7 +37,7 @@ const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
 
   return (
     <DefaultProfile
-      friendRequestStatus={user.friendRequestStatus}
+      extendedFriendRequestStatus={user.extendedFriendRequestStatus}
       username={user.username}
       profile={user.profile}
       contacts={user.contacts}
