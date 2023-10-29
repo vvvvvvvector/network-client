@@ -25,6 +25,7 @@ interface Profile extends Avatar {
   uuid: string;
   isActivated: boolean;
   createdAt: string;
+  bio: string | null;
 }
 
 type CreateProfile<T> = {

@@ -2,11 +2,16 @@ import { ChangeEvent } from 'react';
 import { useSWRConfig } from 'swr';
 import axios from 'axios';
 
-import { deleteAvatar, updateAvatar, uploadAvatar } from '@/api/profiles';
+import {
+  updateBio,
+  deleteAvatar,
+  updateAvatar,
+  uploadAvatar
+} from '@/api/profiles';
 
 import { useCombain } from '@/hooks/use-combain';
 
-export const useAvatarActions = (
+export const useProfileActions = (
   controlDropdown?: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const { toast, router } = useCombain();
@@ -92,9 +97,31 @@ export const useAvatarActions = (
     };
   };
 
+  const onUpdateBio = (bio: string) => {
+    return async () => {
+      try {
+        await updateBio(bio);
+
+        toast({
+          description: 'Bio was successfully updated.'
+        });
+
+        router.replace(router.asPath, undefined, { scroll: false });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast({
+            variant: 'destructive',
+            description: `${error.response?.data.message}`
+          });
+        }
+      }
+    };
+  };
+
   return {
     updateAvatar: onAvatarUpdate,
     uploadAvatar: onAvatarUpload,
-    deleteAvatar: onAvatarDelete
+    deleteAvatar: onAvatarDelete,
+    updateBio: onUpdateBio
   };
 };

@@ -59,7 +59,10 @@ export const FriendProfile: FC<
               </DropdownMenuContent>
             )}
           </DropdownMenu>
-          <span className='text-2xl font-semibold'>{user.username}</span>
+          <div className='relative top-3 flex flex-col'>
+            <span className='mb-4 text-2xl font-semibold'>{`${user.username}`}</span>
+            <span>{`bio: ${user.profile.bio ?? 'no bio yet'}`}</span>
+          </div>
         </div>
         <Badge className='absolute -right-0 -top-0'>{`Friend 🎉`}</Badge>
         <div className='flex items-center gap-4'>

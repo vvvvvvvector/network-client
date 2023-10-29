@@ -1,11 +1,19 @@
 import { axiosApiInstance } from '@/axios';
 
+const ROUTE = '/profiles';
+
+const updateBio = async (bio: string) => {
+  await axiosApiInstance.put(`${ROUTE}/bio`, {
+    bio
+  });
+};
+
 const uploadAvatar = async (avatar: File) => {
   const formData = new FormData();
 
   formData.append('file', avatar);
 
-  await axiosApiInstance.post('/profiles/upload-avatar', formData, {
+  await axiosApiInstance.post(`${ROUTE}/avatar`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
@@ -17,7 +25,7 @@ const updateAvatar = async (avatar: File) => {
 
   formData.append('file', avatar);
 
-  await axiosApiInstance.put('/profiles/update-avatar', formData, {
+  await axiosApiInstance.put(`${ROUTE}/avatar`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
@@ -25,7 +33,7 @@ const updateAvatar = async (avatar: File) => {
 };
 
 const deleteAvatar = async () => {
-  await axiosApiInstance.delete('/profiles/remove-avatar');
+  await axiosApiInstance.delete(`${ROUTE}/avatar`);
 };
 
-export { uploadAvatar, updateAvatar, deleteAvatar };
+export { updateBio, uploadAvatar, updateAvatar, deleteAvatar };

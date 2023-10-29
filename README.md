@@ -7,4 +7,5 @@
 ![screenshot-4](./public/screenshots/4-find-friends.png)
 ![screenshot-3](./public/screenshots/3-my-friends.png)
 ![screenshot-5](./public/screenshots/5-request-incoming.png)
-![screenshot-5](./public/screenshots/10-messenger-v0.0.1.png)
+![screenshot-10](./public/screenshots/10-messenger-v0.0.1.png)
+![screenshot-11](./public/screenshots/11-edit-bio.png)

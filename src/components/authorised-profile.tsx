@@ -9,9 +9,21 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import {
+  Dialog,
+  DialogContent,
+  DialogClose,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog';
 import { Avatar } from '@/components/avatar';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
-import { useAvatarActions } from '@/hooks/use-avatar-actions';
+import { useProfileActions } from '@/hooks/use-profile-actions';
 
 import { AuthorisedUser } from '@/lib/types';
 import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
@@ -20,8 +32,10 @@ import { formatDate } from '@/lib/utils';
 export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
   const [open, setOpen] = useState(false);
 
-  const { updateAvatar, uploadAvatar, deleteAvatar } =
-    useAvatarActions(setOpen);
+  const [bio, setBio] = useState(me.profile.bio || '');
+
+  const { updateBio, updateAvatar, uploadAvatar, deleteAvatar } =
+    useProfileActions(setOpen);
 
   const onClickOpenPhoto = () => {
     location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${me.profile.avatar}`;
@@ -82,7 +96,39 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
             )}
           </DropdownMenuContent>
         </DropdownMenu>
-        <span className='text-2xl font-semibold'>{`${me.username}`}</span>
+        <div className='relative top-3 flex flex-col'>
+          <span className='mb-4 text-2xl font-semibold'>{`${me.username}`}</span>
+          <Dialog>
+            <DialogTrigger>
+              <span className='cursor-pointer'>{`bio: ${
+                me.profile.bio ?? 'no bio yet'
+              }`}</span>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Edit bio</DialogTitle>
+                <DialogDescription>
+                  Make changes to your bio here. Click save when you're done.
+                </DialogDescription>
+              </DialogHeader>
+              <div>
+                <Input onChange={(e) => setBio(e.target.value)} value={bio} />
+              </div>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button type='button' variant='secondary'>
+                    Close
+                  </Button>
+                </DialogClose>
+                <DialogClose asChild>
+                  <Button onClick={updateBio(bio)}>
+                    {bio ? 'Save' : 'Empty bio'}
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
       <Separator className='mb-4 mt-4' />
       <ul className='flex flex-col gap-5'>

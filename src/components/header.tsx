@@ -20,6 +20,17 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Avatar } from '@/components/avatar';
+import {
+  Dialog,
+  DialogContent,
+  DialogClose,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 import { signOut } from '@/api/auth';
 import { getAuthorizedUserUsernameAndAvatar } from '@/api/users';
@@ -96,76 +107,100 @@ const Header = () => {
             </div>
           </li>
           <li className='h-full'>
-            <DropdownMenu open={open} defaultOpen={open} onOpenChange={setOpen}>
-              <DropdownMenuTrigger asChild>
-                <div
-                  onClick={() => setOpen(true)}
-                  className='flex h-full w-[100px] cursor-pointer items-center justify-center gap-2 transition-[background-color] hover:bg-accent'
-                >
-                  <Avatar
-                    username={data?.username || 'Unknown'}
-                    avatar={data?.avatar || null}
-                  />
-                  <ChevronDown size={16} />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align='center' className='w-52'>
-                <DropdownMenuLabel>
-                  <div className='flex gap-2'>
-                    <span>Profile: </span>
-                    <span
-                      onClick={() => {
-                        router.push(PAGES.PROFILE);
-
-                        setOpen(false);
-                      }}
-                      className='cursor-pointer hover:underline'
-                    >
-                      {data?.username || 'Unknown'}
-                    </span>
+            <Dialog>
+              <DropdownMenu
+                open={open}
+                defaultOpen={open}
+                onOpenChange={setOpen}
+              >
+                <DropdownMenuTrigger asChild>
+                  <div
+                    onClick={() => setOpen(true)}
+                    className='flex h-full w-[100px] cursor-pointer items-center justify-center gap-2 transition-[background-color] hover:bg-accent'
+                  >
+                    <Avatar
+                      username={data?.username || 'Unknown'}
+                      avatar={data?.avatar || null}
+                    />
+                    <ChevronDown size={16} />
                   </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Settings className={DROPDOWN_MENU_ICON_STYLES} />
-                  <span>Settings</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  {themeMenu.icon}
-                  <div className='flex flex-1 justify-between'>
-                    <span>Theme:</span>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <div className='mr-2 flex items-center'>
-                          <span>{themeMenu.text}</span>
-                        </div>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align='end'>
-                        {ThemeMenu.map((item) => (
-                          <DropdownMenuItem
-                            key={item.text}
-                            onClick={() => {
-                              setThemeMenu({ ...item });
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align='center' className='w-52'>
+                  <DropdownMenuLabel>
+                    <div className='flex gap-2'>
+                      <span>Profile: </span>
+                      <span
+                        onClick={() => {
+                          router.push(PAGES.PROFILE);
 
-                              setTheme(item.text.toLowerCase());
-                            }}
-                          >
-                            {item.icon}
-                            <span>{item.text}</span>
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={onClickSignOut}>
-                  <LogOut className={DROPDOWN_MENU_ICON_STYLES} />
-                  <span>Sign out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                          setOpen(false);
+                        }}
+                        className='cursor-pointer hover:underline'
+                      >
+                        {data?.username || 'Unknown'}
+                      </span>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <Settings className={DROPDOWN_MENU_ICON_STYLES} />
+                    <span>Settings</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    {themeMenu.icon}
+                    <div className='flex flex-1 justify-between'>
+                      <span>Theme:</span>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <div className='mr-2 flex items-center'>
+                            <span>{themeMenu.text}</span>
+                          </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align='end'>
+                          {ThemeMenu.map((item) => (
+                            <DropdownMenuItem
+                              key={item.text}
+                              onClick={() => {
+                                setThemeMenu({ ...item });
+
+                                setTheme(item.text.toLowerCase());
+                              }}
+                            >
+                              {item.icon}
+                              <span>{item.text}</span>
+                            </DropdownMenuItem>
+                          ))}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DialogTrigger className='w-full'>
+                    <DropdownMenuItem>
+                      <LogOut className={DROPDOWN_MENU_ICON_STYLES} />
+                      <span>Sign out</span>
+                    </DropdownMenuItem>
+                  </DialogTrigger>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <DialogContent className='max-w-[500px]'>
+                <DialogHeader>
+                  <DialogTitle>Please, confirm your intention</DialogTitle>
+                  <DialogDescription>
+                    Are you sure you want to sign out?
+                  </DialogDescription>
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button type='button' variant='secondary'>
+                        Close
+                      </Button>
+                    </DialogClose>
+                    <Button onClick={onClickSignOut}>Confirm</Button>
+                  </DialogFooter>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           </li>
         </ul>
       </div>
