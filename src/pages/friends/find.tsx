@@ -22,10 +22,10 @@ import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { isAuthorized } from '@/lib/auth';
-import { BaseRequestStatus, ProfileWithAvatar, User } from '@/lib/types';
+import { BaseFriendRequestStatus, ProfileWithAvatar, User } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
-export type RequestStatus = BaseRequestStatus | 'none';
+export type RequestStatus = BaseFriendRequestStatus | 'none';
 
 interface Props {
   users: (User & ProfileWithAvatar & { requestStatus: RequestStatus })[];

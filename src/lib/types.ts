@@ -1,4 +1,4 @@
-export type BaseRequestStatus = 'rejected' | 'accepted' | 'pending';
+export type BaseFriendRequestStatus = 'rejected' | 'accepted' | 'pending';
 
 export type ExtendedFriendRequestStatus =
   | 'friend'

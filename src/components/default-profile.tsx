@@ -175,7 +175,7 @@ export const DefaultProfile: FC<
           </DropdownMenu>
           <div className='relative top-3 flex flex-col'>
             <span className='mb-4 text-2xl font-semibold'>{`${user.username}`}</span>
-            <span>{`bio: ${user.profile.bio ?? 'no bio yet'}`}</span>
+            <span>{`bio: ${user.profile.bio ?? 'no bio yet 😔'}`}</span>
           </div>
         </div>
         {BUTTONS[user.extendedFriendRequestStatus]({
