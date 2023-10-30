@@ -32,7 +32,7 @@ import { formatDate } from '@/lib/utils';
 export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
   const [open, setOpen] = useState(false);
 
-  const [bio, setBio] = useState(me.profile.bio || '');
+  const [bio, setBio] = useState('');
 
   const { updateBio, updateAvatar, uploadAvatar, deleteAvatar } =
     useProfileActions(setOpen);
@@ -98,10 +98,10 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
         </DropdownMenu>
         <div className='relative top-3 flex flex-col'>
           <span className='mb-4 text-2xl font-semibold'>{`${me.username}`}</span>
-          <Dialog>
+          <Dialog onOpenChange={() => setBio(me.profile.bio || '')}>
             <DialogTrigger>
               <span className='cursor-pointer'>{`bio: ${
-                me.profile.bio ?? 'no bio yet'
+                me.profile.bio ?? 'no bio yet 😔'
               }`}</span>
             </DialogTrigger>
             <DialogContent>
