@@ -1,6 +1,6 @@
 import { axiosApiInstance } from '@/axios';
 
-import { User, ProfileWithAvatar } from '@/lib/types';
+import { User, ProfileWithAvatarWithoutLikes } from '@/lib/types';
 
 import { RequestStatus } from '@/pages/friends/find';
 
@@ -8,34 +8,28 @@ const ROUTE = '/friend-requests';
 
 // vvv ------------------data------------------ vvv
 
+type U = User & ProfileWithAvatarWithoutLikes;
+
 const getMyFriends = async () => {
-  const { data } = await axiosApiInstance.get<(User & ProfileWithAvatar)[]>(
-    `${ROUTE}/accepted`
-  );
+  const { data } = await axiosApiInstance.get<U[]>(`${ROUTE}/accepted`);
 
   return data;
 };
 
 const getOutgoingFriendRequests = async () => {
-  const { data } = await axiosApiInstance.get<
-    { receiver: User & ProfileWithAvatar }[]
-  >(`${ROUTE}/sent`);
+  const { data } = await axiosApiInstance.get<U[]>(`${ROUTE}/sent`);
 
   return data;
 };
 
 const getIncomingFriendRequests = async () => {
-  const { data } = await axiosApiInstance.get<
-    { sender: User & ProfileWithAvatar }[]
-  >(`${ROUTE}/incoming`);
+  const { data } = await axiosApiInstance.get<U[]>(`${ROUTE}/incoming`);
 
   return data;
 };
 
 const getRejectedFriendRequests = async () => {
-  const { data } = await axiosApiInstance.get<
-    { sender: User & ProfileWithAvatar }[]
-  >(`${ROUTE}/rejected`);
+  const { data } = await axiosApiInstance.get<U[]>(`${ROUTE}/rejected`);
 
   return data;
 };
@@ -44,7 +38,7 @@ const getNetworkUsersUsernames = async (page: string, username: string) => {
   const { data } = await axiosApiInstance.get<{
     limit: number;
     pages: number;
-    users: (User & ProfileWithAvatar & { requestStatus: RequestStatus })[];
+    users: (U & { requestStatus: RequestStatus })[];
   }>(`${ROUTE}/find?page=${page}${username ? `&username=${username}` : ''}`);
 
   return data;

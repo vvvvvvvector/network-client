@@ -80,7 +80,9 @@ const Header = () => {
 
   const { data, error } = useSWR<{
     username: string;
-    avatar: string | null;
+    avatar: {
+      name: string;
+    } | null;
   }>('/users/me/username-avatar', getAuthorizedUserUsernameAndAvatar);
 
   const onClickSignOut = () => {
@@ -120,7 +122,7 @@ const Header = () => {
                   >
                     <Avatar
                       username={data?.username || 'Unknown'}
-                      avatar={data?.avatar || null}
+                      avatar={data?.avatar?.name}
                     />
                     <ChevronDown size={16} />
                   </div>

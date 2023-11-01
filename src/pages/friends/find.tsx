@@ -22,13 +22,18 @@ import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { isAuthorized } from '@/lib/auth';
-import { BaseFriendRequestStatus, ProfileWithAvatar, User } from '@/lib/types';
+import {
+  BaseFriendRequestStatus,
+  ProfileWithAvatarWithoutLikes,
+  User
+} from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
 export type RequestStatus = BaseFriendRequestStatus | 'none';
 
 interface Props {
-  users: (User & ProfileWithAvatar & { requestStatus: RequestStatus })[];
+  users: (User &
+    ProfileWithAvatarWithoutLikes & { requestStatus: RequestStatus })[];
   totalPages: number;
   limitPerPage: number;
 }
@@ -120,7 +125,7 @@ const Find: NextPageWithLayout<Props> = ({
                 <Avatar
                   size='medium'
                   username={user.username}
-                  avatar={user.profile?.avatar}
+                  avatar={user.profile.avatar?.name}
                 />
                 <span
                   onClick={goToProfile(user.username)}

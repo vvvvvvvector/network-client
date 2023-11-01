@@ -30,11 +30,11 @@ import {
   ICON_INSIDE_BUTTON_SIZE,
   PAGES
 } from '@/lib/constants';
-import { ProfileWithAvatar, User } from '@/lib/types';
+import { ProfileWithAvatarWithoutLikes, User } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 interface Props {
-  users: (User & ProfileWithAvatar)[];
+  users: (User & ProfileWithAvatarWithoutLikes)[];
 }
 
 const Index: NextPageWithLayout<Props> = ({ users }) => {
@@ -85,7 +85,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
                 <Avatar
                   size='medium'
                   username={user.username}
-                  avatar={user.profile?.avatar}
+                  avatar={user.profile.avatar?.name}
                 />
                 <span
                   onClick={goToProfile(user.username)}

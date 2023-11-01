@@ -145,7 +145,7 @@ export const DefaultProfile: FC<
   };
 
   const onClickOpenPhoto = () => {
-    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${user.profile.avatar}`;
+    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${user.profile.avatar?.name}`;
   };
 
   return (
@@ -157,7 +157,7 @@ export const DefaultProfile: FC<
               <Avatar
                 size='large'
                 username={user.username}
-                avatar={user.profile.avatar}
+                avatar={user.profile.avatar?.name}
               />
             </DropdownMenuTrigger>
             {user.profile.avatar && (
@@ -168,7 +168,7 @@ export const DefaultProfile: FC<
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Heart className={DROPDOWN_MENU_ICON_STYLES} />
-                  <span>Like photo</span>
+                  <span>{`Like photo (${user.profile.avatar.likes})`}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             )}

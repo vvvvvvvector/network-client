@@ -15,28 +15,28 @@ const chats = [
   {
     id: 'djaskdj312312aksjdksa',
     friendUsername: 'happy',
-    friendAvatar: '3a8ffae810ece51ed39.jpeg',
+    friendAvatar: '',
     lastChatMessage: 'hello',
     lastChatMessageDate: '11 Oct 2023'
   },
   {
     id: 'd412658askj31dkaswqeq',
     friendUsername: 'sad',
-    friendAvatar: '77ca551ac11866736f.jpg',
+    friendAvatar: '',
     lastChatMessage: 'How are you?',
     lastChatMessageDate: '15 Oct 2023'
   },
   {
     id: 'djaskjdk312312aswqeq',
     friendUsername: 'vector',
-    friendAvatar: 'd78b52bf6b561aefd2.jpg',
+    friendAvatar: '',
     lastChatMessage: 'yeah, i am fine',
     lastChatMessageDate: '12 Oct 2023'
   },
   {
     id: '312132jaskjdka87783swqeq',
     friendUsername: 'papich',
-    friendAvatar: 'ae229173eeef610441.jpg',
+    friendAvatar: '',
     lastChatMessage: 'xDddddddd',
     lastChatMessageDate: '20 Oct 2023'
   }

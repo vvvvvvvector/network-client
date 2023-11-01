@@ -38,7 +38,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
     useProfileActions(setOpen);
 
   const onClickOpenPhoto = () => {
-    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${me.profile.avatar}`;
+    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${me.profile.avatar?.name}`;
   };
 
   return (
@@ -49,14 +49,14 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
             <Avatar
               size='large'
               username={me.username}
-              avatar={me.profile.avatar}
+              avatar={me.profile.avatar?.name}
             />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {me.profile.avatar && (
               <DropdownMenuItem onClick={onClickOpenPhoto}>
                 <Image className={DROPDOWN_MENU_ICON_STYLES} />
-                <span>Open photo</span>
+                <span>{`Open photo [Likes: ${me.profile.avatar.likes}]`}</span>
               </DropdownMenuItem>
             )}
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

@@ -21,35 +21,19 @@ import {
 
 import { isAuthorized } from '@/lib/auth';
 import { capitalize, cn } from '@/lib/utils';
-import { ProfileWithAvatar } from '@/lib/types';
+import { ProfileWithAvatarWithoutLikes, User } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
-type Generalized = {
-  user: {
-    username: string;
-  } & ProfileWithAvatar;
-};
-
-type Sender = {
-  sender: {
-    username: string;
-  } & ProfileWithAvatar;
-};
-
-type Receiver = {
-  receiver: {
-    username: string;
-  } & ProfileWithAvatar;
-};
+type U = User & ProfileWithAvatarWithoutLikes;
 
 interface Props {
   requests: {
-    incoming: Array<Sender>;
-    outgoing: Array<Receiver>;
-    rejected: Array<Sender>;
+    incoming: Array<U>;
+    outgoing: Array<U>;
+    rejected: Array<U>;
   };
 }
 
@@ -100,13 +84,7 @@ const BUTTONS: Record<
   }
 };
 
-const List = ({
-  type,
-  data
-}: {
-  type: RequestsTypes;
-  data: Array<Generalized>;
-}) => {
+const List = ({ type, data }: { type: RequestsTypes; data: Array<U> }) => {
   const { goToProfile } = useCommonActions();
   const { accept, reject, cancel } = useRequestsActions();
 
@@ -130,23 +108,23 @@ const List = ({
           {data.map((request) => (
             <li
               className='flex items-center justify-between py-2'
-              key={request.user.username}
+              key={request.username}
             >
               <div className='flex items-center gap-3'>
                 <Avatar
                   size='medium'
-                  username={request.user.username}
-                  avatar={request.user.profile?.avatar}
+                  username={request.username}
+                  avatar={request.profile.avatar?.name}
                 />
                 <span
-                  onClick={goToProfile(request.user.username)}
+                  onClick={goToProfile(request.username)}
                   className='cursor-pointer hover:underline'
                 >
-                  {request.user.username}
+                  {request.username}
                 </span>
               </div>
               {BUTTONS[type]({
-                onClicks: ON_CLICKS(type)(request.user.username)
+                onClicks: ON_CLICKS(type)(request.username)
               })}
             </li>
           ))}
@@ -163,30 +141,6 @@ const List = ({
 const Requests: NextPageWithLayout<Props> = ({ requests }) => {
   const [requestsListType, setRequestsListType] =
     useState<RequestsTypes>('incoming');
-
-  const generalize = (input: Array<Sender> | Array<Receiver>) => {
-    return input.map((req) => {
-      let username = '';
-      let avatar: string | null = null;
-
-      if ('sender' in req) {
-        username = req.sender.username;
-        avatar = req.sender.profile?.avatar;
-      } else {
-        username = req.receiver.username;
-        avatar = req.receiver.profile?.avatar;
-      }
-
-      return {
-        user: {
-          username,
-          profile: {
-            avatar
-          }
-        }
-      };
-    });
-  };
 
   return (
     <>
@@ -209,10 +163,7 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
         </ul>
       </div>
       <Separator className='mb-4 mt-4' />
-      <List
-        type={requestsListType}
-        data={generalize(requests[requestsListType])}
-      />
+      <List type={requestsListType} data={requests[requestsListType]} />
     </>
   );
 };

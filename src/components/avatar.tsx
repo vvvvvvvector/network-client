@@ -21,7 +21,7 @@ const avatarVariants = cva('', {
 
 interface AvatarProps extends VariantProps<typeof avatarVariants> {
   username: string;
-  avatar: string | null;
+  avatar: string | undefined;
   className?: string;
 }
 

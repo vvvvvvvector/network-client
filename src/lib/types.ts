@@ -17,25 +17,42 @@ export interface User {
   username: string;
 }
 
-export interface Avatar {
-  avatar: string | null;
-}
+type CreateAvatar<T> = {
+  avatar: T | null;
+};
 
-interface Profile extends Avatar {
+type CreateProfile<T> = {
+  profile: T;
+};
+
+interface Profile {
   uuid: string;
   isActivated: boolean;
   createdAt: string;
   bio: string | null;
 }
 
-type CreateProfile<T> = {
-  profile: T;
-};
+export type ProfileWithAvatarWithoutLikes = CreateProfile<
+  CreateAvatar<{
+    name: string;
+  }>
+>;
 
-export type ProfileWithAvatar = CreateProfile<Avatar>;
+type NetworkUserProfile = CreateProfile<
+  Omit<Profile, 'uuid'> &
+    CreateAvatar<{
+      name: string;
+      likes: number;
+    }>
+>;
 
-type NetworkUserProfile = CreateProfile<Omit<Profile, 'uuid'>>;
-type AuthorisedUserProfile = CreateProfile<Profile>;
+type AuthorisedUserProfile = CreateProfile<
+  Profile &
+    CreateAvatar<{
+      name: string;
+      likes: number;
+    }>
+>;
 
 type Contacts = {
   contacts: {

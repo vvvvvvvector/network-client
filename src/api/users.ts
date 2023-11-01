@@ -2,6 +2,8 @@ import { axiosApiInstance } from '@/axios';
 
 import { AuthorisedUser, Avatar, NetworkUser, User } from '@/lib/types';
 
+// vvv ------------------authorized------------------ vvv
+
 const getAuthorizedUserData = async () => {
   const { data } = await axiosApiInstance.get<AuthorisedUser>('/users/me');
 
@@ -19,6 +21,8 @@ const getAuthorizedUserUsername = async () => {
 
   return data;
 };
+
+// ^^^ ------------------authorized------------------ ^^^
 
 const getNetworkUserPublicAvailableData = async (username: string) => {
   const { data } = await axiosApiInstance.get<NetworkUser>(
