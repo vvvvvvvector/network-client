@@ -46,10 +46,12 @@ const Messenger: NextPageWithLayout = () => {
   const router = useRouter();
 
   return (
-    <div className='rounded-lg bg-background p-5'>
-      <span>Messenger</span>
-      <Separator className='mb-4 mt-4' />
-      <ul className='flex flex-col gap-8'>
+    <div className='rounded-lg bg-background'>
+      <div className='w-full p-5'>
+        <span>Messenger</span>
+        <Separator className='mt-5' />
+      </div>
+      <ul className='flex flex-col pb-5'>
         {chats.map((chat) => (
           <li
             onClick={() =>
@@ -61,7 +63,7 @@ const Messenger: NextPageWithLayout = () => {
               })
             }
             key={chat.id}
-            className='flex cursor-pointer items-center gap-5 transition-[transform] hover:scale-[1.03]'
+            className='flex cursor-pointer items-center gap-5 px-5 py-3 transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-700'
           >
             <Avatar
               className='ml-2'

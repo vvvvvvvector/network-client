@@ -132,7 +132,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
       </div>
       <Separator className='mb-4 mt-4' />
       <ul className='flex flex-col gap-5'>
-        <li>{`avatar likes: ${
+        <li>{`Your avatar likes: ${
           me.profile.avatar?.likes ?? 'no photo yet'
         } ❤️`}</li>
         <li>{`is profile activated: ${me.profile.isActivated}`}</li>
