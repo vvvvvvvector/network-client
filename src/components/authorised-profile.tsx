@@ -56,7 +56,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
             {me.profile.avatar && (
               <DropdownMenuItem onClick={onClickOpenPhoto}>
                 <Image className={DROPDOWN_MENU_ICON_STYLES} />
-                <span>{`Open photo [Likes: ${me.profile.avatar.likes}]`}</span>
+                <span>{`Open photo`}</span>
               </DropdownMenuItem>
             )}
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
@@ -132,6 +132,9 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
       </div>
       <Separator className='mb-4 mt-4' />
       <ul className='flex flex-col gap-5'>
+        <li>{`avatar likes: ${
+          me.profile.avatar?.likes ?? 'no photo yet'
+        } ❤️`}</li>
         <li>{`is profile activated: ${me.profile.isActivated}`}</li>
         <li>{`joined on: ${formatDate(me.profile.createdAt)}`}</li>
         <li>{`email: ${me.contacts.email.contact}`}</li>

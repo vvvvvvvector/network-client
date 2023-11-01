@@ -54,7 +54,7 @@ export const FriendProfile: FC<
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Heart className={DROPDOWN_MENU_ICON_STYLES} />
-                  <span>{`Like photo (${user.profile.avatar.likes})`}</span>
+                  <span>{`Like photo`}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             )}
@@ -80,6 +80,9 @@ export const FriendProfile: FC<
       </div>
       <Separator className='mb-4 mt-4' />
       <ul className='flex flex-col gap-5'>
+        <li>{`avatar likes: ${
+          user.profile.avatar?.likes ?? 'no photo yet'
+        } ❤️`}</li>
         <li>{`is profile activated: ${user.profile.isActivated}`}</li>
         <li>{`joined on: ${formatDate(user.profile.createdAt)}`}</li>
         <li>{`email: ${
