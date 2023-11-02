@@ -13,8 +13,13 @@ export const useCommonActions = () => {
     router.push(PAGES.MESSENGER);
   };
 
+  const onClickOpenPhoto = (avatarName: string | undefined) => () => {
+    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${avatarName}`;
+  };
+
   return {
     goToProfile: onClickGoToProfile,
-    writeMessage: onClickWriteMessage
+    writeMessage: onClickWriteMessage,
+    openPhoto: onClickOpenPhoto
   };
 };

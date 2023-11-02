@@ -24,6 +24,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tooltip } from '@/components/tooltip';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
+import { useCommonActions } from '@/hooks/use-common-actions';
 
 import {
   DROPDOWN_MENU_ICON_STYLES,
@@ -121,6 +122,8 @@ export const DefaultProfile: FC<
     extendedFriendRequestStatus: Exclude<ExtendedFriendRequestStatus, 'friend'>;
   }
 > = (user) => {
+  const { openPhoto } = useCommonActions();
+
   const { send, cancel, accept, reject } = useRequestsActions();
 
   const ON_CLICKS = (type: Exclude<ExtendedFriendRequestStatus, 'friend'>) => {
@@ -144,10 +147,6 @@ export const DefaultProfile: FC<
     };
   };
 
-  const onClickOpenPhoto = () => {
-    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${user.profile.avatar?.name}`;
-  };
-
   return (
     <div className='rounded-lg bg-background p-5'>
       <div className='relative flex items-center justify-between'>
@@ -162,7 +161,7 @@ export const DefaultProfile: FC<
             </DropdownMenuTrigger>
             {user.profile.avatar && (
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={onClickOpenPhoto}>
+                <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
                   <Image className={DROPDOWN_MENU_ICON_STYLES} />
                   <span>Open photo</span>
                 </DropdownMenuItem>

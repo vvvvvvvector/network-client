@@ -22,18 +22,13 @@ import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { isAuthorized } from '@/lib/auth';
-import {
-  BaseFriendRequestStatus,
-  ProfileWithAvatarWithoutLikes,
-  User
-} from '@/lib/types';
+import { BaseFriendRequestStatus, UserFromListOfUsers } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
 export type RequestStatus = BaseFriendRequestStatus | 'none';
 
 interface Props {
-  users: (User &
-    ProfileWithAvatarWithoutLikes & { requestStatus: RequestStatus })[];
+  users: (UserFromListOfUsers & { requestStatus: RequestStatus })[];
   totalPages: number;
   limitPerPage: number;
 }
@@ -49,46 +44,14 @@ const Find: NextPageWithLayout<Props> = ({
   totalPages,
   limitPerPage
 }) => {
-  const { router } = useCombain();
-
-  const { send } = useRequestsActions();
-  const { goToProfile } = useCommonActions();
-
   const [searchValue, setSearchValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  const onClickSearch = () => async () => {
-    if (searchValue) {
-      await router.push(
-        {
-          query: {
-            page: 1,
-            username: searchValue
-          }
-        },
-        undefined,
-        { scroll: false }
-      );
+  const { router } = useCombain();
 
-      setCurrentPage(1);
-    }
-  };
+  const { send } = useRequestsActions();
 
-  const onClickResetSearch = () => async () => {
-    await router.push(
-      {
-        query: {
-          page: 1
-        }
-      },
-      undefined,
-      { scroll: false }
-    );
-
-    setCurrentPage(1);
-
-    setSearchValue('');
-  };
+  const { goToProfile } = useCommonActions();
 
   return (
     <>
@@ -102,12 +65,49 @@ const Find: NextPageWithLayout<Props> = ({
           placeholder='Search...'
         />
         {!router.query.username ? (
-          <Button onClick={onClickSearch()} size='icon' className='w-14'>
+          <Button
+            onClick={async () => {
+              if (searchValue) {
+                await router.push(
+                  {
+                    query: {
+                      page: 1,
+                      username: searchValue
+                    }
+                  },
+                  undefined,
+                  { scroll: false }
+                );
+
+                setCurrentPage(1);
+              }
+            }}
+            size='icon'
+            className='w-14'
+          >
             <Search size={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         ) : (
           <Tooltip text='Reset search'>
-            <Button onClick={onClickResetSearch()} size='icon' className='w-14'>
+            <Button
+              onClick={async () => {
+                await router.push(
+                  {
+                    query: {
+                      page: 1
+                    }
+                  },
+                  undefined,
+                  { scroll: false }
+                );
+
+                setCurrentPage(1);
+
+                setSearchValue('');
+              }}
+              size='icon'
+              className='w-14'
+            >
               <SearchSlash size={ICON_INSIDE_BUTTON_SIZE} />
             </Button>
           </Tooltip>

@@ -54,6 +54,7 @@ const Messenger: NextPageWithLayout = () => {
       <ul className='flex flex-col pb-5'>
         {chats.map((chat) => (
           <li
+            key={chat.id}
             onClick={() =>
               router.push({
                 pathname: PAGES.MESSENGER_CHAT,
@@ -62,7 +63,6 @@ const Messenger: NextPageWithLayout = () => {
                 }
               })
             }
-            key={chat.id}
             className='flex cursor-pointer items-center gap-5 px-5 py-3 transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-700'
           >
             <Avatar

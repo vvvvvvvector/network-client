@@ -24,6 +24,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 import { useProfileActions } from '@/hooks/use-profile-actions';
+import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { AuthorisedUser } from '@/lib/types';
 import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
@@ -31,15 +32,12 @@ import { formatDate } from '@/lib/utils';
 
 export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
   const [open, setOpen] = useState(false);
-
   const [bio, setBio] = useState('');
+
+  const { openPhoto } = useCommonActions();
 
   const { updateBio, updateAvatar, uploadAvatar, deleteAvatar } =
     useProfileActions(setOpen);
-
-  const onClickOpenPhoto = () => {
-    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${me.profile.avatar?.name}`;
-  };
 
   return (
     <div className='rounded-lg bg-background p-5'>
@@ -54,7 +52,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {me.profile.avatar && (
-              <DropdownMenuItem onClick={onClickOpenPhoto}>
+              <DropdownMenuItem onClick={openPhoto(me.profile.avatar.name)}>
                 <Image className={DROPDOWN_MENU_ICON_STYLES} />
                 <span>{`Open photo`}</span>
               </DropdownMenuItem>

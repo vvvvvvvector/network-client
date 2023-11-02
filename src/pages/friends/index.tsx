@@ -30,27 +30,19 @@ import {
   ICON_INSIDE_BUTTON_SIZE,
   PAGES
 } from '@/lib/constants';
-import { ProfileWithAvatarWithoutLikes, User } from '@/lib/types';
+import { UserFromListOfUsers } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 interface Props {
-  users: (User & ProfileWithAvatarWithoutLikes)[];
+  users: UserFromListOfUsers[];
 }
 
 const Index: NextPageWithLayout<Props> = ({ users }) => {
   const { router } = useCombain();
 
   const { unfriend } = useRequestsActions();
-  const { goToProfile, writeMessage } = useCommonActions();
 
-  const onClickFindFriends = () => {
-    router.push({
-      pathname: PAGES.FRIENDS_FIND,
-      query: {
-        page: 1
-      }
-    });
-  };
+  const { goToProfile, writeMessage } = useCommonActions();
 
   return (
     <>
@@ -71,7 +63,18 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
             {`Online [${0}]`}
           </li>
         </ul>
-        <Button onClick={onClickFindFriends}>Find friends</Button>
+        <Button
+          onClick={() => {
+            router.push({
+              pathname: PAGES.FRIENDS_FIND,
+              query: {
+                page: 1
+              }
+            });
+          }}
+        >
+          Find friends
+        </Button>
       </div>
       <Separator className='mb-4 mt-4' />
       {users.length > 0 ? (

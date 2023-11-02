@@ -27,12 +27,9 @@ import { useCommonActions } from '@/hooks/use-common-actions';
 export const FriendProfile: FC<
   Omit<UserProfileProps['user'], 'extendedFriendRequestStatus'>
 > = (user) => {
-  const { writeMessage } = useCommonActions();
-  const { unfriend } = useRequestsActions();
+  const { writeMessage, openPhoto } = useCommonActions();
 
-  const onClickOpenPhoto = () => {
-    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${user.profile.avatar?.name}`;
-  };
+  const { unfriend } = useRequestsActions();
 
   return (
     <div className='rounded-lg bg-background p-5'>
@@ -48,7 +45,7 @@ export const FriendProfile: FC<
             </DropdownMenuTrigger>
             {user.profile.avatar && (
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={onClickOpenPhoto}>
+                <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
                   <Image className={DROPDOWN_MENU_ICON_STYLES} />
                   <span>Open photo</span>
                 </DropdownMenuItem>

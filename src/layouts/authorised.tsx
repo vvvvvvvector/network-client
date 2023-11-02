@@ -44,10 +44,6 @@ const menuItemName = (type: (typeof pages)[number]) => {
 export const Authorized: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
 
-  const onClickGoToPage = (page: (typeof pages)[number]) => () => {
-    router.push(`/${page}`);
-  };
-
   return (
     <div className='flex min-h-screen flex-col'>
       <Header />
@@ -58,7 +54,7 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
               {pages.map((page) => (
                 <li
                   key={page}
-                  onClick={onClickGoToPage(page)}
+                  onClick={() => router.push(`/${page}`)}
                   className='flex cursor-pointer items-center gap-2 rounded p-2 text-sm transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-950'
                 >
                   {icon(page, 20)}

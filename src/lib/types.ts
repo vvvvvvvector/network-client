@@ -1,3 +1,11 @@
+type CreateAvatar<T> = {
+  avatar: T | null;
+};
+
+type CreateProfile<T> = {
+  profile: T;
+};
+
 export type BaseFriendRequestStatus = 'rejected' | 'accepted' | 'pending';
 
 export type ExtendedFriendRequestStatus =
@@ -6,6 +14,8 @@ export type ExtendedFriendRequestStatus =
   | 'pending:receiver'
   | 'rejected:sender'
   | 'none';
+
+export type UserFromListOfUsers = User & ProfileWithAvatarWithoutLikes;
 
 export interface NetworkUser extends NetworkUserProfile, Contacts, User {
   extendedFriendRequestStatus: ExtendedFriendRequestStatus;
@@ -17,13 +27,10 @@ export interface User {
   username: string;
 }
 
-type CreateAvatar<T> = {
-  avatar: T | null;
-};
-
-type CreateProfile<T> = {
-  profile: T;
-};
+interface Avatar {
+  name: string;
+  likes: number;
+}
 
 interface Profile {
   uuid: string;
@@ -33,26 +40,14 @@ interface Profile {
 }
 
 export type ProfileWithAvatarWithoutLikes = CreateProfile<
-  CreateAvatar<{
-    name: string;
-  }>
+  CreateAvatar<Pick<Avatar, 'name'>>
 >;
 
 type NetworkUserProfile = CreateProfile<
-  Omit<Profile, 'uuid'> &
-    CreateAvatar<{
-      name: string;
-      likes: number;
-    }>
+  Omit<Profile, 'uuid'> & CreateAvatar<Avatar>
 >;
 
-type AuthorisedUserProfile = CreateProfile<
-  Profile &
-    CreateAvatar<{
-      name: string;
-      likes: number;
-    }>
->;
+type AuthorisedUserProfile = CreateProfile<Profile & CreateAvatar<Avatar>>;
 
 type Contacts = {
   contacts: {
@@ -62,5 +57,5 @@ type Contacts = {
 
 type Email = {
   isPublic: boolean;
-  contact?: string;
+  contact: string | undefined;
 };

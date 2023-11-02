@@ -21,19 +21,17 @@ import {
 
 import { isAuthorized } from '@/lib/auth';
 import { capitalize, cn } from '@/lib/utils';
-import { ProfileWithAvatarWithoutLikes, User } from '@/lib/types';
+import { UserFromListOfUsers } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
-type U = User & ProfileWithAvatarWithoutLikes;
-
 interface Props {
   requests: {
-    incoming: Array<U>;
-    outgoing: Array<U>;
-    rejected: Array<U>;
+    incoming: Array<UserFromListOfUsers>;
+    outgoing: Array<UserFromListOfUsers>;
+    rejected: Array<UserFromListOfUsers>;
   };
 }
 
@@ -84,8 +82,15 @@ const BUTTONS: Record<
   }
 };
 
-const List = ({ type, data }: { type: RequestsTypes; data: Array<U> }) => {
+const List = ({
+  type,
+  data
+}: {
+  type: RequestsTypes;
+  data: Array<UserFromListOfUsers>;
+}) => {
   const { goToProfile } = useCommonActions();
+
   const { accept, reject, cancel } = useRequestsActions();
 
   const ON_CLICKS = (type: RequestsTypes) => {

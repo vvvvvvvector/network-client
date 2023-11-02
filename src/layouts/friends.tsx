@@ -8,10 +8,6 @@ import { PAGES } from '@/lib/constants';
 export const Friends: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
 
-  const onClickMyFriendsTab = () => router.push(PAGES.FRIENDS_ALL);
-
-  const onClickFriendRequestsTab = () => router.push(PAGES.FRIENDS_REQUESTS);
-
   return (
     <div className='flex flex-col-reverse gap-5 lg:grid lg:grid-cols-[minmax(0,2.5fr)_minmax(0,1fr)] lg:items-start'>
       <div className='flex flex-col rounded-lg bg-background p-5'>
@@ -20,7 +16,7 @@ export const Friends: FC<PropsWithChildren> = ({ children }) => {
       <div className='rounded-lg bg-background p-5'>
         <ul className='flex flex-col gap-2'>
           <li
-            onClick={onClickMyFriendsTab}
+            onClick={() => router.push(PAGES.FRIENDS_ALL)}
             className={cn(
               'cursor-pointer rounded p-2 text-sm transition-[background-color] hover:bg-accent',
               {
@@ -31,7 +27,7 @@ export const Friends: FC<PropsWithChildren> = ({ children }) => {
             My friends
           </li>
           <li
-            onClick={onClickFriendRequestsTab}
+            onClick={() => router.push(PAGES.FRIENDS_REQUESTS)}
             className={cn(
               'cursor-pointer rounded p-2 text-sm transition-[background-color] hover:bg-accent',
               {

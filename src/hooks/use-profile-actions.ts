@@ -14,9 +14,8 @@ import { useCombain } from '@/hooks/use-combain';
 export const useProfileActions = (
   controlDropdown?: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-  const { toast, router } = useCombain();
-
   const { mutate } = useSWRConfig();
+  const { toast, router } = useCombain();
 
   const revalidate = () => {
     mutate('/users/me/username-avatar');

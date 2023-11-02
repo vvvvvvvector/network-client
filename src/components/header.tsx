@@ -85,16 +85,6 @@ const Header = () => {
     } | null;
   }>('/users/me/username-avatar', getAuthorizedUserUsernameAndAvatar);
 
-  const onClickSignOut = () => {
-    signOut();
-
-    toast({
-      description: 'You have successfully signed out.'
-    });
-
-    router.push(PAGES.SIGN_IN);
-  };
-
   return (
     <header className='sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-muted bg-background'>
       <div className='flex h-14 w-full max-w-authorised items-center px-5'>
@@ -198,7 +188,19 @@ const Header = () => {
                         Close
                       </Button>
                     </DialogClose>
-                    <Button onClick={onClickSignOut}>Confirm</Button>
+                    <Button
+                      onClick={() => {
+                        signOut();
+
+                        toast({
+                          description: 'You have successfully signed out.'
+                        });
+
+                        router.push(PAGES.SIGN_IN);
+                      }}
+                    >
+                      Confirm
+                    </Button>
                   </DialogFooter>
                 </DialogHeader>
               </DialogContent>
