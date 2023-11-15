@@ -21,7 +21,7 @@ import { useCombain } from '@/hooks/use-combain';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
-import { isAuthorized } from '@/lib/auth';
+import { isAuthorized, isRedirect } from '@/lib/auth';
 import { BaseFriendRequestStatus, UserFromListOfUsers } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
@@ -175,7 +175,7 @@ export const getServerSideProps: GetServerSideProps = async (
   try {
     const res = await isAuthorized(ctx);
 
-    if (res && 'redirect' in res) return res;
+    if (isRedirect(res)) return res;
 
     const response = await getNetworkUsersUsernames(
       ctx.query.page as string,

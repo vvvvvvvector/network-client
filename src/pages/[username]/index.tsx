@@ -7,7 +7,7 @@ import { Authorized } from '@/layouts/authorised';
 
 import { getNetworkUserPublicAvailableData } from '@/api/users';
 
-import { isAuthorized } from '@/lib/auth';
+import { isAuthorized, isRedirect } from '@/lib/auth';
 import { NetworkUser } from '@/lib/types';
 
 import { DefaultProfile } from '@/components/default-profile';
@@ -57,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = async (
   try {
     const res = await isAuthorized(ctx);
 
-    if (res && 'redirect' in res) return res;
+    if (isRedirect(res)) return res;
 
     const user = await getNetworkUserPublicAvailableData(
       ctx.query.username as string

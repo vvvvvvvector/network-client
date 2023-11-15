@@ -7,7 +7,7 @@ import { Authorized } from '@/layouts/authorised';
 
 import { AuthorisedProfile } from '@/components/authorised-profile';
 
-import { isAuthorized } from '@/lib/auth';
+import { isAuthorized, isRedirect } from '@/lib/auth';
 import { AuthorisedUser } from '@/lib/types';
 
 import { getAuthorizedUserData } from '@/api/users';
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async (
   try {
     const res = await isAuthorized(ctx);
 
-    if (res && 'redirect' in res) return res;
+    if (isRedirect(res)) return res;
 
     const me = await getAuthorizedUserData();
 

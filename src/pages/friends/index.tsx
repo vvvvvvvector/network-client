@@ -24,7 +24,7 @@ import { useCombain } from '@/hooks/use-combain';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
-import { isAuthorized } from '@/lib/auth';
+import { isAuthorized, isRedirect } from '@/lib/auth';
 import {
   DROPDOWN_MENU_ICON_STYLES,
   ICON_INSIDE_BUTTON_SIZE,
@@ -141,7 +141,7 @@ export const getServerSideProps: GetServerSideProps = async (
   try {
     const res = await isAuthorized(ctx);
 
-    if (res && 'redirect' in res) return res;
+    if (isRedirect(res)) return res;
 
     const users = await getMyFriends();
 

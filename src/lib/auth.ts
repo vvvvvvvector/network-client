@@ -7,6 +7,19 @@ import { getAuthorizedUserUsername } from '@/api/users';
 
 import { PAGES, TOKEN } from '@/lib/constants';
 
+type Redirect = {
+  destination: string;
+  permanent: boolean;
+};
+
+export const isRedirect = (
+  res: { redirect: Redirect } | undefined
+): res is { redirect: Redirect } => {
+  if (!res) return false;
+
+  return 'redirect' in res;
+};
+
 export const isAuthorized = async (ctx: GetServerSidePropsContext) => {
   const token = nookies.get(ctx)[TOKEN]; // get token from the request
 

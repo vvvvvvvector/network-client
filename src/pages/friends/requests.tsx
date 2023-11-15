@@ -19,7 +19,7 @@ import {
   getRejectedFriendRequests
 } from '@/api/friends';
 
-import { isAuthorized } from '@/lib/auth';
+import { isAuthorized, isRedirect } from '@/lib/auth';
 import { capitalize, cn } from '@/lib/utils';
 import { UserFromListOfUsers } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
@@ -187,7 +187,7 @@ export const getServerSideProps: GetServerSideProps = async (
   try {
     const res = await isAuthorized(ctx);
 
-    if (res && 'redirect' in res) return res;
+    if (isRedirect(res)) return res;
 
     const requests = await Promise.all([
       getIncomingFriendRequests(),
