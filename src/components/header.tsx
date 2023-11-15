@@ -7,7 +7,8 @@ import {
   Network,
   Sun,
   MoonStar,
-  Monitor
+  Monitor,
+  AlertTriangle
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
@@ -33,11 +34,13 @@ import {
 import { Button } from '@/components/ui/button';
 
 import { signOut } from '@/api/auth';
-import { getAuthorizedUserUsernameAndAvatar } from '@/api/users';
+import { getAuthorizedUserUsernameAndAvatar, url } from '@/api/users';
 
 import { useCombain } from '@/hooks/use-combain';
 
 import { DROPDOWN_MENU_ICON_STYLES, PAGES } from '@/lib/constants';
+
+import { AvatarWithoutLikes, User } from '@/lib/types';
 
 const ThemeMenu = [
   {
@@ -51,6 +54,10 @@ const ThemeMenu = [
   {
     text: 'System',
     icon: <Monitor className={DROPDOWN_MENU_ICON_STYLES} />
+  },
+  {
+    text: 'Error!',
+    icon: <AlertTriangle className={DROPDOWN_MENU_ICON_STYLES} />
   }
 ] as const;
 
@@ -63,7 +70,7 @@ const whatActiveTheme = (theme: string | undefined) => {
     case 'system':
       return ThemeMenu[2];
     default:
-      return ThemeMenu[0];
+      return ThemeMenu[3];
   }
 };
 
@@ -78,12 +85,10 @@ const Header = () => {
 
   const { router, toast } = useCombain();
 
-  const { data, error } = useSWR<{
-    username: string;
-    avatar: {
-      name: string;
-    } | null;
-  }>('/users/me/username-avatar', getAuthorizedUserUsernameAndAvatar);
+  const { data } = useSWR<User & AvatarWithoutLikes>(
+    url,
+    getAuthorizedUserUsernameAndAvatar
+  );
 
   return (
     <header className='sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-muted bg-background'>
@@ -150,7 +155,7 @@ const Header = () => {
                           </div>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align='end'>
-                          {ThemeMenu.map((item) => (
+                          {ThemeMenu.slice(0, 3).map((item) => (
                             <DropdownMenuItem
                               key={item.text}
                               onClick={() => {

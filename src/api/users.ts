@@ -1,6 +1,11 @@
 import { axiosApiInstance } from '@/axios';
 
-import { AuthorisedUser, Avatar, NetworkUser, User } from '@/lib/types';
+import {
+  AuthorisedUser,
+  NetworkUser,
+  User,
+  AvatarWithoutLikes
+} from '@/lib/types';
 
 // vvv ------------------authorized------------------ vvv
 
@@ -10,8 +15,10 @@ const getAuthorizedUserData = async () => {
   return data;
 };
 
+export const url = '/users/me/username-avatar';
+
 const getAuthorizedUserUsernameAndAvatar = async (url: string) => {
-  const { data } = await axiosApiInstance.get<User & Avatar>(url);
+  const { data } = await axiosApiInstance.get<User & AvatarWithoutLikes>(url);
 
   return data;
 };

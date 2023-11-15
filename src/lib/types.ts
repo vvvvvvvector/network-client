@@ -27,7 +27,7 @@ export interface User {
   username: string;
 }
 
-interface Avatar {
+export interface Avatar {
   name: string;
   likes: number;
 }
@@ -39,9 +39,9 @@ interface Profile {
   bio: string | null;
 }
 
-export type ProfileWithAvatarWithoutLikes = CreateProfile<
-  CreateAvatar<Pick<Avatar, 'name'>>
->;
+export type AvatarWithoutLikes = CreateAvatar<Pick<Avatar, 'name'>>;
+
+export type ProfileWithAvatarWithoutLikes = CreateProfile<AvatarWithoutLikes>;
 
 type NetworkUserProfile = CreateProfile<
   Omit<Profile, 'uuid'> & CreateAvatar<Avatar>
