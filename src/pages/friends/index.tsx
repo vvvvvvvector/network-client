@@ -20,7 +20,7 @@ import { Avatar } from '@/components/avatar';
 
 import { getMyFriends } from '@/api/friends';
 
-import { useCombain } from '@/hooks/use-combain';
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
@@ -38,7 +38,7 @@ interface Props {
 }
 
 const Index: NextPageWithLayout<Props> = ({ users }) => {
-  const { router } = useCombain();
+  const { router } = useFrequentlyUsedHooks();
 
   const { unfriend } = useRequestsActions();
 

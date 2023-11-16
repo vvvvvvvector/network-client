@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { useCombain } from '@/hooks/use-combain';
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import {
   unfriend,
@@ -11,7 +11,7 @@ import {
 } from '@/api/friends';
 
 export const useRequestsActions = () => {
-  const { router, toast } = useCombain();
+  const { router, toast } = useFrequentlyUsedHooks();
 
   const revalidate = () => {
     router.replace(router.asPath, undefined, {

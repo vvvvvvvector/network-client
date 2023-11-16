@@ -1,9 +1,9 @@
-import { useCombain } from '@/hooks/use-combain';
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { PAGES } from '@/lib/constants';
 
 export const useCommonActions = () => {
-  const { router } = useCombain();
+  const { router } = useFrequentlyUsedHooks();
 
   const onClickGoToProfile = (username: string) => () => {
     router.push(`/${username}`);

@@ -19,7 +19,7 @@ import { Input } from '@/components/ui/input';
 
 import { signIn } from '@/api/auth';
 
-import { useCombain } from '@/hooks/use-combain';
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES, TOKEN } from '@/lib/constants';
 
@@ -31,7 +31,7 @@ const formSchema = z.object({
 export function SignInForm() {
   const [loading, setLoading] = useState(false);
 
-  const { router, toast } = useCombain();
+  const { router, toast } = useFrequentlyUsedHooks();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

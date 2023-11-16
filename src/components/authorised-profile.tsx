@@ -1,5 +1,4 @@
 import { FC, useState } from 'react';
-import { useRouter } from 'next/router';
 import { Pencil, Trash2, Upload, Image } from 'lucide-react';
 
 import { Switch } from '@/components/ui/switch';
@@ -26,17 +25,19 @@ import { Input } from '@/components/ui/input';
 
 import { useProfileActions } from '@/hooks/use-profile-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { AuthorisedUser } from '@/lib/types';
 import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
+
 import { toogleAuthorizedUserEmailPrivacy } from '@/api/users';
 
 export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
   const [open, setOpen] = useState(false);
   const [bio, setBio] = useState('');
 
-  const router = useRouter();
+  const { router } = useFrequentlyUsedHooks();
 
   const { openPhoto } = useCommonActions();
 

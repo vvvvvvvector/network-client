@@ -9,13 +9,13 @@ import {
   uploadAvatar
 } from '@/api/profiles';
 
-import { useCombain } from '@/hooks/use-combain';
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 export const useProfileActions = (
   controlDropdown?: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const { mutate } = useSWRConfig();
-  const { toast, router } = useCombain();
+  const { toast, router } = useFrequentlyUsedHooks();
 
   const revalidate = () => {
     mutate('/users/me/username-avatar');

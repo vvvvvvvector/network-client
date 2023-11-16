@@ -12,6 +12,8 @@ import { Header } from '@/components/header';
 
 import { capitalize } from '@/lib/utils';
 
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+
 const pages = ['profile', 'news', 'messenger', 'friends', 'photos'] as const;
 
 const icon = (type: (typeof pages)[number], size: number) => {
@@ -42,7 +44,7 @@ const menuItemName = (type: (typeof pages)[number]) => {
 };
 
 export const Authorized: FC<PropsWithChildren> = ({ children }) => {
-  const router = useRouter();
+  const { router } = useFrequentlyUsedHooks();
 
   return (
     <div className='flex min-h-screen flex-col'>

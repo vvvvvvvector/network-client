@@ -36,7 +36,7 @@ import { Button } from '@/components/ui/button';
 import { signOut } from '@/api/auth';
 import { getAuthorizedUserUsernameAndAvatar, url } from '@/api/users';
 
-import { useCombain } from '@/hooks/use-combain';
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { DROPDOWN_MENU_ICON_STYLES, PAGES } from '@/lib/constants';
 
@@ -83,7 +83,7 @@ const Header = () => {
     whatActiveTheme(theme)
   );
 
-  const { router, toast } = useCombain();
+  const { router, toast } = useFrequentlyUsedHooks();
 
   const { data } = useSWR<User & AvatarWithoutLikes>(
     url,

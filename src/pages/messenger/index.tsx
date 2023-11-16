@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router';
-
 import { NextPageWithLayout } from '@/pages/_app';
 
 import { Main } from '@/layouts/main';
@@ -9,6 +7,8 @@ import { Separator } from '@/components/ui/separator';
 import { Avatar } from '@/components/avatar';
 
 import { PAGES } from '@/lib/constants';
+
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 // chats fetch on client using SWR
 const chats = [
@@ -43,7 +43,7 @@ const chats = [
 ];
 
 const Messenger: NextPageWithLayout = () => {
-  const router = useRouter();
+  const { router } = useFrequentlyUsedHooks();
 
   return (
     <div className='rounded-lg bg-background'>

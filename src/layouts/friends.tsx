@@ -1,12 +1,12 @@
 import { FC, PropsWithChildren } from 'react';
-import { useRouter } from 'next/router';
 
 import { cn } from '@/lib/utils';
-
 import { PAGES } from '@/lib/constants';
 
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+
 export const Friends: FC<PropsWithChildren> = ({ children }) => {
-  const router = useRouter();
+  const { router } = useFrequentlyUsedHooks();
 
   return (
     <div className='flex flex-col-reverse gap-5 lg:grid lg:grid-cols-[minmax(0,2.5fr)_minmax(0,1fr)] lg:items-start'>

@@ -2,8 +2,6 @@ import { FC, PropsWithChildren } from 'react';
 import { Sun, MoonStar } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-import { useRouter } from 'next/router';
-
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
@@ -16,8 +14,10 @@ import {
 
 import { PAGES } from '@/lib/constants';
 
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+
 export const Auth: FC<PropsWithChildren> = ({ children }) => {
-  const router = useRouter();
+  const { router } = useFrequentlyUsedHooks();
 
   const { setTheme } = useTheme();
 

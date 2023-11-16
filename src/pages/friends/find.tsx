@@ -17,7 +17,7 @@ import { Pagination } from '@/components/pagination';
 
 import { getNetworkUsersUsernames } from '@/api/friends';
 
-import { useCombain } from '@/hooks/use-combain';
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
@@ -47,7 +47,7 @@ const Find: NextPageWithLayout<Props> = ({
   const [searchValue, setSearchValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { router } = useCombain();
+  const { router } = useFrequentlyUsedHooks();
 
   const { send } = useRequestsActions();
 
