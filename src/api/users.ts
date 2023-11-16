@@ -29,6 +29,14 @@ const getAuthorizedUserUsername = async () => {
   return data;
 };
 
+const toogleAuthorizedUserEmailPrivacy = async () => {
+  await axiosApiInstance.patch<{
+    email: {
+      isPublic: boolean;
+    };
+  }>('/users/me/contacts/email/privacy');
+};
+
 // ^^^ ------------------authorized------------------ ^^^
 
 const getNetworkUserPublicAvailableData = async (username: string) => {
@@ -43,5 +51,6 @@ export {
   getAuthorizedUserData,
   getNetworkUserPublicAvailableData,
   getAuthorizedUserUsername,
+  toogleAuthorizedUserEmailPrivacy,
   getAuthorizedUserUsernameAndAvatar
 };

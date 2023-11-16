@@ -119,7 +119,7 @@ const Header = () => {
                       username={data?.username || 'Unknown'}
                       avatar={data?.avatar?.name}
                     />
-                    <ChevronDown size={16} />
+                    <ChevronDown className='h-4 w-4' />
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align='center' className='w-52'>

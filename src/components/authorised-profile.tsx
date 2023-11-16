@@ -1,7 +1,8 @@
-import { FC } from 'react';
-import { useState } from 'react';
+import { FC, useState } from 'react';
+import { useRouter } from 'next/router';
 import { Pencil, Trash2, Upload, Image } from 'lucide-react';
 
+import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
 import {
   DropdownMenu,
@@ -29,10 +30,13 @@ import { useCommonActions } from '@/hooks/use-common-actions';
 import { AuthorisedUser } from '@/lib/types';
 import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
+import { toogleAuthorizedUserEmailPrivacy } from '@/api/users';
 
 export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
   const [open, setOpen] = useState(false);
   const [bio, setBio] = useState('');
+
+  const router = useRouter();
 
   const { openPhoto } = useCommonActions();
 
@@ -136,9 +140,21 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
         <li>{`is profile activated: ${me.profile.isActivated}`}</li>
         <li>{`joined on: ${formatDate(me.profile.createdAt)}`}</li>
         <li>{`email: ${me.contacts.email.contact}`}</li>
-        <li>{`is email public: ${
-          me.contacts.email.isPublic ? 'True' : 'False'
-        }`}</li>
+        <li className='flex items-center gap-3'>
+          <span>{`email privacy [${
+            me.contacts.email.isPublic ? 'public' : 'private'
+          }]`}</span>
+          <div className='flex items-center gap-3'>
+            <Switch
+              checked={!me.contacts.email.isPublic}
+              onCheckedChange={async () => {
+                await toogleAuthorizedUserEmailPrivacy();
+
+                router.replace(router.asPath);
+              }}
+            />
+          </div>
+        </li>
         <li>{`for instance only for authorised user profile info here...`}</li>
       </ul>
     </div>
