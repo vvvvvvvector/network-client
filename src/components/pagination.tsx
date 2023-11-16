@@ -1,8 +1,9 @@
 import { FC, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 interface Props {
   display: boolean;
@@ -17,7 +18,7 @@ const Pagination: FC<Props> = ({
   currentPage,
   setCurrentPage
 }) => {
-  const router = useRouter();
+  const { router } = useFrequentlyUsedHooks();
 
   useEffect(() => {
     if (router.query.username) {
