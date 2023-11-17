@@ -1,8 +1,6 @@
 import { FC } from 'react';
 import { Heart, Image, UserCheck } from 'lucide-react';
 
-import { UserProfileProps } from '@/pages/[username]';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,12 +18,13 @@ import {
   ICON_INSIDE_BUTTON_SIZE
 } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
+import { NetworkUser } from '@/lib/types';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 export const FriendProfile: FC<
-  Omit<UserProfileProps['user'], 'extendedFriendRequestStatus'>
+  Omit<NetworkUser, 'extendedFriendRequestStatus'>
 > = (user) => {
   const { writeMessage, openPhoto } = useCommonActions();
 

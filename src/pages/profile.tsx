@@ -12,11 +12,11 @@ import { AuthorisedUser } from '@/lib/types';
 
 import { getAuthorizedUserData } from '@/api/users';
 
-interface AuthorisedUserProps {
-  me: AuthorisedUser;
+interface Props {
+  me: AuthorisedUser | null;
 }
 
-const Profile: NextPageWithLayout<AuthorisedUserProps> = ({ me }) => {
+const Profile: NextPageWithLayout<Props> = ({ me }) => {
   if (!me) {
     return (
       <div className='rounded-lg bg-background p-5'>
@@ -34,9 +34,9 @@ Profile.getLayout = (page) => (
   </Main>
 );
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps = (async (context) => {
   try {
-    const res = await isAuthorized(ctx);
+    const res = await isAuthorized(context);
 
     if (isRedirect(res)) return res;
 
@@ -54,6 +54,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       }
     };
   }
-};
+}) satisfies GetServerSideProps<Props>;
 
 export default Profile;

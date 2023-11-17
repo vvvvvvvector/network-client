@@ -13,11 +13,11 @@ import { NetworkUser } from '@/lib/types';
 import { DefaultProfile } from '@/components/default-profile';
 import { FriendProfile } from '@/components/friend-profile';
 
-export interface UserProfileProps {
-  user: NetworkUser;
+export interface Props {
+  user: NetworkUser | null;
 }
 
-const Index: NextPageWithLayout<UserProfileProps> = ({ user }) => {
+const Index: NextPageWithLayout<Props> = ({ user }) => {
   if (!user) {
     return (
       <div className='rounded-lg bg-background p-5'>
@@ -51,14 +51,14 @@ Index.getLayout = (page) => (
   </Main>
 );
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps = (async (context) => {
   try {
-    const res = await isAuthorized(ctx);
+    const res = await isAuthorized(context);
 
     if (isRedirect(res)) return res;
 
     const user = await getNetworkUserPublicAvailableData(
-      ctx.query.username as string
+      context.query.username as string
     );
 
     return {
@@ -73,6 +73,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       }
     };
   }
-};
+}) satisfies GetServerSideProps<Props>;
 
 export default Index;

@@ -25,8 +25,8 @@ Index.getLayout = (page: ReactElement) => (
   </Main>
 );
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { token } = nookies.get(ctx);
+export const getServerSideProps = (async (context) => {
+  const { token } = nookies.get(context);
 
   axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`;
 
@@ -44,6 +44,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       props: {}
     };
   }
-};
+}) satisfies GetServerSideProps;
 
 export default Index;

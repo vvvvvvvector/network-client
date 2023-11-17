@@ -9,8 +9,6 @@ import {
   MoreHorizontal
 } from 'lucide-react';
 
-import { UserProfileProps } from '@/pages/[username]';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,7 +28,7 @@ import {
   DROPDOWN_MENU_ICON_STYLES,
   ICON_INSIDE_BUTTON_SIZE
 } from '@/lib/constants';
-import { ExtendedFriendRequestStatus } from '@/lib/types';
+import { ExtendedFriendRequestStatus, NetworkUser } from '@/lib/types';
 import { formatDate } from '@/lib/utils';
 
 const BUTTONS: Record<
@@ -118,7 +116,7 @@ const BUTTONS: Record<
 };
 
 export const DefaultProfile: FC<
-  Omit<UserProfileProps['user'], 'extendedFriendRequestStatus'> & {
+  Omit<NetworkUser, 'extendedFriendRequestStatus'> & {
     extendedFriendRequestStatus: Exclude<ExtendedFriendRequestStatus, 'friend'>;
   }
 > = (user) => {

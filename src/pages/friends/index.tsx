@@ -135,9 +135,9 @@ Index.getLayout = (page) => (
   </Main>
 );
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps = (async (context) => {
   try {
-    const res = await isAuthorized(ctx);
+    const res = await isAuthorized(context);
 
     if (isRedirect(res)) return res;
 
@@ -155,6 +155,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       }
     };
   }
-};
+}) satisfies GetServerSideProps<Props>;
 
 export default Index;

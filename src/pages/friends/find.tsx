@@ -169,15 +169,15 @@ Find.getLayout = (page) => (
   </Main>
 );
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps = (async (context) => {
   try {
-    const res = await isAuthorized(ctx);
+    const res = await isAuthorized(context);
 
     if (isRedirect(res)) return res;
 
     const response = await getNetworkUsersUsernames(
-      ctx.query.page as string,
-      ctx.query.username as string
+      context.query.page as string,
+      context.query.username as string
     );
 
     return {
@@ -191,11 +191,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return {
       props: {
         users: [],
-        pages: 0,
+        totalPages: 0,
         limitPerPage: 0
       }
     };
   }
-};
+}) satisfies GetServerSideProps<Props>;
 
 export default Find;
