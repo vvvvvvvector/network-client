@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { GetServerSideProps } from 'next';
 import { Check, X, Undo2 } from 'lucide-react';
 
 import { NextPageWithLayout } from '@/pages/_app';
@@ -181,9 +181,7 @@ Requests.getLayout = (page) => (
   </Main>
 );
 
-export const getServerSideProps: GetServerSideProps = async (
-  ctx: GetServerSidePropsContext
-) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
     const res = await isAuthorized(ctx);
 

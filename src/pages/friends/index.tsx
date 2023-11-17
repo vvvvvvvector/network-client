@@ -1,4 +1,4 @@
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { GetServerSideProps } from 'next';
 import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 
 import { NextPageWithLayout } from '@/pages/_app';
@@ -135,9 +135,7 @@ Index.getLayout = (page) => (
   </Main>
 );
 
-export const getServerSideProps: GetServerSideProps = async (
-  ctx: GetServerSidePropsContext
-) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
     const res = await isAuthorized(ctx);
 

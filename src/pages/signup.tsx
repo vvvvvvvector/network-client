@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { GetServerSideProps } from 'next';
 import nookies from 'nookies';
 
 import { NextPageWithLayout } from '@/pages/_app';
@@ -25,9 +25,7 @@ SignUp.getLayout = (page: ReactElement) => (
   </Main>
 );
 
-export const getServerSideProps: GetServerSideProps = async (
-  ctx: GetServerSidePropsContext
-) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { token } = nookies.get(ctx);
 
   axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`;
