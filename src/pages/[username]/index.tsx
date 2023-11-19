@@ -5,14 +5,19 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
 
+import { DefaultProfile } from '@/components/default-profile';
+import { FriendProfile } from '@/components/friend-profile';
+
 import { getNetworkUserPublicAvailableData } from '@/api/users';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import { NetworkUser } from '@/lib/types';
 
-import { DefaultProfile } from '@/components/default-profile';
-import { FriendProfile } from '@/components/friend-profile';
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+
+type PageUrlParams = {
+  username: string;
+};
 
 export interface Props {
   user: NetworkUser | null;
@@ -75,9 +80,9 @@ export const getServerSideProps = (async (context) => {
 
     if (isRedirect(res)) return res;
 
-    const user = await getNetworkUserPublicAvailableData(
-      context.query.username as string
-    );
+    const { username } = context.params!; // ! operator is a type assertion operator that tells the TypeScript compiler that a variable is not null or undefined, and it should be treated as such.
+
+    const user = await getNetworkUserPublicAvailableData(username);
 
     return {
       props: {
@@ -91,6 +96,6 @@ export const getServerSideProps = (async (context) => {
       }
     };
   }
-}) satisfies GetServerSideProps<Props>;
+}) satisfies GetServerSideProps<Props, PageUrlParams>;
 
 export default Index;

@@ -187,7 +187,7 @@ export const getServerSideProps = (async (context) => {
 
     const response = await getNetworkUsersUsernames(
       context.query.page as string,
-      context.query.username as string
+      context.query.username as string | undefined
     );
 
     return {
