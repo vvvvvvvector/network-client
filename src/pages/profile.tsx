@@ -13,19 +13,23 @@ import { AuthorisedUser } from '@/lib/types';
 import { getAuthorizedUserData } from '@/api/users';
 
 interface Props {
-  me: AuthorisedUser | null;
+  user: AuthorisedUser | null;
 }
 
-const Profile: NextPageWithLayout<Props> = ({ me }) => {
-  if (!me) {
+const Profile: NextPageWithLayout<Props> = ({ user }) => {
+  if (!user) {
     return (
       <div className='rounded-lg bg-background p-5'>
-        <span>Error while loading Your data.</span>
+        <p className='mb-7 mt-7 text-center leading-9'>
+          Error while loading your profile data
+          <br /> Please try again later
+          <br /> <span className='text-4xl'>😭</span>
+        </p>
       </div>
     );
   }
 
-  return <AuthorisedProfile {...me} />;
+  return <AuthorisedProfile {...user} />;
 };
 
 Profile.getLayout = (page) => (
@@ -40,17 +44,17 @@ export const getServerSideProps = (async (context) => {
 
     if (isRedirect(res)) return res;
 
-    const me = await getAuthorizedUserData();
+    const user = await getAuthorizedUserData();
 
     return {
       props: {
-        me
+        user
       }
     };
   } catch (error) {
     return {
       props: {
-        me: null
+        user: null
       }
     };
   }

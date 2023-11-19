@@ -33,7 +33,7 @@ import { formatDate } from '@/lib/utils';
 
 import { toogleAuthorizedUserEmailPrivacy } from '@/api/users';
 
-export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
+export const AuthorisedProfile: FC<AuthorisedUser> = (user) => {
   const [open, setOpen] = useState(false);
   const [bio, setBio] = useState('');
 
@@ -51,20 +51,20 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
           <DropdownMenuTrigger>
             <Avatar
               size='large'
-              username={me.username}
-              avatar={me.profile.avatar?.name}
+              username={user.username}
+              avatar={user.profile.avatar?.name}
             />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {me.profile.avatar && (
-              <DropdownMenuItem onClick={openPhoto(me.profile.avatar.name)}>
+            {user.profile.avatar && (
+              <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
                 <Image className={DROPDOWN_MENU_ICON_STYLES} />
                 <span>{`Open photo`}</span>
               </DropdownMenuItem>
             )}
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               <input
-                onChange={me.profile.avatar ? updateAvatar() : uploadAvatar()}
+                onChange={user.profile.avatar ? updateAvatar() : uploadAvatar()}
                 id='avatar'
                 type='file'
                 accept='image/jpeg, image/png, image/jpg'
@@ -75,7 +75,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
                 htmlFor='avatar'
                 className='flex cursor-pointer items-center'
               >
-                {me.profile.avatar ? (
+                {user.profile.avatar ? (
                   <>
                     <Pencil className={DROPDOWN_MENU_ICON_STYLES} />
                     <span>Update photo</span>
@@ -88,7 +88,7 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
                 )}
               </label>
             </DropdownMenuItem>
-            {me.profile.avatar && (
+            {user.profile.avatar && (
               <DropdownMenuItem onClick={deleteAvatar()}>
                 <Trash2
                   color='hsl(0 84.2% 60.2%)'
@@ -100,11 +100,11 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
           </DropdownMenuContent>
         </DropdownMenu>
         <div className='relative top-3 flex flex-col'>
-          <span className='mb-4 text-2xl font-semibold'>{`${me.username}`}</span>
-          <Dialog onOpenChange={() => setBio(me.profile.bio || '')}>
+          <span className='mb-4 text-2xl font-semibold'>{`${user.username}`}</span>
+          <Dialog onOpenChange={() => setBio(user.profile.bio || '')}>
             <DialogTrigger>
               <span className='cursor-pointer'>{`bio: ${
-                me.profile.bio ?? 'no bio yet 😔'
+                user.profile.bio ?? 'no bio yet 😔'
               }`}</span>
             </DialogTrigger>
             <DialogContent>
@@ -136,18 +136,18 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (me) => {
       <Separator className='mb-4 mt-4' />
       <ul className='flex flex-col gap-5'>
         <li>{`Your avatar likes: ${
-          me.profile.avatar?.likes ?? 'no photo yet'
+          user.profile.avatar?.likes ?? 'no photo yet'
         } ❤️`}</li>
-        <li>{`is profile activated: ${me.profile.isActivated}`}</li>
-        <li>{`joined on: ${formatDate(me.profile.createdAt)}`}</li>
-        <li>{`email: ${me.contacts.email.contact}`}</li>
+        <li>{`is profile activated: ${user.profile.isActivated}`}</li>
+        <li>{`joined on: ${formatDate(user.profile.createdAt)}`}</li>
+        <li>{`email: ${user.contacts.email.contact}`}</li>
         <li className='flex items-center gap-3'>
           <span>{`email privacy [${
-            me.contacts.email.isPublic ? 'public' : 'private'
+            user.contacts.email.isPublic ? 'public' : 'private'
           }]`}</span>
           <div className='flex items-center gap-3'>
             <Switch
-              checked={!me.contacts.email.isPublic}
+              checked={!user.contacts.email.isPublic}
               onCheckedChange={async () => {
                 await toogleAuthorizedUserEmailPrivacy();
 

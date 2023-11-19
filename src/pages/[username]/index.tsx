@@ -32,7 +32,6 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
           </span>
           <br /> <span className='text-4xl'>🧐</span>
         </p>
-        <span></span>
       </div>
     );
   }
