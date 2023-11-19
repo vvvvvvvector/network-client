@@ -28,7 +28,7 @@ import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 export type RequestStatus = BaseFriendRequestStatus | 'none';
 
 interface Props {
-  users: (UserFromListOfUsers & { requestStatus: RequestStatus })[];
+  users: (UserFromListOfUsers & { requestStatus: RequestStatus })[] | null;
   totalPages: number;
   limitPerPage: number;
 }
@@ -52,6 +52,16 @@ const Find: NextPageWithLayout<Props> = ({
   const { send } = useRequestsActions();
 
   const { goToProfile } = useCommonActions();
+
+  if (!users) {
+    return (
+      <p className='mb-7 mt-7 text-center leading-9'>
+        Something went wrong
+        <br /> Please, try again later
+        <br /> <span className='text-4xl'>😭</span>
+      </p>
+    );
+  }
 
   return (
     <>
@@ -190,7 +200,7 @@ export const getServerSideProps = (async (context) => {
   } catch (error) {
     return {
       props: {
-        users: [],
+        users: null,
         totalPages: 0,
         limitPerPage: 0
       }

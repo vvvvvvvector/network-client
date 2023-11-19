@@ -32,7 +32,7 @@ interface Props {
     incoming: Array<UserFromListOfUsers>;
     outgoing: Array<UserFromListOfUsers>;
     rejected: Array<UserFromListOfUsers>;
-  };
+  } | null;
 }
 
 const lis = ['incoming', 'outgoing', 'rejected'] as const;
@@ -147,6 +147,16 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
   const [requestsListType, setRequestsListType] =
     useState<RequestsTypes>('incoming');
 
+  if (!requests) {
+    return (
+      <p className='mb-7 mt-7 text-center leading-9'>
+        Something went wrong
+        <br /> Please, try again later
+        <br /> <span className='text-4xl'>😭</span>
+      </p>
+    );
+  }
+
   return (
     <>
       <div className='text-sm'>
@@ -205,11 +215,7 @@ export const getServerSideProps = (async (context) => {
   } catch (error) {
     return {
       props: {
-        requests: {
-          incoming: [],
-          outgoing: [],
-          rejected: []
-        }
+        requests: null
       }
     };
   }

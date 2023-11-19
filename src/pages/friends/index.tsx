@@ -34,7 +34,7 @@ import { UserFromListOfUsers } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 interface Props {
-  users: UserFromListOfUsers[];
+  users: UserFromListOfUsers[] | null;
 }
 
 const Index: NextPageWithLayout<Props> = ({ users }) => {
@@ -43,6 +43,16 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
   const { unfriend } = useRequestsActions();
 
   const { goToProfile, writeMessage } = useCommonActions();
+
+  if (!users) {
+    return (
+      <p className='mb-7 mt-7 text-center leading-9'>
+        Something went wrong
+        <br /> Please, try again later
+        <br /> <span className='text-4xl'>😭</span>
+      </p>
+    );
+  }
 
   return (
     <>
@@ -151,7 +161,7 @@ export const getServerSideProps = (async (context) => {
   } catch (error) {
     return {
       props: {
-        users: []
+        users: null
       }
     };
   }
