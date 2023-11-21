@@ -13,7 +13,7 @@ import { axiosApiInstance } from '@/axios';
 
 import { getAuthorizedUserUsername } from '@/api/users';
 
-import { PAGES } from '@/lib/constants';
+import { PAGES, TOKEN } from '@/lib/constants';
 
 const SignUp: NextPageWithLayout = () => {
   return <SignUpForm />;
@@ -26,7 +26,7 @@ SignUp.getLayout = (page: ReactElement) => (
 );
 
 export const getServerSideProps = (async (context) => {
-  const { token } = nookies.get(context);
+  const token = nookies.get(context)[TOKEN];
 
   axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`;
 

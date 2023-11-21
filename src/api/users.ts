@@ -7,15 +7,17 @@ import {
   AvatarWithoutLikes
 } from '@/lib/types';
 
+const ROUTE = '/users';
+
 // vvv ------------------authorized------------------ vvv
 
 const getAuthorizedUserData = async () => {
-  const { data } = await axiosApiInstance.get<AuthorisedUser>('/users/me');
+  const { data } = await axiosApiInstance.get<AuthorisedUser>(`${ROUTE}/me`);
 
   return data;
 };
 
-export const url = '/users/me/username-avatar';
+export const url = `${ROUTE}/me/username-avatar`;
 
 const getAuthorizedUserUsernameAndAvatar = async (url: string) => {
   const { data } = await axiosApiInstance.get<User & AvatarWithoutLikes>(url);
@@ -24,7 +26,7 @@ const getAuthorizedUserUsernameAndAvatar = async (url: string) => {
 };
 
 const getAuthorizedUserUsername = async () => {
-  const { data } = await axiosApiInstance.get<string>('/users/me/username');
+  const { data } = await axiosApiInstance.get<string>(`${ROUTE}/me/username`);
 
   return data;
 };
@@ -34,14 +36,14 @@ const toogleAuthorizedUserEmailPrivacy = async () => {
     email: {
       isPublic: boolean;
     };
-  }>('/users/me/contacts/email/privacy');
+  }>(`${ROUTE}/me/contacts/email/privacy`);
 };
 
 // ^^^ ------------------authorized------------------ ^^^
 
 const getNetworkUserPubliclyAvailableData = async (username: string) => {
   const { data } = await axiosApiInstance.get<NetworkUser>(
-    `/users/${username}`
+    `${ROUTE}/${username}`
   );
 
   return data;
