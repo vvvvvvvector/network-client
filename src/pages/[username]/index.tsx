@@ -8,7 +8,7 @@ import { Authorized } from '@/layouts/authorised';
 import { DefaultProfile } from '@/components/default-profile';
 import { FriendProfile } from '@/components/friend-profile';
 
-import { getNetworkUserPublicAvailableData } from '@/api/users';
+import { getNetworkUserPubliclyAvailableData } from '@/api/users';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import { NetworkUser } from '@/lib/types';
@@ -82,7 +82,7 @@ export const getServerSideProps = (async (context) => {
 
     const { username } = context.params!; // ! operator is a type assertion operator that tells the TypeScript compiler that a variable is not null or undefined, and it should be treated as such.
 
-    const user = await getNetworkUserPublicAvailableData(username);
+    const user = await getNetworkUserPubliclyAvailableData(username);
 
     return {
       props: {

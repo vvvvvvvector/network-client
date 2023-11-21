@@ -39,7 +39,7 @@ const toogleAuthorizedUserEmailPrivacy = async () => {
 
 // ^^^ ------------------authorized------------------ ^^^
 
-const getNetworkUserPublicAvailableData = async (username: string) => {
+const getNetworkUserPubliclyAvailableData = async (username: string) => {
   const { data } = await axiosApiInstance.get<NetworkUser>(
     `/users/${username}`
   );
@@ -49,7 +49,7 @@ const getNetworkUserPublicAvailableData = async (username: string) => {
 
 export {
   getAuthorizedUserData,
-  getNetworkUserPublicAvailableData,
+  getNetworkUserPubliclyAvailableData,
   getAuthorizedUserUsername,
   toogleAuthorizedUserEmailPrivacy,
   getAuthorizedUserUsernameAndAvatar
