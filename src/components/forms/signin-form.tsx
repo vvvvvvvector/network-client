@@ -21,7 +21,7 @@ import { signIn } from '@/api/auth';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
-import { ICON_INSIDE_BUTTON_SIZE, PAGES, TOKEN } from '@/lib/constants';
+import { ICON_INSIDE_BUTTON_SIZE, PAGES, TOKEN_NAME } from '@/lib/constants';
 
 const formSchema = z.object({
   username: z.string().nonempty({ message: 'Username is required' }),
@@ -49,7 +49,7 @@ export function SignInForm() {
 
       setLoading(false);
 
-      setCookie(null, TOKEN, token, {
+      setCookie(null, TOKEN_NAME, token, {
         path: '/'
       });
 

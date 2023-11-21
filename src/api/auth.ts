@@ -2,7 +2,7 @@ import { destroyCookie } from 'nookies';
 
 import { axiosApiInstance } from '@/axios';
 
-import { TOKEN } from '@/lib/constants';
+import { TOKEN_NAME } from '@/lib/constants';
 
 const signIn = async (values: { username: string; password: string }) => {
   const { data } = await axiosApiInstance.post<{ token: string }>(
@@ -29,7 +29,7 @@ const signUp = async (values: {
 };
 
 const signOut = () => {
-  destroyCookie(null, TOKEN, {
+  destroyCookie(null, TOKEN_NAME, {
     path: '/'
   });
 };

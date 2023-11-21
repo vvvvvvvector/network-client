@@ -5,7 +5,7 @@ import { axiosApiInstance } from '@/axios';
 
 import { getAuthorizedUserUsername } from '@/api/users';
 
-import { PAGES, TOKEN } from '@/lib/constants';
+import { PAGES, TOKEN_NAME } from '@/lib/constants';
 
 type Redirect = {
   destination: string;
@@ -21,7 +21,7 @@ export const isRedirect = (
 };
 
 export const isAuthorized = async (ctx: GetServerSidePropsContext) => {
-  const token = nookies.get(ctx)[TOKEN]; // get token from the request
+  const token = nookies.get(ctx)[TOKEN_NAME]; // get token from the request
 
   axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`; // set cookie / token on the server
 
