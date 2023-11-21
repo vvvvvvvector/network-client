@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import { GetServerSideProps } from 'next';
 import nookies from 'nookies';
 
@@ -19,7 +18,7 @@ const SignUp: NextPageWithLayout = () => {
   return <SignUpForm />;
 };
 
-SignUp.getLayout = (page: ReactElement) => (
+SignUp.getLayout = (page) => (
   <Main title='Auth / Sign Up'>
     <Auth>{page}</Auth>
   </Main>

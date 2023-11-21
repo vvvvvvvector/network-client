@@ -17,27 +17,29 @@ export type ExtendedFriendRequestStatus =
 
 export type UserFromListOfUsers = User & ProfileWithAvatarWithoutLikes;
 
-export interface NetworkUser extends NetworkUserProfile, Contacts, User {
-  extendedFriendRequestStatus: ExtendedFriendRequestStatus;
-}
+export type NetworkUser = NetworkUserProfile &
+  Contacts &
+  User & {
+    extendedFriendRequestStatus: ExtendedFriendRequestStatus;
+  };
 
-export interface AuthorisedUser extends AuthorisedUserProfile, Contacts, User {}
+export type AuthorisedUser = AuthorisedUserProfile & Contacts & User;
 
-export interface User {
+export type User = {
   username: string;
-}
+};
 
-export interface Avatar {
+export type Avatar = {
   name: string;
   likes: number;
-}
+};
 
-interface Profile {
+type Profile = {
   uuid: string;
   isActivated: boolean;
   createdAt: string;
   bio: string | null;
-}
+};
 
 export type AvatarWithoutLikes = CreateAvatar<Pick<Avatar, 'name'>>;
 

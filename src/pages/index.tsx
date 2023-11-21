@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import { GetServerSideProps } from 'next';
 import nookies from 'nookies';
 
@@ -19,7 +18,7 @@ const Index: NextPageWithLayout = () => {
   return <SignInForm />;
 };
 
-Index.getLayout = (page: ReactElement) => (
+Index.getLayout = (page) => (
   <Main title='Auth / Sign In'>
     <Auth>{page}</Auth>
   </Main>
