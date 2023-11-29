@@ -10,7 +10,7 @@ const Chat: NextPageWithLayout = () => {
 
   return (
     <div className='rounded-lg bg-background p-5'>
-      <span>{`Chat Room [roomId: ${router.query.id}]`}</span>
+      <span>{`Chat Room [id: ${router.query.id}]`}</span>
     </div>
   );
 };

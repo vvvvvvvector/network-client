@@ -1,4 +1,9 @@
+import useSWR from 'swr';
+import { Loader2 } from 'lucide-react';
+
 import { NextPageWithLayout } from '@/pages/_app';
+
+import { CHATS_ROUTE, getAutorizedUserChats } from '@/api/chats';
 
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
@@ -7,43 +12,34 @@ import { Separator } from '@/components/ui/separator';
 import { Avatar } from '@/components/avatar';
 
 import { PAGES } from '@/lib/constants';
+import { formatDate } from '@/lib/utils';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
-// chats fetch on client using SWR
-const chats = [
-  {
-    id: 'djaskdj312312aksjdksa',
-    friendUsername: 'happy',
-    friendAvatar: '',
-    lastChatMessage: 'hello',
-    lastChatMessageDate: '11 Oct 2023'
-  },
-  {
-    id: 'd412658askj31dkaswqeq',
-    friendUsername: 'sad',
-    friendAvatar: '',
-    lastChatMessage: 'How are you?',
-    lastChatMessageDate: '15 Oct 2023'
-  },
-  {
-    id: 'djaskjdk312312aswqeq',
-    friendUsername: 'vector',
-    friendAvatar: '',
-    lastChatMessage: 'yeah, i am fine',
-    lastChatMessageDate: '12 Oct 2023'
-  },
-  {
-    id: '312132jaskjdka87783swqeq',
-    friendUsername: 'papich',
-    friendAvatar: '',
-    lastChatMessage: 'xDddddddd',
-    lastChatMessageDate: '20 Oct 2023'
-  }
-];
-
 const Messenger: NextPageWithLayout = () => {
   const { router } = useFrequentlyUsedHooks();
+
+  const { data: chats, isLoading } = useSWR(CHATS_ROUTE, getAutorizedUserChats);
+
+  if (isLoading) {
+    return (
+      <div className='grid place-items-center rounded-lg bg-background p-20'>
+        <Loader2 size={50} className='animate-spin' />
+      </div>
+    );
+  }
+
+  if (!chats) {
+    return (
+      <div className='rounded-lg bg-background p-5'>
+        <p className='mb-7 mt-7 text-center leading-9'>
+          Error while loading your chats data
+          <br /> Please try again later
+          <br /> <span className='text-4xl'>😭</span>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className='rounded-lg bg-background'>
@@ -51,36 +47,51 @@ const Messenger: NextPageWithLayout = () => {
         <span>Messenger</span>
         <Separator className='mt-5' />
       </div>
-      <ul className='flex flex-col pb-5'>
-        {chats.map((chat) => (
-          <li
-            key={chat.id}
-            onClick={() =>
-              router.push({
-                pathname: PAGES.MESSENGER_CHAT,
-                query: {
-                  id: `${chat.id}->${chat.friendUsername}`
-                }
-              })
-            }
-            className='flex cursor-pointer items-center gap-5 px-5 py-3 transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-700'
-          >
-            <Avatar
-              className='ml-2'
-              username='helloworld'
-              size='medium'
-              avatar={chat.friendAvatar}
-            />
-            <div className='flex w-full flex-col gap-2'>
-              <div className='flex justify-between'>
-                <span className='font-bold'>{chat.friendUsername}</span>
-                <span className='mr-2'>{chat.lastChatMessageDate}</span>
+      {chats.length > 0 ? (
+        <ul className='flex flex-col pb-5'>
+          {chats.map((chat) => (
+            <li
+              key={chat.id}
+              onClick={() =>
+                router.push({
+                  pathname: PAGES.MESSENGER_CHAT,
+                  query: {
+                    id: `${chat.id}`
+                  }
+                })
+              }
+              className='flex cursor-pointer items-center gap-5 px-5 py-3 transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-700'
+            >
+              <Avatar
+                className='ml-2'
+                username='helloworld'
+                size='medium'
+                avatar={chat.friendAvatar}
+              />
+              <div className='flex w-full flex-col gap-2'>
+                <div className='flex justify-between'>
+                  <span className='font-bold'>{chat.friendUsername}</span>
+                  <span className='mr-2'>
+                    {(chat.lastMessageSentAt &&
+                      formatDate(chat.lastMessageSentAt)) ||
+                      ''}
+                  </span>
+                </div>
+                <span>
+                  {chat.lastMessageContent ??
+                    'There are no messages in this chat yet 😗'}
+                </span>
               </div>
-              <span>{chat.lastChatMessage}</span>
-            </div>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className='rounded-lg bg-background px-5 pb-5'>
+          <p className='mb-7 mt-7 text-center leading-9'>
+            You have no chats yet 😭
+          </p>
+        </div>
+      )}
     </div>
   );
 };

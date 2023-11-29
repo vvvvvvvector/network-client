@@ -61,3 +61,11 @@ type Email = {
   isPublic: boolean;
   contact: string | undefined;
 };
+
+export type Chat = {
+  id: string;
+  friendUsername: string;
+  friendAvatar: string;
+  lastMessageContent: string | null;
+  lastMessageSentAt: string | null;
+};
