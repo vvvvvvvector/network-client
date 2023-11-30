@@ -62,10 +62,25 @@ type Email = {
   contact: string | undefined;
 };
 
-export type Chat = {
+export type ChatFromListOfChats = {
   id: string;
   friendUsername: string;
-  friendAvatar: string;
+  friendAvatar: string | null;
   lastMessageContent: string | null;
   lastMessageSentAt: string | null;
+};
+
+type Message = {
+  id: number;
+  content: string;
+  createdAt: string;
+  sender: {
+    username: string;
+  };
+};
+
+export type Chat = {
+  id: string;
+  authorizedUserUsername: string;
+  messages: Message[];
 };

@@ -66,7 +66,7 @@ const Messenger: NextPageWithLayout = () => {
                 className='ml-2'
                 username='helloworld'
                 size='medium'
-                avatar={chat.friendAvatar}
+                avatar={chat.friendAvatar || undefined}
               />
               <div className='flex w-full flex-col gap-2'>
                 <div className='flex justify-between'>
