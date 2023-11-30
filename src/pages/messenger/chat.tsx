@@ -57,11 +57,15 @@ const Chat: NextPageWithLayout = () => {
           >
             <ChevronLeft className='h-4 w-4' />
           </Button>
-          <Link href={`/friendUsername`} target='_blank'>
-            <span>{'friendUsername'}</span>
+          <Link href={`/${chat.friendUsername}`} target='_blank'>
+            <span>{`${chat.friendUsername}`}</span>
           </Link>
-          <Link href={`/friendUsername`} target='_blank'>
-            <Avatar size='small' username={'friendUsername'} avatar='' />
+          <Link href={`/${chat.friendUsername}`} target='_blank'>
+            <Avatar
+              size='small'
+              username={`${chat.friendUsername}`}
+              avatar={chat.friendAvatar || undefined}
+            />
           </Link>
         </div>
         <Separator className='mb-5 mt-5' />

@@ -82,5 +82,7 @@ type Message = {
 export type Chat = {
   id: string;
   authorizedUserUsername: string;
+  friendUsername: string;
+  friendAvatar: string | null;
   messages: Message[];
 };
