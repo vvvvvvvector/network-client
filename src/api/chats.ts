@@ -28,8 +28,8 @@ const getChatIdByAddresseeUsername = async (addresseeUsername: string) => {
   return id;
 };
 
-const getChatData = async (id: string) => {
-  const { data } = await axiosApiInstance.get<Chat>(`${CHATS_ROUTE}/${id}`);
+const getChatData = async (url: string, id: string) => {
+  const { data } = await axiosApiInstance.get<Chat>(`${url}/${id}`);
 
   return data;
 };

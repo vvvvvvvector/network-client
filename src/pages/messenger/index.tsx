@@ -56,7 +56,7 @@ const Messenger: NextPageWithLayout = () => {
                 router.push({
                   pathname: PAGES.MESSENGER_CHAT,
                   query: {
-                    id: `${chat.id}`
+                    id: chat.id
                   }
                 })
               }
