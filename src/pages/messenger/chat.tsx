@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { ChevronLeft, Loader2 } from 'lucide-react';
+import { ChevronLeft, Loader2, SendHorizontal } from 'lucide-react';
 import Link from 'next/link';
 
 import { NextPageWithLayout } from '@/pages/_app';
@@ -7,6 +7,7 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/avatar';
+import { Textarea } from '@/components/ui/textarea';
 
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
@@ -15,7 +16,8 @@ import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { CHATS_ROUTE, getChatData } from '@/api/chats';
 
-import { PAGES } from '@/lib/constants';
+import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 
 const Chat: NextPageWithLayout = () => {
   const { router } = useFrequentlyUsedHooks();
@@ -47,7 +49,7 @@ const Chat: NextPageWithLayout = () => {
   }
 
   return (
-    <div className='rounded-lg bg-background p-5'>
+    <div className='flex flex-col gap-5 rounded-lg bg-background p-5'>
       <div className='w-full'>
         <div className='flex items-center justify-between'>
           <Button
@@ -68,20 +70,27 @@ const Chat: NextPageWithLayout = () => {
             />
           </Link>
         </div>
-        <Separator className='mb-5 mt-5' />
+        <Separator className='mt-5' />
       </div>
       <div className='rounded-lg bg-neutral-100'>
         {chat.messages.length > 0 ? (
-          <ul>
+          <ul className='flex flex-col gap-10 p-4'>
             {chat.messages.map((message) => (
-              <li key={message.id}>
-                <div className='flex justify-between'>
+              <li
+                className={cn({
+                  'text-right':
+                    message.sender.username === chat.authorizedUserUsername
+                })}
+                key={message.id}
+              >
+                <div>
                   <span>
-                    {message.sender.username === chat.authorizedUserUsername
-                      ? `You: ${message.content}`
-                      : `Friend: ${message.content}`}
+                    {`${
+                      message.sender.username === chat.authorizedUserUsername
+                        ? `You: ${message.content}`
+                        : `${chat.friendUsername}: ${message.content}`
+                    } [${message.createdAt}]`}
                   </span>
-                  <span>{message.createdAt}</span>
                 </div>
               </li>
             ))}
@@ -94,6 +103,16 @@ const Chat: NextPageWithLayout = () => {
             </p>
           </div>
         )}
+      </div>
+      <div className='flex gap-3'>
+        <Textarea
+          className='min-h-[40px] resize-none'
+          placeholder='Write a message...'
+          rows={1}
+        />
+        <Button size='icon'>
+          <SendHorizontal size={ICON_INSIDE_BUTTON_SIZE} />
+        </Button>
       </div>
     </div>
   );
