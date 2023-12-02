@@ -5,8 +5,8 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
 
-import { DefaultProfile } from '@/components/default-profile';
-import { FriendProfile } from '@/components/friend-profile';
+import { DefaultProfile } from '@/components/profiles/default-profile';
+import { FriendProfile } from '@/components/profiles/friend-profile';
 
 import { getNetworkUserPubliclyAvailableData } from '@/api/users';
 

@@ -5,7 +5,7 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
 
-import { AuthorisedProfile } from '@/components/authorised-profile';
+import { AuthorisedProfile } from '@/components/profiles/authorised-profile';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import { AuthorisedUser } from '@/lib/types';

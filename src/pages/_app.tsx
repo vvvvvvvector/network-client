@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app';
 import { Source_Code_Pro } from 'next/font/google';
 
 import { Toaster } from '@/components/ui/toaster';
-import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeProvider } from '@/components/providers/theme-provider';
 
 import '@/styles/globals.css';
 
