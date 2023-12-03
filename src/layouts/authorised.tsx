@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, useEffect } from 'react';
 import {
   MessageCircle,
   Users,
@@ -6,12 +6,16 @@ import {
   Newspaper,
   Image
 } from 'lucide-react';
+import { parseCookies } from 'nookies';
 
 import { Header } from '@/components/header';
 
 import { capitalize } from '@/lib/utils';
+import { TOKEN_NAME } from '@/lib/constants';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+
+import { useSocketStore } from '@/zustand/socket.store';
 
 const pages = ['profile', 'news', 'messenger', 'friends', 'photos'] as const;
 
@@ -44,6 +48,20 @@ const menuItemName = (type: (typeof pages)[number]) => {
 
 export const Authorized: FC<PropsWithChildren> = ({ children }) => {
   const { router } = useFrequentlyUsedHooks();
+
+  const { connect, disconnect } = useSocketStore();
+
+  useEffect(() => {
+    console.log('authorized');
+
+    connect(parseCookies()[TOKEN_NAME]);
+
+    return () => {
+      console.log('unauthorized');
+
+      disconnect();
+    };
+  }, []);
 
   return (
     <div className='flex min-h-screen flex-col'>

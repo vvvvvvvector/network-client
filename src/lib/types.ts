@@ -70,7 +70,7 @@ export type ChatFromListOfChats = {
   lastMessageSentAt: string | null;
 };
 
-type Message = {
+export type Message = {
   id: number;
   content: string;
   createdAt: string;

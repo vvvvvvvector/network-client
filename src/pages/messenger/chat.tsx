@@ -1,5 +1,6 @@
 import useSWR from 'swr';
 import { ChevronLeft, Loader2, SendHorizontal } from 'lucide-react';
+import { useState } from 'react';
 import Link from 'next/link';
 
 import { NextPageWithLayout } from '@/pages/_app';
@@ -18,15 +19,38 @@ import { CHATS_ROUTE, getChatData } from '@/api/chats';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
+import { Message } from '@/lib/types';
+
+import { useSocketStore } from '@/zustand/socket.store';
+
+// IT ISN'T PRODUCION CODE JUST TESTING
 
 const Chat: NextPageWithLayout = () => {
   const { router } = useFrequentlyUsedHooks();
+
+  const { socket } = useSocketStore();
 
   const id = router.query.id as string;
 
   const { data: chat, isLoading } = useSWR([CHATS_ROUTE, id], ([url, id]) =>
     getChatData(url, id)
   );
+
+  const [input, setInput] = useState('');
+
+  const [messages, setMessages] = useState<Message[]>(chat?.messages ?? []);
+
+  if (!socket) {
+    return (
+      <div className='rounded-lg bg-background p-5'>
+        <p className='mb-7 mt-7 text-center leading-9'>
+          Something wrong with your connection
+          <br /> Please try again later
+          <br /> <span className='text-4xl'>😭</span>
+        </p>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -72,10 +96,10 @@ const Chat: NextPageWithLayout = () => {
         </div>
         <Separator className='mt-5' />
       </div>
-      <div className='rounded-lg bg-neutral-100'>
-        {chat.messages.length > 0 ? (
+      <div className='rounded-lg bg-neutral-100 dark:bg-neutral-900'>
+        {messages.length > 0 ? (
           <ul className='flex flex-col gap-10 p-4'>
-            {chat.messages.map((message) => (
+            {messages.map((message) => (
               <li
                 className={cn({
                   'text-right':
@@ -106,11 +130,31 @@ const Chat: NextPageWithLayout = () => {
       </div>
       <div className='flex gap-3'>
         <Textarea
+          onChange={(e) => setInput(e.target.value)}
           className='min-h-[40px] resize-none'
           placeholder='Write a message...'
           rows={1}
         />
-        <Button size='icon'>
+        <Button
+          onClick={() => {
+            socket.emit('echo', input, (data: string) => {
+              setMessages((prev) => [
+                ...prev,
+                {
+                  id: Math.random(),
+                  content: data,
+                  createdAt: new Date().toISOString(),
+                  sender: {
+                    username: chat.authorizedUserUsername
+                  }
+                }
+              ]);
+            });
+
+            setInput('');
+          }}
+          size='icon'
+        >
           <SendHorizontal size={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </div>
