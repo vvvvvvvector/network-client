@@ -1,9 +1,19 @@
 import { create } from 'zustand';
-
 import io, { Socket } from 'socket.io-client';
 
+import { DefaultEventsMap } from '@socket.io/component-emitter';
+
+interface ListenEvents {}
+
+interface EmitEvents {
+  echo: (
+    messageToServer: string,
+    callback: (responseFromServer: string) => void
+  ) => void;
+}
+
 type SocketState = {
-  socket: Socket | null;
+  socket: Socket<DefaultEventsMap, EmitEvents> | null;
   connect: (token: string) => void;
   disconnect: () => void;
 };

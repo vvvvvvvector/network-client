@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import { ChevronLeft, Loader2, SendHorizontal } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 import { NextPageWithLayout } from '@/pages/_app';
@@ -23,22 +23,56 @@ import { Message } from '@/lib/types';
 
 import { useSocketStore } from '@/zustand/socket.store';
 
-// IT ISN'T PRODUCION CODE JUST TESTING
+// IT ISN'T PRODUCTION CODE JUST TESTING
 
 const Chat: NextPageWithLayout = () => {
   const { router } = useFrequentlyUsedHooks();
 
   const { socket } = useSocketStore();
 
+  const ulRef = useRef<HTMLUListElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
   const id = router.query.id as string;
 
-  const { data: chat, isLoading } = useSWR([CHATS_ROUTE, id], ([url, id]) =>
-    getChatData(url, id)
+  const { data: chat, isLoading } = useSWR(
+    id ? [CHATS_ROUTE, id] : null,
+    ([url, id]) => getChatData(url, id)
   );
 
   const [input, setInput] = useState('');
 
-  const [messages, setMessages] = useState<Message[]>(chat?.messages ?? []);
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  useEffect(() => {
+    const onKeyPress = (e: KeyboardEvent) => {
+      console.log(e);
+
+      textAreaRef.current?.focus();
+    };
+
+    document.addEventListener('keypress', onKeyPress);
+
+    return () => {
+      document.removeEventListener('keypress', onKeyPress);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (chat) {
+      setMessages(chat.messages);
+    }
+  }, [chat]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      const last = messages[messages.length - 1];
+
+      if (last.sender.username === chat?.authorizedUserUsername) {
+        ulRef.current!.scrollTop = ulRef.current!.scrollHeight;
+      }
+    }
+  }, [messages]);
 
   if (!socket) {
     return (
@@ -72,9 +106,29 @@ const Chat: NextPageWithLayout = () => {
     );
   }
 
+  const onClickSendMessage = () => {
+    socket.emit('echo', input, (data: string) => {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Math.random(),
+          content: data,
+          createdAt: new Date().toISOString(),
+          sender: {
+            username: chat.authorizedUserUsername
+          }
+        }
+      ]);
+    });
+
+    setInput('');
+
+    textAreaRef.current?.focus();
+  };
+
   return (
-    <div className='flex flex-col gap-5 rounded-lg bg-background p-5'>
-      <div className='w-full'>
+    <div className='flex h-[calc(100vh-3.5rem-1.3rem-1.3rem)] flex-col gap-5 rounded-lg bg-background p-5'>
+      <div>
         <div className='flex items-center justify-between'>
           <Button
             onClick={() => router.push(PAGES.MESSENGER)}
@@ -96,9 +150,12 @@ const Chat: NextPageWithLayout = () => {
         </div>
         <Separator className='mt-5' />
       </div>
-      <div className='rounded-lg bg-neutral-100 dark:bg-neutral-900'>
-        {messages.length > 0 ? (
-          <ul className='flex flex-col gap-10 p-4'>
+      {messages.length > 0 ? (
+        <div className='flex h-full flex-col justify-end overflow-y-hidden rounded-lg bg-neutral-100 dark:bg-neutral-900'>
+          <ul
+            ref={ulRef}
+            className='flex flex-col gap-10 overflow-y-scroll p-4'
+          >
             {messages.map((message) => (
               <li
                 className={cn({
@@ -119,42 +176,30 @@ const Chat: NextPageWithLayout = () => {
               </li>
             ))}
           </ul>
-        ) : (
-          <div className='p-5'>
-            <p className='mb-7 mt-7 text-center leading-9'>
-              No messages here yet... 😗
-              <br /> Send a message to your friend first!
-            </p>
-          </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className='flex h-full flex-col items-center justify-center rounded-lg bg-neutral-100 dark:bg-neutral-900'>
+          <p className='mb-7 mt-7 text-center leading-9'>
+            No messages here yet... 😗
+            <br /> Send a message to your friend first!
+          </p>
+        </div>
+      )}
       <div className='flex gap-3'>
         <Textarea
+          onKeyDown={(e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+              onClickSendMessage();
+            }
+          }}
+          ref={textAreaRef}
+          value={input}
           onChange={(e) => setInput(e.target.value)}
           className='min-h-[40px] resize-none'
           placeholder='Write a message...'
           rows={1}
         />
-        <Button
-          onClick={() => {
-            socket.emit('echo', input, (data: string) => {
-              setMessages((prev) => [
-                ...prev,
-                {
-                  id: Math.random(),
-                  content: data,
-                  createdAt: new Date().toISOString(),
-                  sender: {
-                    username: chat.authorizedUserUsername
-                  }
-                }
-              ]);
-            });
-
-            setInput('');
-          }}
-          size='icon'
-        >
+        <Button onClick={onClickSendMessage} size='icon'>
           <SendHorizontal size={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </div>
