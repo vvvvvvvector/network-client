@@ -139,7 +139,12 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (user) => {
           user.profile.avatar?.likes ?? 'no photo yet'
         } ❤️`}</li>
         <li>{`is profile activated: ${user.profile.isActivated}`}</li>
-        <li>{`joined on: ${formatDate(user.profile.createdAt)}`}</li>
+        <li>
+          joined on:
+          <time suppressHydrationWarning>
+            {` ${formatDate(user.profile.createdAt)}`}
+          </time>
+        </li>
         <li>{`email: ${user.contacts.email.contact}`}</li>
         <li className='flex items-center gap-3'>
           <span>{`email privacy [${

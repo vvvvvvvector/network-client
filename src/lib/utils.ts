@@ -15,42 +15,24 @@ export function avatarSource(avatar: string | undefined) {
 }
 
 export function formatDate(createdAt: string) {
-  const getMonth = (month: number) => {
-    switch (month) {
-      case 1:
-        return 'January';
-      case 2:
-        return 'February';
-      case 3:
-        return 'March';
-      case 4:
-        return 'April';
-      case 5:
-        return 'May';
-      case 6:
-        return 'June';
-      case 7:
-        return 'July';
-      case 8:
-        return 'August';
-      case 9:
-        return 'September';
-      case 10:
-        return 'October';
-      case 11:
-        return 'November';
-      case 12:
-        return 'December';
-      default:
-        return 'Error';
-    }
-  };
-
   const date = new Date(createdAt);
 
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
+  const result = date.toLocaleDateString(undefined, {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  });
 
-  return `${day} ${getMonth(month)} ${year}`;
+  return result;
+}
+
+export function formatTime(createdAt: string) {
+  const date = new Date(createdAt);
+
+  const result = date.toLocaleTimeString(undefined, {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  return result;
 }

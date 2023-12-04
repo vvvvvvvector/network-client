@@ -12,7 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { Avatar } from '@/components/avatar';
 
 import { PAGES } from '@/lib/constants';
-import { formatDate } from '@/lib/utils';
+import { formatDate, formatTime } from '@/lib/utils';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
@@ -71,11 +71,13 @@ const Messenger: NextPageWithLayout = () => {
               <div className='flex w-full flex-col gap-2'>
                 <div className='flex justify-between'>
                   <span className='font-bold'>{chat.friendUsername}</span>
-                  <span className='mr-2'>
+                  <time className='mr-2'>
                     {(chat.lastMessageSentAt &&
-                      formatDate(chat.lastMessageSentAt)) ||
+                      `${formatDate(chat.lastMessageSentAt)} / ${formatTime(
+                        chat.lastMessageSentAt
+                      )}`) ||
                       ''}
-                  </span>
+                  </time>
                 </div>
                 <span>
                   {chat.lastMessageContent ??

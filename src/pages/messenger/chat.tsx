@@ -18,7 +18,7 @@ import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { CHATS_ROUTE, getChatData } from '@/api/chats';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
-import { cn } from '@/lib/utils';
+import { cn, formatDate, formatTime } from '@/lib/utils';
 import { Message } from '@/lib/types';
 
 import { useSocketStore } from '@/zustand/socket.store';
@@ -32,6 +32,7 @@ const Chat: NextPageWithLayout = () => {
 
   const ulRef = useRef<HTMLUListElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const isUlMounted = useRef(false);
 
   const id = router.query.id as string;
 
@@ -45,9 +46,7 @@ const Chat: NextPageWithLayout = () => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
-    const onKeyPress = (e: KeyboardEvent) => {
-      console.log(e);
-
+    const onKeyPress = () => {
       textAreaRef.current?.focus();
     };
 
@@ -59,8 +58,16 @@ const Chat: NextPageWithLayout = () => {
   }, []);
 
   useEffect(() => {
+    if (ulRef.current && isUlMounted.current) {
+      ulRef.current.scrollTop = ulRef.current.scrollHeight;
+    }
+  }, [isUlMounted.current]);
+
+  useEffect(() => {
     if (chat) {
       setMessages(chat.messages);
+
+      isUlMounted.current = true;
     }
   }, [chat]);
 
@@ -107,7 +114,7 @@ const Chat: NextPageWithLayout = () => {
   }
 
   const onClickSendMessage = () => {
-    socket.emit('echo', input, (data: string) => {
+    socket.emit('echo', input.trim(), (data: string) => {
       setMessages((prev) => [
         ...prev,
         {
@@ -152,26 +159,36 @@ const Chat: NextPageWithLayout = () => {
       </div>
       {messages.length > 0 ? (
         <div className='flex h-full flex-col justify-end overflow-y-hidden rounded-lg bg-neutral-100 dark:bg-neutral-900'>
-          <ul
-            ref={ulRef}
-            className='flex flex-col gap-10 overflow-y-scroll p-4'
-          >
+          <ul ref={ulRef} className='flex flex-col gap-7 overflow-y-scroll p-4'>
             {messages.map((message) => (
               <li
+                key={message.id}
                 className={cn({
                   'text-right':
                     message.sender.username === chat.authorizedUserUsername
                 })}
-                key={message.id}
               >
-                <div>
-                  <span>
-                    {`${
-                      message.sender.username === chat.authorizedUserUsername
-                        ? `You: ${message.content}`
-                        : `${chat.friendUsername}: ${message.content}`
-                    } [${message.createdAt}]`}
-                  </span>
+                <div className='inline-block w-full max-w-max rounded-md bg-neutral-200 p-3'>
+                  <div>
+                    <span className='font-bold'>
+                      {`${
+                        message.sender.username === chat.authorizedUserUsername
+                          ? `You:`
+                          : `${chat.friendUsername}:`
+                      }`}
+                    </span>
+                    <br />
+                    <br />
+                    <p className='w-full whitespace-pre-wrap break-words'>
+                      {message.content}
+                    </p>
+                    <br />
+                    <time>
+                      {`[${formatDate(message.createdAt)} / ${formatTime(
+                        message.createdAt
+                      )}]`}
+                    </time>
+                  </div>
                 </div>
               </li>
             ))}

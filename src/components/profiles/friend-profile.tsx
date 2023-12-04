@@ -80,7 +80,12 @@ export const FriendProfile: FC<
           user.profile.avatar?.likes ?? 'no photo yet'
         } ❤️`}</li>
         <li>{`is profile activated: ${user.profile.isActivated}`}</li>
-        <li>{`joined on: ${formatDate(user.profile.createdAt)}`}</li>
+        <li>
+          joined on:
+          <time suppressHydrationWarning>
+            {` ${formatDate(user.profile.createdAt)}`}
+          </time>
+        </li>
         <li>{`email: ${
           user.contacts.email.isPublic ? user.contacts.email.contact : 'private'
         }`}</li>
