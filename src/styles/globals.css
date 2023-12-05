@@ -89,3 +89,19 @@ body {
     --ring: 0 0% 83.1%;
   }
 }
+
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(0, 0%, 52%);
+    height: 250px;
+    border-radius: 9999px;
+  }
+}

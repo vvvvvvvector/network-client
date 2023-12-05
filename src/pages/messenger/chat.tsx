@@ -158,8 +158,11 @@ const Chat: NextPageWithLayout = () => {
         <Separator className='mt-5' />
       </div>
       {messages.length > 0 ? (
-        <div className='flex h-full flex-col justify-end overflow-y-hidden rounded-lg bg-neutral-100 dark:bg-neutral-900'>
-          <ul ref={ulRef} className='flex flex-col gap-7 overflow-y-scroll p-4'>
+        <div className='flex h-full flex-col justify-end overflow-y-hidden rounded-lg bg-neutral-100 dark:bg-[hsl(0,0%,9%)]'>
+          <ul
+            ref={ulRef}
+            className='custom-scrollbar flex flex-col gap-3 overflow-y-scroll p-4'
+          >
             {messages.map((message) => (
               <li
                 key={message.id}
@@ -168,8 +171,8 @@ const Chat: NextPageWithLayout = () => {
                     message.sender.username === chat.authorizedUserUsername
                 })}
               >
-                <div className='inline-block w-full max-w-max rounded-md bg-neutral-200 p-3'>
-                  <div>
+                <div className='inline-block w-full max-w-max rounded-md bg-neutral-200 p-3 dark:bg-[hsl(0,0%,7%)]'>
+                  <div className='text-sm'>
                     <span className='font-bold'>
                       {`${
                         message.sender.username === chat.authorizedUserUsername
@@ -205,7 +208,7 @@ const Chat: NextPageWithLayout = () => {
       <div className='flex gap-3'>
         <Textarea
           onKeyDown={(e) => {
-            if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'Enter' && input) {
               onClickSendMessage();
             }
           }}
@@ -216,7 +219,11 @@ const Chat: NextPageWithLayout = () => {
           placeholder='Write a message...'
           rows={1}
         />
-        <Button onClick={onClickSendMessage} size='icon'>
+        <Button
+          disabled={input === ''}
+          onClick={onClickSendMessage}
+          size='icon'
+        >
           <SendHorizontal size={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </div>
