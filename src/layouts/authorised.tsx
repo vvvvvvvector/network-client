@@ -52,12 +52,12 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
   const { connect, disconnect } = useSocketStore();
 
   useEffect(() => {
-    console.log('authorized');
+    // console.log('authorized');
 
     connect(parseCookies()[TOKEN_NAME]);
 
     return () => {
-      console.log('unauthorized');
+      // console.log('unauthorized');
 
       disconnect();
     };

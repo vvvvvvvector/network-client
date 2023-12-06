@@ -22,6 +22,7 @@ import { cn, formatDate, formatTime } from '@/lib/utils';
 import { Message } from '@/lib/types';
 
 import { useSocketStore } from '@/zustand/socket.store';
+import { useFocus } from '@/hooks/use-focus';
 
 // IT ISN'T PRODUCTION CODE JUST TESTING
 
@@ -30,8 +31,9 @@ const Chat: NextPageWithLayout = () => {
 
   const { socket } = useSocketStore();
 
+  const textAreaRef = useFocus<HTMLTextAreaElement>();
+
   const ulRef = useRef<HTMLUListElement>(null);
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const isUlMounted = useRef(false);
 
   const id = router.query.id as string;
@@ -44,18 +46,6 @@ const Chat: NextPageWithLayout = () => {
   const [input, setInput] = useState('');
 
   const [messages, setMessages] = useState<Message[]>([]);
-
-  useEffect(() => {
-    const onKeyPress = () => {
-      textAreaRef.current?.focus();
-    };
-
-    document.addEventListener('keypress', onKeyPress);
-
-    return () => {
-      document.removeEventListener('keypress', onKeyPress);
-    };
-  }, []);
 
   useEffect(() => {
     if (socket) {
