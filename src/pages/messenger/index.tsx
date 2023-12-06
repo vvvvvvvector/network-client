@@ -43,7 +43,7 @@ const Messenger: NextPageWithLayout = () => {
 
   return (
     <div className='rounded-lg bg-background'>
-      <div className='w-full p-5'>
+      <div className='p-5'>
         <span>Messenger</span>
         <Separator className='mt-5' />
       </div>
@@ -63,15 +63,14 @@ const Messenger: NextPageWithLayout = () => {
               className='flex cursor-pointer items-center gap-5 px-5 py-3 transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-700'
             >
               <Avatar
-                className='ml-2'
-                username='helloworld'
                 size='medium'
+                username={chat.friendUsername}
                 avatar={chat.friendAvatar || undefined}
               />
-              <div className='flex w-full flex-col gap-2'>
+              <div className='flex w-full flex-col gap-5 overflow-hidden'>
                 <div className='flex justify-between'>
                   <span className='font-bold'>{chat.friendUsername}</span>
-                  <time className='mr-2'>
+                  <time>
                     {(chat.lastMessageSentAt &&
                       `${formatDate(chat.lastMessageSentAt)} / ${formatTime(
                         chat.lastMessageSentAt
@@ -79,7 +78,7 @@ const Messenger: NextPageWithLayout = () => {
                       ''}
                   </time>
                 </div>
-                <span>
+                <span className='overflow-hidden text-ellipsis whitespace-nowrap'>
                   {chat.lastMessageContent ??
                     'There are no messages in this chat yet 😗'}
                 </span>

@@ -1,11 +1,9 @@
-import useSWR from 'swr';
 import { ChevronLeft, Loader2, SendHorizontal } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
-import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/avatar';
 import { Textarea } from '@/components/ui/textarea';
@@ -14,38 +12,33 @@ import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
-
-import { CHATS_ROUTE, getChatData } from '@/api/chats';
+import { useFocus } from '@/hooks/use-focus';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 import { cn, formatDate, formatTime } from '@/lib/utils';
 import { Message } from '@/lib/types';
 
 import { useSocketStore } from '@/zustand/socket.store';
-import { useFocus } from '@/hooks/use-focus';
+import { useChat } from '@/hooks/use-chat';
 
-// IT ISN'T PRODUCTION CODE JUST TESTING
+// IT ISN'T PRODUCTION CODE, JUST TESTING
 
 const Chat: NextPageWithLayout = () => {
+  const [messageInputValue, setMessageInputValue] = useState('');
+  const [messages, setMessages] = useState<Message[]>([]);
+
   const { router } = useFrequentlyUsedHooks();
 
   const { socket } = useSocketStore();
 
-  const textAreaRef = useFocus<HTMLTextAreaElement>();
+  const messageInputRef = useFocus<HTMLTextAreaElement>();
 
-  const ulRef = useRef<HTMLUListElement>(null);
-  const isUlMounted = useRef(false);
-
-  const id = router.query.id as string;
-
-  const { data: chat, isLoading } = useSWR(
-    id ? [CHATS_ROUTE, id] : null,
-    ([url, id]) => getChatData(url, id)
+  const { chat, loading, error } = useChat(
+    router.query.id as string | undefined
   );
 
-  const [input, setInput] = useState('');
-
-  const [messages, setMessages] = useState<Message[]>([]);
+  const messagesListRef = useRef<HTMLUListElement>(null);
+  const messagesListMountedFlag = useRef(false);
 
   useEffect(() => {
     if (socket) {
@@ -53,180 +46,175 @@ const Chat: NextPageWithLayout = () => {
         setMessages((prev) => [...prev, message]);
       };
 
-      socket?.on('receive-message', onMessageReceive);
+      socket.on('receive-message', onMessageReceive);
 
       return () => {
-        socket?.off('receive-message', onMessageReceive);
+        socket.off('receive-message', onMessageReceive);
       };
     }
   }, [socket?.connected]);
 
-  useEffect(() => {
-    if (ulRef.current && isUlMounted.current) {
-      ulRef.current.scrollTop = ulRef.current.scrollHeight;
-    }
-  }, [isUlMounted.current]);
-
+  // we need to wait for the data to load
   useEffect(() => {
     if (chat) {
       setMessages(chat.messages);
 
-      isUlMounted.current = true;
+      messagesListMountedFlag.current = true;
     }
   }, [chat]);
 
+  // scroll ul to very bottom
+  useEffect(() => {
+    if (messagesListRef.current && messagesListMountedFlag.current) {
+      messagesListRef.current.scrollTop = messagesListRef.current.scrollHeight;
+    }
+  }, [messagesListMountedFlag.current]);
+
+  // scroll ul to very bottom when auth user sends a message
   useEffect(() => {
     if (messages.length > 0) {
-      const last = messages[messages.length - 1];
+      const lastMessage = messages[messages.length - 1];
 
-      if (last.sender.username === chat?.authorizedUserUsername) {
-        ulRef.current!.scrollTop = ulRef.current!.scrollHeight;
+      if (lastMessage.sender.username === chat?.authorizedUserUsername) {
+        messagesListRef.current!.scrollTop =
+          messagesListRef.current!.scrollHeight;
       }
     }
   }, [messages]);
 
-  if (!socket) {
-    return (
-      <div className='rounded-lg bg-background p-5'>
-        <p className='mb-7 mt-7 text-center leading-9'>
-          Something wrong with your connection
-          <br /> Please try again later
-          <br /> <span className='text-4xl'>😭</span>
-        </p>
-      </div>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className='grid place-items-center rounded-lg bg-background p-20'>
-        <Loader2 size={50} className='animate-spin' />
-      </div>
-    );
-  }
-
-  if (!chat) {
-    return (
-      <div className='rounded-lg bg-background p-5'>
-        <p className='mb-7 mt-7 text-center leading-9'>
-          Error while loading the chat data
-          <br /> Please try again later
-          <br /> <span className='text-4xl'>😭</span>
-        </p>
-      </div>
-    );
-  }
-
-  const onClickSendMessage = () => {
-    socket.emit(
+  const onSendMessage = () => {
+    socket!.emit(
       'send-message',
       {
-        chatId: chat.id,
-        receiver: chat.friendUsername,
-        content: input.trim()
+        chatId: chat!.id,
+        receiver: chat!.friendUsername,
+        content: messageInputValue.trim()
       },
       (message: Message) => {
         setMessages((prev) => [...prev, message]);
       }
     );
 
-    setInput('');
+    setMessageInputValue('');
   };
 
   return (
     <div className='flex h-[calc(100vh-3.5rem-1.3rem-1.3rem)] flex-col gap-5 rounded-lg bg-background p-5'>
-      <div>
-        <div className='flex items-center justify-between'>
-          <Button
-            onClick={() => router.push(PAGES.MESSENGER)}
-            variant='outline'
-            size='icon'
-          >
-            <ChevronLeft className='h-4 w-4' />
-          </Button>
-          <Link href={`/${chat.friendUsername}`} target='_blank'>
-            <span>{`${chat.friendUsername}`}</span>
-          </Link>
-          <Link href={`/${chat.friendUsername}`} target='_blank'>
-            <Avatar
-              size='small'
-              username={`${chat.friendUsername}`}
-              avatar={chat.friendAvatar || undefined}
-            />
-          </Link>
-        </div>
-        <Separator className='mt-5' />
-      </div>
-      {messages.length > 0 ? (
-        <div className='flex h-full flex-col justify-end overflow-y-hidden rounded-lg bg-neutral-100 dark:bg-[hsl(0,0%,9%)]'>
-          <ul
-            ref={ulRef}
-            className='custom-scrollbar flex flex-col gap-3 overflow-y-scroll p-4'
-          >
-            {messages.map((message) => (
-              <li
-                key={message.id}
-                className={cn({
-                  'text-right':
-                    message.sender.username === chat.authorizedUserUsername
-                })}
-              >
-                <div className='inline-block w-full max-w-max rounded-md bg-neutral-200 p-3 dark:bg-[hsl(0,0%,7%)]'>
-                  <div className='text-sm'>
-                    <span className='font-bold'>
-                      {`${
-                        message.sender.username === chat.authorizedUserUsername
-                          ? `You:`
-                          : `${chat.friendUsername}:`
-                      }`}
-                    </span>
-                    <br />
-                    <br />
-                    <p className='w-full whitespace-pre-wrap break-words'>
-                      {message.content}
-                    </p>
-                    <br />
-                    <time>
-                      {`[${formatDate(message.createdAt)} / ${formatTime(
-                        message.createdAt
-                      )}]`}
-                    </time>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div className='flex h-full flex-col items-center justify-center rounded-lg bg-neutral-100 dark:bg-neutral-900'>
+      {!socket && (
+        <div className='grid h-full w-full place-items-center'>
           <p className='mb-7 mt-7 text-center leading-9'>
-            No messages here yet... 😗
-            <br /> Send a message to your friend first!
+            Something wrong with your connection
+            <br /> Please try again later
+            <br /> <span className='text-4xl'>😭</span>
           </p>
         </div>
       )}
-      <div className='flex gap-3'>
-        <Textarea
-          onKeyDown={(e) => {
-            if ((e.metaKey || e.ctrlKey) && e.key === 'Enter' && input) {
-              onClickSendMessage();
-            }
-          }}
-          ref={textAreaRef}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className='min-h-[40px] resize-none'
-          placeholder='Write a message...'
-          rows={1}
-        />
-        <Button
-          disabled={input === ''}
-          onClick={onClickSendMessage}
-          size='icon'
-        >
-          <SendHorizontal size={ICON_INSIDE_BUTTON_SIZE} />
-        </Button>
-      </div>
+      {error && (
+        <div className='grid h-full w-full place-items-center'>
+          <p className='mb-7 mt-7 text-center leading-9'>
+            Error while loading the chat data
+            <br /> Please try again later
+            <br /> <span className='text-4xl'>😭</span>
+          </p>
+        </div>
+      )}
+      {loading && (
+        <div className='grid h-full w-full place-items-center'>
+          <Loader2 size={50} className='animate-spin' />
+        </div>
+      )}
+      {chat && (
+        <>
+          <div className='flex items-center justify-between'>
+            <Button
+              size='icon'
+              variant='outline'
+              onClick={() => router.push(PAGES.MESSENGER)}
+            >
+              <ChevronLeft className='h-4 w-4' />
+            </Button>
+            <div className='flex flex-col gap-1 text-center text-sm'>
+              <Link href={`/${chat.friendUsername}`} target='_blank'>
+                <span className='font-bold'>{`${chat.friendUsername}`}</span>
+              </Link>
+              <span>{`last seen ${formatDate(
+                '2023-12-06 01:05:03.133788'
+              )} at ${formatTime('2023-12-06 01:05:03.133788')}`}</span>
+            </div>
+            <Link href={`/${chat.friendUsername}`} target='_blank'>
+              <Avatar
+                size='small'
+                username={`${chat.friendUsername}`}
+                avatar={chat.friendAvatar || undefined}
+              />
+            </Link>
+          </div>
+          {messages.length > 0 ? (
+            <div className='flex h-full flex-col justify-end overflow-y-hidden'>
+              <ul
+                ref={messagesListRef}
+                className='custom-scrollbar flex flex-col gap-3 overflow-y-scroll px-2'
+              >
+                {messages.map((message) => (
+                  <li
+                    key={message.id}
+                    className={cn({
+                      'text-right':
+                        message.sender.username === chat.authorizedUserUsername
+                    })}
+                  >
+                    <div className='inline-flex w-full max-w-max flex-col gap-3 rounded-xl bg-neutral-100 p-3 text-sm dark:bg-[hsl(0,0%,13%)]'>
+                      {message.sender.username !==
+                        chat.authorizedUserUsername && (
+                        <span className='font-semibold underline'>
+                          {chat.friendUsername}
+                        </span>
+                      )}
+                      <p className='w-full whitespace-pre-wrap break-words'>
+                        {message.content}
+                      </p>
+                      <time className='text-xs'>
+                        {`[${formatDate(message.createdAt)} / ${formatTime(
+                          message.createdAt
+                        )}]`}
+                      </time>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <div className='grid h-full w-full place-items-center'>
+              <p className='mb-7 mt-7 text-center leading-9'>
+                No messages here yet... 😗
+                <br /> Send a message to your friend first!
+              </p>
+            </div>
+          )}
+          <div className='flex gap-3'>
+            <Textarea
+              className='min-h-[40px] resize-none'
+              rows={1}
+              placeholder='Write a message...'
+              ref={messageInputRef}
+              value={messageInputValue}
+              onChange={(e) => setMessageInputValue(e.target.value)}
+              onKeyDown={(e) => {
+                const commandPlusEnter = e.metaKey && e.key === 'Enter';
+
+                if (commandPlusEnter && messageInputValue) onSendMessage();
+              }}
+            />
+            <Button
+              size='icon'
+              disabled={messageInputValue.length === 0}
+              onClick={onSendMessage}
+            >
+              <SendHorizontal size={ICON_INSIDE_BUTTON_SIZE} />
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

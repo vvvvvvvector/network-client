@@ -1,3 +1,5 @@
+![11](./public/screenshots/11.png)
+![10](./public/screenshots/10.png)
 ![1](./public//screenshots/1.png)
 ![2](./public/screenshots/2.png)
 ![3](./public/screenshots/3.png)
@@ -7,6 +9,4 @@
 ![7](./public/screenshots/7.png)
 ![8](./public/screenshots/8.png)
 ![9](./public/screenshots/9.png)
-![10](./public/screenshots/10.png)
-![11](./public/screenshots/11.png)
 ![12](./public/screenshots/12.png)
