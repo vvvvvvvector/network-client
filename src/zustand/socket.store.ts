@@ -1,19 +1,26 @@
 import { create } from 'zustand';
 import io, { Socket } from 'socket.io-client';
 
-import { DefaultEventsMap } from '@socket.io/component-emitter';
+// import { DefaultEventsMap } from '@socket.io/component-emitter';
+import { Message } from '@/lib/types';
 
-interface ListenEvents {}
+interface ListenEvents {
+  'receive-message': (message: Message) => void;
+}
 
 interface EmitEvents {
-  echo: (
-    messageToServer: string,
-    callback: (responseFromServer: string) => void
+  'send-message': (
+    message: {
+      chatId: string;
+      content: string;
+      receiver: string;
+    },
+    cb: (responseFromServer: Message) => void
   ) => void;
 }
 
 type SocketState = {
-  socket: Socket<DefaultEventsMap, EmitEvents> | null;
+  socket: Socket<ListenEvents, EmitEvents> | null;
   connect: (token: string) => void;
   disconnect: () => void;
 };

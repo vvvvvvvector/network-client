@@ -58,6 +58,20 @@ const Chat: NextPageWithLayout = () => {
   }, []);
 
   useEffect(() => {
+    if (socket) {
+      const onMessageReceive = (message: Message) => {
+        setMessages((prev) => [...prev, message]);
+      };
+
+      socket?.on('receive-message', onMessageReceive);
+
+      return () => {
+        socket?.off('receive-message', onMessageReceive);
+      };
+    }
+  }, [socket?.connected]);
+
+  useEffect(() => {
     if (ulRef.current && isUlMounted.current) {
       ulRef.current.scrollTop = ulRef.current.scrollHeight;
     }
@@ -114,23 +128,19 @@ const Chat: NextPageWithLayout = () => {
   }
 
   const onClickSendMessage = () => {
-    socket.emit('echo', input.trim(), (data: string) => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Math.random(),
-          content: data,
-          createdAt: new Date().toISOString(),
-          sender: {
-            username: chat.authorizedUserUsername
-          }
-        }
-      ]);
-    });
+    socket.emit(
+      'send-message',
+      {
+        chatId: chat.id,
+        receiver: chat.friendUsername,
+        content: input.trim()
+      },
+      (message: Message) => {
+        setMessages((prev) => [...prev, message]);
+      }
+    );
 
     setInput('');
-
-    textAreaRef.current?.focus();
   };
 
   return (
