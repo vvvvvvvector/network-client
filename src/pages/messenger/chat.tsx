@@ -13,15 +13,13 @@ import { Authorized } from '@/layouts/authorised';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useFocus } from '@/hooks/use-focus';
+import { useChat } from '@/hooks/use-chat';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 import { cn, formatDate, formatTime } from '@/lib/utils';
 import { Message } from '@/lib/types';
 
 import { useSocketStore } from '@/zustand/socket.store';
-import { useChat } from '@/hooks/use-chat';
-
-// IT ISN'T PRODUCTION CODE, JUST TESTING
 
 const Chat: NextPageWithLayout = () => {
   const [messageInputValue, setMessageInputValue] = useState('');
@@ -123,7 +121,7 @@ const Chat: NextPageWithLayout = () => {
           <Loader2 size={50} className='animate-spin' />
         </div>
       )}
-      {chat && (
+      {chat && !error && (
         <>
           <div className='flex items-center justify-between'>
             <Button
@@ -138,8 +136,8 @@ const Chat: NextPageWithLayout = () => {
                 <span className='font-bold'>{`${chat.friendUsername}`}</span>
               </Link>
               <span>{`last seen ${formatDate(
-                '2023-12-06 01:05:03.133788'
-              )} at ${formatTime('2023-12-06 01:05:03.133788')}`}</span>
+                chat.friendLastSeen
+              )} at ${formatTime(chat.friendLastSeen)}`}</span>
             </div>
             <Link href={`/${chat.friendUsername}`} target='_blank'>
               <Avatar
@@ -159,18 +157,18 @@ const Chat: NextPageWithLayout = () => {
                   <li
                     key={message.id}
                     className={cn({
-                      'text-right':
+                      'text-end':
                         message.sender.username === chat.authorizedUserUsername
                     })}
                   >
-                    <div className='inline-flex w-full max-w-max flex-col gap-3 rounded-xl bg-neutral-100 p-3 text-sm dark:bg-[hsl(0,0%,13%)]'>
+                    <div className='inline-flex w-[84%] max-w-max flex-col gap-3 rounded-xl bg-neutral-100 p-3 text-sm dark:bg-[hsl(0,0%,13%)]'>
                       {message.sender.username !==
                         chat.authorizedUserUsername && (
                         <span className='font-semibold underline'>
                           {chat.friendUsername}
                         </span>
                       )}
-                      <p className='w-full whitespace-pre-wrap break-words'>
+                      <p className='whitespace-pre-wrap break-words text-start'>
                         {message.content}
                       </p>
                       <time className='text-xs'>
@@ -198,7 +196,9 @@ const Chat: NextPageWithLayout = () => {
               placeholder='Write a message...'
               ref={messageInputRef}
               value={messageInputValue}
-              onChange={(e) => setMessageInputValue(e.target.value)}
+              onChange={(e) => {
+                setMessageInputValue(e.target.value);
+              }}
               onKeyDown={(e) => {
                 const commandPlusEnter = e.metaKey && e.key === 'Enter';
 
