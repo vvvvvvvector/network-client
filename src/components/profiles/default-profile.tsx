@@ -29,7 +29,7 @@ import {
   ICON_INSIDE_BUTTON_SIZE
 } from '@/lib/constants';
 import { ExtendedFriendRequestStatus, NetworkUser } from '@/lib/types';
-import { formatDate } from '@/lib/utils';
+import { formatDate, formatTime } from '@/lib/utils';
 
 const BUTTONS: Record<
   Exclude<ExtendedFriendRequestStatus, 'friend'>,
@@ -181,6 +181,13 @@ export const DefaultProfile: FC<
       </div>
       <Separator className='mb-4 mt-4' />
       <ul className='flex flex-col gap-5'>
+        <li>
+          <time suppressHydrationWarning>
+            {`last seen ${formatDate(user.lastSeen)} at ${formatTime(
+              user.lastSeen
+            )}`}
+          </time>
+        </li>
         <li>{`avatar likes: ${
           user.profile.avatar?.likes ?? 'no photo yet'
         } ❤️`}</li>

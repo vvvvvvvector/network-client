@@ -27,6 +27,7 @@ export type AuthorisedUser = AuthorisedUserProfile & Contacts & User;
 
 export type User = {
   username: string;
+  lastSeen: string;
 };
 
 export type Avatar = {

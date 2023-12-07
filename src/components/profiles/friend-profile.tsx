@@ -17,7 +17,7 @@ import {
   DROPDOWN_MENU_ICON_STYLES,
   ICON_INSIDE_BUTTON_SIZE
 } from '@/lib/constants';
-import { formatDate } from '@/lib/utils';
+import { formatDate, formatTime } from '@/lib/utils';
 import { NetworkUser } from '@/lib/types';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
@@ -76,6 +76,13 @@ export const FriendProfile: FC<
       </div>
       <Separator className='mb-4 mt-4' />
       <ul className='flex flex-col gap-5'>
+        <li>
+          <time suppressHydrationWarning>
+            {`last seen ${formatDate(user.lastSeen)} at ${formatTime(
+              user.lastSeen
+            )}`}
+          </time>
+        </li>
         <li>{`avatar likes: ${
           user.profile.avatar?.likes ?? 'no photo yet'
         } ❤️`}</li>

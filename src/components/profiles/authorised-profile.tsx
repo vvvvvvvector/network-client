@@ -49,11 +49,14 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (user) => {
       <div className='flex items-center gap-5'>
         <DropdownMenu open={open} defaultOpen={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger>
-            <Avatar
-              size='large'
-              username={user.username}
-              avatar={user.profile.avatar?.name}
-            />
+            <div className='relative'>
+              <Avatar
+                size='large'
+                username={user.username}
+                avatar={user.profile.avatar?.name}
+              />
+              <span className='absolute bottom-2 right-2 h-6 w-6 rounded-full border-[3px] border-background bg-emerald-400' />
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {user.profile.avatar && (

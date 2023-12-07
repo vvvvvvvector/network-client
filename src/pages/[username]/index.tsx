@@ -45,6 +45,7 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
     return (
       <FriendProfile
         username={user.username}
+        lastSeen={user.lastSeen}
         profile={user.profile}
         contacts={user.contacts}
       />
@@ -54,6 +55,7 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
     <DefaultProfile
       extendedFriendRequestStatus={user.extendedFriendRequestStatus}
       username={user.username}
+      lastSeen={user.lastSeen}
       profile={user.profile}
       contacts={user.contacts}
     />
