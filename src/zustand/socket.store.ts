@@ -1,11 +1,12 @@
 import { create } from 'zustand';
 import io, { Socket } from 'socket.io-client';
 
-// import { DefaultEventsMap } from '@socket.io/component-emitter';
 import { Message } from '@/lib/types';
 
 interface ListenEvents {
   'receive-message': (message: Message) => void;
+  'user-connected': (username: string) => void;
+  'user-disconnected': (username: string) => void;
 }
 
 interface EmitEvents {
@@ -17,10 +18,13 @@ interface EmitEvents {
     },
     cb: (responseFromServer: Message) => void
   ) => void;
+  'is-friend-online': (username: string, cb: (online: boolean) => void) => void;
 }
 
+export type SocketType = Socket<ListenEvents, EmitEvents>;
+
 type SocketState = {
-  socket: Socket<ListenEvents, EmitEvents> | null;
+  socket: SocketType | null;
   connect: (token: string) => void;
   disconnect: () => void;
 };
