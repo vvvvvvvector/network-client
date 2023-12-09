@@ -1,5 +1,4 @@
 import { GetServerSideProps } from 'next';
-import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
@@ -9,27 +8,14 @@ import { Friends } from '@/layouts/friends';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { Avatar } from '@/components/avatar';
+import { FriendsList } from '@/components/friends/friends-list';
 
 import { getMyFriends } from '@/api/friends';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
-import { useRequestsActions } from '@/hooks/use-requests-actions';
-import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
-import {
-  DROPDOWN_MENU_ICON_STYLES,
-  ICON_INSIDE_BUTTON_SIZE,
-  PAGES
-} from '@/lib/constants';
+import { PAGES } from '@/lib/constants';
 import { UserFromListOfUsers } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
@@ -39,10 +25,6 @@ interface Props {
 
 const Index: NextPageWithLayout<Props> = ({ users }) => {
   const { router } = useFrequentlyUsedHooks();
-
-  const { unfriend } = useRequestsActions();
-
-  const { goToProfile, writeMessage } = useCommonActions();
 
   if (!users) {
     return (
@@ -87,52 +69,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
         </Button>
       </div>
       <Separator className='mb-4 mt-4' />
-      {users.length > 0 ? (
-        <ul className='flex flex-col gap-5'>
-          {users.map((user) => (
-            <li
-              className='flex items-center justify-between py-2'
-              key={user.username}
-            >
-              <div className='flex items-center gap-3'>
-                <Avatar
-                  size='medium'
-                  username={user.username}
-                  avatar={user.profile.avatar?.name}
-                />
-                <span
-                  onClick={goToProfile(user.username)}
-                  className='cursor-pointer hover:underline'
-                >
-                  {user.username}
-                </span>
-              </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant='ghost' size='icon'>
-                    <MoreHorizontal size={ICON_INSIDE_BUTTON_SIZE} />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={writeMessage(user.username)}>
-                    <MessagesSquare className={DROPDOWN_MENU_ICON_STYLES} />
-                    <span>Write message</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={unfriend(user.username)}>
-                    <UserMinus className={DROPDOWN_MENU_ICON_STYLES} />
-                    <span>Unfriend</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <span className='mb-7 mt-7 text-center'>
-          You don't have any friends yet.
-        </span>
-      )}
+      <FriendsList users={users} />
     </>
   );
 };

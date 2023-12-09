@@ -13,7 +13,7 @@ import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Tooltip } from '@/components/tooltip';
 import { Avatar } from '@/components/avatar';
-import { Pagination } from '@/components/pagination';
+import { Pagination } from '@/components/friends/pagination';
 
 import { getNetworkUsersUsernames } from '@/api/friends';
 

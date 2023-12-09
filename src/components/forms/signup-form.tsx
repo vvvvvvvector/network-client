@@ -21,16 +21,17 @@ import { signUp } from '@/api/auth';
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
+import { useFocus } from '@/hooks/use-focus';
 
 const formSchema = z.object({
   email: z
     .string()
-    .nonempty({ message: 'Email is required' })
+    .min(1, { message: 'Email is required' })
     .email({ message: 'Invalid email address' }),
   username: z.string().nonempty({ message: 'Username is required' }),
   password: z
     .string()
-    .nonempty({ message: 'Password is required' })
+    .min(1, { message: 'Password is required' })
     .regex(new RegExp('^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{8,}$'), {
       message: 'Minimum 8 characters, at least 1 letter and 1 number'
     })
@@ -40,6 +41,8 @@ export function SignUpForm() {
   const [loading, setLoading] = useState(false);
 
   const { router, toast } = useFrequentlyUsedHooks();
+
+  const emailInputRef = useFocus<HTMLInputElement>();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -85,7 +88,7 @@ export function SignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
-              <FormControl>
+              <FormControl ref={emailInputRef}>
                 <Input
                   placeholder='your email here...'
                   type='text'

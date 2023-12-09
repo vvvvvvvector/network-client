@@ -56,7 +56,7 @@ export const ListOfChats: FC<Props> = ({ chats, socket }) => {
               avatar={chat.friendAvatar || undefined}
             />
             {onlineUsers[chat.friendUsername] && (
-              <span className='absolute bottom-0 right-0 h-4 w-4 rounded-full border-[2px] border-background bg-emerald-400 group-hover:border-neutral-200 group-hover:dark:border-neutral-700' />
+              <span className='absolute bottom-0 right-0 h-4 w-4 rounded-full border-[2px] border-background bg-emerald-400 transition-[background-color] group-hover:border-neutral-200 group-hover:dark:border-neutral-700' />
             )}
           </div>
           <div className='flex w-full flex-col gap-5 overflow-hidden'>

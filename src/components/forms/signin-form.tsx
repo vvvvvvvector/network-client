@@ -22,16 +22,19 @@ import { signIn } from '@/api/auth';
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES, TOKEN_NAME } from '@/lib/constants';
+import { useFocus } from '@/hooks/use-focus';
 
 const formSchema = z.object({
-  username: z.string().nonempty({ message: 'Username is required' }),
-  password: z.string().nonempty({ message: 'Password is required' })
+  username: z.string().min(1, { message: 'Username is required' }),
+  password: z.string().min(1, { message: 'Password is required' })
 });
 
 export function SignInForm() {
   const [loading, setLoading] = useState(false);
 
   const { router, toast } = useFrequentlyUsedHooks();
+
+  const usernameInputRef = useFocus<HTMLInputElement>();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -79,7 +82,7 @@ export function SignInForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
-              <FormControl>
+              <FormControl ref={usernameInputRef}>
                 <Input
                   placeholder='your username here...'
                   type='text'
