@@ -1,37 +1,39 @@
 import { FC, useState, useRef, useEffect } from 'react';
-import { ChevronLeft, SendHorizontal } from 'lucide-react';
+import { ChevronLeft, Paperclip, SendHorizontal } from 'lucide-react';
 import Link from 'next/link';
-
-import { Chat as TChat, Message } from '@/lib/types';
 
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/avatar';
 
+import { Chat as TChat, Message } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 import { cn, formatDate, formatTime } from '@/lib/utils';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useFocus } from '@/hooks/use-focus';
 
-import { SocketType } from '@/zustand/socket.store';
+import { TSocket } from '@/zustand/socket.store';
 
 interface Props {
   chat: TChat;
-  socket: SocketType;
+  socket: TSocket;
 }
 
 export const Chat: FC<Props> = ({ chat, socket }) => {
   const [messageInputValue, setMessageInputValue] = useState('');
+
   const [messages, setMessages] = useState<Message[]>([]);
 
-  const [friendOnline, setFriendOnline] = useState(false);
   const [friendTyping, setFriendTyping] = useState(false);
-
-  const messageInputRef = useFocus<HTMLTextAreaElement>();
+  const [friendOnlineStatus, setFriendOnlineStatus] = useState<
+    'online' | 'offline'
+  >('offline');
 
   const messagesListRef = useRef<HTMLUListElement>(null);
   const messagesListMountedFlag = useRef(false);
+
+  const messageInputRef = useFocus<HTMLTextAreaElement>();
 
   const { router } = useFrequentlyUsedHooks();
 
@@ -41,31 +43,27 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
     };
 
     const onUserConnection = (username: string) => {
-      if (chat.friendUsername === username) setFriendOnline(true);
+      chat.friendUsername === username && setFriendOnlineStatus('online');
     };
 
     const onUserDisconnection = (username: string) => {
-      if (chat.friendUsername === username) setFriendOnline(false);
+      chat.friendUsername === username && setFriendOnlineStatus('offline');
     };
 
     socket.emit('is-friend-online', chat.friendUsername, (online: boolean) => {
-      setFriendOnline(online);
+      setFriendOnlineStatus(online ? 'online' : 'offline');
     });
 
     socket.on('receive-message', onMessageReceive);
-
     socket.on('user-connected', onUserConnection);
-
     socket.on('user-disconnected', onUserDisconnection);
 
     return () => {
       socket.off('receive-message', onMessageReceive);
-
       socket.off('user-connected', onUserConnection);
-
       socket.off('user-disconnected', onUserDisconnection);
     };
-  }, [socket.connected]);
+  }, []);
 
   useEffect(() => {
     setMessages(chat.messages);
@@ -123,7 +121,7 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
             <span className='font-bold'>{`${chat.friendUsername}`}</span>
           </Link>
           <div>
-            {friendOnline ? (
+            {friendOnlineStatus === 'online' ? (
               <div className='flex items-baseline justify-center gap-2'>
                 <span className='inline-flex h-2 w-2 items-center justify-center rounded-full bg-emerald-400' />
                 <span>{friendTyping ? 'typing...' : 'online'}</span>
@@ -185,6 +183,9 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
         </div>
       )}
       <div className='flex gap-3'>
+        <Button className='w-full max-w-[40px]' variant='ghost' size='icon'>
+          <Paperclip size={ICON_INSIDE_BUTTON_SIZE} />
+        </Button>
         <Textarea
           className='min-h-full resize-none'
           rows={1}
@@ -201,6 +202,7 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
           }}
         />
         <Button
+          className='w-full max-w-[40px]'
           size='icon'
           disabled={messageInputValue.length === 0}
           onClick={onSendMessage}

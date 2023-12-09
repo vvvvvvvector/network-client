@@ -8,17 +8,19 @@ import { PAGES } from '@/lib/constants';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
-import { SocketType } from '@/zustand/socket.store';
+import { TSocket } from '@/zustand/socket.store';
 
 interface Props {
   chats: ChatFromListOfChats[];
-  socket: SocketType;
+  socket: TSocket;
 }
 
 export const ListOfChats: FC<Props> = ({ chats, socket }) => {
   const [onlineUsers, setOnlineUsers] = useState<{
     [username: string]: boolean;
-  }>({});
+  }>({
+    papich: true
+  });
 
   const { router } = useFrequentlyUsedHooks();
 

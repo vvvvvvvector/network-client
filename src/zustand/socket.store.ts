@@ -10,6 +10,7 @@ interface ListenEvents {
 }
 
 interface EmitEvents {
+  'is-friend-online': (username: string, cb: (online: boolean) => void) => void;
   'send-message': (
     message: {
       chatId: string;
@@ -18,13 +19,12 @@ interface EmitEvents {
     },
     cb: (responseFromServer: Message) => void
   ) => void;
-  'is-friend-online': (username: string, cb: (online: boolean) => void) => void;
 }
 
-export type SocketType = Socket<ListenEvents, EmitEvents>;
+export type TSocket = Socket<ListenEvents, EmitEvents>;
 
 type SocketState = {
-  socket: SocketType | null;
+  socket: TSocket | null;
   connect: (token: string) => void;
   disconnect: () => void;
 };
