@@ -4,14 +4,17 @@ import io, { Socket } from 'socket.io-client';
 import { Message } from '@/lib/types';
 
 interface ListenEvents {
-  'receive-message': (message: Message) => void;
-  'user-connected': (username: string) => void;
-  'user-disconnected': (username: string) => void;
+  'receive-private-message': (message: Message) => void;
+  'network-user-online': (username: string) => void;
+  'network-user-offline': (username: string) => void;
 }
 
 interface EmitEvents {
-  'is-friend-online': (username: string, cb: (online: boolean) => void) => void;
-  'send-message': (
+  'is-friend-in-chat-online': (
+    username: string,
+    cb: (online: boolean) => void
+  ) => void;
+  'send-private-message': (
     message: {
       chatId: string;
       content: string;

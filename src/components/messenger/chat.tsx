@@ -50,18 +50,22 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
       chat.friendUsername === username && setFriendOnlineStatus('offline');
     };
 
-    socket.emit('is-friend-online', chat.friendUsername, (online: boolean) => {
-      setFriendOnlineStatus(online ? 'online' : 'offline');
-    });
+    socket.emit(
+      'is-friend-in-chat-online',
+      chat.friendUsername,
+      (online: boolean) => {
+        setFriendOnlineStatus(online ? 'online' : 'offline');
+      }
+    );
 
-    socket.on('receive-message', onMessageReceive);
-    socket.on('user-connected', onUserConnection);
-    socket.on('user-disconnected', onUserDisconnection);
+    socket.on('receive-private-message', onMessageReceive);
+    socket.on('network-user-online', onUserConnection);
+    socket.on('network-user-offline', onUserDisconnection);
 
     return () => {
-      socket.off('receive-message', onMessageReceive);
-      socket.off('user-connected', onUserConnection);
-      socket.off('user-disconnected', onUserDisconnection);
+      socket.off('receive-private-message', onMessageReceive);
+      socket.off('network-user-offline', onUserConnection);
+      socket.off('network-user-offline', onUserDisconnection);
     };
   }, []);
 
@@ -92,7 +96,7 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
 
   const onSendMessage = () => {
     socket.emit(
-      'send-message',
+      'send-private-message',
       {
         chatId: chat.id,
         receiver: chat.friendUsername,
