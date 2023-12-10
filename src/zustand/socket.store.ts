@@ -4,12 +4,16 @@ import io, { Socket } from 'socket.io-client';
 import { Message } from '@/lib/types';
 
 interface ListenEvents {
+  typing: () => void;
+  'typing-stop': () => void;
   'receive-private-message': (message: Message) => void;
   'network-user-online': (username: string) => void;
   'network-user-offline': (username: string) => void;
 }
 
 interface EmitEvents {
+  typing: (data: { to: string }) => void;
+  'typing-stop': (data: { to: string }) => void;
   'is-friend-in-chat-online': (
     username: string,
     cb: (online: boolean) => void

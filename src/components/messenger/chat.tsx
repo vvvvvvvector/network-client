@@ -1,5 +1,6 @@
-import { FC, useState, useRef, useEffect } from 'react';
+import { FC, useState, useRef, useEffect, useCallback } from 'react';
 import { ChevronLeft, Paperclip, SendHorizontal } from 'lucide-react';
+import debounce from 'lodash.debounce';
 import Link from 'next/link';
 
 import { Textarea } from '@/components/ui/textarea';
@@ -37,6 +38,13 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
 
   const { router } = useFrequentlyUsedHooks();
 
+  const wait = useCallback(
+    debounce(() => {
+      stopTyping();
+    }, 3000),
+    []
+  );
+
   useEffect(() => {
     const onMessageReceive = (message: Message) => {
       setMessages((prev) => [...prev, message]);
@@ -50,6 +58,10 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
       chat.friendUsername === username && setFriendOnlineStatus('offline');
     };
 
+    const onFriendTyping = () => setFriendTyping(true);
+
+    const onFriendStopTyping = () => setFriendTyping(false);
+
     socket.emit(
       'is-friend-in-chat-online',
       chat.friendUsername,
@@ -57,15 +69,22 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
         setFriendOnlineStatus(online ? 'online' : 'offline');
       }
     );
-
     socket.on('receive-private-message', onMessageReceive);
+
     socket.on('network-user-online', onUserConnection);
     socket.on('network-user-offline', onUserDisconnection);
 
+    socket.on('typing', onFriendTyping);
+    socket.on('typing-stop', onFriendStopTyping);
+
     return () => {
       socket.off('receive-private-message', onMessageReceive);
+
       socket.off('network-user-offline', onUserConnection);
       socket.off('network-user-offline', onUserDisconnection);
+
+      socket.off('typing', onFriendTyping);
+      socket.off('typing-stop', onFriendStopTyping);
     };
   }, []);
 
@@ -94,6 +113,12 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
     }
   }, [messages]);
 
+  function stopTyping() {
+    socket.emit('typing-stop', {
+      to: chat.friendUsername
+    });
+  }
+
   const onSendMessage = () => {
     socket.emit(
       'send-private-message',
@@ -108,6 +133,8 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
     );
 
     setMessageInputValue('');
+
+    stopTyping();
   };
 
   return (
@@ -198,6 +225,12 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
           value={messageInputValue}
           onChange={(e) => {
             setMessageInputValue(e.target.value);
+
+            socket.emit('typing', {
+              to: chat.friendUsername
+            });
+
+            wait();
           }}
           onKeyDown={(e) => {
             const commandPlusEnter = e.metaKey && e.key === 'Enter';
