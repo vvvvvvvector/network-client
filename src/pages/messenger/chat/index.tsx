@@ -1,3 +1,4 @@
+import { FC, PropsWithChildren } from 'react';
 import { Loader2 } from 'lucide-react';
 
 import { NextPageWithLayout } from '@/pages/_app';
@@ -12,53 +13,50 @@ import { useChat } from '@/hooks/use-chat';
 
 import { useSocketStore } from '@/zustand/socket.store';
 
+const container_styles =
+  'flex h-[calc(100vh-3.5rem-0.8rem-0.8rem)] flex-col gap-2 rounded-lg bg-background p-4';
+
 const Index: NextPageWithLayout = () => {
-  const { router } = useFrequentlyUsedHooks();
+  const { data, isLoading } = useChat(
+    useFrequentlyUsedHooks()['router'].query.id as string | undefined
+  );
 
   const { socket } = useSocketStore();
 
-  const { data, isLoading } = useChat(router.query.id as string | undefined);
-
   if (isLoading) {
     return (
-      <div className='flex h-[calc(100vh-3.5rem-0.8rem-0.8rem)] flex-col gap-2 rounded-lg bg-background p-4'>
-        <div className='grid h-full w-full place-items-center'>
-          <Loader2 size={50} className='animate-spin' />
-        </div>
-      </div>
+      <OnLoadingAndOnErrorLayout>
+        <Loader2 size={50} className='animate-spin' />
+      </OnLoadingAndOnErrorLayout>
     );
   }
 
   if (!data) {
     return (
-      <div className='flex h-[calc(100vh-3.5rem-0.8rem-0.8rem)] flex-col gap-2 rounded-lg bg-background p-4'>
-        <div className='grid h-full w-full place-items-center'>
-          <p className='mb-7 mt-7 text-center leading-9'>
-            Error while loading the chat data
-            <br /> Please try again later
-            <br /> <span className='text-4xl'>😭</span>
-          </p>
-        </div>
-      </div>
+      <OnLoadingAndOnErrorLayout>
+        <p className='mb-7 mt-7 text-center leading-9'>
+          Error while loading the chat data
+          <br /> Please try again later
+          <br /> <span className='text-4xl'>😭</span>
+        </p>
+      </OnLoadingAndOnErrorLayout>
     );
   }
 
   if (!socket) {
     return (
-      <div className='flex h-[calc(100vh-3.5rem-0.8rem-0.8rem)] flex-col gap-2 rounded-lg bg-background p-4'>
-        <div className='grid h-full w-full place-items-center'>
-          <p className='mb-7 mt-7 text-center leading-9'>
-            Something wrong with your connection
-            <br /> Please try again later
-            <br /> <span className='text-4xl'>😭</span>
-          </p>
-        </div>
-      </div>
+      <OnLoadingAndOnErrorLayout>
+        <p className='mb-7 mt-7 text-center leading-9'>
+          Something wrong with your connection
+          <br /> Please try again later
+          <br /> <span className='text-4xl'>😭</span>
+        </p>
+      </OnLoadingAndOnErrorLayout>
     );
   }
 
   return (
-    <div className='flex h-[calc(100vh-3.5rem-0.8rem-0.8rem)] flex-col gap-2 rounded-lg bg-background p-4'>
+    <div className={container_styles}>
       <Chat chat={data} socket={socket} />
     </div>
   );
@@ -69,5 +67,13 @@ Index.getLayout = (page) => (
     <Authorized>{page}</Authorized>
   </Main>
 );
+
+const OnLoadingAndOnErrorLayout: FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <div className={container_styles}>
+      <div className='grid h-full w-full place-items-center'>{children}</div>
+    </div>
+  );
+};
 
 export default Index;

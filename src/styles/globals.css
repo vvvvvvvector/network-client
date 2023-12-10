@@ -100,7 +100,7 @@ body {
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: hsl(0, 0%, 72%);
+    background: hsla(0, 0%, 70%, 0.536);
     height: 250px;
     border-radius: 9999px;
   }

@@ -1,3 +1,4 @@
+import { FC, PropsWithChildren } from 'react';
 import useSWR from 'swr';
 import { Loader2 } from 'lucide-react';
 
@@ -20,39 +21,33 @@ const Messenger: NextPageWithLayout = () => {
 
   if (isLoading) {
     return (
-      <div className='rounded-lg bg-background'>
-        <div className='grid place-items-center rounded-lg bg-background p-20'>
-          <Loader2 size={50} className='animate-spin' />
-        </div>
-      </div>
+      <OnLoadingAndOnErrorLayout>
+        <Loader2 size={50} className='animate-spin' />
+      </OnLoadingAndOnErrorLayout>
     );
   }
 
   if (!data) {
     return (
-      <div className='rounded-lg bg-background'>
-        <div className='grid place-items-center rounded-lg bg-background p-20'>
-          <p className='text-center leading-9'>
-            Error while loading your chats data
-            <br /> Please try again later
-            <br /> <span className='text-4xl'>😭</span>
-          </p>
-        </div>
-      </div>
+      <OnLoadingAndOnErrorLayout>
+        <p className='text-center leading-9'>
+          Error while loading your chats data
+          <br /> Please try again later
+          <br /> <span className='text-4xl'>😭</span>
+        </p>
+      </OnLoadingAndOnErrorLayout>
     );
   }
 
   if (!socket) {
     return (
-      <div className='rounded-lg bg-background'>
-        <div className='grid place-items-center rounded-lg bg-background p-20'>
-          <p className='text-center leading-9'>
-            Something wrong with your connection
-            <br /> Please try again later
-            <br /> <span className='text-4xl'>😭</span>
-          </p>
-        </div>
-      </div>
+      <OnLoadingAndOnErrorLayout>
+        <p className='text-center leading-9'>
+          Something wrong with your connection
+          <br /> Please try again later
+          <br /> <span className='text-4xl'>😭</span>
+        </p>
+      </OnLoadingAndOnErrorLayout>
     );
   }
 
@@ -72,5 +67,15 @@ Messenger.getLayout = (page) => (
     <Authorized>{page}</Authorized>
   </Main>
 );
+
+const OnLoadingAndOnErrorLayout: FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <div className='rounded-lg bg-background'>
+      <div className='grid place-items-center rounded-lg bg-background p-20'>
+        {children}
+      </div>
+    </div>
+  );
+};
 
 export default Messenger;
