@@ -41,7 +41,7 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
   const wait = useCallback(
     debounce(() => {
       stopTyping();
-    }, 3000),
+    }, 5000),
     []
   );
 
@@ -155,7 +155,16 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
             {friendOnlineStatus === 'online' ? (
               <div className='flex items-baseline justify-center gap-2'>
                 <span className='inline-flex h-2 w-2 items-center justify-center rounded-full bg-emerald-400' />
-                <span>{friendTyping ? 'typing...' : 'online'}</span>
+                {friendTyping ? (
+                  <span className='flex items-baseline gap-[6px]'>
+                    <span>typing</span>
+                    <span className='animate-custom-bounce h-[4px] w-[4px] rounded-full bg-foreground' />
+                    <span className='animate-custom-bounce h-[4px] w-[4px] rounded-full bg-foreground delay-300' />
+                    <span className='animate-custom-bounce h-[4px] w-[4px] rounded-full bg-foreground delay-500' />
+                  </span>
+                ) : (
+                  <span>online</span>
+                )}
               </div>
             ) : (
               <span>{`last seen ${formatDate(
