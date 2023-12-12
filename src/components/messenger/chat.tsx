@@ -1,5 +1,10 @@
 import { FC, useState, useRef, useEffect, useCallback } from 'react';
-import { ChevronLeft, Paperclip, SendHorizontal } from 'lucide-react';
+import {
+  ChevronLeft,
+  MoreVertical,
+  Paperclip,
+  SendHorizontal
+} from 'lucide-react';
 import debounce from 'lodash.debounce';
 import Link from 'next/link';
 
@@ -169,9 +174,11 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
                 )}
               </div>
             ) : (
-              <span>{`last seen ${formatDate(
-                chat.friendLastSeen
-              )} at ${formatTime(chat.friendLastSeen)}`}</span>
+              <span>
+                {`last seen ${formatDate(chat.friendLastSeen)} at ${formatTime(
+                  chat.friendLastSeen
+                )}`}
+              </span>
             )}
           </div>
         </div>
@@ -192,11 +199,21 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
             {messages.map((message) => (
               <li
                 key={message.id}
-                className={cn({
-                  'text-end':
-                    message.sender.username === chat.authorizedUserUsername
-                })}
+                className={cn(
+                  'group inline-flex items-center justify-end gap-2',
+                  {
+                    'flex-row-reverse':
+                      message.sender.username === chat.friendUsername
+                  }
+                )}
               >
+                <Button
+                  className='hidden group-hover:inline-flex group-focus:inline-flex'
+                  size='icon'
+                  variant='ghost'
+                >
+                  <MoreVertical size={ICON_INSIDE_BUTTON_SIZE} />
+                </Button>
                 <div className='inline-flex w-[84%] max-w-max flex-col gap-3 rounded-xl bg-neutral-100 p-3 text-sm dark:bg-[hsl(0,0%,13%)]'>
                   {message.sender.username !== chat.authorizedUserUsername && (
                     <span className='font-semibold underline'>

@@ -84,7 +84,7 @@ const Header = () => {
 
   const { router, toast } = useFrequentlyUsedHooks();
 
-  const { data } = useSWR<User & AvatarWithoutLikes>(
+  const { data } = useSWR<Omit<User, 'lastSeen'> & AvatarWithoutLikes>(
     url,
     getAuthorizedUserUsernameAndAvatar
   );
