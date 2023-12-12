@@ -156,11 +156,11 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
               <div className='flex items-baseline justify-center gap-2'>
                 <span className='inline-flex h-2 w-2 items-center justify-center rounded-full bg-emerald-400' />
                 {friendTyping ? (
-                  <span className='flex items-baseline gap-[6px]'>
+                  <span className='flex items-baseline gap-2'>
                     <span>typing</span>
-                    <span className='animate-custom-bounce h-[4px] w-[4px] rounded-full bg-foreground' />
-                    <span className='animate-custom-bounce h-[4px] w-[4px] rounded-full bg-foreground delay-300' />
-                    <span className='animate-custom-bounce h-[4px] w-[4px] rounded-full bg-foreground delay-500' />
+                    <span className='animate-friend-typing h-[3px] w-[3px] rounded-full bg-foreground' />
+                    <span className='animate-friend-typing h-[3px] w-[3px] rounded-full bg-foreground delay-300' />
+                    <span className='animate-friend-typing h-[3px] w-[3px] rounded-full bg-foreground delay-500' />
                   </span>
                 ) : (
                   <span>online</span>

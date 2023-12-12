@@ -61,6 +61,10 @@ export default {
         sm: 'calc(var(--radius) - 4px)'
       },
       keyframes: {
+        'friend-typing': {
+          '0%, 100%': { transform: 'initial' },
+          '50%': { transform: 'scale(1.95)', opacity: '0.6' }
+        },
         'custom-bounce': {
           '0%, 100%': { transform: 'initial' },
           '50%': { transform: 'translateY(-4px)' }
@@ -75,6 +79,7 @@ export default {
         }
       },
       animation: {
+        'friend-typing': 'friend-typing 1.2s linear infinite',
         'custom-bounce': 'custom-bounce 1.1s linear infinite',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out'
