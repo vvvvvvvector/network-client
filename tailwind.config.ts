@@ -61,6 +61,13 @@ export default {
         sm: 'calc(var(--radius) - 4px)'
       },
       keyframes: {
+        slide: {
+          from: {
+            transform: 'rotateX(-90deg)',
+            transformOrigin: 'top'
+          },
+          to: { transform: 'rotateX(0deg)' }
+        },
         'friend-typing': {
           '0%, 100%': { transform: 'initial' },
           '50%': { transform: 'scale(1.95)', opacity: '0.6' }
@@ -79,10 +86,11 @@ export default {
         }
       },
       animation: {
-        'friend-typing': 'friend-typing 1.2s linear infinite',
+        slide: 'slide .4s ease-in',
+        'friend-typing': 'friend-typing .7s linear infinite',
         'custom-bounce': 'custom-bounce 1.1s linear infinite',
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out'
+        'accordion-down': 'accordion-down .2s ease-out',
+        'accordion-up': 'accordion-up .2s ease-out'
       }
     }
   },

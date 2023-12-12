@@ -41,7 +41,7 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
   const wait = useCallback(
     debounce(() => {
       stopTyping();
-    }, 5000),
+    }, 7000),
     []
   );
 
@@ -149,21 +149,23 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
         </Button>
         <div className='flex flex-col gap-1 text-center text-sm'>
           <Link href={`/${chat.friendUsername}`} target='_blank'>
-            <span className='font-bold'>{`${chat.friendUsername}`}</span>
+            <b>{`${chat.friendUsername}`}</b>
           </Link>
           <div>
             {friendOnlineStatus === 'online' ? (
               <div className='flex items-baseline justify-center gap-2'>
-                <span className='inline-flex h-2 w-2 items-center justify-center rounded-full bg-emerald-400' />
                 {friendTyping ? (
-                  <span className='flex items-baseline gap-2'>
+                  <span className='flex items-baseline gap-[5px]'>
                     <span>typing</span>
                     <span className='animate-friend-typing h-[3px] w-[3px] rounded-full bg-foreground' />
                     <span className='animate-friend-typing h-[3px] w-[3px] rounded-full bg-foreground delay-300' />
                     <span className='animate-friend-typing h-[3px] w-[3px] rounded-full bg-foreground delay-500' />
                   </span>
                 ) : (
-                  <span>online</span>
+                  <span className='animate-slide flex items-baseline gap-2'>
+                    <span className='inline-flex h-2 w-2 items-center justify-center rounded-full bg-emerald-400' />
+                    <span>online</span>
+                  </span>
                 )}
               </div>
             ) : (
