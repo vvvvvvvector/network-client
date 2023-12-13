@@ -14,7 +14,7 @@ import { Avatar } from '@/components/avatar';
 
 import { Chat as TChat, Message } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
-import { cn, formatDate, formatTime } from '@/lib/utils';
+import { cn, formatDate, formatTime, prettifyLastSeenDate } from '@/lib/utils';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useFocus } from '@/hooks/use-focus';
@@ -161,24 +161,22 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
               <div className='flex items-baseline justify-center gap-2'>
                 {friendTyping ? (
                   <span className='flex items-baseline gap-[5px]'>
-                    <span>typing</span>
-                    <span className='animate-friend-typing h-[3px] w-[3px] rounded-full bg-foreground' />
-                    <span className='animate-friend-typing h-[3px] w-[3px] rounded-full bg-foreground delay-300' />
-                    <span className='animate-friend-typing h-[3px] w-[3px] rounded-full bg-foreground delay-500' />
+                    <span className='h-[3px] w-[3px] animate-friend-typing rounded-full bg-foreground' />
+                    <span className='h-[3px] w-[3px] animate-friend-typing rounded-full bg-foreground delay-300' />
+                    <span className='h-[3px] w-[3px] animate-friend-typing rounded-full bg-foreground delay-500' />
+                    <span className='ml-1'>typing</span>
                   </span>
                 ) : (
-                  <span className='animate-slide flex items-baseline gap-2'>
+                  <span className='flex animate-slide items-baseline gap-2'>
                     <span className='inline-flex h-2 w-2 items-center justify-center rounded-full bg-emerald-400' />
                     <span>online</span>
                   </span>
                 )}
               </div>
             ) : (
-              <span>
-                {`last seen ${formatDate(chat.friendLastSeen)} at ${formatTime(
-                  chat.friendLastSeen
-                )}`}
-              </span>
+              <span>{`last seen ${prettifyLastSeenDate(
+                chat.friendLastSeen
+              )}`}</span>
             )}
           </div>
         </div>
