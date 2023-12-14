@@ -79,7 +79,12 @@ export const FriendProfile: FC<
             <span>{`bio: ${user.profile.bio ?? 'no bio yet 😔'}`}</span>
           </div>
         </div>
-        <Badge className='absolute -right-0 -top-0'>{`Friend 🎉`}</Badge>
+        <div className='absolute -right-0 -top-0 flex gap-2'>
+          {onlineStatus === 'online' && (
+            <Badge className='bg-emerald-400'>{`Online 👋`}</Badge>
+          )}
+          <Badge>{`Friend 🎉`}</Badge>
+        </div>
         <div className='flex items-center gap-4'>
           <Button onClick={writeMessage(user.username)}>Message</Button>
           <Tooltip side='bottom' text='Unfriend'>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { Search, UserPlus, SearchSlash } from 'lucide-react';
+import Link from 'next/link';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
@@ -19,7 +20,6 @@ import { getNetworkUsersUsernames } from '@/api/friends';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
-import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import { BaseFriendRequestStatus, UserFromListOfUsers } from '@/lib/types';
@@ -50,8 +50,6 @@ const Find: NextPageWithLayout<Props> = ({
   const { router } = useFrequentlyUsedHooks();
 
   const { send } = useRequestsActions();
-
-  const { goToProfile } = useCommonActions();
 
   if (!users) {
     return (
@@ -132,17 +130,18 @@ const Find: NextPageWithLayout<Props> = ({
               key={user.username}
             >
               <div className='flex items-center gap-3'>
-                <Avatar
-                  size='medium'
-                  username={user.username}
-                  avatar={user.profile.avatar?.name}
-                />
-                <span
-                  onClick={goToProfile(user.username)}
-                  className='cursor-pointer hover:underline'
-                >
-                  {user.username}
-                </span>
+                <Link href={`/${user.username}`}>
+                  <Avatar
+                    size='medium'
+                    username={user.username}
+                    avatar={user.profile.avatar?.name}
+                  />
+                </Link>
+                <Link href={`/${user.username}`}>
+                  <span className='cursor-pointer hover:underline'>
+                    {user.username}
+                  </span>
+                </Link>
               </div>
               {user.requestStatus === 'none' ? (
                 <Tooltip text='Send a friend request'>

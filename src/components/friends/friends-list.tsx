@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
+import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -27,7 +28,7 @@ interface Props {
 export const FriendsList: FC<Props> = ({ users }) => {
   const { unfriend } = useRequestsActions();
 
-  const { goToProfile, writeMessage } = useCommonActions();
+  const { writeMessage } = useCommonActions();
 
   if (!users.length) {
     return (
@@ -45,17 +46,18 @@ export const FriendsList: FC<Props> = ({ users }) => {
           key={user.username}
         >
           <div className='flex items-center gap-3'>
-            <Avatar
-              size='medium'
-              username={user.username}
-              avatar={user.profile.avatar?.name}
-            />
-            <span
-              onClick={goToProfile(user.username)}
-              className='cursor-pointer hover:underline'
-            >
-              {user.username}
-            </span>
+            <Link href={`/${user.username}`}>
+              <Avatar
+                size='medium'
+                username={user.username}
+                avatar={user.profile.avatar?.name}
+              />
+            </Link>
+            <Link href={`/${user.username}`}>
+              <span className='cursor-pointer hover:underline'>
+                {user.username}
+              </span>
+            </Link>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

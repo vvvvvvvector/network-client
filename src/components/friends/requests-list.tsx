@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Check, Undo2, X } from 'lucide-react';
+import Link from 'next/link';
 
 import { RequestsTypes } from '@/pages/friends/requests';
 
@@ -7,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Tooltip } from '@/components/tooltip';
 import { Avatar } from '@/components/avatar';
 
-import { useCommonActions } from '@/hooks/use-common-actions';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
@@ -63,8 +63,6 @@ interface Props {
 }
 
 export const RequestsList: FC<Props> = ({ type, users }) => {
-  const { goToProfile } = useCommonActions();
-
   const { accept, reject, cancel } = useRequestsActions();
 
   const ON_CLICKS = (type: RequestsTypes) => {
@@ -96,17 +94,18 @@ export const RequestsList: FC<Props> = ({ type, users }) => {
           key={user.username}
         >
           <div className='flex items-center gap-3'>
-            <Avatar
-              size='medium'
-              username={user.username}
-              avatar={user.profile.avatar?.name}
-            />
-            <span
-              onClick={goToProfile(user.username)}
-              className='cursor-pointer hover:underline'
-            >
-              {user.username}
-            </span>
+            <Link href={`/${user.username}`}>
+              <Avatar
+                size='medium'
+                username={user.username}
+                avatar={user.profile.avatar?.name}
+              />
+            </Link>
+            <Link href={`/${user.username}`}>
+              <span className='cursor-pointer hover:underline'>
+                {user.username}
+              </span>
+            </Link>
           </div>
           {BUTTONS[type]({
             onClicks: ON_CLICKS(type)(user.username)

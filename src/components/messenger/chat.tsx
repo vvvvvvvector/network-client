@@ -31,6 +31,7 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
   const [messageInputValue, setMessageInputValue] = useState('');
 
   const [messages, setMessages] = useState<Message[]>([]);
+  const [lastSeen, setLastSeen] = useState(chat.friendLastSeen);
 
   const [friendTyping, setFriendTyping] = useState(false);
   const [friendOnlineStatus, setFriendOnlineStatus] = useState<
@@ -57,24 +58,29 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
     };
 
     const onUserConnection = (username: string) => {
-      chat.friendUsername === username && setFriendOnlineStatus('online');
+      if (chat.friendUsername === username) {
+        setFriendOnlineStatus('online');
+      }
     };
 
     const onUserDisconnection = (username: string) => {
-      chat.friendUsername === username && setFriendOnlineStatus('offline');
+      if (chat.friendUsername === username) {
+        setFriendOnlineStatus('offline');
+
+        setLastSeen(new Date().toString());
+      }
     };
 
     const onFriendTyping = () => setFriendTyping(true);
 
     const onFriendStopTyping = () => setFriendTyping(false);
 
-    socket.emit(
-      'is-friend-online',
-      chat.friendUsername,
-      (online: boolean) => {
-        setFriendOnlineStatus(online ? 'online' : 'offline');
-      }
-    );
+    socket.emit('is-friend-online', chat.friendUsername, (online: boolean) => {
+      console.log(online);
+
+      setFriendOnlineStatus(online ? 'online' : 'offline');
+    });
+
     socket.on('receive-private-message', onMessageReceive);
 
     socket.on('network-user-online', onUserConnection);
@@ -175,7 +181,7 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
                 )}
               </div>
             ) : (
-              <LastSeen lastSeen={chat.friendLastSeen} />
+              <LastSeen lastSeen={lastSeen} />
             )}
           </div>
         </div>
