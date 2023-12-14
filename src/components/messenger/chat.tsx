@@ -11,10 +11,11 @@ import Link from 'next/link';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/avatar';
+import { LastSeen } from '@/components/messenger/last-seen';
 
 import { Chat as TChat, Message } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
-import { cn, formatDate, formatTime, prettifyLastSeenDate } from '@/lib/utils';
+import { cn, formatDate, formatTime } from '@/lib/utils';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useFocus } from '@/hooks/use-focus';
@@ -174,9 +175,7 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
                 )}
               </div>
             ) : (
-              <span>{`last seen ${prettifyLastSeenDate(
-                chat.friendLastSeen
-              )}`}</span>
+              <LastSeen lastSeen={chat.friendLastSeen} />
             )}
           </div>
         </div>

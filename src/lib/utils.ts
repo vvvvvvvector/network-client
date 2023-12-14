@@ -18,14 +18,14 @@ export function prettifyLastSeenDate(date: string) {
   const diff = new Date().valueOf() - new Date(date).valueOf();
 
   const inSeconds = diff / 1000;
-  console.log('inSeconds: ', inSeconds);
+  // console.log('inSeconds: ', inSeconds);
 
   if (inSeconds < 60) {
     return 'just now';
   }
 
   const inMinutes = inSeconds / 60;
-  console.log('inMinutes: ', inMinutes);
+  // console.log('inMinutes: ', inMinutes);
 
   if (inMinutes < 60) {
     const minutes = Math.floor(inMinutes);
@@ -34,7 +34,7 @@ export function prettifyLastSeenDate(date: string) {
   }
 
   const inHours = inMinutes / 60;
-  console.log('inHours: ', inHours);
+  // console.log('inHours: ', inHours);
 
   if (inHours < 21) {
     const hours = Math.floor(inHours);
@@ -45,10 +45,10 @@ export function prettifyLastSeenDate(date: string) {
   return `${formatDate(date)} at ${formatTime(date)}`;
 }
 
-export function formatDate(date: string) {
+export function formatDate(date: string, month: 'short' | 'long' = 'long') {
   return new Date(date).toLocaleDateString(undefined, {
-    day: '2-digit',
-    month: 'long',
+    day: 'numeric',
+    month,
     year: 'numeric'
   });
 }

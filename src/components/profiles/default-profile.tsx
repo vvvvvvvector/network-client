@@ -183,7 +183,7 @@ export const DefaultProfile: FC<
       <ul className='flex flex-col gap-5'>
         <li>
           <time suppressHydrationWarning>
-            {`last seen ${formatDate(user.lastSeen)} at ${formatTime(
+            {`last seen: ${formatDate(user.lastSeen)} at ${formatTime(
               user.lastSeen
             )}`}
           </time>
