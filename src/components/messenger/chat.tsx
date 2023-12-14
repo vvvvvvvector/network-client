@@ -76,8 +76,6 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
     const onFriendStopTyping = () => setFriendTyping(false);
 
     socket.emit('is-friend-online', chat.friendUsername, (online: boolean) => {
-      console.log(online);
-
       setFriendOnlineStatus(online ? 'online' : 'offline');
     });
 

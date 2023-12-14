@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 import { Avatar } from '@/components/avatar';
 
@@ -18,11 +18,53 @@ interface Props {
 export const ListOfChats: FC<Props> = ({ chats, socket }) => {
   const [onlineUsers, setOnlineUsers] = useState<{
     [username: string]: boolean;
-  }>({
-    papich: true
-  });
+  }>(
+    chats.reduce(
+      (accumulator, currentValue) =>
+        Object.assign(accumulator, {
+          [currentValue.friendUsername]: false
+        }),
+      {}
+    )
+  );
 
   const { router } = useFrequentlyUsedHooks();
+
+  useEffect(() => {
+    const onUserConnection = (username: string) => {
+      if (username in onlineUsers) {
+        setOnlineUsers((onlineUsers) => ({
+          ...onlineUsers,
+          [username]: true
+        }));
+      }
+    };
+
+    const onUserDisconnection = (username: string) => {
+      if (username in onlineUsers) {
+        setOnlineUsers((onlineUsers) => ({
+          ...onlineUsers,
+          [username]: false
+        }));
+      }
+    };
+
+    socket.emit(
+      'which-friends-in-messenger-online',
+      Object.keys(onlineUsers),
+      (onlineUsers) => {
+        setOnlineUsers(onlineUsers);
+      }
+    );
+
+    socket.on('network-user-online', onUserConnection);
+    socket.on('network-user-offline', onUserDisconnection);
+
+    return () => {
+      socket.off('network-user-online', onUserConnection);
+      socket.off('network-user-offline', onUserConnection);
+    };
+  }, []);
 
   if (!chats.length) {
     return (

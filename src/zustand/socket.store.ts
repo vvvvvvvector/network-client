@@ -23,6 +23,10 @@ interface EmitEvents {
     },
     cb: (responseFromServer: Message) => void
   ) => void;
+  'which-friends-in-messenger-online': (
+    users: string[],
+    cb: (onlineUsers: { [username: string]: boolean }) => void
+  ) => void;
 }
 
 export type TSocket = Socket<ListenEvents, EmitEvents>;

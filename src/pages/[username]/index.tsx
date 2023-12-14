@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import { FC, PropsWithChildren } from 'react';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
@@ -32,28 +33,22 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
 
   if (!socket) {
     return (
-      <div className='rounded-lg bg-background p-5'>
-        <p className='mb-7 mt-7 text-center leading-9'>
-          Something wrong with your connection
-          <br /> Please try again later
-          <br /> <span className='text-4xl'>😭</span>
-        </p>
-      </div>
+      <OnErrorLayout>
+        Something wrong with your connection
+        <br /> Please try again later
+        <br /> <span className='text-4xl'>😭</span>
+      </OnErrorLayout>
     );
   }
 
   if (!user) {
     return (
-      <div className='rounded-lg bg-background p-5'>
-        <p className='mb-7 mt-7 text-center leading-9'>
-          <span>
-            User
-            <span className='font-bold'>{` ${router.query.username} `}</span>
-            doesn't exist.
-          </span>
-          <br /> <span className='text-4xl'>🧐</span>
-        </p>
-      </div>
+      <OnErrorLayout>
+        User
+        <b>{` ${router.query.username} `}</b>
+        doesn't exist.
+        <br /> <span className='text-4xl'>🧐</span>
+      </OnErrorLayout>
     );
   }
 
@@ -92,6 +87,14 @@ Index.getLayout = (page) => {
     <Main title={title}>
       <Authorized>{page}</Authorized>
     </Main>
+  );
+};
+
+const OnErrorLayout: FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <div className='rounded-lg bg-background p-5'>
+      <p className='mb-11 mt-11 text-center leading-9'>{children}</p>
+    </div>
   );
 };
 
