@@ -14,10 +14,7 @@ interface ListenEvents {
 interface EmitEvents {
   typing: (data: { to: string }) => void;
   'typing-stop': (data: { to: string }) => void;
-  'is-friend-in-chat-online': (
-    username: string,
-    cb: (online: boolean) => void
-  ) => void;
+  'is-friend-online': (username: string, cb: (online: boolean) => void) => void;
   'send-private-message': (
     message: {
       chatId: string;

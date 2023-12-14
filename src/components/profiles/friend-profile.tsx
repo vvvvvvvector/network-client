@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Heart, Image, UserCheck } from 'lucide-react';
 
 import {
@@ -23,12 +23,26 @@ import { NetworkUser } from '@/lib/types';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
+import { TSocket } from '@/zustand/socket.store';
+
 export const FriendProfile: FC<
-  Omit<NetworkUser, 'extendedFriendRequestStatus'>
-> = (user) => {
+  { user: Omit<NetworkUser, 'extendedFriendRequestStatus'> } & {
+    socket: TSocket;
+  }
+> = ({ user, socket }) => {
+  const [onlineStatus, setOnlineStatus] = useState<'online' | 'offline'>(
+    'offline'
+  );
+
   const { writeMessage, openPhoto } = useCommonActions();
 
   const { unfriend } = useRequestsActions();
+
+  useEffect(() => {
+    socket.emit('is-friend-online', user.username, (online: boolean) => {
+      setOnlineStatus(online ? 'online' : 'offline');
+    });
+  }, []);
 
   return (
     <div className='rounded-lg bg-background p-5'>
@@ -36,11 +50,16 @@ export const FriendProfile: FC<
         <div className='flex items-center gap-5'>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Avatar
-                size='large'
-                username={user.username}
-                avatar={user.profile.avatar?.name}
-              />
+              <div className='relative'>
+                <Avatar
+                  size='large'
+                  username={user.username}
+                  avatar={user.profile.avatar?.name}
+                />
+                {onlineStatus === 'online' && (
+                  <span className='absolute bottom-2 right-2 h-6 w-6 rounded-full border-[3px] border-background bg-emerald-400' />
+                )}
+              </div>
             </DropdownMenuTrigger>
             {user.profile.avatar && (
               <DropdownMenuContent>
@@ -76,13 +95,15 @@ export const FriendProfile: FC<
       </div>
       <Separator className='mb-4 mt-4' />
       <ul className='flex flex-col gap-5'>
-        <li>
-          <time suppressHydrationWarning>
-            {`last seen: ${formatDate(user.lastSeen)} at ${formatTime(
-              user.lastSeen
-            )}`}
-          </time>
-        </li>
+        {onlineStatus === 'offline' && (
+          <li>
+            <time suppressHydrationWarning>
+              {`last seen: ${formatDate(user.lastSeen)} at ${formatTime(
+                user.lastSeen
+              )}`}
+            </time>
+          </li>
+        )}
         <li>{`avatar likes: ${
           user.profile.avatar?.likes ?? 'no photo yet'
         } ❤️`}</li>
