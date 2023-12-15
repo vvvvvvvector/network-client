@@ -4,27 +4,33 @@ import { NextPageWithLayout } from '@/pages/_app';
 
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
-import { Friends } from '@/layouts/friends';
+import { Friends as FriendsLayout } from '@/layouts/friends';
 
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { FriendsList } from '@/components/friends/friends-list';
+import { Friends } from '@/components/friends/friends';
 
 import { getMyFriends } from '@/api/friends';
 
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
-
 import { isAuthorized, isRedirect } from '@/lib/auth';
-import { PAGES } from '@/lib/constants';
 import { UserFromListOfUsers } from '@/lib/types';
-import { cn } from '@/lib/utils';
+
+import { useSocketStore } from '@/zustand/socket.store';
 
 interface Props {
   users: UserFromListOfUsers[] | null;
 }
 
 const Index: NextPageWithLayout<Props> = ({ users }) => {
-  const { router } = useFrequentlyUsedHooks();
+  const { socket } = useSocketStore();
+
+  if (!socket) {
+    return (
+      <p className='mb-7 mt-7 text-center leading-9'>
+        Something wrong with your connection
+        <br /> Please try again later
+        <br /> <span className='text-4xl'>😭</span>
+      </p>
+    );
+  }
 
   if (!users) {
     return (
@@ -36,48 +42,13 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
     );
   }
 
-  return (
-    <>
-      <div className='flex items-center justify-between text-sm'>
-        <ul className='flex gap-7'>
-          <li
-            className={cn(
-              `cursor-pointer rounded bg-accent p-2 px-[1rem] py-[0.5rem] hover:bg-accent`
-            )}
-          >
-            {`All friends [${users.length}]`}
-          </li>
-          <li
-            className={cn(
-              `cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-accent`
-            )}
-          >
-            {`Online [${0}]`}
-          </li>
-        </ul>
-        <Button
-          onClick={() => {
-            router.push({
-              pathname: PAGES.FRIENDS_FIND,
-              query: {
-                page: 1
-              }
-            });
-          }}
-        >
-          Find friends
-        </Button>
-      </div>
-      <Separator className='mb-4 mt-4' />
-      <FriendsList users={users} />
-    </>
-  );
+  return <Friends users={users} socket={socket} />;
 };
 
 Index.getLayout = (page) => (
   <Main title='Authorised / My Friends'>
     <Authorized>
-      <Friends>{page}</Friends>
+      <FriendsLayout>{page}</FriendsLayout>
     </Authorized>
   </Main>
 );

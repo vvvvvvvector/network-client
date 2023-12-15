@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC } from 'react';
 
 import { Avatar } from '@/components/avatar';
 
@@ -7,6 +7,7 @@ import { formatDate, formatTime } from '@/lib/utils';
 import { PAGES } from '@/lib/constants';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
 import { TSocket } from '@/zustand/socket.store';
 
@@ -16,55 +17,18 @@ interface Props {
 }
 
 export const ListOfChats: FC<Props> = ({ chats, socket }) => {
-  const [onlineUsers, setOnlineUsers] = useState<{
-    [username: string]: boolean;
-  }>(
+  const { router } = useFrequentlyUsedHooks();
+
+  const connectionsInformation = useConnectionsInformation(
+    socket,
     chats.reduce(
       (accumulator, currentValue) =>
         Object.assign(accumulator, {
-          [currentValue.friendUsername]: false
+          [currentValue.friendUsername]: 'offline'
         }),
       {}
     )
   );
-
-  const { router } = useFrequentlyUsedHooks();
-
-  useEffect(() => {
-    const onUserConnection = (username: string) => {
-      if (username in onlineUsers) {
-        setOnlineUsers((onlineUsers) => ({
-          ...onlineUsers,
-          [username]: true
-        }));
-      }
-    };
-
-    const onUserDisconnection = (username: string) => {
-      if (username in onlineUsers) {
-        setOnlineUsers((onlineUsers) => ({
-          ...onlineUsers,
-          [username]: false
-        }));
-      }
-    };
-
-    socket.emit(
-      'which-friends-in-messenger-online',
-      Object.keys(onlineUsers),
-      (onlineUsers) => {
-        setOnlineUsers(onlineUsers);
-      }
-    );
-
-    socket.on('network-user-online', onUserConnection);
-    socket.on('network-user-offline', onUserDisconnection);
-
-    return () => {
-      socket.off('network-user-online', onUserConnection);
-      socket.off('network-user-offline', onUserConnection);
-    };
-  }, []);
 
   if (!chats.length) {
     return (
@@ -97,7 +61,7 @@ export const ListOfChats: FC<Props> = ({ chats, socket }) => {
               username={chat.friendUsername}
               avatar={chat.friendAvatar || undefined}
             />
-            {onlineUsers[chat.friendUsername] && (
+            {connectionsInformation[chat.friendUsername] === 'online' && (
               <span className='absolute bottom-0 right-0 h-4 w-4 rounded-full border-[2px] border-background bg-emerald-400 transition-[background-color] group-hover:border-neutral-200 group-hover:dark:border-neutral-700' />
             )}
           </div>
@@ -106,9 +70,10 @@ export const ListOfChats: FC<Props> = ({ chats, socket }) => {
               <span className='font-bold'>{chat.friendUsername}</span>
               <time>
                 {(chat.lastMessageSentAt &&
-                  `${formatDate(chat.lastMessageSentAt)} / ${formatTime(
-                    chat.lastMessageSentAt
-                  )}`) ||
+                  `${formatDate(
+                    chat.lastMessageSentAt,
+                    'short'
+                  )} / ${formatTime(chat.lastMessageSentAt)}`) ||
                   ''}
               </time>
             </div>

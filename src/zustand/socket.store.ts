@@ -23,9 +23,11 @@ interface EmitEvents {
     },
     cb: (responseFromServer: Message) => void
   ) => void;
-  'which-friends-in-messenger-online': (
+  'which-friends-online': (
     users: string[],
-    cb: (onlineUsers: { [username: string]: boolean }) => void
+    cb: (connectionsInformation: {
+      [username: string]: 'online' | 'offline';
+    }) => void
   ) => void;
 }
 

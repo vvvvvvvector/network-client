@@ -224,7 +224,14 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
                   <p className='whitespace-pre-wrap break-words text-start'>
                     {message.content}
                   </p>
-                  <time className='text-xs'>
+                  <time
+                    className={cn('text-xs', {
+                      'text-start':
+                        message.sender.username === chat.friendUsername,
+                      'text-end':
+                        message.sender.username === chat.authorizedUserUsername
+                    })}
+                  >
                     {`[${formatDate(message.createdAt)} / ${formatTime(
                       message.createdAt
                     )}]`}
