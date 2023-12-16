@@ -20,14 +20,13 @@ import { cn, formatDate, formatTime } from '@/lib/utils';
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useFocus } from '@/hooks/use-focus';
 
-import { TSocket } from '@/zustand/socket.store';
+import { useSocketStore } from '@/zustand/socket.store';
 
 interface Props {
   chat: TChat;
-  socket: TSocket;
 }
 
-export const Chat: FC<Props> = ({ chat, socket }) => {
+export const Chat: FC<Props> = ({ chat }) => {
   const [messageInputValue, setMessageInputValue] = useState('');
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -44,6 +43,8 @@ export const Chat: FC<Props> = ({ chat, socket }) => {
   const messageInputRef = useFocus<HTMLTextAreaElement>();
 
   const { router } = useFrequentlyUsedHooks();
+
+  const { socket } = useSocketStore();
 
   const wait = useCallback(
     debounce(() => {

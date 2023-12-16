@@ -11,18 +11,14 @@ import { PAGES } from '@/lib/constants';
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
-import { TSocket } from '@/zustand/socket.store';
-
 interface Props {
   users: UserFromListOfUsers[];
-  socket: TSocket;
 }
 
-export const Friends: FC<Props> = ({ users, socket }) => {
+export const Friends: FC<Props> = ({ users }) => {
   const [tab, setTab] = useState<'all' | 'online'>('all');
 
   const connectionsInformation = useConnectionsInformation(
-    socket,
     users.reduce(
       (accumulator, currentValue) =>
         Object.assign(accumulator, {

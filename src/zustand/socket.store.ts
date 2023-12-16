@@ -3,15 +3,15 @@ import io, { Socket } from 'socket.io-client';
 
 import { Message } from '@/lib/types';
 
-interface ListenEvents {
+type ListenEvents = {
   typing: () => void;
   'typing-stop': () => void;
   'receive-private-message': (message: Message) => void;
   'network-user-online': (username: string) => void;
   'network-user-offline': (username: string) => void;
-}
+};
 
-interface EmitEvents {
+type EmitEvents = {
   typing: (data: { to: string }) => void;
   'typing-stop': (data: { to: string }) => void;
   'is-friend-online': (username: string, cb: (online: boolean) => void) => void;
@@ -29,26 +29,25 @@ interface EmitEvents {
       [username: string]: 'online' | 'offline';
     }) => void
   ) => void;
-}
+};
 
 export type TSocket = Socket<ListenEvents, EmitEvents>;
 
 type SocketState = {
-  socket: TSocket | null;
+  socket: TSocket;
   connect: (token: string) => void;
   disconnect: () => void;
 };
 
 export const useSocketStore = create<SocketState>((set) => ({
-  socket: null,
+  socket: io('http://localhost:5120', {
+    autoConnect: false
+  }),
   connect: (token: string) =>
-    set(() => {
-      const socket = io('http://localhost:5120', {
-        autoConnect: false,
-        auth: {
-          token
-        }
-      });
+    set((state) => {
+      const socket = state.socket;
+
+      socket.auth = { token };
 
       socket.connect();
 
@@ -58,10 +57,8 @@ export const useSocketStore = create<SocketState>((set) => ({
     set((state) => {
       const socket = state.socket;
 
-      if (socket) {
-        socket.disconnect();
-      }
+      socket.disconnect();
 
-      return { socket: null };
+      return { socket };
     })
 }));

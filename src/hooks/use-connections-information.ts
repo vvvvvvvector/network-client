@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { TSocket } from '@/zustand/socket.store';
+import { useSocketStore } from '@/zustand/socket.store';
 
-export const useConnectionsInformation = (
-  socket: TSocket,
-  init: {
-    [username: string]: 'online' | 'offline';
-  }
-) => {
+export const useConnectionsInformation = (init: {
+  [username: string]: 'online' | 'offline';
+}) => {
   const [connectionsInformation, setConnectionsInformation] = useState(init);
+
+  const { socket } = useSocketStore();
 
   useEffect(() => {
     const onUserConnection = (username: string) => {

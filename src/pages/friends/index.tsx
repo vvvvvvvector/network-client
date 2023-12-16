@@ -13,25 +13,11 @@ import { getMyFriends } from '@/api/friends';
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import { UserFromListOfUsers } from '@/lib/types';
 
-import { useSocketStore } from '@/zustand/socket.store';
-
 interface Props {
   users: UserFromListOfUsers[] | null;
 }
 
 const Index: NextPageWithLayout<Props> = ({ users }) => {
-  const { socket } = useSocketStore();
-
-  if (!socket) {
-    return (
-      <p className='mb-7 mt-7 text-center leading-9'>
-        Something wrong with your connection
-        <br /> Please try again later
-        <br /> <span className='text-4xl'>😭</span>
-      </p>
-    );
-  }
-
   if (!users) {
     return (
       <p className='mb-7 mt-7 text-center leading-9'>
@@ -42,7 +28,7 @@ const Index: NextPageWithLayout<Props> = ({ users }) => {
     );
   }
 
-  return <Friends users={users} socket={socket} />;
+  return <Friends users={users} />;
 };
 
 Index.getLayout = (page) => (

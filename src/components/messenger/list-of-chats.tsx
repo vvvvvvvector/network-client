@@ -9,18 +9,14 @@ import { PAGES } from '@/lib/constants';
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
-import { TSocket } from '@/zustand/socket.store';
-
 interface Props {
   chats: ChatFromListOfChats[];
-  socket: TSocket;
 }
 
-export const ListOfChats: FC<Props> = ({ chats, socket }) => {
+export const ListOfChats: FC<Props> = ({ chats }) => {
   const { router } = useFrequentlyUsedHooks();
 
   const connectionsInformation = useConnectionsInformation(
-    socket,
     chats.reduce(
       (accumulator, currentValue) =>
         Object.assign(accumulator, {

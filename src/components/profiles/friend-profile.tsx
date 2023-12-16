@@ -23,13 +23,11 @@ import { NetworkUser } from '@/lib/types';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
-import { TSocket } from '@/zustand/socket.store';
+import { useSocketStore } from '@/zustand/socket.store';
 
 export const FriendProfile: FC<
-  { user: Omit<NetworkUser, 'extendedFriendRequestStatus'> } & {
-    socket: TSocket;
-  }
-> = ({ user, socket }) => {
+  Omit<NetworkUser, 'extendedFriendRequestStatus'>
+> = (user) => {
   const [onlineStatus, setOnlineStatus] = useState<'online' | 'offline'>(
     'offline'
   );
@@ -37,6 +35,8 @@ export const FriendProfile: FC<
   const { writeMessage, openPhoto } = useCommonActions();
 
   const { unfriend } = useRequestsActions();
+
+  const { socket } = useSocketStore();
 
   useEffect(() => {
     socket.emit('is-friend-online', user.username, (online: boolean) => {

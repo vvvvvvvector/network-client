@@ -16,8 +16,6 @@ import { NetworkUser } from '@/lib/types';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
-import { useSocketStore } from '@/zustand/socket.store';
-
 type PageUrlParams = {
   username: string;
 };
@@ -28,18 +26,6 @@ export interface Props {
 
 const Index: NextPageWithLayout<Props> = ({ user }) => {
   const { router } = useFrequentlyUsedHooks();
-
-  const { socket } = useSocketStore();
-
-  if (!socket) {
-    return (
-      <OnErrorLayout>
-        Something wrong with your connection
-        <br /> Please try again later
-        <br /> <span className='text-4xl'>😭</span>
-      </OnErrorLayout>
-    );
-  }
 
   if (!user) {
     return (
@@ -55,13 +41,10 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
   if (user.extendedFriendRequestStatus === 'friend')
     return (
       <FriendProfile
-        socket={socket}
-        user={{
-          username: user.username,
-          profile: user.profile,
-          lastSeen: user.lastSeen,
-          contacts: user.contacts
-        }}
+        username={user.username}
+        profile={user.profile}
+        lastSeen={user.lastSeen}
+        contacts={user.contacts}
       />
     );
 

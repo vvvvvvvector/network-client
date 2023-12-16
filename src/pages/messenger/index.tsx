@@ -12,11 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
 
-import { useSocketStore } from '@/zustand/socket.store';
-
 const Messenger: NextPageWithLayout = () => {
-  const { socket } = useSocketStore();
-
   const { data, isLoading } = useSWR(CHATS_ROUTE, getAutorizedUserChats);
 
   if (isLoading) {
@@ -39,25 +35,13 @@ const Messenger: NextPageWithLayout = () => {
     );
   }
 
-  if (!socket) {
-    return (
-      <OnLoadingAndOnErrorLayout>
-        <p className='text-center leading-9'>
-          Something wrong with your connection
-          <br /> Please try again later
-          <br /> <span className='text-4xl'>😭</span>
-        </p>
-      </OnLoadingAndOnErrorLayout>
-    );
-  }
-
   return (
     <div className='rounded-lg bg-background'>
       <div className='p-5'>
         <span>Messenger</span>
         <Separator className='mt-5' />
       </div>
-      <ListOfChats chats={data} socket={socket} />
+      <ListOfChats chats={data} />
     </div>
   );
 };
