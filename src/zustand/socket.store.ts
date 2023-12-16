@@ -57,6 +57,8 @@ export const useSocketStore = create<SocketState>((set) => ({
     set((state) => {
       const socket = state.socket;
 
+      socket.auth = {};
+
       socket.disconnect();
 
       return { socket };
