@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
 import { GetServerSideProps } from 'next';
 import { Search, UserPlus, SearchSlash } from 'lucide-react';
 import Link from 'next/link';
@@ -28,29 +28,81 @@ import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
 export type RequestStatus = BaseFriendRequestStatus | 'none';
 
-interface Props {
-  users: (UserFromListOfUsers & { requestStatus: RequestStatus })[] | null;
-  totalPages: number;
-  limitPerPage: number;
-}
-
 const REQUEST_INFO: Record<Exclude<RequestStatus, 'none'>, string> = {
   rejected: 'Request already exists',
   accepted: 'Already friends',
   pending: 'Request already exists'
 };
 
+type State = {
+  searchValue: string;
+  currentPage: number;
+};
+
+export type Action =
+  | {
+      type: 'SET_SEARCH_VALUE';
+      payload: string;
+    }
+  | {
+      type: 'SET_CUSTOM_PAGE';
+      payload: number;
+    }
+  | {
+      type: 'RESET_SEARCH';
+    }
+  | {
+      type: 'SET_PAGE_TO_FIRST';
+    }
+  | {
+      type: 'NEXT_PAGE';
+    }
+  | {
+      type: 'PREVIOUS_PAGE';
+    };
+
+const findPageReducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case 'SET_SEARCH_VALUE':
+      return { ...state, searchValue: action.payload };
+    case 'NEXT_PAGE':
+      return { ...state, currentPage: state.currentPage + 1 };
+    case 'PREVIOUS_PAGE':
+      return { ...state, currentPage: state.currentPage - 1 };
+    case 'SET_CUSTOM_PAGE':
+      return { ...state, currentPage: action.payload };
+    case 'RESET_SEARCH':
+      return {
+        currentPage: 1,
+        searchValue: ''
+      };
+    case 'SET_PAGE_TO_FIRST':
+      return { ...state, currentPage: 1 };
+    default:
+      const _: never = action;
+      throw Error('Unknown action.');
+  }
+};
+
+interface Props {
+  users: (UserFromListOfUsers & { requestStatus: RequestStatus })[] | null;
+  totalPages: number;
+  limitPerPage: number;
+}
+
 const Find: NextPageWithLayout<Props> = ({
   users,
   totalPages,
   limitPerPage
 }) => {
-  const [searchValue, setSearchValue] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const { router } = useFrequentlyUsedHooks();
+  const [{ currentPage, searchValue }, dispatch] = useReducer(findPageReducer, {
+    searchValue: '',
+    currentPage: 1
+  });
 
   const inputRef = useFocus<HTMLInputElement>();
+
+  const { router } = useFrequentlyUsedHooks();
 
   const { send } = useRequestsActions();
 
@@ -67,7 +119,7 @@ const Find: NextPageWithLayout<Props> = ({
         { scroll: false }
       );
 
-      setCurrentPage(1);
+      dispatch({ type: 'SET_PAGE_TO_FIRST' });
     }
   };
 
@@ -82,9 +134,7 @@ const Find: NextPageWithLayout<Props> = ({
       { scroll: false }
     );
 
-    setCurrentPage(1);
-
-    setSearchValue('');
+    dispatch({ type: 'RESET_SEARCH' });
   };
 
   if (!users) {
@@ -106,7 +156,9 @@ const Find: NextPageWithLayout<Props> = ({
         <Input
           ref={inputRef}
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) =>
+            dispatch({ type: 'SET_SEARCH_VALUE', payload: e.target.value })
+          }
           onKeyDown={(e) => {
             if (e.key === 'Enter') onSearch();
           }}
@@ -165,8 +217,8 @@ const Find: NextPageWithLayout<Props> = ({
       )}
       {users.length > 0 && totalPages > 1 && (
         <Pagination
+          dispatch={dispatch}
           currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
           totalPages={totalPages}
         />
       )}

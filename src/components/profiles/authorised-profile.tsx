@@ -73,7 +73,6 @@ export const AuthorisedProfile: FC<AuthorisedUser> = (user) => {
                 accept='image/jpeg, image/png, image/jpg'
                 hidden
               />
-
               <label
                 htmlFor='avatar'
                 className='flex cursor-pointer items-center'

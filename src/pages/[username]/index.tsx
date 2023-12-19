@@ -38,23 +38,21 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
     );
   }
 
-  if (user.extendedFriendRequestStatus === 'friend')
-    return (
-      <FriendProfile
-        username={user.username}
-        profile={user.profile}
-        lastSeen={user.lastSeen}
-        contacts={user.contacts}
-      />
-    );
+  const commonProps = {
+    username: user.username,
+    profile: user.profile,
+    lastSeen: user.lastSeen,
+    contacts: user.contacts
+  };
+
+  const requestStatus = user.extendedFriendRequestStatus;
+
+  if (requestStatus === 'friend') return <FriendProfile {...commonProps} />;
 
   return (
     <DefaultProfile
-      extendedFriendRequestStatus={user.extendedFriendRequestStatus}
-      username={user.username}
-      lastSeen={user.lastSeen}
-      profile={user.profile}
-      contacts={user.contacts}
+      extendedFriendRequestStatus={requestStatus}
+      {...commonProps}
     />
   );
 };
