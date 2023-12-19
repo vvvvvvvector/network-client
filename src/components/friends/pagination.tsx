@@ -6,18 +6,12 @@ import { Button } from '@/components/ui/button';
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 interface Props {
-  display: boolean;
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   totalPages: number;
 }
 
-const Pagination: FC<Props> = ({
-  display,
-  totalPages,
-  currentPage,
-  setCurrentPage
-}) => {
+const Pagination: FC<Props> = ({ totalPages, currentPage, setCurrentPage }) => {
   const { router } = useFrequentlyUsedHooks();
 
   useEffect(() => {
@@ -37,23 +31,15 @@ const Pagination: FC<Props> = ({
     }
   }, [currentPage]);
 
-  const onClickPrevPage = () => {
-    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
-  };
-
-  const onClickNextPage = () => {
-    if (totalPages > currentPage) setCurrentPage((prev) => prev + 1);
-  };
-
-  if (!display) return null;
-
   return (
     <div className='mt-4 flex justify-center gap-1'>
       <Button
         variant='ghost'
         size='icon'
         disabled={currentPage === 1}
-        onClick={onClickPrevPage}
+        onClick={() => {
+          if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+        }}
       >
         <ChevronLeft />
       </Button>
@@ -70,7 +56,9 @@ const Pagination: FC<Props> = ({
         variant='ghost'
         size='icon'
         disabled={currentPage === totalPages}
-        onClick={onClickNextPage}
+        onClick={() => {
+          if (totalPages > currentPage) setCurrentPage((prev) => prev + 1);
+        }}
       >
         <ChevronRight />
       </Button>

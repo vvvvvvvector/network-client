@@ -4,7 +4,11 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { avatarSource, cn } from '@/lib/utils';
 
-import { A, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  Avatar as AvatarFromUI,
+  AvatarFallback,
+  AvatarImage
+} from '@/components/ui/avatar';
 
 const avatarVariants = cva('', {
   variants: {
@@ -31,10 +35,12 @@ export const Avatar: FC<AvatarProps> = ({
   avatar,
   className
 }) => {
+  const uppercaseFirstLetterFallback = username[0].toLocaleUpperCase();
+
   return (
-    <A className={cn(avatarVariants({ size }), className)}>
+    <AvatarFromUI className={cn(avatarVariants({ size }), className)}>
       <AvatarImage src={avatarSource(avatar)} />
-      <AvatarFallback>{username[0]?.toLocaleUpperCase()}</AvatarFallback>
-    </A>
+      <AvatarFallback>{uppercaseFirstLetterFallback}</AvatarFallback>
+    </AvatarFromUI>
   );
 };

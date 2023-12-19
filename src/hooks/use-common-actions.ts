@@ -13,6 +13,10 @@ export const useCommonActions = () => {
     router.push(`/${username}`);
   };
 
+  const onClickOpenPhoto = (avatarName: string | undefined) => () => {
+    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${avatarName}`;
+  };
+
   const onClickWriteMessage = (username: string) => async () => {
     try {
       const existingChatId = await getChatIdByAddresseeUsername(username); // Object.is(existingChatId, '') -> true
@@ -42,10 +46,6 @@ export const useCommonActions = () => {
         });
       }
     }
-  };
-
-  const onClickOpenPhoto = (avatarName: string | undefined) => () => {
-    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${avatarName}`;
   };
 
   return {

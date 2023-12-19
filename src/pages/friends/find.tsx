@@ -20,6 +20,7 @@ import { getNetworkUsersUsernames } from '@/api/friends';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
+import { useFocus } from '@/hooks/use-focus';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import { BaseFriendRequestStatus, UserFromListOfUsers } from '@/lib/types';
@@ -49,7 +50,42 @@ const Find: NextPageWithLayout<Props> = ({
 
   const { router } = useFrequentlyUsedHooks();
 
+  const inputRef = useFocus<HTMLInputElement>();
+
   const { send } = useRequestsActions();
+
+  const onSearch = async () => {
+    if (searchValue) {
+      await router.push(
+        {
+          query: {
+            page: 1,
+            username: searchValue
+          }
+        },
+        undefined,
+        { scroll: false }
+      );
+
+      setCurrentPage(1);
+    }
+  };
+
+  const onResetSearch = async () => {
+    await router.push(
+      {
+        query: {
+          page: 1
+        }
+      },
+      undefined,
+      { scroll: false }
+    );
+
+    setCurrentPage(1);
+
+    setSearchValue('');
+  };
 
   if (!users) {
     return (
@@ -68,54 +104,21 @@ const Find: NextPageWithLayout<Props> = ({
       </div>
       <div className='flex justify-between gap-5 text-sm'>
         <Input
+          ref={inputRef}
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') onSearch();
+          }}
           placeholder='Search...'
         />
         {!router.query.username ? (
-          <Button
-            onClick={async () => {
-              if (searchValue) {
-                await router.push(
-                  {
-                    query: {
-                      page: 1,
-                      username: searchValue
-                    }
-                  },
-                  undefined,
-                  { scroll: false }
-                );
-
-                setCurrentPage(1);
-              }
-            }}
-            size='icon'
-            className='w-14'
-          >
+          <Button onClick={onSearch} size='icon' className='w-14'>
             <Search size={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         ) : (
           <Tooltip text='Reset search'>
-            <Button
-              onClick={async () => {
-                await router.push(
-                  {
-                    query: {
-                      page: 1
-                    }
-                  },
-                  undefined,
-                  { scroll: false }
-                );
-
-                setCurrentPage(1);
-
-                setSearchValue('');
-              }}
-              size='icon'
-              className='w-14'
-            >
+            <Button onClick={onResetSearch} size='icon' className='w-14'>
               <SearchSlash size={ICON_INSIDE_BUTTON_SIZE} />
             </Button>
           </Tooltip>
@@ -160,12 +163,13 @@ const Find: NextPageWithLayout<Props> = ({
           Your search returned no results.
         </span>
       )}
-      <Pagination
-        display={users.length > 0 && totalPages > 1}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalPages={totalPages}
-      />
+      {users.length > 0 && totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+        />
+      )}
     </>
   );
 };
