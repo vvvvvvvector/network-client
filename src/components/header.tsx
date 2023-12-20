@@ -196,9 +196,7 @@ const Header = () => {
                       onClick={() => {
                         signOut();
 
-                        toast({
-                          description: 'You have successfully signed out.'
-                        });
+                        toast.success('You have successfully signed out.');
 
                         router.push(PAGES.SIGN_IN);
                       }}

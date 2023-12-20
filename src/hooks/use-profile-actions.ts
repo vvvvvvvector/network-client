@@ -32,19 +32,14 @@ export const useProfileActions = (
           await updateAvatar(e.target.files[0]);
         }
 
-        toast({
-          description: 'An avatar was successfully updated.'
-        });
+        toast.success('An avatar was successfully updated.');
 
         e.target.value = '';
 
         revalidate();
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
+          toast.error(`${error.response?.data.message}`);
         }
       }
     };
@@ -57,19 +52,14 @@ export const useProfileActions = (
           await uploadAvatar(e.target.files[0]);
         }
 
-        toast({
-          description: 'An avatar was successfully uploaded.'
-        });
+        toast.success('An avatar was successfully uploaded.');
 
         e.target.value = '';
 
         revalidate();
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
+          toast.error(`${error.response?.data.message}`);
         }
       }
     };
@@ -80,17 +70,12 @@ export const useProfileActions = (
       try {
         await deleteAvatar();
 
-        toast({
-          description: 'An avatar was successfully deleted.'
-        });
+        toast.success('An avatar was successfully deleted.');
 
         revalidate();
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
+          toast.error(`${error.response?.data.message}`);
         }
       }
     };
@@ -101,17 +86,12 @@ export const useProfileActions = (
       try {
         await updateBio(bio);
 
-        toast({
-          description: 'Bio was successfully updated.'
-        });
+        toast.success('Bio was successfully updated.');
 
         router.replace(router.asPath, undefined, { scroll: false });
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
+          toast.error(`${error.response?.data.message}`);
         }
       }
     };

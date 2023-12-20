@@ -1,10 +1,10 @@
-import type { ReactElement, ReactNode } from 'react';
+import type { FC, ReactElement, ReactNode } from 'react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { Source_Code_Pro } from 'next/font/google';
 
-import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { Toaster } from '@/components/toaster';
 
 import '@/styles/globals.css';
 
@@ -32,14 +32,12 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page); // Use the layout defined at the page level, if available
 
   return (
-    <ThemeProvider>
-      {getLayout(
-        <>
-          {globalStyles()}
-          <Component {...pageProps} />
-          <Toaster />
-        </>
-      )}
-    </ThemeProvider>
+    <>
+      {globalStyles()}
+      <ThemeProvider>
+        {getLayout(<Component {...pageProps} />)}
+        <Toaster fontFamily={globalFont.style.fontFamily} />
+      </ThemeProvider>
+    </>
   );
 }

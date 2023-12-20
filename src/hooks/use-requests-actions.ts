@@ -23,17 +23,14 @@ export const useRequestsActions = () => {
     try {
       await unfriend(username);
 
-      toast({
-        description: `${username} was successfully deleted from your friends list.`
-      });
+      toast.success(
+        `${username} was successfully deleted from your friends list.`
+      );
 
       revalidate();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast({
-          variant: 'destructive',
-          description: `${error.response?.data.message}`
-        });
+        toast.error(`${error.response?.data.message}`);
       }
     }
   };
@@ -47,17 +44,12 @@ export const useRequestsActions = () => {
       try {
         await acceptFriendRequest(username);
 
-        toast({
-          description: 'Friend request was successfully accepted.'
-        });
+        toast.success('Friend request was successfully accepted.');
 
         revalidate();
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
+          toast.error(`${error.response?.data.message}`);
         }
       }
     };
@@ -72,17 +64,12 @@ export const useRequestsActions = () => {
       try {
         await rejectFriendRequest(username);
 
-        toast({
-          description: 'Friend request was successfully rejected.'
-        });
+        toast.success('Friend request was successfully rejected.');
 
         revalidate();
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
+          toast.error(`${error.response?.data.message}`);
         }
       }
     };
@@ -95,17 +82,12 @@ export const useRequestsActions = () => {
       try {
         await cancelFriendRequest(username);
 
-        toast({
-          description: 'Friend request was successfully canceled.'
-        });
+        toast.success('Friend request was successfully canceled.');
 
         revalidate();
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
+          toast.error(`${error.response?.data.message}`);
         }
       }
     };
@@ -120,17 +102,12 @@ export const useRequestsActions = () => {
       try {
         await sendFriendRequest(username);
 
-        toast({
-          description: 'Friend request was successfully sent.'
-        });
+        toast.success('Friend request was successfully sent.');
 
         revalidate();
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          toast({
-            variant: 'destructive',
-            description: `${error.response?.data.message}`
-          });
+          toast.error(`${error.response?.data.message}`);
         }
       }
     };

@@ -61,8 +61,7 @@ export function SignUpForm() {
 
       setLoading(false);
 
-      toast({
-        title: `Activation link has been sent to ${receiver}.`,
+      toast.success(`Activation link has been sent to ${receiver}.`, {
         description: `Link: ${link}`
       });
 
@@ -71,10 +70,7 @@ export function SignUpForm() {
       setLoading(false);
 
       if (axios.isAxiosError(error)) {
-        toast({
-          variant: 'destructive',
-          description: `${error.response?.data.message}`
-        });
+        toast.error(`${error.response?.data.message}`);
       }
     }
   };

@@ -56,19 +56,14 @@ export function SignInForm() {
         path: '/'
       });
 
-      toast({
-        description: 'You have successfully signed in.'
-      });
+      toast.success('You have successfully signed in.');
 
       router.push(PAGES.NEWS);
     } catch (error) {
       setLoading(false);
 
       if (axios.isAxiosError(error)) {
-        toast({
-          variant: 'destructive',
-          description: `${error.response?.data.message}`
-        });
+        toast.error(`${error.response?.data.message}`);
       }
     }
   };

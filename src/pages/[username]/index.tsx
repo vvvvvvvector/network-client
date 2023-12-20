@@ -60,7 +60,7 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
 Index.getLayout = (page) => {
   const notFoundTitle = 'User not found :<';
 
-  const username = page.props.children[1].props.user?.username || notFoundTitle;
+  const username = page.props.user?.username || notFoundTitle;
 
   const title = username === notFoundTitle ? notFoundTitle : `@${username}`;
 

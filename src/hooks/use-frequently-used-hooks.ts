@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 
-import { useToast } from '@/components/ui/use-toast';
+import { toast as sonnerToast } from 'sonner';
 
 export const useFrequentlyUsedHooks = () => ({
   router: useRouter(),
-  toast: useToast()['toast']
+  toast: sonnerToast
 });

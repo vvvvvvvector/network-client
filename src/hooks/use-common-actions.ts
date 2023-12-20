@@ -40,10 +40,7 @@ export const useCommonActions = () => {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast({
-          variant: 'destructive',
-          description: `${error.response?.data.message}`
-        });
+        toast.error(`${error.response?.data.message}`);
       }
     }
   };
