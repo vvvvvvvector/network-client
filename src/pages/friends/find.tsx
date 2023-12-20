@@ -80,7 +80,7 @@ const findPageReducer = (state: State, action: Action) => {
       return { ...state, currentPage: 1 };
     default:
       const _: never = action;
-      throw Error('Unknown action.');
+      throw 'Unknown action.';
   }
 };
 

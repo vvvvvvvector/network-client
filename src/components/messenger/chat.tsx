@@ -1,4 +1,11 @@
-import { FC, useState, useRef, useEffect, useCallback } from 'react';
+import {
+  FC,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useReducer
+} from 'react';
 import {
   ChevronLeft,
   MoreVertical,
@@ -22,6 +29,65 @@ import { useFocus } from '@/hooks/use-focus';
 
 import { useSocketStore } from '@/zustand/socket.store';
 
+type State = {
+  messages: Message[];
+  lastSeen: string;
+  friendTyping: boolean;
+  friendOnlineStatus: 'online' | 'offline';
+};
+
+type Action =
+  | { type: 'SYNC_MESSAGES'; payload: Message[] }
+  | { type: 'ADD_NEW_MESSAGE'; payload: Message }
+  | { type: 'UPDATE_LAST_SEEN_DATE' }
+  | { type: 'FRIEND_IS_ONLINE' }
+  | { type: 'FRIEND_IS_OFFLINE' }
+  | { type: 'FRIEND_IS_TYPING' }
+  | { type: 'FRIEND_FINISHED_TYPING' };
+
+const chatReducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case 'SYNC_MESSAGES':
+      return {
+        ...state,
+        messages: action.payload
+      };
+    case 'ADD_NEW_MESSAGE':
+      return {
+        ...state,
+        messages: [...state.messages, action.payload]
+      };
+    case 'UPDATE_LAST_SEEN_DATE':
+      return {
+        ...state,
+        lastSeen: new Date().toString()
+      };
+    case 'FRIEND_IS_ONLINE':
+      return {
+        ...state,
+        friendOnlineStatus: 'online' as const
+      };
+    case 'FRIEND_IS_OFFLINE':
+      return {
+        ...state,
+        friendOnlineStatus: 'offline' as const
+      };
+    case 'FRIEND_IS_TYPING':
+      return {
+        ...state,
+        friendTyping: true
+      };
+    case 'FRIEND_FINISHED_TYPING':
+      return {
+        ...state,
+        friendTyping: false
+      };
+    default:
+      const _: never = action;
+      throw 'Not all cases are covered';
+  }
+};
+
 interface Props {
   chat: TChat;
 }
@@ -29,13 +95,19 @@ interface Props {
 export const Chat: FC<Props> = ({ chat }) => {
   const [messageInputValue, setMessageInputValue] = useState('');
 
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [lastSeen, setLastSeen] = useState(chat.friendLastSeen);
+  const [state, dispatch] = useReducer(chatReducer, {
+    messages: [],
+    lastSeen: chat.friendLastSeen, // not sure about setting props to a state, but it works well 🤔🤔🤔
+    friendTyping: false,
+    friendOnlineStatus: 'offline'
+  });
 
-  const [friendTyping, setFriendTyping] = useState(false);
-  const [friendOnlineStatus, setFriendOnlineStatus] = useState<
-    'online' | 'offline'
-  >('offline');
+  const wait = useCallback(
+    debounce(() => {
+      stopTyping();
+    }, 7000),
+    []
+  );
 
   const messagesListRef = useRef<HTMLUListElement>(null);
   const messagesListMountedFlag = useRef(false);
@@ -46,38 +118,36 @@ export const Chat: FC<Props> = ({ chat }) => {
 
   const { socket } = useSocketStore();
 
-  const wait = useCallback(
-    debounce(() => {
-      stopTyping();
-    }, 7000),
-    []
-  );
-
   useEffect(() => {
     const onMessageReceive = (message: Message) => {
-      setMessages((prev) => [...prev, message]);
+      dispatch({ type: 'ADD_NEW_MESSAGE', payload: message });
     };
 
     const onUserConnection = (username: string) => {
       if (chat.friendUsername === username) {
-        setFriendOnlineStatus('online');
+        dispatch({ type: 'FRIEND_IS_ONLINE' });
       }
     };
 
     const onUserDisconnection = (username: string) => {
       if (chat.friendUsername === username) {
-        setFriendOnlineStatus('offline');
+        dispatch({ type: 'FRIEND_IS_OFFLINE' });
 
-        setLastSeen(new Date().toString());
+        dispatch({ type: 'UPDATE_LAST_SEEN_DATE' });
       }
     };
 
-    const onFriendTyping = () => setFriendTyping(true);
+    const onFriendTyping = () => dispatch({ type: 'FRIEND_IS_TYPING' });
 
-    const onFriendStopTyping = () => setFriendTyping(false);
+    const onFriendFinishedTyping = () =>
+      dispatch({ type: 'FRIEND_FINISHED_TYPING' });
 
     socket.emit('is-friend-online', chat.friendUsername, (online: boolean) => {
-      setFriendOnlineStatus(online ? 'online' : 'offline');
+      if (online) {
+        dispatch({ type: 'FRIEND_IS_ONLINE' });
+      } else {
+        dispatch({ type: 'FRIEND_IS_OFFLINE' });
+      }
     });
 
     socket.on('receive-private-message', onMessageReceive);
@@ -86,7 +156,7 @@ export const Chat: FC<Props> = ({ chat }) => {
     socket.on('network-user-offline', onUserDisconnection);
 
     socket.on('typing', onFriendTyping);
-    socket.on('typing-stop', onFriendStopTyping);
+    socket.on('typing-stop', onFriendFinishedTyping);
 
     return () => {
       socket.off('receive-private-message', onMessageReceive);
@@ -95,17 +165,17 @@ export const Chat: FC<Props> = ({ chat }) => {
       socket.off('network-user-offline', onUserDisconnection);
 
       socket.off('typing', onFriendTyping);
-      socket.off('typing-stop', onFriendStopTyping);
+      socket.off('typing-stop', onFriendFinishedTyping);
     };
   }, []);
 
   useEffect(() => {
-    setMessages(chat.messages);
+    dispatch({ type: 'SYNC_MESSAGES', payload: chat.messages }); // todo: without it there isn't ?sync between messages in db and state? and bugs appear. im not sure why i did it recently, im going to figure it out later
 
     messagesListMountedFlag.current = true;
   }, [chat]);
 
-  // scroll ul to very bottom
+  // scroll ul to very bottom when a user opens a chat
   useEffect(() => {
     if (messagesListRef.current && messagesListMountedFlag.current) {
       messagesListRef.current.scrollTop = messagesListRef.current.scrollHeight;
@@ -114,15 +184,15 @@ export const Chat: FC<Props> = ({ chat }) => {
 
   // scroll ul to very bottom when authorized user sends a message
   useEffect(() => {
-    if (messages.length > 0 && messagesListRef.current) {
-      const lastMessage = messages[messages.length - 1];
+    if (state.messages.length > 0 && messagesListRef.current) {
+      const lastMessage = state.messages[state.messages.length - 1];
 
       if (lastMessage.sender.username === chat.authorizedUserUsername) {
         messagesListRef.current.scrollTop =
           messagesListRef.current.scrollHeight;
       }
     }
-  }, [messages]);
+  }, [state.messages]);
 
   function stopTyping() {
     socket.emit('typing-stop', {
@@ -138,9 +208,8 @@ export const Chat: FC<Props> = ({ chat }) => {
         receiver: chat.friendUsername,
         content: messageInputValue.trim()
       },
-      (message: Message) => {
-        setMessages((prev) => [...prev, message]);
-      }
+      (message: Message) =>
+        dispatch({ type: 'ADD_NEW_MESSAGE', payload: message })
     );
 
     setMessageInputValue('');
@@ -163,9 +232,9 @@ export const Chat: FC<Props> = ({ chat }) => {
             <b>{`${chat.friendUsername}`}</b>
           </Link>
           <div>
-            {friendOnlineStatus === 'online' ? (
+            {state.friendOnlineStatus === 'online' ? (
               <div className='flex items-baseline justify-center gap-2'>
-                {friendTyping ? (
+                {state.friendTyping ? (
                   <span className='flex items-baseline gap-[5px]'>
                     <span className='h-[3px] w-[3px] animate-friend-typing rounded-full bg-foreground' />
                     <span className='h-[3px] w-[3px] animate-friend-typing rounded-full bg-foreground delay-300' />
@@ -180,7 +249,7 @@ export const Chat: FC<Props> = ({ chat }) => {
                 )}
               </div>
             ) : (
-              <LastSeen lastSeen={lastSeen} />
+              <LastSeen lastSeen={state.lastSeen} />
             )}
           </div>
         </div>
@@ -192,13 +261,13 @@ export const Chat: FC<Props> = ({ chat }) => {
           />
         </Link>
       </div>
-      {messages.length > 0 ? (
+      {state.messages.length > 0 ? (
         <div className='flex h-full flex-col justify-end overflow-y-hidden'>
           <ul
             ref={messagesListRef}
             className='custom-scrollbar flex flex-col gap-3 overflow-y-scroll pr-1'
           >
-            {messages.map((message) => (
+            {state.messages.map((message) => (
               <li
                 key={message.id}
                 className={cn(
