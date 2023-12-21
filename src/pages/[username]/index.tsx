@@ -15,6 +15,7 @@ import { isAuthorized, isRedirect } from '@/lib/auth';
 import type { NetworkUser } from '@/lib/types';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+import { PAGES } from '@/lib/constants';
 
 type PageUrlParams = {
   username: string;
@@ -85,9 +86,17 @@ export const getServerSideProps = (async (context) => {
 
     if (isRedirect(res)) return res;
 
-    const { username } = context.params!; // ! operator is a type assertion operator that tells the TypeScript compiler that a variable is not null or undefined, and it should be treated as such.
+    const { username: networkUserUsername } = context.params!; // ! operator is a type assertion operator that tells the TypeScript compiler that a variable is not null or undefined, and it should be treated as such.
 
-    const user = await getNetworkUserPubliclyAvailableData(username);
+    if (networkUserUsername === res.authorizedUserUsername)
+      return {
+        redirect: {
+          destination: PAGES.PROFILE,
+          permanent: false
+        }
+      };
+
+    const user = await getNetworkUserPubliclyAvailableData(networkUserUsername);
 
     return {
       props: {

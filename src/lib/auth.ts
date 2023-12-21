@@ -13,20 +13,39 @@ type Redirect = {
 };
 
 export const isRedirect = (
-  res: { redirect: Redirect } | undefined
+  res:
+    | {
+        redirect: Redirect;
+      }
+    | {
+        authorizedUserUsername: string;
+      }
 ): res is { redirect: Redirect } => {
-  if (!res) return false;
+  if ('authorizedUserUsername' in res) return false; // if authorizedUserUsername in res -> return false
 
   return 'redirect' in res;
 };
 
-export const isAuthorized = async (ctx: GetServerSidePropsContext) => {
+export const isAuthorized = async (
+  ctx: GetServerSidePropsContext
+): Promise<
+  | {
+      authorizedUserUsername: string;
+    }
+  | {
+      redirect: Redirect;
+    }
+> => {
   const token = nookies.get(ctx)[TOKEN_NAME]; // get token from the request
 
   axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`; // set cookie / token on the server
 
   try {
-    await getAuthorizedUserUsername(); // request which requires token. It will return error if user is not authorized
+    const username = await getAuthorizedUserUsername(); // request which requires token. It will return error if user is not authorized
+
+    return {
+      authorizedUserUsername: username
+    };
   } catch (err) {
     return {
       redirect: {
