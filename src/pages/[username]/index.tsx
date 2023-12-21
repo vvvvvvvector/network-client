@@ -91,7 +91,7 @@ export const getServerSideProps = (async (context) => {
     if (networkUserUsername === res.authorizedUserUsername)
       return {
         redirect: {
-          destination: PAGES.PROFILE,
+          destination: PAGES.MY_PROFILE,
           permanent: false
         }
       };

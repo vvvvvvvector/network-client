@@ -127,7 +127,7 @@ const Header = () => {
                       <span>Profile: </span>
                       <span
                         onClick={() => {
-                          router.push(PAGES.PROFILE);
+                          router.push(PAGES.MY_PROFILE);
 
                           setOpen(false);
                         }}

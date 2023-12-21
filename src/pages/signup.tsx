@@ -34,7 +34,7 @@ export const getServerSideProps = (async (context) => {
 
     return {
       redirect: {
-        destination: PAGES.PROFILE,
+        destination: PAGES.MY_PROFILE,
         permanent: false
       }
     };
