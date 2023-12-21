@@ -1,4 +1,4 @@
-import type { FC, ReactElement, ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { Source_Code_Pro } from 'next/font/google';

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTheme } from 'next-themes';
 import { Toaster as SuperCoolSonnerToaster } from 'sonner';
 

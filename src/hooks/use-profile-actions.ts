@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import type { ChangeEvent } from 'react';
 import { useSWRConfig } from 'swr';
 import axios from 'axios';
 

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 import { Pencil, Trash2, Upload, Image } from 'lucide-react';
 
 import { Switch } from '@/components/ui/switch';
@@ -27,7 +27,7 @@ import { useProfileActions } from '@/hooks/use-profile-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
-import { AuthorisedUser } from '@/lib/types';
+import type { AuthorisedUser } from '@/lib/types';
 import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
 

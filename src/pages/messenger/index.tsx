@@ -1,8 +1,8 @@
-import { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import useSWR from 'swr';
 import { Loader2 } from 'lucide-react';
 
-import { NextPageWithLayout } from '@/pages/_app';
+import type { NextPageWithLayout } from '@/pages/_app';
 
 import { CHATS_ROUTE, getAutorizedUserChats } from '@/api/chats';
 

@@ -1,5 +1,5 @@
 import {
-  FC,
+  type FC,
   useState,
   useRef,
   useEffect,
@@ -20,7 +20,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/avatar';
 import { LastSeen } from '@/components/messenger/last-seen';
 
-import { Chat as TChat, Message } from '@/lib/types';
+import type { Chat as TChat, Message } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 import { cn, formatDate, formatTime } from '@/lib/utils';
 

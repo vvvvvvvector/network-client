@@ -1,8 +1,8 @@
 import { axiosApiInstance } from '@/axios';
 
-import { UserFromListOfUsers } from '@/lib/types';
+import type { UserFromListOfUsers } from '@/lib/types';
 
-import { RequestStatus } from '@/pages/friends/find';
+import type { RequestStatus } from '@/pages/friends/find';
 
 const ROUTE = '/friend-requests';
 

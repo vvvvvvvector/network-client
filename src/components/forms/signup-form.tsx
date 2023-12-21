@@ -19,9 +19,9 @@ import { Input } from '@/components/ui/input';
 import { signUp } from '@/api/auth';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+import { useFocus } from '@/hooks/use-focus';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
-import { useFocus } from '@/hooks/use-focus';
 
 const formSchema = z.object({
   email: z

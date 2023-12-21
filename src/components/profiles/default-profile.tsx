@@ -1,4 +1,4 @@
-import { FC, MouseEventHandler } from 'react';
+import type { FC, MouseEventHandler } from 'react';
 import {
   Heart,
   Image,
@@ -28,7 +28,7 @@ import {
   DROPDOWN_MENU_ICON_STYLES,
   ICON_INSIDE_BUTTON_SIZE
 } from '@/lib/constants';
-import { ExtendedFriendRequestStatus, NetworkUser } from '@/lib/types';
+import type { ExtendedFriendRequestStatus, NetworkUser } from '@/lib/types';
 import { formatDate, formatTime } from '@/lib/utils';
 
 const BUTTONS: Record<

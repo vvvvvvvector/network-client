@@ -1,6 +1,6 @@
-import { GetServerSideProps } from 'next';
+import type { GetServerSideProps } from 'next';
 
-import { NextPageWithLayout } from '@/pages/_app';
+import type { NextPageWithLayout } from '@/pages/_app';
 
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
@@ -8,7 +8,7 @@ import { Authorized } from '@/layouts/authorised';
 import { AuthorisedProfile } from '@/components/profiles/authorised-profile';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
-import { AuthorisedUser } from '@/lib/types';
+import type { AuthorisedUser } from '@/lib/types';
 
 import { getAuthorizedUserData } from '@/api/users';
 

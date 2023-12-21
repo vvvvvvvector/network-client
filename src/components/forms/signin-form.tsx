@@ -20,9 +20,9 @@ import { Input } from '@/components/ui/input';
 import { signIn } from '@/api/auth';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+import { useFocus } from '@/hooks/use-focus';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES, TOKEN_NAME } from '@/lib/constants';
-import { useFocus } from '@/hooks/use-focus';
 
 const formSchema = z.object({
   username: z.string().min(1, { message: 'Username is required' }),

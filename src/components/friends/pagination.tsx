@@ -1,4 +1,4 @@
-import { Dispatch, FC, useEffect } from 'react';
+import { type Dispatch, type FC, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';

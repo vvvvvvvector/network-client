@@ -1,6 +1,6 @@
 import { axiosApiInstance } from '@/axios';
 
-import { Chat, ChatFromListOfChats } from '@/lib/types';
+import type { Chat, ChatFromListOfChats } from '@/lib/types';
 
 export const CHATS_ROUTE = '/chats';
 

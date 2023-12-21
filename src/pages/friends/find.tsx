@@ -1,9 +1,9 @@
 import { useReducer } from 'react';
-import { GetServerSideProps } from 'next';
+import type { GetServerSideProps } from 'next';
 import { Search, UserPlus, SearchSlash } from 'lucide-react';
 import Link from 'next/link';
 
-import { NextPageWithLayout } from '@/pages/_app';
+import type { NextPageWithLayout } from '@/pages/_app';
 
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
@@ -23,7 +23,7 @@ import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useFocus } from '@/hooks/use-focus';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
-import { BaseFriendRequestStatus, UserFromListOfUsers } from '@/lib/types';
+import type { BaseFriendRequestStatus, UserFromListOfUsers } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 
 export type RequestStatus = BaseFriendRequestStatus | 'none';

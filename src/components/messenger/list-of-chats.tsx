@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Avatar } from '@/components/avatar';
 
-import { ChatFromListOfChats } from '@/lib/types';
+import type { ChatFromListOfChats } from '@/lib/types';
 import { formatDate, formatTime } from '@/lib/utils';
 import { PAGES } from '@/lib/constants';
 

@@ -1,6 +1,6 @@
-import { GetServerSideProps } from 'next';
+import type { GetServerSideProps } from 'next';
 
-import { NextPageWithLayout } from '@/pages/_app';
+import type { NextPageWithLayout } from '@/pages/_app';
 
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
@@ -11,7 +11,7 @@ import { Friends } from '@/components/friends/friends';
 import { getMyFriends } from '@/api/friends';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
-import { UserFromListOfUsers } from '@/lib/types';
+import type { UserFromListOfUsers } from '@/lib/types';
 
 interface Props {
   users: UserFromListOfUsers[] | null;

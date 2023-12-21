@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 import Link from 'next/link';
 
@@ -15,7 +15,7 @@ import { Avatar } from '@/components/avatar';
 import { useCommonActions } from '@/hooks/use-common-actions';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 
-import { UserFromListOfUsers } from '@/lib/types';
+import type { UserFromListOfUsers } from '@/lib/types';
 import {
   DROPDOWN_MENU_ICON_STYLES,
   ICON_INSIDE_BUTTON_SIZE

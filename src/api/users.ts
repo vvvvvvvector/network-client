@@ -1,6 +1,6 @@
 import { axiosApiInstance } from '@/axios';
 
-import {
+import type {
   AuthorisedUser,
   NetworkUser,
   User,

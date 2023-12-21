@@ -1,7 +1,7 @@
-import { GetServerSideProps } from 'next';
-import { FC, PropsWithChildren } from 'react';
+import type { GetServerSideProps } from 'next';
+import type { FC, PropsWithChildren } from 'react';
 
-import { NextPageWithLayout } from '@/pages/_app';
+import type { NextPageWithLayout } from '@/pages/_app';
 
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
@@ -12,7 +12,7 @@ import { FriendProfile } from '@/components/profiles/friend-profile';
 import { getNetworkUserPubliclyAvailableData } from '@/api/users';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
-import { NetworkUser } from '@/lib/types';
+import type { NetworkUser } from '@/lib/types';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
@@ -20,7 +20,7 @@ type PageUrlParams = {
   username: string;
 };
 
-export interface Props {
+interface Props {
   user: NetworkUser | null;
 }
 

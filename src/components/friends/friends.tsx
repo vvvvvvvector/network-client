@@ -1,10 +1,10 @@
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { FriendsList } from '@/components/friends/friends-list';
 
-import { UserFromListOfUsers } from '@/lib/types';
+import type { UserFromListOfUsers } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { PAGES } from '@/lib/constants';
 

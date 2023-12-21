@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { Heart, Image, UserCheck } from 'lucide-react';
 
 import {
@@ -18,7 +18,7 @@ import {
   ICON_INSIDE_BUTTON_SIZE
 } from '@/lib/constants';
 import { formatDate, formatTime } from '@/lib/utils';
-import { NetworkUser } from '@/lib/types';
+import type { NetworkUser } from '@/lib/types';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';

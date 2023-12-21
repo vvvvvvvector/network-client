@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import io, { Socket } from 'socket.io-client';
 
-import { Message } from '@/lib/types';
+import type { Message } from '@/lib/types';
 
 type ListenEvents = {
   typing: () => void;
@@ -31,7 +31,7 @@ type EmitEvents = {
   ) => void;
 };
 
-export type TSocket = Socket<ListenEvents, EmitEvents>;
+type TSocket = Socket<ListenEvents, EmitEvents>;
 
 type SocketState = {
   socket: TSocket;

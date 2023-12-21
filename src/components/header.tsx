@@ -39,7 +39,7 @@ import { getAuthorizedUserUsernameAndAvatar, url } from '@/api/users';
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { DROPDOWN_MENU_ICON_STYLES, PAGES } from '@/lib/constants';
-import { AvatarWithoutLikes, User } from '@/lib/types';
+import type { AvatarWithoutLikes, User } from '@/lib/types';
 
 const ThemeMenu = [
   {

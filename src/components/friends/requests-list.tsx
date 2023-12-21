@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { Check, Undo2, X } from 'lucide-react';
 import Link from 'next/link';
 
-import { RequestsTypes } from '@/pages/friends/requests';
+import type { RequestsTypes } from '@/pages/friends/requests';
 
 import { Button } from '@/components/ui/button';
 import { Tooltip } from '@/components/tooltip';
@@ -11,7 +11,7 @@ import { Avatar } from '@/components/avatar';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
-import { UserFromListOfUsers } from '@/lib/types';
+import type { UserFromListOfUsers } from '@/lib/types';
 
 const BUTTONS: Record<
   RequestsTypes,

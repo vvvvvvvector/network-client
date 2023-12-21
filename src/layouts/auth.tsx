@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import { Sun, MoonStar } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
