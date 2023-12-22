@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { type FC, type PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import useSWR from 'swr';
 import { Loader2, Search } from 'lucide-react';
 

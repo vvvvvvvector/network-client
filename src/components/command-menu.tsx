@@ -1,4 +1,4 @@
-import { type FC, useEffect, useCallback, useState } from 'react';
+import { type FC, useEffect, useCallback } from 'react';
 import {
   MessageCircle,
   Users,
@@ -28,10 +28,13 @@ import { PAGES } from '@/lib/constants';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
+import { useCommandMenuStore } from '@/zustand/command-menu.store';
+
 const COMMAND_ITEM_ICON_STYLE = 'mr-2 h-4 w-4';
 
 export const CommandMenu: FC = () => {
-  const [commandMenuOpen, setCommandMenuOpen] = useState(false);
+  const { commandMenuOpened, toogle, setCommandMenuOpened } =
+    useCommandMenuStore();
 
   const { setTheme } = useTheme();
 
@@ -42,7 +45,7 @@ export const CommandMenu: FC = () => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
 
-        setCommandMenuOpen((open) => !open);
+        toogle();
       }
     };
 
@@ -52,7 +55,7 @@ export const CommandMenu: FC = () => {
   }, []);
 
   const runCommand = useCallback((command: (...args: any) => unknown) => {
-    setCommandMenuOpen(false);
+    setCommandMenuOpened(false);
 
     command();
   }, []);
@@ -61,7 +64,7 @@ export const CommandMenu: FC = () => {
     <>
       <Button
         variant='outline'
-        onClick={() => setCommandMenuOpen(true)}
+        onClick={() => setCommandMenuOpened(true)}
         className={
           'flex w-[250px] items-center justify-between text-sm text-muted-foreground'
         }
@@ -71,8 +74,11 @@ export const CommandMenu: FC = () => {
           <span className='text-xs'>⌘</span>K
         </kbd>
       </Button>
-      <CommandDialog open={commandMenuOpen} onOpenChange={setCommandMenuOpen}>
-        <CommandInput placeholder='Type a command or page...' />
+      <CommandDialog
+        open={commandMenuOpened}
+        onOpenChange={setCommandMenuOpened}
+      >
+        <CommandInput placeholder='Search for pages or commands...' />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading='Pages'>
