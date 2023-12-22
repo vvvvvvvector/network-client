@@ -46,13 +46,12 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
     contacts: user.contacts
   };
 
-  const requestStatus = user.extendedFriendRequestStatus;
-
-  if (requestStatus === 'friend') return <FriendProfile {...commonProps} />;
+  if (user.extendedFriendRequestStatus === 'friend')
+    return <FriendProfile {...commonProps} />;
 
   return (
     <DefaultProfile
-      extendedFriendRequestStatus={requestStatus}
+      extendedFriendRequestStatus={user.extendedFriendRequestStatus}
       {...commonProps}
     />
   );

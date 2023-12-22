@@ -11,9 +11,10 @@ import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
 interface Props {
   chats: ChatFromListOfChats[];
+  filterChats: (chats: ChatFromListOfChats[]) => ChatFromListOfChats[];
 }
 
-export const ListOfChats: FC<Props> = ({ chats }) => {
+export const ListOfChats: FC<Props> = ({ chats, filterChats }) => {
   const { router } = useFrequentlyUsedHooks();
 
   const connectionsInformation = useConnectionsInformation(
@@ -36,9 +37,21 @@ export const ListOfChats: FC<Props> = ({ chats }) => {
     );
   }
 
+  const filteredByFriendUsernameChats = filterChats(chats);
+
+  if (!filteredByFriendUsernameChats.length) {
+    return (
+      <div className='rounded-lg bg-background px-5 pb-5'>
+        <p className='mb-7 mt-7 text-center leading-9'>
+          Your search returned no results 😭
+        </p>
+      </div>
+    );
+  }
+
   return (
     <ul className='flex flex-col pb-5'>
-      {chats.map((chat) => (
+      {filteredByFriendUsernameChats.map((chat) => (
         <li
           key={chat.id}
           onClick={() =>

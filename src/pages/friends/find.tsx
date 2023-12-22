@@ -112,7 +112,7 @@ const Find: NextPageWithLayout<Props> = ({
         {
           query: {
             page: 1,
-            username: searchValue
+            username: searchValue.trim()
           }
         },
         undefined,

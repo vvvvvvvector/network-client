@@ -1,6 +1,7 @@
-import type { FC, PropsWithChildren } from 'react';
+import { useState } from 'react';
+import { type FC, type PropsWithChildren } from 'react';
 import useSWR from 'swr';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Search } from 'lucide-react';
 
 import type { NextPageWithLayout } from '@/pages/_app';
 
@@ -8,12 +9,21 @@ import { CHATS_ROUTE, getAutorizedUserChats } from '@/api/chats';
 
 import { ListOfChats } from '@/components/messenger/list-of-chats';
 import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
 
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
 
+import { useFocus } from '@/hooks/use-focus';
+
+import type { ChatFromListOfChats } from '@/lib/types';
+
 const Messenger: NextPageWithLayout = () => {
+  const [search, setSearch] = useState('');
+
   const { data, isLoading } = useSWR(CHATS_ROUTE, getAutorizedUserChats);
+
+  const inputRef = useFocus<HTMLInputElement>();
 
   if (isLoading) {
     return (
@@ -38,10 +48,28 @@ const Messenger: NextPageWithLayout = () => {
   return (
     <div className='rounded-lg bg-background'>
       <div className='p-5'>
-        <span>Messenger</span>
+        <span className='flex items-center justify-start gap-3'>
+          <Search size={18} />
+          <Input
+            ref={inputRef}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder='Search for a chat...'
+            className='w-full max-w-md'
+          />
+        </span>
         <Separator className='mt-5' />
       </div>
-      <ListOfChats chats={data} />
+      <ListOfChats
+        chats={data}
+        filterChats={(chats: ChatFromListOfChats[]) =>
+          chats.filter((chat) =>
+            chat.friendUsername
+              .toLocaleLowerCase()
+              .includes(search.trim().toLocaleLowerCase())
+          )
+        }
+      />
     </div>
   );
 };
