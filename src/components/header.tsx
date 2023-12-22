@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   ChevronDown,
   Settings,
@@ -32,6 +32,7 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { CommandMenu } from '@/components/command-menu';
 
 import { signOut } from '@/api/auth';
 import { getAuthorizedUserUsernameAndAvatar, url } from '@/api/users';
@@ -89,11 +90,15 @@ const Header = () => {
     getAuthorizedUserUsernameAndAvatar
   );
 
+  useEffect(() => {
+    setThemeMenu(whatActiveTheme(theme));
+  }, [theme]);
+
   return (
     <header className='sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-muted bg-background'>
       <div className='flex h-14 w-full max-w-authorised items-center px-5'>
         <ul className='flex h-full w-full items-center justify-between'>
-          <li>
+          <li className='flex justify-center gap-14'>
             <div
               onClick={() => router.push(PAGES.NEWS)}
               className='flex cursor-pointer items-center gap-3'
@@ -101,6 +106,7 @@ const Header = () => {
               <Network />
               <span className='text-2xl font-bold'>Network</span>
             </div>
+            <CommandMenu />
           </li>
           <li className='h-full'>
             <Dialog>

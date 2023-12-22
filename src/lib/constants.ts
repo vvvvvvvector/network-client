@@ -13,5 +13,6 @@ export const PAGES = {
   MY_PROFILE: '/profile',
   FRIENDS_ALL: '/friends',
   FRIENDS_FIND: '/friends/find',
-  FRIENDS_REQUESTS: '/friends/requests'
+  FRIENDS_REQUESTS: '/friends/requests',
+  PHOTOS: '/photos'
 } as const;

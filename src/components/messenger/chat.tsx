@@ -339,9 +339,14 @@ export const Chat: FC<Props> = ({ chat }) => {
             wait();
           }}
           onKeyDown={(e) => {
-            const commandPlusEnter = e.metaKey && e.key === 'Enter';
+            const commandOrCtrlPlusEnter =
+              (e.metaKey || e.ctrlKey) && e.key === 'Enter';
 
-            if (commandPlusEnter && messageInputValue) onSendMessage();
+            if (commandOrCtrlPlusEnter && messageInputValue) {
+              e.preventDefault();
+
+              onSendMessage();
+            }
           }}
         />
         <Button
