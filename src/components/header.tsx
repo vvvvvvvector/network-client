@@ -74,7 +74,7 @@ const whatActiveTheme = (theme: string | undefined) => {
 };
 
 const Header = () => {
-  const [open, setOpen] = useState(false);
+  const [dropdownMenuOpen, setDropdownMenuOpen] = useState(false);
 
   const { theme, setTheme } = useTheme();
 
@@ -105,13 +105,13 @@ const Header = () => {
           <li className='h-full'>
             <Dialog>
               <DropdownMenu
-                open={open}
-                defaultOpen={open}
-                onOpenChange={setOpen}
+                open={dropdownMenuOpen}
+                defaultOpen={dropdownMenuOpen}
+                onOpenChange={setDropdownMenuOpen}
               >
                 <DropdownMenuTrigger asChild>
                   <div
-                    onClick={() => setOpen(true)}
+                    onClick={() => setDropdownMenuOpen(true)}
                     className='flex h-full w-[100px] cursor-pointer items-center justify-center gap-2 transition-[background-color] hover:bg-accent'
                   >
                     <Avatar
@@ -129,7 +129,7 @@ const Header = () => {
                         onClick={() => {
                           router.push(PAGES.MY_PROFILE);
 
-                          setOpen(false);
+                          setDropdownMenuOpen(false);
                         }}
                         className='cursor-pointer hover:underline'
                       >

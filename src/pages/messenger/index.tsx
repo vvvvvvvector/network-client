@@ -48,7 +48,7 @@ const Messenger: NextPageWithLayout = () => {
   return (
     <div className='rounded-lg bg-background'>
       <div className='p-5'>
-        <span className='flex items-center justify-start gap-3'>
+        <span className='flex items-center justify-start gap-5'>
           <Search size={18} />
           <Input
             ref={inputRef}
