@@ -14,13 +14,26 @@ export const useFocus = <
       ref.current?.focus();
     };
 
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        ref.current?.blur();
+      } else if (e.key === 'Backspace' || e.key === 'Delete') {
+        ref.current?.focus();
+      }
+    };
+
     if (commandMenuOpened) {
       document.removeEventListener('keypress', onKeyPress);
+      document.removeEventListener('keydown', onKeyDown);
     } else {
       document.addEventListener('keypress', onKeyPress);
+      document.addEventListener('keydown', onKeyDown);
     }
 
-    return () => document.removeEventListener('keypress', onKeyPress);
+    return () => {
+      document.removeEventListener('keypress', onKeyPress);
+      document.removeEventListener('keydown', onKeyDown);
+    };
   }, [commandMenuOpened]);
 
   return ref;
