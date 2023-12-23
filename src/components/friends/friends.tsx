@@ -18,6 +18,8 @@ interface Props {
 export const Friends: FC<Props> = ({ users }) => {
   const [tab, setTab] = useState<'all' | 'online'>('all');
 
+  const { router } = useFrequentlyUsedHooks();
+
   const connectionsInformation = useConnectionsInformation(
     users.reduce(
       (accumulator, currentValue) =>
@@ -27,8 +29,6 @@ export const Friends: FC<Props> = ({ users }) => {
       {}
     )
   );
-
-  const { router } = useFrequentlyUsedHooks();
 
   return (
     <>

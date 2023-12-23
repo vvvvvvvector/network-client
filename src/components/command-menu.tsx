@@ -8,7 +8,7 @@ import {
   Sun,
   MoonStar,
   Monitor,
-  Search,
+  UserSearch,
   Mailbox
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -117,7 +117,7 @@ export const CommandMenu: FC = () => {
             <CommandItem
               onSelect={() => runCommand(() => router.push(PAGES.FRIENDS_FIND))}
             >
-              <Search className={COMMAND_ITEM_ICON_STYLE} />
+              <UserSearch className={COMMAND_ITEM_ICON_STYLE} />
               <span>Find Friends</span>
             </CommandItem>
             <CommandItem
