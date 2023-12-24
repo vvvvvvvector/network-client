@@ -12,14 +12,6 @@ const globalFont = Source_Code_Pro({
   subsets: ['latin']
 });
 
-const globalStyles = () => (
-  <style jsx global>{`
-    html {
-      font-family: ${globalFont.style.fontFamily};
-    }
-  `}</style>
-);
-
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -28,16 +20,22 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
+const GlobalStyle = () => (
+  <style jsx global>{`
+    html {
+      font-family: ${globalFont.style.fontFamily};
+    }
+  `}</style>
+);
+
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page); // Use the layout defined at the page level, if available
 
   return (
-    <>
-      {globalStyles()}
-      <ThemeProvider>
-        {getLayout(<Component {...pageProps} />)}
-        <Toaster fontFamily={globalFont.style.fontFamily} />
-      </ThemeProvider>
-    </>
+    <ThemeProvider>
+      <GlobalStyle />
+      {getLayout(<Component {...pageProps} />)}
+      <Toaster fontFamily={globalFont.style.fontFamily} />
+    </ThemeProvider>
   );
 }

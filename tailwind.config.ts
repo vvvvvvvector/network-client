@@ -63,10 +63,9 @@ export default {
       keyframes: {
         slide: {
           from: {
-            transform: 'rotateX(-90deg)',
-            transformOrigin: 'top'
+            transform: 'translateY(-60%) rotateX(-90deg)'
           },
-          to: { transform: 'rotateX(0deg)' }
+          to: { transform: 'translateY(0) rotateX(0deg)' }
         },
         'friend-typing': {
           '0%, 100%': { transform: 'initial' },
@@ -86,7 +85,7 @@ export default {
         }
       },
       animation: {
-        slide: 'slide .4s ease-in',
+        slide: 'slide .55s linear',
         'friend-typing': 'friend-typing .7s linear infinite',
         'custom-bounce': 'custom-bounce 1.1s linear infinite',
         'accordion-down': 'accordion-down .2s ease-out',

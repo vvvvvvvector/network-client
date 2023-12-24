@@ -14,7 +14,7 @@ import {
   MonitorSmartphone,
   ArrowUpRight,
   ArrowDownLeft,
-  XSquare
+  UserX
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
@@ -146,7 +146,7 @@ export const CommandMenu: FC = () => {
               }
             >
               <Mailbox className={COMMAND_ITEM_ICON_STYLE} />
-              <span>Friend Requests</span>
+              <span>Requests</span>
             </CommandItem>
             <CommandItem
               onSelect={() =>
@@ -217,7 +217,7 @@ export const CommandMenu: FC = () => {
                 )
               }
             >
-              <XSquare className={COMMAND_ITEM_ICON_STYLE} />
+              <UserX className={COMMAND_ITEM_ICON_STYLE} />
               <span>Rejected</span>
             </CommandItem>
           </CommandGroup>
