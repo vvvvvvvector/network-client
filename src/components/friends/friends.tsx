@@ -19,20 +19,31 @@ export const Friends: FC<Props> = ({ users }) => {
   const { router } = useFrequentlyUsedHooks();
 
   useEffect(() => {
-    if (router.query.tab === 'all') {
-      router.push({
-        pathname: PAGES.FRIENDS,
-        query: {
-          tab: 'all'
-        }
-      });
-    } else {
-      router.push({
-        pathname: PAGES.FRIENDS,
-        query: {
-          tab: 'online'
-        }
-      });
+    switch (router.query.tab) {
+      case 'all':
+        router.push({
+          pathname: PAGES.FRIENDS,
+          query: {
+            tab: 'all'
+          }
+        });
+        break;
+      case 'online':
+        router.push({
+          pathname: PAGES.FRIENDS,
+          query: {
+            tab: 'online'
+          }
+        });
+        break;
+      default:
+        router.push({
+          pathname: PAGES.FRIENDS,
+          query: {
+            tab: 'all'
+          }
+        });
+        break;
     }
   }, [router.query.tab]);
 

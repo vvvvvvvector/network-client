@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import type { GetServerSideProps } from 'next';
 
 import type { NextPageWithLayout } from '@/pages/_app';
@@ -16,9 +15,12 @@ import {
   getRejectedFriendRequests
 } from '@/api/friends';
 
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import { capitalize, cn } from '@/lib/utils';
 import { UserFromListOfUsers } from '@/lib/types';
+import { PAGES } from '@/lib/constants';
 
 const lis = ['incoming', 'outgoing', 'rejected'] as const;
 export type RequestsTypes = (typeof lis)[number];
@@ -32,8 +34,7 @@ interface Props {
 }
 
 const Requests: NextPageWithLayout<Props> = ({ requests }) => {
-  const [requestsListType, setRequestsListType] =
-    useState<RequestsTypes>('incoming');
+  const { router } = useFrequentlyUsedHooks();
 
   if (!requests) {
     return (
@@ -52,11 +53,16 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
           {lis.map((li) => (
             <li
               key={li}
-              onClick={() => setRequestsListType(li)}
+              onClick={() =>
+                router.push({
+                  pathname: PAGES.FRIENDS_REQUESTS,
+                  query: { type: li }
+                })
+              }
               className={cn(
                 'cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] transition-[background-color] hover:bg-accent',
                 {
-                  'bg-accent': requestsListType === li
+                  'bg-accent': router.query.type === li
                 }
               )}
             >
@@ -66,10 +72,7 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
         </ul>
       </div>
       <Separator className='mb-4 mt-4' />
-      <RequestsList
-        type={requestsListType}
-        users={requests[requestsListType]}
-      />
+      <RequestsList requests={requests} />
     </>
   );
 };

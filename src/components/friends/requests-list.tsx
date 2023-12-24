@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useEffect } from 'react';
 import { Check, Undo2, X } from 'lucide-react';
 import Link from 'next/link';
 
@@ -9,6 +10,7 @@ import { Tooltip } from '@/components/tooltip';
 import { Avatar } from '@/components/avatar';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 import type { UserFromListOfUsers } from '@/lib/types';
@@ -58,11 +60,18 @@ const BUTTONS: Record<
 };
 
 interface Props {
-  type: RequestsTypes;
-  users: UserFromListOfUsers[];
+  requests: {
+    incoming: Array<UserFromListOfUsers>;
+    outgoing: Array<UserFromListOfUsers>;
+    rejected: Array<UserFromListOfUsers>;
+  };
 }
 
-export const RequestsList: FC<Props> = ({ type, users }) => {
+export const RequestsList: FC<Props> = ({ requests }) => {
+  const { router } = useFrequentlyUsedHooks();
+
+  const type = router.query.type as RequestsTypes;
+
   const { accept, reject, cancel } = useRequestsActions();
 
   const ON_CLICKS = (type: RequestsTypes) => {
@@ -78,7 +87,44 @@ export const RequestsList: FC<Props> = ({ type, users }) => {
     };
   };
 
-  if (!users.length) {
+  useEffect(() => {
+    switch (router.query.type) {
+      case 'incoming':
+        router.push({
+          pathname: router.pathname,
+          query: {
+            type: 'incoming'
+          }
+        });
+        break;
+      case 'outgoing':
+        router.push({
+          pathname: router.pathname,
+          query: {
+            type: 'outgoing'
+          }
+        });
+        break;
+      case 'rejected':
+        router.push({
+          pathname: router.pathname,
+          query: {
+            type: 'rejected'
+          }
+        });
+        break;
+      default:
+        router.push({
+          pathname: router.pathname,
+          query: {
+            type: 'incoming'
+          }
+        });
+        break;
+    }
+  }, [type]);
+
+  if (!requests[type]?.length) {
     return (
       <span className='mb-7 mt-7 text-center'>
         {`You don't have any ${type} requests yet.`}
@@ -88,7 +134,7 @@ export const RequestsList: FC<Props> = ({ type, users }) => {
 
   return (
     <ul className='flex flex-col gap-5'>
-      {users.map((user) => (
+      {requests[type].map((user) => (
         <li
           className='flex items-center justify-between py-2'
           key={user.username}

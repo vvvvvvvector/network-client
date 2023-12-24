@@ -11,7 +11,10 @@ import {
   UserSearch,
   Mailbox,
   Cog,
-  MonitorSmartphone
+  MonitorSmartphone,
+  ArrowUpRight,
+  ArrowDownLeft,
+  XSquare
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
@@ -134,7 +137,12 @@ export const CommandMenu: FC = () => {
             </CommandItem>
             <CommandItem
               onSelect={() =>
-                runCommand(() => router.push(PAGES.FRIENDS_REQUESTS))
+                runCommand(() =>
+                  router.push({
+                    pathname: PAGES.FRIENDS_REQUESTS,
+                    query: { type: 'incoming' }
+                  })
+                )
               }
             >
               <Mailbox className={COMMAND_ITEM_ICON_STYLE} />
@@ -169,6 +177,48 @@ export const CommandMenu: FC = () => {
             >
               <MonitorSmartphone className={COMMAND_ITEM_ICON_STYLE} />
               <span>Online</span>
+            </CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading='Friend Requests'>
+            <CommandItem
+              onSelect={() =>
+                runCommand(() =>
+                  router.push({
+                    pathname: PAGES.FRIENDS_REQUESTS,
+                    query: { type: 'incoming' }
+                  })
+                )
+              }
+            >
+              <ArrowDownLeft className={COMMAND_ITEM_ICON_STYLE} />
+              <span>Incoming</span>
+            </CommandItem>
+            <CommandItem
+              onSelect={() =>
+                runCommand(() =>
+                  router.push({
+                    pathname: PAGES.FRIENDS_REQUESTS,
+                    query: { type: 'outgoing' }
+                  })
+                )
+              }
+            >
+              <ArrowUpRight className={COMMAND_ITEM_ICON_STYLE} />
+              <span>Outgoing</span>
+            </CommandItem>
+            <CommandItem
+              onSelect={() =>
+                runCommand(() =>
+                  router.push({
+                    pathname: PAGES.FRIENDS_REQUESTS,
+                    query: { type: 'rejected' }
+                  })
+                )
+              }
+            >
+              <XSquare className={COMMAND_ITEM_ICON_STYLE} />
+              <span>Rejected</span>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
