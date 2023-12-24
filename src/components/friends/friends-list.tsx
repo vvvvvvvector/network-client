@@ -14,6 +14,7 @@ import { Avatar } from '@/components/avatar';
 
 import { useCommonActions } from '@/hooks/use-common-actions';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
+import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import type { UserFromListOfUsers } from '@/lib/types';
 import {
@@ -22,21 +23,20 @@ import {
 } from '@/lib/constants';
 
 interface Props {
-  listType: 'all' | 'online';
   friends: UserFromListOfUsers[];
   connectionsInformation: {
     [username: string]: 'online' | 'offline';
   };
 }
 
-export const FriendsList: FC<Props> = ({
-  friends,
-  listType,
-  connectionsInformation
-}) => {
+export const FriendsList: FC<Props> = ({ friends, connectionsInformation }) => {
+  const { router } = useFrequentlyUsedHooks();
+
   const { unfriend } = useRequestsActions();
 
   const { writeMessage } = useCommonActions();
+
+  const listType = router.query.tab as 'all' | 'online';
 
   const users =
     listType === 'all'

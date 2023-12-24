@@ -16,11 +16,11 @@ export const Friends: FC<PropsWithChildren> = ({ children }) => {
       <div className='rounded-lg bg-background p-5'>
         <ul className='flex flex-col gap-2'>
           <li
-            onClick={() => router.push(PAGES.FRIENDS_ALL)}
+            onClick={() => router.push(PAGES.FRIENDS)}
             className={cn(
               'cursor-pointer rounded p-2 text-sm transition-[background-color] hover:bg-accent',
               {
-                'bg-accent': router.asPath === PAGES.FRIENDS_ALL
+                'bg-accent': router.pathname === PAGES.FRIENDS
               }
             )}
           >
@@ -31,7 +31,7 @@ export const Friends: FC<PropsWithChildren> = ({ children }) => {
             className={cn(
               'cursor-pointer rounded p-2 text-sm transition-[background-color] hover:bg-accent',
               {
-                'bg-accent': router.asPath === PAGES.FRIENDS_REQUESTS
+                'bg-accent': router.pathname === PAGES.FRIENDS_REQUESTS
               }
             )}
           >

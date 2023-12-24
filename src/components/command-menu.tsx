@@ -9,7 +9,9 @@ import {
   MoonStar,
   Monitor,
   UserSearch,
-  Mailbox
+  Mailbox,
+  Cog,
+  MonitorSmartphone
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
@@ -33,7 +35,7 @@ import { useCommandMenuStore } from '@/zustand/command-menu.store';
 const COMMAND_ITEM_ICON_STYLE = 'mr-2 h-4 w-4';
 
 export const CommandMenu: FC = () => {
-  const { commandMenuOpened, toogle, setCommandMenuOpened } =
+  const { commandMenuOpened, toogleCmdMenuOpenState, setCommandMenuOpened } =
     useCommandMenuStore();
 
   const { setTheme } = useTheme();
@@ -45,7 +47,7 @@ export const CommandMenu: FC = () => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
 
-        toogle();
+        toogleCmdMenuOpenState();
       }
     };
 
@@ -66,11 +68,11 @@ export const CommandMenu: FC = () => {
         variant='outline'
         onClick={() => setCommandMenuOpened(true)}
         className={
-          'flex w-[250px] items-center justify-between text-sm text-muted-foreground'
+          'flex w-[120px] items-center justify-between rounded-lg text-sm text-muted-foreground sm:w-[250px]'
         }
       >
         <span>Search...</span>
-        <kbd className='pointer-events-none hidden h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex'>
+        <kbd className='pointer-events-none hidden h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex dark:bg-neutral-900'>
           <span className='text-xs'>⌘</span>K
         </kbd>
       </Button>
@@ -80,7 +82,7 @@ export const CommandMenu: FC = () => {
       >
         <CommandInput placeholder='Search for pages or commands...' />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty>No results found 🥲</CommandEmpty>
           <CommandGroup heading='Pages'>
             <CommandItem
               onSelect={() => runCommand(() => router.push(PAGES.MY_PROFILE))}
@@ -101,10 +103,34 @@ export const CommandMenu: FC = () => {
               <span>Messenger</span>
             </CommandItem>
             <CommandItem
-              onSelect={() => runCommand(() => router.push(PAGES.FRIENDS_ALL))}
+              onSelect={() =>
+                runCommand(() =>
+                  router.push({
+                    pathname: PAGES.FRIENDS,
+                    query: {
+                      tab: 'all'
+                    }
+                  })
+                )
+              }
             >
               <Users className={COMMAND_ITEM_ICON_STYLE} />
               <span>Friends</span>
+            </CommandItem>
+            <CommandItem
+              onSelect={() => runCommand(() => router.push(PAGES.PHOTOS))}
+            >
+              <Image className={COMMAND_ITEM_ICON_STYLE} />
+              <span>Photos</span>
+            </CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading='Friends'>
+            <CommandItem
+              onSelect={() => runCommand(() => router.push(PAGES.FRIENDS_FIND))}
+            >
+              <UserSearch className={COMMAND_ITEM_ICON_STYLE} />
+              <span>Find</span>
             </CommandItem>
             <CommandItem
               onSelect={() =>
@@ -115,16 +141,34 @@ export const CommandMenu: FC = () => {
               <span>Friend Requests</span>
             </CommandItem>
             <CommandItem
-              onSelect={() => runCommand(() => router.push(PAGES.FRIENDS_FIND))}
+              onSelect={() =>
+                runCommand(() =>
+                  router.push({
+                    pathname: PAGES.FRIENDS,
+                    query: {
+                      tab: 'all'
+                    }
+                  })
+                )
+              }
             >
-              <UserSearch className={COMMAND_ITEM_ICON_STYLE} />
-              <span>Find Friends</span>
+              <Users className={COMMAND_ITEM_ICON_STYLE} />
+              <span>All</span>
             </CommandItem>
             <CommandItem
-              onSelect={() => runCommand(() => router.push(PAGES.PHOTOS))}
+              onSelect={() =>
+                runCommand(() =>
+                  router.push({
+                    pathname: PAGES.FRIENDS,
+                    query: {
+                      tab: 'online'
+                    }
+                  })
+                )
+              }
             >
-              <Image className={COMMAND_ITEM_ICON_STYLE} />
-              <span>Photos</span>
+              <MonitorSmartphone className={COMMAND_ITEM_ICON_STYLE} />
+              <span>Online</span>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
@@ -140,6 +184,13 @@ export const CommandMenu: FC = () => {
             <CommandItem onSelect={() => runCommand(() => setTheme('system'))}>
               <Monitor className={COMMAND_ITEM_ICON_STYLE} />
               <span>System</span>
+            </CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading='Settings'>
+            <CommandItem>
+              <Cog className={COMMAND_ITEM_ICON_STYLE} />
+              <span>Settings</span>
             </CommandItem>
           </CommandGroup>
         </CommandList>

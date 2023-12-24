@@ -74,7 +74,18 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
               {pages.map((page) => (
                 <li
                   key={page}
-                  onClick={() => router.push(`/${page}`)}
+                  onClick={() => {
+                    if (page === 'friends') {
+                      router.push({
+                        pathname: `/${page}`,
+                        query: {
+                          tab: 'all'
+                        }
+                      });
+                    } else {
+                      router.push(`/${page}`);
+                    }
+                  }}
                   className='flex cursor-pointer items-center gap-2 rounded p-2 text-sm transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-950'
                 >
                   {icon(page, 20)}

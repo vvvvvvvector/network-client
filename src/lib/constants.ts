@@ -11,7 +11,7 @@ export const PAGES = {
   MESSENGER_CHAT: '/messenger/chat',
   NEWS: '/news',
   MY_PROFILE: '/profile',
-  FRIENDS_ALL: '/friends',
+  FRIENDS: '/friends',
   FRIENDS_FIND: '/friends/find',
   FRIENDS_REQUESTS: '/friends/requests',
   PHOTOS: '/photos'

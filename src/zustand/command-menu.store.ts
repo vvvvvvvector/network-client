@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 type CommandMenuState = {
   commandMenuOpened: boolean;
-  toogle: () => void;
+  toogleCmdMenuOpenState: () => void;
   setCommandMenuOpened: (opened: boolean) => void;
 };
 
@@ -12,7 +12,7 @@ export const useCommandMenuStore = create<CommandMenuState>((set) => ({
     set(() => {
       return { commandMenuOpened: opened };
     }),
-  toogle: () =>
+  toogleCmdMenuOpenState: () =>
     set((state) => {
       return { commandMenuOpened: !state.commandMenuOpened };
     })
