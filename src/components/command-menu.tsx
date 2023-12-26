@@ -130,7 +130,14 @@ export const CommandMenu: FC = () => {
           <CommandSeparator />
           <CommandGroup heading='Friends'>
             <CommandItem
-              onSelect={() => runCommand(() => router.push(PAGES.FRIENDS_FIND))}
+              onSelect={() =>
+                runCommand(() =>
+                  router.push({
+                    pathname: PAGES.FRIENDS_FIND,
+                    query: { page: 1 }
+                  })
+                )
+              }
             >
               <UserSearch className={COMMAND_ITEM_ICON_STYLE} />
               <span>Find</span>

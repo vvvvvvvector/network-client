@@ -1,82 +1,143 @@
-import { type Dispatch, type FC, useEffect } from 'react';
+import { ComponentProps, useContext, createContext } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
+
+import { cn } from '@/lib/utils';
+import { PAGES } from '@/lib/constants';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
-interface Props {
-  currentPage: number;
-  dispatch: Dispatch<
-    | {
-        type: 'SET_CUSTOM_PAGE';
-        payload: number;
-      }
-    | {
-        type: 'NEXT_PAGE';
-      }
-    | {
-        type: 'PREVIOUS_PAGE';
-      }
-  >;
+const PagesContext = createContext<{
   totalPages: number;
-}
+  currentPage: number;
+} | null>(null);
 
-const Pagination: FC<Props> = ({ totalPages, currentPage, dispatch }) => {
+const usePages = () => {
+  const context = useContext(PagesContext);
+
+  if (!context) {
+    throw new Error('usePages must be used within a PagesProvider');
+  }
+
+  return context;
+};
+
+const Pagination = ({
+  totalPages,
+  className,
+  children,
+  ...props
+}: { totalPages: number } & ComponentProps<'nav'>) => {
   const { router } = useFrequentlyUsedHooks();
 
-  useEffect(() => {
-    if (router.query.username) {
-      router.push({
-        query: {
-          page: currentPage,
-          username: router.query.username
-        }
-      });
-    } else {
-      router.push({
-        query: {
-          page: currentPage
-        }
-      });
-    }
-  }, [currentPage]);
+  if (totalPages <= 1) return null;
 
   return (
-    <div className='mt-4 flex justify-center gap-1'>
-      <Button
-        variant='ghost'
-        size='icon'
-        disabled={currentPage === 1}
-        onClick={() => {
-          if (currentPage > 1) dispatch({ type: 'PREVIOUS_PAGE' });
-        }}
-      >
-        <ChevronLeft />
-      </Button>
-      {[...Array(totalPages)].map((_, index) => (
-        <Button
-          key={index + 1}
-          onClick={() =>
-            dispatch({ type: 'SET_CUSTOM_PAGE', payload: index + 1 })
-          }
-          variant={index + 1 === currentPage ? 'secondary' : 'ghost'}
-        >
-          {index + 1}
-        </Button>
-      ))}
-      <Button
-        variant='ghost'
-        size='icon'
-        disabled={currentPage === totalPages}
-        onClick={() => {
-          if (totalPages > currentPage) dispatch({ type: 'NEXT_PAGE' });
-        }}
-      >
-        <ChevronRight />
-      </Button>
-    </div>
+    <PagesContext.Provider
+      value={{ currentPage: +(router.query.page as string), totalPages }}
+    >
+      <nav className={cn('mt-4', className)} {...props}>
+        {children}
+      </nav>
+    </PagesContext.Provider>
   );
 };
 
-export { Pagination };
+const PaginationContent = ({ children, ...props }: ComponentProps<'ul'>) => {
+  return (
+    <ul className='flex items-center justify-center gap-1' {...props}>
+      {children}
+    </ul>
+  );
+};
+
+Pagination.Content = PaginationContent;
+
+type PaginationItemProps = {
+  disabled?: boolean;
+  selected?: number;
+} & ComponentProps<'li'>;
+
+const PaginationItem = ({
+  disabled = false,
+  selected,
+  className,
+  children,
+  ...props
+}: PaginationItemProps) => {
+  const { currentPage } = usePages();
+
+  const { router } = useFrequentlyUsedHooks();
+
+  return (
+    <li
+      onClick={() =>
+        router.push({ pathname: PAGES.FRIENDS_FIND, query: { page: selected } })
+      }
+      className={cn(
+        'cursor-pointer',
+        buttonVariants({
+          variant: currentPage === selected ? 'secondary' : 'ghost',
+          size: 'icon'
+        }),
+        {
+          'pointer-events-none opacity-50': disabled
+        },
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </li>
+  );
+};
+
+const PaginationNext = () => {
+  const { currentPage, totalPages } = usePages();
+
+  const { router } = useFrequentlyUsedHooks();
+
+  const disabled = currentPage === totalPages;
+
+  return (
+    <PaginationItem
+      onClick={() =>
+        router.push({
+          pathname: PAGES.FRIENDS_FIND,
+          query: { page: currentPage + 1 }
+        })
+      }
+      disabled={disabled}
+    >
+      <ChevronRight />
+    </PaginationItem>
+  );
+};
+
+const PaginationPrevious = () => {
+  const { currentPage } = usePages();
+
+  const { router } = useFrequentlyUsedHooks();
+
+  const disabled = router.query.page === '1';
+
+  return (
+    <PaginationItem
+      onClick={() =>
+        router.push({
+          pathname: PAGES.FRIENDS_FIND,
+          query: { page: currentPage - 1 }
+        })
+      }
+      disabled={disabled}
+    >
+      <ChevronLeft />
+    </PaginationItem>
+  );
+};
+
+PaginationItem.Next = PaginationNext;
+PaginationItem.Previous = PaginationPrevious;
+
+export { Pagination, PaginationContent, PaginationItem };
