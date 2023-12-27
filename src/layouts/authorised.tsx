@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import { useEffect } from 'react';
 import {
   MessageCircle,
@@ -47,7 +47,7 @@ const menuItemName = (type: (typeof pages)[number]) => {
   }
 };
 
-export const Authorized: FC<PropsWithChildren> = ({ children }) => {
+export const Authorized = ({ children }: PropsWithChildren) => {
   const { router } = useFrequentlyUsedHooks();
 
   const { connect, disconnect } = useSocketStore();

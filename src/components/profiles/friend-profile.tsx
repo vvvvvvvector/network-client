@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Heart, Image, UserCheck } from 'lucide-react';
 
 import {
@@ -25,9 +25,9 @@ import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { useSocketStore } from '@/zustand/socket.store';
 
-export const FriendProfile: FC<
-  Omit<NetworkUser, 'extendedFriendRequestStatus'>
-> = (user) => {
+export const FriendProfile = (
+  user: Omit<NetworkUser, 'extendedFriendRequestStatus'>
+) => {
   const [onlineStatus, setOnlineStatus] = useState<'online' | 'offline'>(
     'offline'
   );

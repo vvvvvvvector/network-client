@@ -37,7 +37,7 @@ const formSchema = z.object({
     })
 });
 
-export function SignUpForm() {
+export const SignUpForm = () => {
   const [loading, setLoading] = useState(false);
 
   const { router, toast } = useFrequentlyUsedHooks();
@@ -145,4 +145,4 @@ export function SignUpForm() {
       </form>
     </Form>
   );
-}
+};

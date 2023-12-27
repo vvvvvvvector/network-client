@@ -1,11 +1,4 @@
-import {
-  type FC,
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  useReducer
-} from 'react';
+import { useState, useRef, useEffect, useCallback, useReducer } from 'react';
 import {
   ChevronLeft,
   MoreVertical,
@@ -92,7 +85,7 @@ interface Props {
   chat: TChat;
 }
 
-export const Chat: FC<Props> = ({ chat }) => {
+export const Chat = ({ chat }: Props) => {
   const [messageInputValue, setMessageInputValue] = useState('');
 
   const [state, dispatch] = useReducer(chatReducer, {

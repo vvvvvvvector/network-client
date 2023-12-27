@@ -1,5 +1,3 @@
-import type { FC } from 'react';
-
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { avatarSource, cn } from '@/lib/utils';
@@ -29,12 +27,7 @@ interface AvatarProps extends VariantProps<typeof avatarVariants> {
   className?: string;
 }
 
-export const Avatar: FC<AvatarProps> = ({
-  size,
-  username,
-  avatar,
-  className
-}) => {
+export const Avatar = ({ size, username, avatar, className }: AvatarProps) => {
   const uppercaseFirstLetterFallback = username[0].toLocaleUpperCase();
 
   return (

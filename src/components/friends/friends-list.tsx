@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 import Link from 'next/link';
 
@@ -29,7 +28,7 @@ interface Props {
   };
 }
 
-export const FriendsList: FC<Props> = ({ friends, connectionsInformation }) => {
+export const FriendsList = ({ friends, connectionsInformation }: Props) => {
   const { router } = useFrequentlyUsedHooks();
 
   const { unfriend } = useRequestsActions();

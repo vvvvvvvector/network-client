@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import { useEffect } from 'react';
 import { Check, Undo2, X } from 'lucide-react';
 import Link from 'next/link';
@@ -17,11 +16,13 @@ import type { UserFromListOfUsers } from '@/lib/types';
 
 const BUTTONS: Record<
   RequestsTypes,
-  React.FC<{
+  ({
+    onClicks
+  }: {
     onClicks: Array<
       (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>
     >;
-  }>
+  }) => React.JSX.Element
 > = {
   incoming: ({ onClicks }) => {
     return (
@@ -67,7 +68,7 @@ interface Props {
   };
 }
 
-export const RequestsList: FC<Props> = ({ requests }) => {
+export const RequestsList = ({ requests }: Props) => {
   const { router } = useFrequentlyUsedHooks();
 
   const type = router.query.type as RequestsTypes;

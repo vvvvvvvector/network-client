@@ -1,5 +1,3 @@
-import type { FC } from 'react';
-
 import { Avatar } from '@/components/avatar';
 
 import type { ChatFromListOfChats } from '@/lib/types';
@@ -14,7 +12,7 @@ interface Props {
   filterChats: (chats: ChatFromListOfChats[]) => ChatFromListOfChats[];
 }
 
-export const ListOfChats: FC<Props> = ({ chats, filterChats }) => {
+export const ListOfChats = ({ chats, filterChats }: Props) => {
   const { router } = useFrequentlyUsedHooks();
 
   const connectionsInformation = useConnectionsInformation(

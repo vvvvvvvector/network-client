@@ -1,11 +1,11 @@
-import type { FC, PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 
 import { cn } from '@/lib/utils';
 import { PAGES } from '@/lib/constants';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
-export const Friends: FC<PropsWithChildren> = ({ children }) => {
+export const Friends = ({ children }: PropsWithChildren) => {
   const { router } = useFrequentlyUsedHooks();
 
   return (

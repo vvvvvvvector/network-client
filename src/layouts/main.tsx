@@ -1,11 +1,11 @@
-import type { FC, PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import Head from 'next/head';
 
 interface MainProps {
   title?: string;
 }
 
-export const Main: FC<PropsWithChildren<MainProps>> = ({ title, children }) => {
+export const Main = ({ title, children }: PropsWithChildren<MainProps>) => {
   return (
     <>
       <Head>

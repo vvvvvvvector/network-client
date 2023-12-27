@@ -1,4 +1,4 @@
-import { type FC, useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import {
   MessageCircle,
   Users,
@@ -37,7 +37,7 @@ import { useCommandMenuStore } from '@/zustand/command-menu.store';
 
 const COMMAND_ITEM_ICON_STYLE = 'mr-2 h-4 w-4';
 
-export const CommandMenu: FC = () => {
+export const CommandMenu = () => {
   const { commandMenuOpened, toogleCmdMenuOpenState, setCommandMenuOpened } =
     useCommandMenuStore();
 

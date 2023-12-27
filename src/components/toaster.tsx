@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import { useTheme } from 'next-themes';
 import { Toaster as AmazingSonnerToaster } from 'sonner';
 
@@ -6,7 +5,7 @@ interface Props {
   fontFamily?: string;
 }
 
-export const Toaster: FC<Props> = ({ fontFamily }) => {
+export const Toaster = ({ fontFamily }: Props) => {
   const { theme } = useTheme() as {
     theme: 'light' | 'dark' | 'system' | undefined;
   };

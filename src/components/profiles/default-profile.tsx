@@ -1,4 +1,4 @@
-import type { FC, MouseEventHandler } from 'react';
+import { MouseEventHandler } from 'react';
 import {
   Heart,
   Image,
@@ -33,12 +33,14 @@ import { formatDate, formatTime } from '@/lib/utils';
 
 const BUTTONS: Record<
   Exclude<ExtendedFriendRequestStatus, 'friend'>,
-  React.FC<{
+  ({
+    onClicks
+  }: {
     onClicks: Array<
       | ((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>)
       | ((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => Promise<void>)
     >;
-  }>
+  }) => React.JSX.Element
 > = {
   none: ({ onClicks }) => (
     <>
@@ -115,11 +117,11 @@ const BUTTONS: Record<
   )
 };
 
-export const DefaultProfile: FC<
-  Omit<NetworkUser, 'extendedFriendRequestStatus'> & {
+export const DefaultProfile = (
+  user: Omit<NetworkUser, 'extendedFriendRequestStatus'> & {
     extendedFriendRequestStatus: Exclude<ExtendedFriendRequestStatus, 'friend'>;
   }
-> = (user) => {
+) => {
   const { openPhoto } = useCommonActions();
 
   const { send, cancel, accept, reject } = useRequestsActions();

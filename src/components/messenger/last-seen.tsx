@@ -1,4 +1,4 @@
-import { type FC, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { prettifyLastSeenDate } from '@/lib/utils';
 
@@ -6,7 +6,7 @@ interface Props {
   lastSeen: string;
 }
 
-export const LastSeen: FC<Props> = ({ lastSeen }) => {
+export const LastSeen = ({ lastSeen }: Props) => {
   const [state, setState] = useState(prettifyLastSeenDate(lastSeen));
 
   useEffect(() => {

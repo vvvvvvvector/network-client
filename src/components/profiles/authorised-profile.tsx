@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { useState } from 'react';
 import { Pencil, Trash2, Upload, Image } from 'lucide-react';
 
 import { Switch } from '@/components/ui/switch';
@@ -33,7 +33,7 @@ import { formatDate } from '@/lib/utils';
 
 import { toogleAuthorizedUserEmailPrivacy } from '@/api/users';
 
-export const AuthorisedProfile: FC<AuthorisedUser> = (user) => {
+export const AuthorisedProfile = (user: AuthorisedUser) => {
   const [open, setOpen] = useState(false);
   const [bio, setBio] = useState('');
 

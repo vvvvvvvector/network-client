@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import { Sun, MoonStar } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
@@ -16,7 +16,7 @@ import { PAGES } from '@/lib/constants';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
-export const Auth: FC<PropsWithChildren> = ({ children }) => {
+export const Auth = ({ children }: PropsWithChildren) => {
   const { router } = useFrequentlyUsedHooks();
 
   const { setTheme } = useTheme();

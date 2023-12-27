@@ -1,4 +1,4 @@
-import { type FC, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -15,7 +15,7 @@ interface Props {
   users: UserFromListOfUsers[];
 }
 
-export const Friends: FC<Props> = ({ users }) => {
+export const Friends = ({ users }: Props) => {
   const { router } = useFrequentlyUsedHooks();
 
   useEffect(() => {

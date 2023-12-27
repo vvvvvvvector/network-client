@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 
 import {
   Tooltip as ShadcnTooltip,
@@ -13,12 +13,12 @@ interface Props {
   align?: 'start' | 'center' | 'end';
 }
 
-const Tooltip: FC<PropsWithChildren<Props>> = ({
+const Tooltip = ({
   side = 'top',
   align = 'center',
   children,
   text
-}) => {
+}: PropsWithChildren<Props>) => {
   return (
     <TooltipProvider>
       <ShadcnTooltip>

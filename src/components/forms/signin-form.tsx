@@ -29,7 +29,7 @@ const formSchema = z.object({
   password: z.string().min(1, { message: 'Password is required' })
 });
 
-export function SignInForm() {
+export const SignInForm = () => {
   const [loading, setLoading] = useState(false);
 
   const { router, toast } = useFrequentlyUsedHooks();
@@ -121,4 +121,4 @@ export function SignInForm() {
       </form>
     </Form>
   );
-}
+};
