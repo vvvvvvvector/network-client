@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { FC, PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import useSWR from 'swr';
 import { Loader2, Search } from 'lucide-react';
 
@@ -80,7 +80,7 @@ Messenger.getLayout = (page) => (
   </Main>
 );
 
-const OnLoadingAndOnErrorLayout: FC<PropsWithChildren> = ({ children }) => {
+const OnLoadingAndOnErrorLayout = ({ children }: PropsWithChildren) => {
   return (
     <div className='rounded-lg bg-background'>
       <div className='grid place-items-center rounded-lg bg-background p-20'>

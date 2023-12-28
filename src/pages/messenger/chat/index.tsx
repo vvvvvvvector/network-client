@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import { Loader2 } from 'lucide-react';
 
 import type { NextPageWithLayout } from '@/pages/_app';
@@ -52,7 +52,7 @@ Index.getLayout = (page) => (
   </Main>
 );
 
-const OnLoadingAndOnErrorLayout: FC<PropsWithChildren> = ({ children }) => {
+const OnLoadingAndOnErrorLayout = ({ children }: PropsWithChildren) => {
   return (
     <div className={container_styles}>
       <div className='grid h-full w-full place-items-center'>{children}</div>

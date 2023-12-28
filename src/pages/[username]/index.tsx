@@ -1,5 +1,5 @@
 import type { GetServerSideProps } from 'next';
-import type { FC, PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 
 import type { NextPageWithLayout } from '@/pages/_app';
 
@@ -71,7 +71,7 @@ Index.getLayout = (page) => {
   );
 };
 
-const OnErrorLayout: FC<PropsWithChildren> = ({ children }) => {
+const OnErrorLayout = ({ children }: PropsWithChildren) => {
   return (
     <div className='rounded-lg bg-background p-5'>
       <p className='mb-11 mt-11 text-center leading-9'>{children}</p>
