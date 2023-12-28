@@ -3,7 +3,7 @@ import type { GetServerSideProps } from 'next';
 import { Search, UserPlus, SearchSlash } from 'lucide-react';
 import Link from 'next/link';
 
-import type { NextPageWithLayout } from '@/pages/_app';
+import { type NextPageWithLayout } from '@/pages/_app';
 
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';

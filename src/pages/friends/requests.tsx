@@ -1,6 +1,6 @@
 import type { GetServerSideProps } from 'next';
 
-import type { NextPageWithLayout } from '@/pages/_app';
+import { type NextPageWithLayout } from '@/pages/_app';
 
 import { Authorized } from '@/layouts/authorised';
 import { Friends } from '@/layouts/friends';

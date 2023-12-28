@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from 'next';
 import nookies from 'nookies';
 
-import type { NextPageWithLayout } from '@/pages/_app';
+import { type NextPageWithLayout } from '@/pages/_app';
 
 import { SignInForm } from '@/components/forms/signin-form';
 

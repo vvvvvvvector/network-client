@@ -3,7 +3,7 @@ import { type PropsWithChildren } from 'react';
 import useSWR from 'swr';
 import { Loader2, Search } from 'lucide-react';
 
-import type { NextPageWithLayout } from '@/pages/_app';
+import { type NextPageWithLayout } from '@/pages/_app';
 
 import { CHATS_ROUTE, getAutorizedUserChats } from '@/api/chats';
 

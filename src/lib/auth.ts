@@ -1,4 +1,4 @@
-import type { GetServerSidePropsContext } from 'next';
+import { type GetServerSidePropsContext } from 'next';
 import nookies from 'nookies';
 
 import { axiosApiInstance } from '@/axios';
@@ -31,9 +31,9 @@ export const isRedirect = (
 };
 
 export const isAuthorized = async (
-  ctx: GetServerSidePropsContext
+  context: GetServerSidePropsContext
 ): Promise<IsAuthorizedNarrowedReturnType> => {
-  const token = nookies.get(ctx)[TOKEN_NAME]; // get token from the request
+  const token = nookies.get(context)[TOKEN_NAME]; // get token from the request
 
   axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`; // set cookie / token on the server
 

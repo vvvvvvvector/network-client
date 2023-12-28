@@ -1,7 +1,7 @@
-import type { GetServerSideProps } from 'next';
+import { type GetServerSideProps } from 'next';
 import { type PropsWithChildren } from 'react';
 
-import type { NextPageWithLayout } from '@/pages/_app';
+import { type NextPageWithLayout } from '@/pages/_app';
 
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
@@ -13,9 +13,9 @@ import { getNetworkUserPubliclyAvailableData } from '@/api/users';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import type { NetworkUser } from '@/lib/types';
+import { PAGES } from '@/lib/constants';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
-import { PAGES } from '@/lib/constants';
 
 type PageUrlParams = {
   username: string;
