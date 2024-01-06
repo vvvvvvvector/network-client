@@ -229,14 +229,14 @@ export const Chat = ({ chat }: Props) => {
               <div className='flex items-baseline justify-center gap-2'>
                 {state.friendTyping ? (
                   <span className='flex items-baseline gap-[5px]'>
-                    <span className='h-[3px] w-[3px] animate-friend-typing rounded-full bg-foreground' />
-                    <span className='h-[3px] w-[3px] animate-friend-typing rounded-full bg-foreground delay-300' />
-                    <span className='h-[3px] w-[3px] animate-friend-typing rounded-full bg-foreground delay-500' />
+                    <span className='size-[3px] animate-friend-typing rounded-full bg-foreground' />
+                    <span className='size-[3px] animate-friend-typing rounded-full bg-foreground delay-300' />
+                    <span className='size-[3px] animate-friend-typing rounded-full bg-foreground delay-500' />
                     <span className='ml-1'>typing</span>
                   </span>
                 ) : (
                   <span className='flex animate-slide items-baseline gap-2'>
-                    <span className='inline-flex h-2 w-2 items-center justify-center rounded-full bg-emerald-400' />
+                    <span className='inline-flex size-2 items-center justify-center rounded-full bg-emerald-400' />
                     <span>online</span>
                   </span>
                 )}
@@ -306,7 +306,7 @@ export const Chat = ({ chat }: Props) => {
         </div>
       ) : (
         <div className='grid h-full w-full place-items-center'>
-          <p className='mb-7 mt-7 text-center leading-9'>
+          <p className='my-7 text-center leading-9'>
             No messages here yet... 😗
             <br /> Send a message to your friend first!
           </p>

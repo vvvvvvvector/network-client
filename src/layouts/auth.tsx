@@ -29,8 +29,8 @@ export const Auth = ({ children }: PropsWithChildren) => {
             variant='outline'
             className='absolute right-8 top-8'
           >
-            <Sun className='h-4 w-4 rotate-0 scale-100 dark:-rotate-90 dark:scale-0' />
-            <MoonStar className='absolute h-4 w-4 rotate-90 scale-0 dark:rotate-0 dark:scale-100' />
+            <Sun className='size-4 rotate-0 scale-100 dark:-rotate-90 dark:scale-0' />
+            <MoonStar className='absolute size-4 rotate-90 scale-0 dark:rotate-0 dark:scale-100' />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
@@ -45,7 +45,7 @@ export const Auth = ({ children }: PropsWithChildren) => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <div className='grid h-full w-full place-items-center dark:bg-neutral-900'>
+      <div className='grid size-full place-items-center dark:bg-neutral-900'>
         <div className='w-full max-w-[350px] space-y-7'>
           <h3 className='text-center text-lg font-medium'>{`${
             router.asPath === PAGES.SIGN_IN ? 'Hello 👋' : 'Create your account'

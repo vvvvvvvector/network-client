@@ -181,7 +181,7 @@ export const DefaultProfile = (
           onClicks: ON_CLICKS(user.extendedFriendRequestStatus)(user.username)
         })}
       </div>
-      <Separator className='mb-4 mt-4' />
+      <Separator className='my-4' />
       <ul className='flex flex-col gap-5'>
         <li>
           <time suppressHydrationWarning>

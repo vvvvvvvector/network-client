@@ -20,7 +20,7 @@ interface Props {
 const Index: NextPageWithLayout<Props> = ({ users }) => {
   if (!users) {
     return (
-      <p className='mb-7 mt-7 text-center leading-9'>
+      <p className='my-7 text-center leading-9'>
         Something went wrong
         <br /> Please, try again later
         <br /> <span className='text-4xl'>😭</span>

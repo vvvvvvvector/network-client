@@ -11,9 +11,9 @@ import {
 const avatarVariants = cva('', {
   variants: {
     size: {
-      small: 'h-10 w-10',
-      medium: 'w-[4.5rem] h-[4.5rem]',
-      large: 'w-36 h-36'
+      small: 'size-10',
+      medium: 'size-[4.5rem]',
+      large: 'w-36 h-36 size-36'
     }
   },
   defaultVariants: {

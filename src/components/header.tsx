@@ -97,7 +97,7 @@ const Header = () => {
   return (
     <header className='sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-muted bg-background'>
       <div className='flex h-14 w-full max-w-authorised items-center px-5'>
-        <ul className='flex h-full w-full items-center justify-between'>
+        <ul className='flex size-full items-center justify-between'>
           <li className='flex justify-center gap-14'>
             <div
               onClick={() => router.push(PAGES.NEWS)}
@@ -124,7 +124,7 @@ const Header = () => {
                       username={data?.username || 'Unknown'}
                       avatar={data?.avatar?.name}
                     />
-                    <ChevronDown className='h-4 w-4' />
+                    <ChevronDown className='size-4' />
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align='center' className='w-52'>

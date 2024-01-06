@@ -84,7 +84,7 @@ const Find: NextPageWithLayout<Props> = ({
 
   if (!users) {
     return (
-      <p className='mb-7 mt-7 text-center leading-9'>
+      <p className='my-7 text-center leading-9'>
         Something went wrong
         <br /> Please, try again later
         <br /> <span className='text-4xl'>😭</span>
@@ -119,7 +119,7 @@ const Find: NextPageWithLayout<Props> = ({
           </Tooltip>
         )}
       </div>
-      <Separator className='mb-4 mt-4' />
+      <Separator className='my-4' />
       {users.length > 0 ? (
         <ul className='flex flex-col gap-5'>
           {users.map((user) => (
@@ -154,7 +154,7 @@ const Find: NextPageWithLayout<Props> = ({
           ))}
         </ul>
       ) : (
-        <span className='mb-7 mt-7 text-center'>
+        <span className='my-7 text-center'>
           Your search returned no results.
         </span>
       )}

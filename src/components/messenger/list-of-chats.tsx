@@ -28,9 +28,7 @@ export const ListOfChats = ({ chats, filterChats }: Props) => {
   if (!chats.length) {
     return (
       <div className='rounded-lg bg-background px-5 pb-5'>
-        <p className='mb-7 mt-7 text-center leading-9'>
-          You have no chats yet 😭
-        </p>
+        <p className='my-7 text-center leading-9'>You have no chats yet 😭</p>
       </div>
     );
   }
@@ -40,7 +38,7 @@ export const ListOfChats = ({ chats, filterChats }: Props) => {
   if (!filteredByFriendUsernameChats.length) {
     return (
       <div className='rounded-lg bg-background px-5 pb-5'>
-        <p className='mb-7 mt-7 text-center leading-9'>
+        <p className='my-7 text-center leading-9'>
           Your search returned no results 😭
         </p>
       </div>
@@ -69,7 +67,7 @@ export const ListOfChats = ({ chats, filterChats }: Props) => {
               avatar={chat.friendAvatar || undefined}
             />
             {connectionsInformation[chat.friendUsername] === 'online' && (
-              <span className='absolute bottom-0 right-0 h-4 w-4 rounded-full border-[2px] border-background bg-emerald-400 transition-[background-color] group-hover:border-neutral-200 group-hover:dark:border-neutral-700' />
+              <span className='absolute bottom-0 right-0 size-4 rounded-full border-[2px] border-background bg-emerald-400 transition-[background-color] group-hover:border-neutral-200 group-hover:dark:border-neutral-700' />
             )}
           </div>
           <div className='flex w-full flex-col gap-5 overflow-hidden'>

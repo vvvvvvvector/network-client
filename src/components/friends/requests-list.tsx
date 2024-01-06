@@ -127,7 +127,7 @@ export const RequestsList = ({ requests }: Props) => {
 
   if (!requests[type]?.length) {
     return (
-      <span className='mb-7 mt-7 text-center'>
+      <span className='my-7 text-center'>
         {`You don't have any ${type} requests yet.`}
       </span>
     );

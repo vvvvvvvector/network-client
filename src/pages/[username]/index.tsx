@@ -74,7 +74,7 @@ Index.getLayout = (page) => {
 const OnErrorLayout = ({ children }: PropsWithChildren) => {
   return (
     <div className='rounded-lg bg-background p-5'>
-      <p className='mb-11 mt-11 text-center leading-9'>{children}</p>
+      <p className='my-11 text-center leading-9'>{children}</p>
     </div>
   );
 };

@@ -35,7 +35,7 @@ import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { useCommandMenuStore } from '@/zustand/command-menu.store';
 
-const COMMAND_ITEM_ICON_STYLE = 'mr-2 h-4 w-4';
+const COMMAND_ITEM_ICON_STYLE = 'mr-2 size-4';
 
 export const CommandMenu = () => {
   const { commandMenuOpened, toogleCmdMenuOpenState, setCommandMenuOpened } =

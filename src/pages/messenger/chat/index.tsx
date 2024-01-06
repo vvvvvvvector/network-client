@@ -30,7 +30,7 @@ const Index: NextPageWithLayout = () => {
   if (!data) {
     return (
       <OnLoadingAndOnErrorLayout>
-        <p className='mb-7 mt-7 text-center leading-9'>
+        <p className='my-7 text-center leading-9'>
           Error while loading the chat data
           <br /> Please try again later
           <br /> <span className='text-4xl'>😭</span>
@@ -55,7 +55,7 @@ Index.getLayout = (page) => (
 const OnLoadingAndOnErrorLayout = ({ children }: PropsWithChildren) => {
   return (
     <div className={container_styles}>
-      <div className='grid h-full w-full place-items-center'>{children}</div>
+      <div className='grid size-full place-items-center'>{children}</div>
     </div>
   );
 };

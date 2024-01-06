@@ -55,7 +55,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
                 username={user.username}
                 avatar={user.profile.avatar?.name}
               />
-              <span className='absolute bottom-2 right-2 h-6 w-6 rounded-full border-[3px] border-background bg-emerald-400' />
+              <span className='absolute bottom-2 right-2 size-6 rounded-full border-[3px] border-background bg-emerald-400' />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -135,7 +135,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
           </Dialog>
         </div>
       </div>
-      <Separator className='mb-4 mt-4' />
+      <Separator className='my-4' />
       <ul className='flex flex-col gap-5'>
         <li>{`Your avatar likes: ${
           user.profile.avatar?.likes ?? 'no photo yet'

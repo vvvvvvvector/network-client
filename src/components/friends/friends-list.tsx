@@ -46,7 +46,7 @@ export const FriendsList = ({ friends, connectionsInformation }: Props) => {
 
   if (!users.length) {
     return (
-      <span className='mb-7 mt-7 text-center'>
+      <span className='my-7 text-center'>
         {listType === 'all'
           ? "You don't have any friends yet."
           : 'None of your friends are online.'}
@@ -70,7 +70,7 @@ export const FriendsList = ({ friends, connectionsInformation }: Props) => {
                   avatar={user.profile.avatar?.name}
                 />
                 {connectionsInformation[user.username] === 'online' && (
-                  <span className='absolute bottom-0 right-0 h-4 w-4 rounded-full border-[2px] border-background bg-emerald-400 transition-[background-color] group-hover:border-neutral-200 group-hover:dark:border-neutral-700' />
+                  <span className='absolute bottom-0 right-0 size-4 rounded-full border-[2px] border-background bg-emerald-400 transition-[background-color] group-hover:border-neutral-200 group-hover:dark:border-neutral-700' />
                 )}
               </div>
             </Link>

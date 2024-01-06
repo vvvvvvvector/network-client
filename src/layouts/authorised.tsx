@@ -68,7 +68,7 @@ export const Authorized = ({ children }: PropsWithChildren) => {
     <div className='flex min-h-screen flex-col'>
       <Header />
       <div className='flex flex-1 justify-center bg-authorised'>
-        <div className='mb-3 mt-3 w-full max-w-authorised px-5'>
+        <div className='my-3 w-full max-w-authorised px-5'>
           <div className='grid grid-cols-1 gap-5 md:grid-cols-[175px_minmax(0,1fr)]'>
             <ul className='hidden gap-5 md:flex md:flex-col'>
               {pages.map((page) => (
