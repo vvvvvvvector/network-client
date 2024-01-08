@@ -16,3 +16,11 @@ export const PAGES = {
   FRIENDS_REQUESTS: '/friends/requests',
   PHOTOS: '/photos'
 } as const;
+
+export const MENU_PAGES = [
+  'profile',
+  'news',
+  'messenger',
+  'friends',
+  'photos'
+] as const;

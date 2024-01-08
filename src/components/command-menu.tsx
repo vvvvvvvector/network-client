@@ -30,6 +30,7 @@ import {
 import { Button } from '@/components/ui/button';
 
 import { PAGES } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
@@ -37,7 +38,11 @@ import { useCommandMenuStore } from '@/zustand/command-menu.store';
 
 const COMMAND_ITEM_ICON_STYLE = 'mr-2 size-4';
 
-export const CommandMenu = () => {
+interface Props {
+  className?: string;
+}
+
+export const CommandMenu = ({ className }: Props) => {
   const { commandMenuOpened, toogleCmdMenuOpenState, setCommandMenuOpened } =
     useCommandMenuStore();
 
@@ -70,12 +75,13 @@ export const CommandMenu = () => {
       <Button
         variant='outline'
         onClick={() => setCommandMenuOpened(true)}
-        className={
-          'flex w-[120px] items-center justify-between rounded-lg text-sm text-muted-foreground sm:w-[250px]'
-        }
+        className={cn(
+          'flex w-full items-center justify-between rounded-lg text-sm text-muted-foreground',
+          className
+        )}
       >
         <span>Search...</span>
-        <kbd className='pointer-events-none hidden h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex dark:bg-neutral-900'>
+        <kbd className='pointer-events-none hidden h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 md:flex dark:bg-neutral-900'>
           <span className='text-xs'>⌘</span>K
         </kbd>
       </Button>

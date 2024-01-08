@@ -12,15 +12,13 @@ import { parseCookies } from 'nookies';
 import { Header } from '@/components/header';
 
 import { capitalize } from '@/lib/utils';
-import { TOKEN_NAME } from '@/lib/constants';
+import { TOKEN_NAME, MENU_PAGES as pages } from '@/lib/constants';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { useSocketStore } from '@/zustand/socket.store';
 
-const pages = ['profile', 'news', 'messenger', 'friends', 'photos'] as const;
-
-const icon = (type: (typeof pages)[number], size: number) => {
+export const icon = (type: (typeof pages)[number], size: number) => {
   switch (type) {
     case 'profile':
       return <UserCircle size={size} />;
@@ -38,7 +36,7 @@ const icon = (type: (typeof pages)[number], size: number) => {
   }
 };
 
-const menuItemName = (type: (typeof pages)[number]) => {
+export const menuItemName = (type: (typeof pages)[number]) => {
   switch (type) {
     case 'profile':
       return `My ${type}`;

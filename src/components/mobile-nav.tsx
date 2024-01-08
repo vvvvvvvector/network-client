@@ -5,13 +5,17 @@ import { Menu, Network } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 
+import { icon, menuItemName } from '@/layouts/authorised';
+
+import { MENU_PAGES as pages } from '@/lib/constants';
+
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
 
   return (
     <Sheet open={open} onOpenChange={setOpen} defaultOpen={open}>
       <SheetTrigger asChild>
-        <Button variant='ghost' size='icon' className='md:hidden'>
+        <Button variant='ghost' size='icon'>
           <Menu />
         </Button>
       </SheetTrigger>
@@ -25,21 +29,25 @@ const MobileNav = () => {
           <span className='text-xl font-bold'>Network</span>
         </MobileLink>
         <div className='flex flex-col space-y-3'>
-          <MobileLink href='profile' onOpenChange={setOpen}>
-            My profile
-          </MobileLink>
-          <MobileLink href='news' onOpenChange={setOpen}>
-            News
-          </MobileLink>
-          <MobileLink href='messenger' onOpenChange={setOpen}>
-            Messenger
-          </MobileLink>
-          <MobileLink href='friends' onOpenChange={setOpen}>
-            Friends
-          </MobileLink>
-          <MobileLink href='photos' onOpenChange={setOpen}>
-            Photos
-          </MobileLink>
+          {pages.map((page) => (
+            <MobileLink
+              key={page}
+              href={{
+                pathname: `/${page}`,
+                query:
+                  page === 'friends'
+                    ? {
+                        tab: 'all'
+                      }
+                    : undefined
+              }}
+              onOpenChange={setOpen}
+              className='flex items-center'
+            >
+              {icon(page, 20)}
+              <span className='ml-1'>{menuItemName(page)}</span>
+            </MobileLink>
+          ))}
         </div>
       </SheetContent>
     </Sheet>
