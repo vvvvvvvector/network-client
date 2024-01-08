@@ -33,6 +33,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { CommandMenu } from '@/components/command-menu';
+import { MobileNav } from '@/components/mobile-nav';
 
 import { signOut } from '@/api/auth';
 import { getAuthorizedUserUsernameAndAvatar, url } from '@/api/users';
@@ -98,7 +99,7 @@ const Header = () => {
     <header className='sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-muted bg-background'>
       <div className='flex h-14 w-full max-w-authorised items-center px-5'>
         <ul className='flex size-full items-center justify-between'>
-          <li className='flex justify-center gap-14'>
+          <li className='hidden justify-center gap-14 md:flex'>
             <div
               onClick={() => router.push(PAGES.NEWS)}
               className='flex cursor-pointer items-center gap-3'
@@ -107,6 +108,9 @@ const Header = () => {
               <span className='text-2xl font-bold'>Network</span>
             </div>
             <CommandMenu />
+          </li>
+          <li>
+            <MobileNav />
           </li>
           <li className='h-full'>
             <Dialog>
