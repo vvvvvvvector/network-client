@@ -19,16 +19,16 @@ const MobileNav = () => {
           <Menu />
         </Button>
       </SheetTrigger>
-      <SheetContent side='left'>
+      <SheetContent className='flex flex-col gap-7' side='left'>
         <MobileLink
           href='news'
           onOpenChange={setOpen}
           className='flex items-center'
         >
-          <Network className='mr-2 size-5' />
-          <span className='text-xl font-bold'>Network</span>
+          {/* <Network className='mr-3 size-7' /> */}
+          <span className='ml-8 text-2xl font-bold'>Network</span>
         </MobileLink>
-        <div className='flex flex-col space-y-3'>
+        <div className='flex flex-col gap-10 pl-8'>
           {pages.map((page) => (
             <MobileLink
               key={page}
@@ -45,7 +45,7 @@ const MobileNav = () => {
               className='flex items-center'
             >
               {icon(page, 20)}
-              <span className='ml-1'>{menuItemName(page)}</span>
+              <span className='ml-2'>{menuItemName(page)}</span>
             </MobileLink>
           ))}
         </div>

@@ -60,7 +60,7 @@ export const Friends = ({ users }: Props) => {
   return (
     <>
       <div className='flex items-center justify-between text-sm'>
-        <ul className='flex gap-7'>
+        <ul className='flex gap-3 sm:gap-7'>
           <li
             onClick={() =>
               router.push({
@@ -77,7 +77,8 @@ export const Friends = ({ users }: Props) => {
               }
             )}
           >
-            {`All friends [${users.length}]`}
+            <span className='flex sm:hidden'>{`All [${users.length}]`}</span>
+            <span className='hidden sm:flex'>{`All friends [${users.length}]`}</span>
           </li>
           <li
             onClick={() =>
@@ -112,7 +113,8 @@ export const Friends = ({ users }: Props) => {
             });
           }}
         >
-          Find friends
+          <span className='flex sm:hidden'>Find</span>
+          <span className='hidden sm:flex'>Find friends</span>
         </Button>
       </div>
       <Separator className='mb-4 mt-4' />
