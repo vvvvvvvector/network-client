@@ -90,6 +90,15 @@ body {
   }
 }
 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
 @layer utilities {
   .custom-scrollbar::-webkit-scrollbar {
     width: 2px;
