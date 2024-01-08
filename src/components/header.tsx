@@ -109,7 +109,7 @@ const Header = () => {
             </div>
             <CommandMenu />
           </li>
-          <li>
+          <li className='md:hidden'>
             <MobileNav />
           </li>
           <li className='h-full'>

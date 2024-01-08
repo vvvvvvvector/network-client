@@ -1,16 +1,9 @@
 import { useState } from 'react';
 
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 
-import { Menu } from 'lucide-react';
+import { Menu, Network } from 'lucide-react';
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
@@ -23,10 +16,10 @@ const MobileNav = () => {
         </Button>
       </SheetTrigger>
       <SheetContent side='left'>
-        <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>hello world!</SheetDescription>
-        </SheetHeader>
+        <div className='flex items-center'>
+          <Network className='mr-2 size-4' />
+          <span className='font-bold'>Network</span>
+        </div>
       </SheetContent>
     </Sheet>
   );
