@@ -15,8 +15,13 @@ const MobileNav = () => {
   return (
     <Sheet open={open} onOpenChange={setOpen} defaultOpen={open}>
       <SheetTrigger asChild>
-        <Button variant='ghost' size='icon'>
+        <Button
+          className='hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-1 focus-visible:ring-offset-0'
+          variant='ghost'
+          size='icon'
+        >
           <Menu />
+          <span className='sr-only'>open mobile menu</span>
         </Button>
       </SheetTrigger>
       <SheetContent className='flex flex-col gap-7' side='left'>
