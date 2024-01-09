@@ -22,6 +22,7 @@ import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useFocus } from '@/hooks/use-focus';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
   email: z
@@ -132,7 +133,9 @@ export const SignUpForm = () => {
         <Button type='submit' className='w-full' disabled={loading}>
           {loading ? (
             <div className='flex items-center gap-2'>
-              <Loader2 className={'animate-spin' + ICON_INSIDE_BUTTON_SIZE} />
+              <Loader2
+                className={cn('animate-spin', ICON_INSIDE_BUTTON_SIZE)}
+              />
               <span>Loading...</span>
             </div>
           ) : (
