@@ -1,4 +1,4 @@
-import type { GetServerSideProps } from 'next';
+import { type GetServerSideProps } from 'next';
 
 import { type NextPageWithLayout } from '@/pages/_app';
 
@@ -19,7 +19,7 @@ import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import { capitalize, cn } from '@/lib/utils';
-import { UserFromListOfUsers } from '@/lib/types';
+import { type UserFromListOfUsers } from '@/lib/types';
 import { PAGES } from '@/lib/constants';
 
 const lis = ['incoming', 'outgoing', 'rejected'] as const;

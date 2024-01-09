@@ -1,5 +1,5 @@
-import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 import Link from 'next/link';
+import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -15,7 +15,7 @@ import { useCommonActions } from '@/hooks/use-common-actions';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
-import type { UserFromListOfUsers } from '@/lib/types';
+import { type UserFromListOfUsers } from '@/lib/types';
 import {
   DROPDOWN_MENU_ICON_STYLES,
   ICON_INSIDE_BUTTON_SIZE
@@ -83,7 +83,7 @@ export const FriendsList = ({ friends, connectionsInformation }: Props) => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant='ghost' size='icon'>
-                <MoreHorizontal size={ICON_INSIDE_BUTTON_SIZE} />
+                <MoreHorizontal className={ICON_INSIDE_BUTTON_SIZE} />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>

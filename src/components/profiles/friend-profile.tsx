@@ -93,7 +93,7 @@ export const FriendProfile = (
               variant='outline'
               size='icon'
             >
-              <UserCheck size={ICON_INSIDE_BUTTON_SIZE} />
+              <UserCheck className={ICON_INSIDE_BUTTON_SIZE} />
             </Button>
           </Tooltip>
         </div>

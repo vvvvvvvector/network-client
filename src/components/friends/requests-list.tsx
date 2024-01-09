@@ -29,12 +29,12 @@ const BUTTONS: Record<
       <div className='flex gap-3'>
         <Tooltip text='Accept friend request'>
           <Button onClick={onClicks[0]} variant='outline'>
-            <Check size={ICON_INSIDE_BUTTON_SIZE} />
+            <Check className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         </Tooltip>
         <Tooltip text='Reject friend request'>
           <Button onClick={onClicks[1]} variant='outline'>
-            <X size={ICON_INSIDE_BUTTON_SIZE} />
+            <X className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         </Tooltip>
       </div>
@@ -44,7 +44,7 @@ const BUTTONS: Record<
     return (
       <Tooltip text='Cancel request'>
         <Button onClick={onClicks[0]} variant='outline'>
-          <Undo2 size={ICON_INSIDE_BUTTON_SIZE} />
+          <Undo2 className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </Tooltip>
     );
@@ -53,7 +53,7 @@ const BUTTONS: Record<
     return (
       <Tooltip text='Add to friends'>
         <Button onClick={onClicks[0]} variant='outline'>
-          <Check size={ICON_INSIDE_BUTTON_SIZE} />
+          <Check className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </Tooltip>
     );

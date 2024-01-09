@@ -33,6 +33,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { CommandMenu } from '@/components/command-menu';
+import { MobileNav } from '@/components/mobile-nav';
 
 import { signOut } from '@/api/auth';
 import { getAuthorizedUserUsernameAndAvatar, url } from '@/api/users';
@@ -97,16 +98,19 @@ const Header = () => {
   return (
     <header className='sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-muted bg-background'>
       <div className='flex h-14 w-full max-w-authorised items-center px-5'>
-        <ul className='flex size-full items-center justify-between'>
-          <li className='flex justify-center gap-14'>
+        <ul className='flex size-full items-center justify-between gap-2 md:gap-0'>
+          <li className='md:hidden'>
+            <MobileNav />
+          </li>
+          <li className='flex flex-1'>
             <div
               onClick={() => router.push(PAGES.NEWS)}
-              className='flex cursor-pointer items-center gap-3'
+              className='mr-14 hidden cursor-pointer items-center gap-3 md:flex'
             >
               <Network />
               <span className='text-2xl font-bold'>Network</span>
             </div>
-            <CommandMenu />
+            <CommandMenu className='md:max-w-[320px]' />
           </li>
           <li className='h-full'>
             <Dialog>
@@ -118,7 +122,7 @@ const Header = () => {
                 <DropdownMenuTrigger asChild>
                   <div
                     onClick={() => setDropdownMenuOpen(true)}
-                    className='flex h-full w-[100px] cursor-pointer items-center justify-center gap-2 transition-[background-color] hover:bg-accent'
+                    className='flex h-full w-[80px] cursor-pointer items-center justify-center gap-2 transition-[background-color] hover:bg-accent md:w-[100px]'
                   >
                     <Avatar
                       username={data?.username || 'Unknown'}

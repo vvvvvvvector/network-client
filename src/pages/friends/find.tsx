@@ -109,12 +109,12 @@ const Find: NextPageWithLayout<Props> = ({
         />
         {!router.query.username ? (
           <Button onClick={onSearch} size='icon' className='w-14'>
-            <Search size={ICON_INSIDE_BUTTON_SIZE} />
+            <Search className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         ) : (
           <Tooltip text='Reset search'>
             <Button onClick={onResetSearch} size='icon' className='w-14'>
-              <SearchSlash size={ICON_INSIDE_BUTTON_SIZE} />
+              <SearchSlash className={ICON_INSIDE_BUTTON_SIZE} />
             </Button>
           </Tooltip>
         )}
@@ -144,7 +144,7 @@ const Find: NextPageWithLayout<Props> = ({
               {user.requestStatus === 'none' ? (
                 <Tooltip text='Send a friend request'>
                   <Button onClick={send(user.username)} variant='outline'>
-                    <UserPlus size={ICON_INSIDE_BUTTON_SIZE} />
+                    <UserPlus className={ICON_INSIDE_BUTTON_SIZE} />
                   </Button>
                 </Tooltip>
               ) : (

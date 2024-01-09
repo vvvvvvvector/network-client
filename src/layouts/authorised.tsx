@@ -12,25 +12,23 @@ import { parseCookies } from 'nookies';
 import { Header } from '@/components/header';
 
 import { capitalize } from '@/lib/utils';
-import { TOKEN_NAME } from '@/lib/constants';
+import { TOKEN_NAME, MAIN_NAV_PAGES as pages } from '@/lib/constants';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { useSocketStore } from '@/zustand/socket.store';
 
-const pages = ['profile', 'news', 'messenger', 'friends', 'photos'] as const;
-
-const icon = (type: (typeof pages)[number], size: number) => {
+export const icon = (type: (typeof pages)[number], size: number) => {
   switch (type) {
-    case 'profile':
+    case '/profile':
       return <UserCircle size={size} />;
-    case 'news':
+    case '/news':
       return <Newspaper size={size} />;
-    case 'messenger':
+    case '/messenger':
       return <MessageCircle size={size} />;
-    case 'friends':
+    case '/friends':
       return <Users size={size} />;
-    case 'photos':
+    case '/photos':
       return <Image size={size} />;
     default:
       const _: never = type;
@@ -38,12 +36,14 @@ const icon = (type: (typeof pages)[number], size: number) => {
   }
 };
 
-const menuItemName = (type: (typeof pages)[number]) => {
+export const menuItemName = (type: (typeof pages)[number]) => {
+  const pathname = type.slice(1);
+
   switch (type) {
-    case 'profile':
-      return `My ${type}`;
+    case '/profile':
+      return `My ${pathname}`;
     default:
-      return capitalize(type);
+      return capitalize(pathname);
   }
 };
 
@@ -75,15 +75,15 @@ export const Authorized = ({ children }: PropsWithChildren) => {
                 <li
                   key={page}
                   onClick={() => {
-                    if (page === 'friends') {
+                    if (page === '/friends') {
                       router.push({
-                        pathname: `/${page}`,
+                        pathname: `${page}`,
                         query: {
                           tab: 'all'
                         }
                       });
                     } else {
-                      router.push(`/${page}`);
+                      router.push(`${page}`);
                     }
                   }}
                   className='flex cursor-pointer items-center gap-2 rounded p-2 text-sm transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-950'
