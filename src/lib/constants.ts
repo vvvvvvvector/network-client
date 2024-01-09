@@ -2,7 +2,7 @@ export const TOKEN_NAME = process.env.NEXT_PUBLIC_TOKEN_NAME || 'token';
 
 export const DROPDOWN_MENU_ICON_STYLES = 'mr-2 size-4';
 
-export const ICON_INSIDE_BUTTON_SIZE = 17;
+export const ICON_INSIDE_BUTTON_SIZE = 'size-4';
 
 export const PAGES = {
   SIGN_IN: '/',
@@ -17,10 +17,10 @@ export const PAGES = {
   PHOTOS: '/photos'
 } as const;
 
-export const MENU_PAGES = [
-  'profile',
-  'news',
-  'messenger',
-  'friends',
-  'photos'
+export const MAIN_NAV_PAGES = [
+  PAGES.MY_PROFILE,
+  PAGES.NEWS,
+  PAGES.MESSENGER,
+  PAGES.FRIENDS,
+  PAGES.PHOTOS
 ] as const;

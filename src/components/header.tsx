@@ -110,7 +110,7 @@ const Header = () => {
               <Network />
               <span className='text-2xl font-bold'>Network</span>
             </div>
-            <CommandMenu className='md:max-w-[240px]' />
+            <CommandMenu className='md:max-w-[320px]' />
           </li>
           <li className='h-full'>
             <Dialog>

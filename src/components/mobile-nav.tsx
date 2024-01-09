@@ -1,13 +1,13 @@
 import { type SetStateAction, useState } from 'react';
 import Link, { type LinkProps } from 'next/link';
-import { Menu, Network } from 'lucide-react';
+import { Menu } from 'lucide-react';
 
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 
 import { icon, menuItemName } from '@/layouts/authorised';
 
-import { MENU_PAGES as pages } from '@/lib/constants';
+import { MAIN_NAV_PAGES as pages } from '@/lib/constants';
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
@@ -38,9 +38,9 @@ const MobileNav = () => {
             <MobileLink
               key={page}
               href={{
-                pathname: `/${page}`,
+                pathname: `${page}`,
                 query:
-                  page === 'friends'
+                  page === '/friends'
                     ? {
                         tab: 'all'
                       }

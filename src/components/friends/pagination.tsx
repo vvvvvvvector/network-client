@@ -1,4 +1,4 @@
-import { ComponentProps, useContext, createContext } from 'react';
+import { type ComponentProps, useContext, createContext } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { buttonVariants } from '@/components/ui/button';

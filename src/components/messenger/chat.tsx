@@ -276,7 +276,7 @@ export const Chat = ({ chat }: Props) => {
                   size='icon'
                   variant='ghost'
                 >
-                  <MoreVertical size={ICON_INSIDE_BUTTON_SIZE} />
+                  <MoreVertical className={ICON_INSIDE_BUTTON_SIZE} />
                 </Button>
                 <div className='inline-flex w-[84%] max-w-max flex-col gap-3 rounded-xl bg-neutral-100 p-3 text-sm dark:bg-[hsl(0,0%,13%)]'>
                   {message.sender.username !== chat.authorizedUserUsername && (
@@ -314,7 +314,7 @@ export const Chat = ({ chat }: Props) => {
       )}
       <div className='flex gap-3'>
         <Button className='w-full max-w-[40px]' variant='ghost' size='icon'>
-          <Paperclip size={ICON_INSIDE_BUTTON_SIZE} />
+          <Paperclip className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
         <Textarea
           className='min-h-full resize-none'
@@ -348,7 +348,7 @@ export const Chat = ({ chat }: Props) => {
           disabled={messageInputValue.length === 0}
           onClick={onSendMessage}
         >
-          <SendHorizontal size={ICON_INSIDE_BUTTON_SIZE} />
+          <SendHorizontal className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </div>
     </>

@@ -52,7 +52,7 @@ const BUTTONS: Record<
           onClick={onClicks[0] as MouseEventHandler<HTMLButtonElement>}
           variant='outline'
         >
-          <UserPlus size={ICON_INSIDE_BUTTON_SIZE} />
+          <UserPlus className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </Tooltip>
     </>
@@ -67,7 +67,7 @@ const BUTTONS: Record<
           onClick={onClicks[0] as MouseEventHandler<HTMLButtonElement>}
           variant='outline'
         >
-          <Undo2 size={ICON_INSIDE_BUTTON_SIZE} />
+          <Undo2 className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </Tooltip>
     </>
@@ -80,7 +80,7 @@ const BUTTONS: Record<
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='outline' size='icon'>
-            <MoreHorizontal size={ICON_INSIDE_BUTTON_SIZE} />
+            <MoreHorizontal className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
@@ -110,7 +110,7 @@ const BUTTONS: Record<
           onClick={onClicks[0] as MouseEventHandler<HTMLButtonElement>}
           variant='outline'
         >
-          <Check size={ICON_INSIDE_BUTTON_SIZE} />
+          <Check className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </Tooltip>
     </>
