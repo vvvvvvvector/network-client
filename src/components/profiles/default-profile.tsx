@@ -45,7 +45,7 @@ const BUTTONS: Record<
   none: ({ onClicks }) => (
     <>
       <Badge className='absolute -right-0 -top-0'>
-        You haven't sent a friend request yet
+        You haven&apos;t sent a friend request yet
       </Badge>
       <Tooltip side='bottom' text='Send a friend request'>
         <Button
