@@ -113,7 +113,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
               <DialogHeader>
                 <DialogTitle>Edit bio</DialogTitle>
                 <DialogDescription>
-                  Make changes to your bio here. Click save when you're done.
+                  Make changes to your bio here. Click save when you&apos;re done.
                 </DialogDescription>
               </DialogHeader>
               <div>

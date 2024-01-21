@@ -33,7 +33,7 @@ const Index: NextPageWithLayout<Props> = ({ user }) => {
       <OnErrorLayout>
         User
         <b>{` ${router.query.username} `}</b>
-        doesn't exist.
+        doesn&apos;t exist.
         <br /> <span className='text-4xl'>🧐</span>
       </OnErrorLayout>
     );
