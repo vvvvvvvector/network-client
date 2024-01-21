@@ -43,7 +43,7 @@ interface Props {
 const Find: NextPageWithLayout<Props> = ({
   users,
   totalPages,
-  limitPerPage
+  limitPerPage // eslint-disable-line
 }) => {
   const [searchValue, setSearchValue] = useState('');
 

@@ -76,7 +76,7 @@ const chatReducer = (state: State, action: Action) => {
         friendTyping: false
       };
     default:
-      const _: never = action;
+      const _: never = action; // eslint-disable-line
       throw 'Not all cases are covered';
   }
 };

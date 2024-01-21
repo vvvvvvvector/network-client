@@ -141,7 +141,7 @@ export const DefaultProfile = (
         case 'rejected:sender':
           return [accept(username)];
         default:
-          const _: never = type;
+          const _: never = type; // eslint-disable-line
           throw 'Not all cases are covered';
       }
     };

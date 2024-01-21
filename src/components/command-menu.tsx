@@ -64,6 +64,7 @@ export const CommandMenu = ({ className }: Props) => {
     return () => document.removeEventListener('keydown', down);
   }, []);
 
+  // eslint-disable-next-line
   const runCommand = useCallback((command: (...args: any) => unknown) => {
     setCommandMenuOpened(false);
 

@@ -31,7 +31,7 @@ export const icon = (type: (typeof pages)[number], size: number) => {
     case '/photos':
       return <Image size={size} />;
     default:
-      const _: never = type;
+      const _: never = type; // eslint-disable-line
       throw 'Not all cases are covered';
   }
 };
