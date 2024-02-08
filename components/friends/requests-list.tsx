@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { RequestsTypes } from '@/pages/friends/requests';
 
 import { Button } from '@/components/ui/button';
+
 import { Tooltip } from '@/components/tooltip';
 import { Avatar } from '@/components/avatar';
 

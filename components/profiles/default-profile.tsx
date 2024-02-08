@@ -16,10 +16,11 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { Avatar } from '@/components/avatar';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+
 import { Tooltip } from '@/components/tooltip';
+import { Avatar } from '@/components/avatar';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
