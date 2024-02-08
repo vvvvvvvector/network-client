@@ -5,7 +5,7 @@ import type {
   NetworkUser,
   User,
   AvatarWithoutLikes
-} from '@/lib/types';
+} from '../lib/types';
 
 const ROUTE = '/users';
 

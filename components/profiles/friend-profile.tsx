@@ -9,9 +9,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { Avatar } from '@/components/avatar';
 import { Button } from '@/components/ui/button';
+
 import { Tooltip } from '@/components/tooltip';
+import { Avatar } from '@/components/avatar';
 
 import {
   DROPDOWN_MENU_ICON_STYLES,

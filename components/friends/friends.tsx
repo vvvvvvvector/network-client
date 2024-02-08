@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+
 import { FriendsList } from '@/components/friends/friends-list';
 
 import type { UserFromListOfUsers } from '@/lib/types';

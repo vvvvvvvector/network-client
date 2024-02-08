@@ -6,8 +6,9 @@ import { Authorized } from '@/layouts/authorised';
 import { Friends } from '@/layouts/friends';
 import { Main } from '@/layouts/main';
 
-import { RequestsList } from '@/components/friends/requests-list';
 import { Separator } from '@/components/ui/separator';
+
+import { RequestsList } from '@/components/friends/requests-list';
 
 import {
   getIncomingFriendRequests,

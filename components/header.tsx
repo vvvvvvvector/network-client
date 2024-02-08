@@ -20,7 +20,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Avatar } from '@/components/avatar';
 import {
   Dialog,
   DialogContent,
@@ -32,6 +31,8 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+
+import { Avatar } from '@/components/avatar';
 import { CommandMenu } from '@/components/command-menu';
 import { MobileNav } from '@/components/mobile-nav';
 

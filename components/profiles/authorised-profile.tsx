@@ -19,9 +19,10 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
-import { Avatar } from '@/components/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+
+import { Avatar } from '@/components/avatar';
 
 import { useProfileActions } from '@/hooks/use-profile-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
@@ -113,7 +114,8 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
               <DialogHeader>
                 <DialogTitle>Edit bio</DialogTitle>
                 <DialogDescription>
-                  Make changes to your bio here. Click save when you&apos;re done.
+                  Make changes to your bio here. Click save when you&apos;re
+                  done.
                 </DialogDescription>
               </DialogHeader>
               <div>
