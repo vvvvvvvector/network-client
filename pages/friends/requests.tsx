@@ -14,7 +14,7 @@ import {
   getIncomingFriendRequests,
   getOutgoingFriendRequests,
   getRejectedFriendRequests
-} from '@/api/friends';
+} from '@/api-calls/friends';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 

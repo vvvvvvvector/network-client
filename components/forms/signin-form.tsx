@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 
 import { Icons } from '@/components/icons';
 
-import { signIn } from '@/api/auth';
+import { signIn } from '@/api-calls/auth';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useFocus } from '@/hooks/use-focus';

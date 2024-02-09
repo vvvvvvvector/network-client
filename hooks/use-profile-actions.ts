@@ -7,7 +7,7 @@ import {
   deleteAvatar,
   updateAvatar,
   uploadAvatar
-} from '@/api/profiles';
+} from '@/api-calls/profiles';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 

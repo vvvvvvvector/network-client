@@ -8,7 +8,7 @@ import {
   rejectFriendRequest,
   cancelFriendRequest,
   sendFriendRequest
-} from '@/api/friends';
+} from '@/api-calls/friends';
 
 export const useRequestsActions = () => {
   const { router, toast } = useFrequentlyUsedHooks();

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getChatIdByAddresseeUsername, initiateChat } from '@/api/chats';
+import { getChatIdByAddresseeUsername, initiateChat } from '@/api-calls/chats';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
