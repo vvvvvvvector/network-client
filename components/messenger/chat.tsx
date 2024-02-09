@@ -1,10 +1,4 @@
 import { useState, useRef, useEffect, useCallback, useReducer } from 'react';
-import {
-  ChevronLeft,
-  MoreVertical,
-  Paperclip,
-  SendHorizontal
-} from 'lucide-react';
 import debounce from 'lodash.debounce';
 import Link from 'next/link';
 
@@ -12,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
 import { Avatar } from '@/components/avatar';
+import { Icons } from '@/components/icons';
 import { LastSeen } from '@/components/messenger/last-seen';
 
 import type { Chat as TChat, Message } from '@/lib/types';
@@ -219,7 +214,7 @@ export const Chat = ({ chat }: Props) => {
           variant='outline'
           onClick={() => router.push(PAGES.MESSENGER)}
         >
-          <ChevronLeft className='h-4 w-4' />
+          <Icons.arrowLeft className='h-4 w-4' />
         </Button>
         <div className='flex flex-col gap-1 text-center text-sm'>
           <Link href={`/${chat.friendUsername}`} target='_blank'>
@@ -277,7 +272,7 @@ export const Chat = ({ chat }: Props) => {
                   size='icon'
                   variant='ghost'
                 >
-                  <MoreVertical className={ICON_INSIDE_BUTTON_SIZE} />
+                  <Icons.moreVertical className={ICON_INSIDE_BUTTON_SIZE} />
                 </Button>
                 <div className='inline-flex w-[84%] max-w-max flex-col gap-3 rounded-xl bg-neutral-100 p-3 text-sm dark:bg-[hsl(0,0%,13%)]'>
                   {message.sender.username !== chat.authorizedUserUsername && (
@@ -315,7 +310,7 @@ export const Chat = ({ chat }: Props) => {
       )}
       <div className='flex gap-3'>
         <Button className='w-full max-w-[40px]' variant='ghost' size='icon'>
-          <Paperclip className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.attach className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
         <Textarea
           className='min-h-full resize-none'
@@ -349,7 +344,7 @@ export const Chat = ({ chat }: Props) => {
           disabled={messageInputValue.length === 0}
           onClick={onSendMessage}
         >
-          <SendHorizontal className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.sendMessage className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </div>
     </>

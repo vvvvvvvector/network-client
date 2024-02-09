@@ -1,12 +1,5 @@
 import { type PropsWithChildren } from 'react';
 import { useEffect } from 'react';
-import {
-  MessageCircle,
-  Users,
-  UserCircle,
-  Newspaper,
-  Image
-} from 'lucide-react';
 import { parseCookies } from 'nookies';
 
 import { Header } from '@/components/header';
@@ -17,19 +10,20 @@ import { TOKEN_NAME, MAIN_NAV_PAGES as pages } from '@/lib/constants';
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { useSocketStore } from '@/zustand/socket.store';
+import { Icons } from '@/components/icons';
 
 export const icon = (type: (typeof pages)[number], size: number) => {
   switch (type) {
     case '/profile':
-      return <UserCircle size={size} />;
+      return <Icons.myProfile size={size} />;
     case '/news':
-      return <Newspaper size={size} />;
+      return <Icons.news size={size} />;
     case '/messenger':
-      return <MessageCircle size={size} />;
+      return <Icons.messenger size={size} />;
     case '/friends':
-      return <Users size={size} />;
+      return <Icons.friends size={size} />;
     case '/photos':
-      return <Image size={size} />;
+      return <Icons.photos size={size} />;
     default:
       const _: never = type; // eslint-disable-line
       throw 'Not all cases are covered';

@@ -1,7 +1,8 @@
 import { type ComponentProps, useContext, createContext } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { buttonVariants } from '@/components/ui/button';
+
+import { Icons } from '@/components/icons';
 
 import { cn } from '@/lib/utils';
 import { PAGES } from '@/lib/constants';
@@ -110,7 +111,7 @@ const PaginationNext = () => {
       }
       disabled={disabled}
     >
-      <ChevronRight />
+      <Icons.arrowRight />
     </PaginationItem>
   );
 };
@@ -132,7 +133,7 @@ const PaginationPrevious = () => {
       }
       disabled={disabled}
     >
-      <ChevronLeft />
+      <Icons.arrowLeft />
     </PaginationItem>
   );
 };

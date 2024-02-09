@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Heart, Image, UserCheck } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -12,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
 import { Tooltip } from '@/components/tooltip';
+import { Icons } from '@/components/icons';
 import { Avatar } from '@/components/avatar';
 
 import {
@@ -65,11 +65,11 @@ export const FriendProfile = (
             {user.profile.avatar && (
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
-                  <Image className={DROPDOWN_MENU_ICON_STYLES} />
+                  <Icons.photos className={DROPDOWN_MENU_ICON_STYLES} />
                   <span>Open photo</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Heart className={DROPDOWN_MENU_ICON_STYLES} />
+                  <Icons.heart className={DROPDOWN_MENU_ICON_STYLES} />
                   <span>{`Like photo`}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -94,7 +94,7 @@ export const FriendProfile = (
               variant='outline'
               size='icon'
             >
-              <UserCheck className={ICON_INSIDE_BUTTON_SIZE} />
+              <Icons.acceptUser className={ICON_INSIDE_BUTTON_SIZE} />
             </Button>
           </Tooltip>
         </div>

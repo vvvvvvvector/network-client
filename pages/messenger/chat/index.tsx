@@ -1,5 +1,4 @@
 import { type PropsWithChildren } from 'react';
-import { Loader2 } from 'lucide-react';
 
 import { type NextPageWithLayout } from '@/pages/_app';
 
@@ -10,6 +9,7 @@ import { Chat } from '@/components/messenger/chat';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useChat } from '@/hooks/use-chat';
+import { Icons } from '@/components/icons';
 
 const container_styles =
   'flex h-[calc(100vh-3.5rem-0.8rem-0.8rem)] flex-col gap-2 rounded-lg bg-background p-4';
@@ -22,7 +22,7 @@ const Index: NextPageWithLayout = () => {
   if (isLoading) {
     return (
       <OnLoadingAndOnErrorLayout>
-        <Loader2 size={50} className='animate-spin' />
+        <Icons.spinner size={50} className='animate-spin' />
       </OnLoadingAndOnErrorLayout>
     );
   }

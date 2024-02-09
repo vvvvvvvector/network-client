@@ -1,15 +1,5 @@
 import useSWR from 'swr';
 import { useState, useEffect } from 'react';
-import {
-  ChevronDown,
-  Settings,
-  LogOut,
-  Network,
-  Sun,
-  MoonStar,
-  Monitor,
-  AlertTriangle
-} from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import {
@@ -32,6 +22,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
+import { Icons } from '@/components/icons';
 import { Avatar } from '@/components/avatar';
 import { CommandMenu } from '@/components/command-menu';
 import { MobileNav } from '@/components/mobile-nav';
@@ -47,19 +38,19 @@ import type { AvatarWithoutLikes, User } from '@/lib/types';
 const ThemeMenu = [
   {
     text: 'Light',
-    icon: <Sun className={DROPDOWN_MENU_ICON_STYLES} />
+    icon: <Icons.lightMode className={DROPDOWN_MENU_ICON_STYLES} />
   },
   {
     text: 'Dark',
-    icon: <MoonStar className={DROPDOWN_MENU_ICON_STYLES} />
+    icon: <Icons.darkMode className={DROPDOWN_MENU_ICON_STYLES} />
   },
   {
     text: 'System',
-    icon: <Monitor className={DROPDOWN_MENU_ICON_STYLES} />
+    icon: <Icons.systemMode className={DROPDOWN_MENU_ICON_STYLES} />
   },
   {
     text: 'Error!',
-    icon: <AlertTriangle className={DROPDOWN_MENU_ICON_STYLES} />
+    icon: <Icons.alertTriangle className={DROPDOWN_MENU_ICON_STYLES} />
   }
 ] as const;
 
@@ -108,7 +99,7 @@ const Header = () => {
               onClick={() => router.push(PAGES.NEWS)}
               className='mr-14 hidden cursor-pointer items-center gap-3 md:flex'
             >
-              <Network />
+              <Icons.appLogo />
               <span className='text-2xl font-bold'>Network</span>
             </div>
             <CommandMenu className='md:max-w-[320px]' />
@@ -129,7 +120,7 @@ const Header = () => {
                       username={data?.username || 'Unknown'}
                       avatar={data?.avatar?.name}
                     />
-                    <ChevronDown className='size-4' />
+                    <Icons.arrowDown className='size-4' />
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align='center' className='w-52'>
@@ -150,7 +141,7 @@ const Header = () => {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
-                    <Settings className={DROPDOWN_MENU_ICON_STYLES} />
+                    <Icons.settings className={DROPDOWN_MENU_ICON_STYLES} />
                     <span>Settings</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -185,7 +176,7 @@ const Header = () => {
                   <DropdownMenuSeparator />
                   <DialogTrigger className='w-full'>
                     <DropdownMenuItem>
-                      <LogOut className={DROPDOWN_MENU_ICON_STYLES} />
+                      <Icons.signOut className={DROPDOWN_MENU_ICON_STYLES} />
                       <span>Sign out</span>
                     </DropdownMenuItem>
                   </DialogTrigger>

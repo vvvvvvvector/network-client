@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import type { GetServerSideProps } from 'next';
-import { Search, UserPlus, SearchSlash } from 'lucide-react';
 import Link from 'next/link';
 
 import { type NextPageWithLayout } from '@/pages/_app';
@@ -25,6 +24,7 @@ import { useFocus } from '@/hooks/use-focus';
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import type { BaseFriendRequestStatus, UserFromListOfUsers } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
+import { Icons } from '@/components/icons';
 
 export type RequestStatus = BaseFriendRequestStatus | 'none';
 
@@ -109,12 +109,12 @@ const Find: NextPageWithLayout<Props> = ({
         />
         {!router.query.username ? (
           <Button onClick={onSearch} size='icon' className='w-14'>
-            <Search className={ICON_INSIDE_BUTTON_SIZE} />
+            <Icons.search className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         ) : (
           <Tooltip text='Reset search'>
             <Button onClick={onResetSearch} size='icon' className='w-14'>
-              <SearchSlash className={ICON_INSIDE_BUTTON_SIZE} />
+              <Icons.resetSearch className={ICON_INSIDE_BUTTON_SIZE} />
             </Button>
           </Tooltip>
         )}
@@ -144,7 +144,7 @@ const Find: NextPageWithLayout<Props> = ({
               {user.requestStatus === 'none' ? (
                 <Tooltip text='Send a friend request'>
                   <Button onClick={send(user.username)} variant='outline'>
-                    <UserPlus className={ICON_INSIDE_BUTTON_SIZE} />
+                    <Icons.addUser className={ICON_INSIDE_BUTTON_SIZE} />
                   </Button>
                 </Tooltip>
               ) : (

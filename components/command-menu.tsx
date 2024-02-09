@@ -1,21 +1,4 @@
 import { useEffect, useCallback } from 'react';
-import {
-  MessageCircle,
-  Users,
-  UserCircle,
-  Newspaper,
-  Image,
-  Sun,
-  MoonStar,
-  Monitor,
-  UserSearch,
-  Mailbox,
-  Cog,
-  MonitorSmartphone,
-  ArrowUpRight,
-  ArrowDownLeft,
-  UserX
-} from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import {
@@ -28,6 +11,8 @@ import {
   CommandSeparator
 } from '@/components/ui/command';
 import { Button } from '@/components/ui/button';
+
+import { Icons } from '@/components/icons';
 
 import { PAGES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
@@ -97,19 +82,19 @@ export const CommandMenu = ({ className }: Props) => {
             <CommandItem
               onSelect={() => runCommand(() => router.push(PAGES.MY_PROFILE))}
             >
-              <UserCircle className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.myProfile className={COMMAND_ITEM_ICON_STYLE} />
               <span>My profile</span>
             </CommandItem>
             <CommandItem
               onSelect={() => runCommand(() => router.push(PAGES.NEWS))}
             >
-              <Newspaper className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.news className={COMMAND_ITEM_ICON_STYLE} />
               <span>News</span>
             </CommandItem>
             <CommandItem
               onSelect={() => runCommand(() => router.push(PAGES.MESSENGER))}
             >
-              <MessageCircle className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.messenger className={COMMAND_ITEM_ICON_STYLE} />
               <span>Messenger</span>
             </CommandItem>
             <CommandItem
@@ -124,13 +109,13 @@ export const CommandMenu = ({ className }: Props) => {
                 )
               }
             >
-              <Users className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.friends className={COMMAND_ITEM_ICON_STYLE} />
               <span>Friends</span>
             </CommandItem>
             <CommandItem
               onSelect={() => runCommand(() => router.push(PAGES.PHOTOS))}
             >
-              <Image className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.photos className={COMMAND_ITEM_ICON_STYLE} />
               <span>Photos</span>
             </CommandItem>
           </CommandGroup>
@@ -146,7 +131,7 @@ export const CommandMenu = ({ className }: Props) => {
                 )
               }
             >
-              <UserSearch className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.searchUser className={COMMAND_ITEM_ICON_STYLE} />
               <span>Find</span>
             </CommandItem>
             <CommandItem
@@ -159,7 +144,7 @@ export const CommandMenu = ({ className }: Props) => {
                 )
               }
             >
-              <Mailbox className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.requests className={COMMAND_ITEM_ICON_STYLE} />
               <span>Requests</span>
             </CommandItem>
             <CommandItem
@@ -174,7 +159,7 @@ export const CommandMenu = ({ className }: Props) => {
                 )
               }
             >
-              <Users className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.friends className={COMMAND_ITEM_ICON_STYLE} />
               <span>All</span>
             </CommandItem>
             <CommandItem
@@ -189,7 +174,7 @@ export const CommandMenu = ({ className }: Props) => {
                 )
               }
             >
-              <MonitorSmartphone className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.online className={COMMAND_ITEM_ICON_STYLE} />
               <span>Online</span>
             </CommandItem>
           </CommandGroup>
@@ -205,7 +190,7 @@ export const CommandMenu = ({ className }: Props) => {
                 )
               }
             >
-              <ArrowDownLeft className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.incomingRequests className={COMMAND_ITEM_ICON_STYLE} />
               <span>Incoming</span>
             </CommandItem>
             <CommandItem
@@ -218,7 +203,7 @@ export const CommandMenu = ({ className }: Props) => {
                 )
               }
             >
-              <ArrowUpRight className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.outgoingRequests className={COMMAND_ITEM_ICON_STYLE} />
               <span>Outgoing</span>
             </CommandItem>
             <CommandItem
@@ -231,29 +216,29 @@ export const CommandMenu = ({ className }: Props) => {
                 )
               }
             >
-              <UserX className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.rejectUser className={COMMAND_ITEM_ICON_STYLE} />
               <span>Rejected</span>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading='Theme'>
             <CommandItem onSelect={() => runCommand(() => setTheme('light'))}>
-              <Sun className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.lightMode className={COMMAND_ITEM_ICON_STYLE} />
               <span>Light</span>
             </CommandItem>
             <CommandItem onSelect={() => runCommand(() => setTheme('dark'))}>
-              <MoonStar className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.darkMode className={COMMAND_ITEM_ICON_STYLE} />
               <span>Dark</span>
             </CommandItem>
             <CommandItem onSelect={() => runCommand(() => setTheme('system'))}>
-              <Monitor className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.systemMode className={COMMAND_ITEM_ICON_STYLE} />
               <span>System</span>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading='Settings'>
             <CommandItem>
-              <Cog className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.settings className={COMMAND_ITEM_ICON_STYLE} />
               <span>Settings</span>
             </CommandItem>
           </CommandGroup>

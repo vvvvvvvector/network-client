@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { type PropsWithChildren } from 'react';
 import useSWR from 'swr';
-import { Loader2, Search } from 'lucide-react';
 
 import { type NextPageWithLayout } from '@/pages/_app';
 
 import { CHATS_ROUTE, getAutorizedUserChats } from '@/api/chats';
 
-import { ListOfChats } from '@/components/messenger/list-of-chats';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
+
+import { ListOfChats } from '@/components/messenger/list-of-chats';
+import { Icons } from '@/components/icons';
 
 import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
@@ -28,7 +29,7 @@ const Messenger: NextPageWithLayout = () => {
   if (isLoading) {
     return (
       <OnLoadingAndOnErrorLayout>
-        <Loader2 size={50} className='animate-spin' />
+        <Icons.spinner size={50} className='animate-spin' />
       </OnLoadingAndOnErrorLayout>
     );
   }
@@ -49,7 +50,7 @@ const Messenger: NextPageWithLayout = () => {
     <div className='rounded-lg bg-background'>
       <div className='p-5'>
         <span className='flex items-center justify-start gap-5'>
-          <Search size={18} />
+          <Icons.search size={18} />
           <Input
             ref={inputRef}
             value={search}

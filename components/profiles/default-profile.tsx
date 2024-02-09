@@ -1,13 +1,4 @@
-import { MouseEventHandler } from 'react';
-import {
-  Heart,
-  Image,
-  UserPlus,
-  Check,
-  X,
-  Undo2,
-  MoreHorizontal
-} from 'lucide-react';
+import { type MouseEventHandler } from 'react';
 
 import {
   DropdownMenu,
@@ -20,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 import { Tooltip } from '@/components/tooltip';
+import { Icons } from '@/components/icons';
 import { Avatar } from '@/components/avatar';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
@@ -53,7 +45,7 @@ const BUTTONS: Record<
           onClick={onClicks[0] as MouseEventHandler<HTMLButtonElement>}
           variant='outline'
         >
-          <UserPlus className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.addUser className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </Tooltip>
     </>
@@ -68,7 +60,7 @@ const BUTTONS: Record<
           onClick={onClicks[0] as MouseEventHandler<HTMLButtonElement>}
           variant='outline'
         >
-          <Undo2 className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.undo className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </Tooltip>
     </>
@@ -81,20 +73,20 @@ const BUTTONS: Record<
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='outline' size='icon'>
-            <MoreHorizontal className={ICON_INSIDE_BUTTON_SIZE} />
+            <Icons.moreHorizontal className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem
             onClick={onClicks[0] as MouseEventHandler<HTMLDivElement>}
           >
-            <Check className={DROPDOWN_MENU_ICON_STYLES} />
+            <Icons.accept className={DROPDOWN_MENU_ICON_STYLES} />
             <span>Accept request</span>
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={onClicks[1] as MouseEventHandler<HTMLDivElement>}
           >
-            <X className={DROPDOWN_MENU_ICON_STYLES} />
+            <Icons.reject className={DROPDOWN_MENU_ICON_STYLES} />
             <span>Reject request</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -111,7 +103,7 @@ const BUTTONS: Record<
           onClick={onClicks[0] as MouseEventHandler<HTMLButtonElement>}
           variant='outline'
         >
-          <Check className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.accept className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </Tooltip>
     </>
@@ -163,11 +155,11 @@ export const DefaultProfile = (
             {user.profile.avatar && (
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
-                  <Image className={DROPDOWN_MENU_ICON_STYLES} />
+                  <Icons.photos className={DROPDOWN_MENU_ICON_STYLES} />
                   <span>Open photo</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Heart className={DROPDOWN_MENU_ICON_STYLES} />
+                  <Icons.heart className={DROPDOWN_MENU_ICON_STYLES} />
                   <span>{`Like photo`}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
