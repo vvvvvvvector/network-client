@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 
-import { CHATS_ROUTE, getChatData } from '@/api/chats';
+import { CHATS_ROUTE, getChatData } from '@/api-calls/chats';
 
 export const useChat = (id: string | undefined) => {
   const { data, isLoading } = useSWR(

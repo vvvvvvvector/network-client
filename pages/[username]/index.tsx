@@ -9,7 +9,7 @@ import { Authorized } from '@/layouts/authorised';
 import { DefaultProfile } from '@/components/profiles/default-profile';
 import { FriendProfile } from '@/components/profiles/friend-profile';
 
-import { getNetworkUserPubliclyAvailableData } from '@/api/users';
+import { getNetworkUserPubliclyAvailableData } from '@/api-calls/users';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import type { NetworkUser } from '@/lib/types';

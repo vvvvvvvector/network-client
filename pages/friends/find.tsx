@@ -15,7 +15,7 @@ import { Tooltip } from '@/components/tooltip';
 import { Avatar } from '@/components/avatar';
 import { Pagination, PaginationItem } from '@/components/friends/pagination';
 
-import { getNetworkUsersUsernames } from '@/api/friends';
+import { getNetworkUsersUsernames } from '@/api-calls/friends';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useRequestsActions } from '@/hooks/use-requests-actions';

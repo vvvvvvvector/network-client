@@ -10,7 +10,7 @@ import { Main } from '@/layouts/main';
 
 import { axiosApiInstance } from '@/axios';
 
-import { getAuthorizedUserUsername } from '@/api/users';
+import { getAuthorizedUserUsername } from '@/api-calls/users';
 
 import { PAGES, TOKEN_NAME } from '@/lib/constants';
 

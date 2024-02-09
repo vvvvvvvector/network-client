@@ -27,8 +27,8 @@ import { Avatar } from '@/components/avatar';
 import { CommandMenu } from '@/components/command-menu';
 import { MobileNav } from '@/components/mobile-nav';
 
-import { signOut } from '@/api/auth';
-import { getAuthorizedUserUsernameAndAvatar, url } from '@/api/users';
+import { signOut } from '@/api-calls/auth';
+import { getAuthorizedUserUsernameAndAvatar, url } from '@/api-calls/users';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
