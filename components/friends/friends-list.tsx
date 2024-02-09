@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { MessagesSquare, MoreHorizontal, UserMinus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -11,6 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { Avatar } from '@/components/avatar';
+import { Icons } from '@/components/icons';
 
 import { useCommonActions } from '@/hooks/use-common-actions';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
@@ -84,17 +84,17 @@ export const FriendsList = ({ friends, connectionsInformation }: Props) => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant='ghost' size='icon'>
-                <MoreHorizontal className={ICON_INSIDE_BUTTON_SIZE} />
+                <Icons.moreHorizontal className={ICON_INSIDE_BUTTON_SIZE} />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={writeMessage(user.username)}>
-                <MessagesSquare className={DROPDOWN_MENU_ICON_STYLES} />
+                <Icons.writeMessage className={DROPDOWN_MENU_ICON_STYLES} />
                 <span>Write message</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={unfriend(user.username)}>
-                <UserMinus className={DROPDOWN_MENU_ICON_STYLES} />
+                <Icons.unfriend className={DROPDOWN_MENU_ICON_STYLES} />
                 <span>Unfriend</span>
               </DropdownMenuItem>
             </DropdownMenuContent>

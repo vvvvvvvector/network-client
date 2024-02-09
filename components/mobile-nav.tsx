@@ -1,9 +1,10 @@
 import { type SetStateAction, useState } from 'react';
 import Link, { type LinkProps } from 'next/link';
-import { Menu } from 'lucide-react';
 
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
+
+import { Icons } from '@/components/icons';
 
 import { icon, menuItemName } from '@/layouts/authorised';
 
@@ -20,7 +21,7 @@ const MobileNav = () => {
           variant='ghost'
           size='icon'
         >
-          <Menu />
+          <Icons.mobileMenu />
           <span className='sr-only'>open mobile menu</span>
         </Button>
       </SheetTrigger>

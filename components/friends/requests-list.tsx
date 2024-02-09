@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { Check, Undo2, X } from 'lucide-react';
 import Link from 'next/link';
 
 import type { RequestsTypes } from '@/pages/friends/requests';
@@ -7,6 +6,7 @@ import type { RequestsTypes } from '@/pages/friends/requests';
 import { Button } from '@/components/ui/button';
 
 import { Tooltip } from '@/components/tooltip';
+import { Icons } from '@/components/icons';
 import { Avatar } from '@/components/avatar';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
@@ -30,12 +30,12 @@ const BUTTONS: Record<
       <div className='flex gap-3'>
         <Tooltip text='Accept friend request'>
           <Button onClick={onClicks[0]} variant='outline'>
-            <Check className={ICON_INSIDE_BUTTON_SIZE} />
+            <Icons.accept className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         </Tooltip>
         <Tooltip text='Reject friend request'>
           <Button onClick={onClicks[1]} variant='outline'>
-            <X className={ICON_INSIDE_BUTTON_SIZE} />
+            <Icons.reject className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         </Tooltip>
       </div>
@@ -45,7 +45,7 @@ const BUTTONS: Record<
     return (
       <Tooltip text='Cancel request'>
         <Button onClick={onClicks[0]} variant='outline'>
-          <Undo2 className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.undo className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </Tooltip>
     );
@@ -54,7 +54,7 @@ const BUTTONS: Record<
     return (
       <Tooltip text='Add to friends'>
         <Button onClick={onClicks[0]} variant='outline'>
-          <Check className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.accept className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </Tooltip>
     );

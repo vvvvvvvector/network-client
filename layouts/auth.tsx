@@ -1,5 +1,4 @@
 import { type PropsWithChildren } from 'react';
-import { Sun, MoonStar } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/button';
@@ -14,6 +13,7 @@ import {
 import { PAGES } from '@/lib/constants';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+import { Icons } from '@/components/icons';
 
 export const Auth = ({ children }: PropsWithChildren) => {
   const { router } = useFrequentlyUsedHooks();
@@ -29,8 +29,8 @@ export const Auth = ({ children }: PropsWithChildren) => {
             variant='outline'
             className='absolute right-8 top-8'
           >
-            <Sun className='size-4 rotate-0 scale-100 dark:-rotate-90 dark:scale-0' />
-            <MoonStar className='absolute size-4 rotate-90 scale-0 dark:rotate-0 dark:scale-100' />
+            <Icons.lightMode className='size-4 rotate-0 scale-100 dark:-rotate-90 dark:scale-0' />
+            <Icons.darkMode className='absolute size-4 rotate-90 scale-0 dark:rotate-0 dark:scale-100' />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>

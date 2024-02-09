@@ -3,7 +3,6 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { setCookie } from 'nookies';
-import { Loader2 } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/ui/button';
@@ -16,6 +15,8 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+
+import { Icons } from '@/components/icons';
 
 import { signIn } from '@/api/auth';
 
@@ -109,7 +110,7 @@ export const SignInForm = () => {
         <Button type='submit' className='w-full' disabled={loading}>
           {loading ? (
             <div className='flex items-center gap-2'>
-              <Loader2
+              <Icons.spinner
                 className={cn('animate-spin', ICON_INSIDE_BUTTON_SIZE)}
               />
               <span>Loading...</span>

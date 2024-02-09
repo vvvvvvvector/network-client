@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Pencil, Trash2, Upload, Image } from 'lucide-react';
 
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
@@ -23,6 +22,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 import { Avatar } from '@/components/avatar';
+import { Icons } from '@/components/icons';
 
 import { useProfileActions } from '@/hooks/use-profile-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
@@ -62,7 +62,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
           <DropdownMenuContent>
             {user.profile.avatar && (
               <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
-                <Image className={DROPDOWN_MENU_ICON_STYLES} />
+                <Icons.photos className={DROPDOWN_MENU_ICON_STYLES} />
                 <span>{`Open photo`}</span>
               </DropdownMenuItem>
             )}
@@ -80,12 +80,12 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
               >
                 {user.profile.avatar ? (
                   <>
-                    <Pencil className={DROPDOWN_MENU_ICON_STYLES} />
+                    <Icons.edit className={DROPDOWN_MENU_ICON_STYLES} />
                     <span>Update photo</span>
                   </>
                 ) : (
                   <>
-                    <Upload className={DROPDOWN_MENU_ICON_STYLES} />
+                    <Icons.upload className={DROPDOWN_MENU_ICON_STYLES} />
                     <span>Upload photo</span>
                   </>
                 )}
@@ -93,7 +93,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
             </DropdownMenuItem>
             {user.profile.avatar && (
               <DropdownMenuItem onClick={deleteAvatar()}>
-                <Trash2
+                <Icons.trash
                   color='hsl(0 84.2% 60.2%)'
                   className={DROPDOWN_MENU_ICON_STYLES}
                 />
