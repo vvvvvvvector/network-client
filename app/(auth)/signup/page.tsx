@@ -1,40 +1,32 @@
-// import nookies from 'nookies';
+import { type Metadata } from 'next';
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 
 import { SignUpForm } from '@/components/forms/signup-form';
 
-import { type Metadata } from 'next';
+import { checkAuthSchema } from '@/app/(auth)/page';
 
-// import { axiosApiInstance } from '@/axios';
-
-// import { getAuthorizedUserUsername } from '@/api-calls/users';
-
-// import { PAGES, TOKEN_NAME } from '@/lib/constants';
+import { PAGES, TOKEN_NAME } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'Auth / Sign Up'
 };
 
 export default async function SignUpPage() {
+  const token = cookies().get(TOKEN_NAME)?.value;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/users/me/username`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+
+  const authorized = checkAuthSchema.parse(await res.json());
+
+  if (authorized) redirect(PAGES.MY_PROFILE);
+
   return <SignUpForm />;
 }
-
-// export const getServerSideProps = (async (context) => {
-//   const token = nookies.get(context)[TOKEN_NAME];
-
-//   axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`;
-
-//   try {
-//     await getAuthorizedUserUsername();
-
-//     return {
-//       redirect: {
-//         destination: PAGES.MY_PROFILE,
-//         permanent: false
-//       }
-//     };
-//   } catch (error) {
-//     return {
-//       props: {}
-//     };
-//   }
-// }) satisfies GetServerSideProps;

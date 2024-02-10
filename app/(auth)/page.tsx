@@ -1,31 +1,37 @@
 import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
+import { cookies } from 'next/headers';
 
 import { SignInForm } from '@/components/forms/signin-form';
 
-import { PAGES } from '@/lib/constants';
-
-const schema = z.object({
-  success: z.boolean()
-});
+import { PAGES, TOKEN_NAME } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'Auth / Sign In'
 };
 
+export const checkAuthSchema = z
+  .object({
+    username: z.string().nullish()
+  })
+  .transform(({ username }) => (username ? true : false));
+
 export default async function SignInPage() {
-  const res = await fetch(`${process.env.URL}/api/auth`, {
-    method: 'GET'
-  });
+  const token = cookies().get(TOKEN_NAME)?.value;
 
-  const json = schema.parse(await res.json());
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/users/me/username`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
 
-  console.log(json);
+  const authorized = checkAuthSchema.parse(await res.json());
 
-  if (json.success) {
-    redirect(PAGES.MY_PROFILE);
-  }
+  if (authorized) redirect(PAGES.MY_PROFILE);
 
   return <SignInForm />;
 }
