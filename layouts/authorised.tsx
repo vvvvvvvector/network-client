@@ -1,16 +1,14 @@
-import { type PropsWithChildren } from 'react';
+import Link from 'next/link';
 import { useEffect } from 'react';
 import { parseCookies } from 'nookies';
 
+import { Icons } from '@/components/icons';
 import { Header } from '@/components/header';
 
 import { capitalize } from '@/lib/utils';
 import { TOKEN_NAME, MAIN_NAV_PAGES as pages } from '@/lib/constants';
 
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
-
 import { useSocketStore } from '@/zustand/socket.store';
-import { Icons } from '@/components/icons';
 
 export const icon = (type: (typeof pages)[number], size: number) => {
   switch (type) {
@@ -41,19 +39,24 @@ export const menuItemName = (type: (typeof pages)[number]) => {
   }
 };
 
-export const Authorized = ({ children }: PropsWithChildren) => {
-  const { router } = useFrequentlyUsedHooks();
+const query = (type: (typeof pages)[number]) => {
+  switch (type) {
+    case '/friends':
+      return {
+        tab: 'all'
+      };
+    default:
+      return undefined;
+  }
+};
 
+export const Authorized = ({ children }: { children: React.ReactNode }) => {
   const { connect, disconnect } = useSocketStore();
 
   useEffect(() => {
-    // console.log('authorized');
-
     connect(parseCookies()[TOKEN_NAME]);
 
     return () => {
-      // console.log('unauthorized');
-
       disconnect();
     };
   }, []);
@@ -66,25 +69,18 @@ export const Authorized = ({ children }: PropsWithChildren) => {
           <div className='grid grid-cols-1 gap-5 md:grid-cols-[175px_minmax(0,1fr)]'>
             <ul className='hidden gap-5 md:flex md:flex-col'>
               {pages.map((page) => (
-                <li
+                <Link
                   key={page}
-                  onClick={() => {
-                    if (page === '/friends') {
-                      router.push({
-                        pathname: `${page}`,
-                        query: {
-                          tab: 'all'
-                        }
-                      });
-                    } else {
-                      router.push(`${page}`);
-                    }
+                  href={{
+                    pathname: page,
+                    query: query(page)
                   }}
-                  className='flex cursor-pointer items-center gap-2 rounded p-2 text-sm transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-950'
                 >
-                  {icon(page, 20)}
-                  <span className='ml-1'>{menuItemName(page)}</span>
-                </li>
+                  <li className='flex cursor-pointer items-center gap-2 rounded p-2 text-sm transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-950'>
+                    {icon(page, 20)}
+                    <span className='ml-1'>{menuItemName(page)}</span>
+                  </li>
+                </Link>
               ))}
             </ul>
             <main>{children}</main>

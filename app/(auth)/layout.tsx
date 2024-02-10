@@ -2,6 +2,7 @@
 
 import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -15,7 +16,6 @@ import {
 import { Icons } from '@/components/icons';
 
 import { PAGES } from '@/lib/constants';
-import Link from 'next/link';
 
 export default function AuthLayout({
   children
