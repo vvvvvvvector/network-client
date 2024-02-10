@@ -1,8 +1,12 @@
-import { useState } from 'react';
+'use client';
+
+import { useState, useTransition } from 'react';
 import { z } from 'zod';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -19,7 +23,6 @@ import { Icons } from '@/components/icons';
 
 import { signUp } from '@/api-calls/auth';
 
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useFocus } from '@/hooks/use-focus';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
@@ -30,7 +33,7 @@ const formSchema = z.object({
     .string()
     .min(1, { message: 'Email is required' })
     .email({ message: 'Invalid email address' }),
-  username: z.string().nonempty({ message: 'Username is required' }),
+  username: z.string().min(1, { message: 'Username is required' }),
   password: z
     .string()
     .min(1, { message: 'Password is required' })
@@ -42,7 +45,9 @@ const formSchema = z.object({
 export const SignUpForm = () => {
   const [loading, setLoading] = useState(false);
 
-  const { router, toast } = useFrequentlyUsedHooks();
+  const [isPending, startTransition] = useTransition();
+
+  const router = useRouter();
 
   const emailInputRef = useFocus<HTMLInputElement>();
 
@@ -67,13 +72,17 @@ export const SignUpForm = () => {
         description: `Link: ${link}`
       });
 
-      router.push(PAGES.SIGN_IN);
+      startTransition(() => {
+        router.push(PAGES.SIGN_IN);
+      });
     } catch (error) {
       setLoading(false);
 
       if (axios.isAxiosError(error)) {
         toast.error(`${error.response?.data.message}`);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -131,8 +140,12 @@ export const SignUpForm = () => {
             </FormItem>
           )}
         />
-        <Button type='submit' className='w-full' disabled={loading}>
-          {loading ? (
+        <Button
+          type='submit'
+          className='w-full'
+          disabled={loading || isPending}
+        >
+          {loading || isPending ? (
             <div className='flex items-center gap-2'>
               <Icons.spinner
                 className={cn('animate-spin', ICON_INSIDE_BUTTON_SIZE)}
