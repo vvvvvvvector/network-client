@@ -1,5 +1,7 @@
-import { type PropsWithChildren } from 'react';
+'use client';
+
 import { useTheme } from 'next-themes';
+import { usePathname } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -13,11 +15,14 @@ import {
 import { Icons } from '@/components/icons';
 
 import { PAGES } from '@/lib/constants';
+import Link from 'next/link';
 
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
-
-export const Auth = ({ children }: PropsWithChildren) => {
-  const { router } = useFrequentlyUsedHooks();
+export default function AuthLayout({
+  children
+}: {
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
 
   const { setTheme } = useTheme();
 
@@ -49,29 +54,25 @@ export const Auth = ({ children }: PropsWithChildren) => {
       <div className='grid size-full place-items-center dark:bg-neutral-900'>
         <div className='w-full max-w-[350px] space-y-7'>
           <h3 className='text-center text-lg font-medium'>{`${
-            router.asPath === PAGES.SIGN_IN ? 'Hello 👋' : 'Create your account'
+            pathname === PAGES.SIGN_IN ? 'Hello 👋' : 'Create your account'
           }`}</h3>
           {children}
           <Separator />
           <div className='space-x-4 text-center text-sm text-muted-foreground'>
             <span>{`${
-              router.asPath === PAGES.SIGN_IN
+              pathname === PAGES.SIGN_IN
                 ? "Don't have an account?"
                 : 'Already have an account?'
             }`}</span>
-            <button
+            <Link
+              href={pathname === PAGES.SIGN_IN ? PAGES.SIGN_UP : PAGES.SIGN_IN}
               className='hover:text-foreground hover:underline dark:hover:text-foreground'
-              onClick={
-                router.asPath === PAGES.SIGN_IN
-                  ? () => router.push(PAGES.SIGN_UP)
-                  : () => router.push(PAGES.SIGN_IN)
-              }
             >
-              {`${router.asPath === PAGES.SIGN_IN ? 'Sign up' : 'Sign in'}`}
-            </button>
+              {`${pathname === PAGES.SIGN_IN ? 'Sign up' : 'Sign in'}`}
+            </Link>
           </div>
         </div>
       </div>
     </>
   );
-};
+}

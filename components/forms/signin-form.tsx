@@ -1,9 +1,13 @@
-import { useState } from 'react';
+'use client';
+
+import { useState, useTransition } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { setCookie } from 'nookies';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -20,7 +24,6 @@ import { Icons } from '@/components/icons';
 
 import { signIn } from '@/api-calls/auth';
 
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useFocus } from '@/hooks/use-focus';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES, TOKEN_NAME } from '@/lib/constants';
@@ -34,7 +37,9 @@ const formSchema = z.object({
 export const SignInForm = () => {
   const [loading, setLoading] = useState(false);
 
-  const { router, toast } = useFrequentlyUsedHooks();
+  const [isPending, startTransition] = useTransition();
+
+  const router = useRouter();
 
   const usernameInputRef = useFocus<HTMLInputElement>();
 
@@ -60,13 +65,17 @@ export const SignInForm = () => {
 
       toast.success('You have successfully signed in.');
 
-      router.push(PAGES.NEWS);
+      startTransition(() => {
+        router.push(PAGES.NEWS);
+      });
     } catch (error) {
       setLoading(false);
 
       if (axios.isAxiosError(error)) {
         toast.error(`${error.response?.data.message}`);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,8 +116,12 @@ export const SignInForm = () => {
             </FormItem>
           )}
         ></FormField>
-        <Button type='submit' className='w-full' disabled={loading}>
-          {loading ? (
+        <Button
+          type='submit'
+          className='w-full'
+          disabled={loading || isPending}
+        >
+          {loading || isPending ? (
             <div className='flex items-center gap-2'>
               <Icons.spinner
                 className={cn('animate-spin', ICON_INSIDE_BUTTON_SIZE)}
