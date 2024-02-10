@@ -39,7 +39,7 @@ export const menuItemName = (type: (typeof pages)[number]) => {
   }
 };
 
-const query = (type: (typeof pages)[number]) => {
+export const query = (type: (typeof pages)[number]) => {
   switch (type) {
     case '/friends':
       return {

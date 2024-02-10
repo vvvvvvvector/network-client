@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 import { Icons } from '@/components/icons';
 
-import { icon, menuItemName } from '@/layouts/authorised';
+import { icon, menuItemName, query } from '@/layouts/authorised';
 
 import { MAIN_NAV_PAGES as pages } from '@/lib/constants';
 
@@ -31,24 +31,19 @@ const MobileNav = () => {
           onOpenChange={setOpen}
           className='flex items-center'
         >
-          {/* <Network className='mr-3 size-7' /> */}
+          {/* <Icons.appLogo className='mr-3 size-7' /> */}
           <span className='ml-8 text-2xl font-bold'>Network</span>
         </MobileLink>
         <div className='flex flex-col gap-10 pl-8'>
           {pages.map((page) => (
             <MobileLink
               key={page}
+              className='flex items-center'
               href={{
-                pathname: `${page}`,
-                query:
-                  page === '/friends'
-                    ? {
-                        tab: 'all'
-                      }
-                    : undefined
+                pathname: page,
+                query: query(page)
               }}
               onOpenChange={setOpen}
-              className='flex items-center'
             >
               {icon(page, 20)}
               <span className='ml-2'>{menuItemName(page)}</span>
