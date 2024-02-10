@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 
-import type { RequestsTypes } from '@/pages/friends/requests';
+import { type RequestsTypes } from '@/pages/friends/requests';
 
 import { Button } from '@/components/ui/button';
 
@@ -13,7 +13,7 @@ import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
-import type { UserFromListOfUsers } from '@/lib/types';
+import { type UserFromListOfUsers } from '@/lib/types';
 
 const BUTTONS: Record<
   RequestsTypes,
