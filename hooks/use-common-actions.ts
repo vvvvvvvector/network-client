@@ -4,6 +4,7 @@ import { getChatIdByAddresseeUsername, initiateChat } from '@/api-calls/chats';
 
 import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
+import { env } from '@/lib/env';
 import { PAGES } from '@/lib/constants';
 
 export const useCommonActions = () => {
@@ -14,7 +15,7 @@ export const useCommonActions = () => {
   };
 
   const onClickOpenPhoto = (avatarName: string | undefined) => () => {
-    location.href = `${process.env.NEXT_PUBLIC_API_URL}/uploads/avatars/${avatarName}`;
+    location.href = `${env.NEXT_PUBLIC_API_URL}/uploads/avatars/${avatarName}`;
   };
 
   const onClickWriteMessage = (username: string) => async () => {
