@@ -24,8 +24,6 @@ import { Icons } from '@/components/icons';
 
 import { signIn } from '@/api-calls/auth';
 
-import { useFocus } from '@/hooks/use-focus';
-
 import { env } from '@/lib/env';
 import { ICON_INSIDE_BUTTON_SIZE, PAGES, TOKEN_NAME } from '@/lib/constants';
 import { cn } from '@/lib/utils';
@@ -41,8 +39,6 @@ export const SignInForm = () => {
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
-
-  const usernameInputRef = useFocus<HTMLInputElement>();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -89,7 +85,7 @@ export const SignInForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
-              <FormControl ref={usernameInputRef}>
+              <FormControl>
                 <Input
                   placeholder='your username here...'
                   type='text'

@@ -23,8 +23,6 @@ import { Icons } from '@/components/icons';
 
 import { signUp } from '@/api-calls/auth';
 
-import { useFocus } from '@/hooks/use-focus';
-
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
@@ -48,8 +46,6 @@ export const SignUpForm = () => {
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
-
-  const emailInputRef = useFocus<HTMLInputElement>();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -95,7 +91,7 @@ export const SignUpForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
-              <FormControl ref={emailInputRef}>
+              <FormControl>
                 <Input
                   placeholder='your email here...'
                   type='text'
