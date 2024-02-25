@@ -1,4 +1,6 @@
-export const TOKEN_NAME = process.env.NEXT_PUBLIC_TOKEN_NAME || 'token';
+import { env } from '@/lib/env';
+
+export const TOKEN_NAME = env.NEXT_PUBLIC_TOKEN_NAME || 'token';
 
 export const DROPDOWN_MENU_ICON_STYLES = 'mr-2 size-4';
 

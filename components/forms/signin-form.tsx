@@ -24,6 +24,7 @@ import { Icons } from '@/components/icons';
 
 import { signIn } from '@/api-calls/auth';
 
+import { env } from '@/lib/env';
 import { ICON_INSIDE_BUTTON_SIZE, PAGES, TOKEN_NAME } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
@@ -43,7 +44,7 @@ export const SignInForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
-      password: process.env.NEXT_PUBLIC_SIGN_IN_PASSWORD || ''
+      password: env.NEXT_PUBLIC_SIGN_IN_PASSWORD || ''
     }
   });
 
