@@ -12,6 +12,10 @@ import { PAGES } from '@/lib/constants';
 
 import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
+const tabs = ['all', 'online'] as const;
+
+type TabsTypes = (typeof tabs)[number];
+
 export const Friends = ({ users }: { users: UserFromListOfUsers[] }) => {
   const router = useRouter();
 
@@ -19,13 +23,15 @@ export const Friends = ({ users }: { users: UserFromListOfUsers[] }) => {
 
   const params = new URLSearchParams(searchParams?.toString());
 
+  const tab = params.get('tab') as TabsTypes;
+
   useEffect(() => {
-    switch (params.get('tab')) {
+    switch (tab) {
       case 'all':
-        router.replace(`${PAGES.FRIENDS}?tab=all`);
+        router.replace(`${PAGES.FRIENDS}?tab=${tab}`);
         break;
       case 'online':
-        router.replace(`${PAGES.FRIENDS}?tab=online`);
+        router.replace(`${PAGES.FRIENDS}?tab=${tab}`);
         break;
       default:
         router.replace(`${PAGES.FRIENDS}?tab=all`);
@@ -51,7 +57,7 @@ export const Friends = ({ users }: { users: UserFromListOfUsers[] }) => {
             className={cn(
               `cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-accent`,
               {
-                'bg-accent': params.get('tab') === 'all'
+                'bg-accent': tab === 'all'
               }
             )}
           >
@@ -63,7 +69,7 @@ export const Friends = ({ users }: { users: UserFromListOfUsers[] }) => {
             className={cn(
               `cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-accent`,
               {
-                'bg-accent': params.get('tab') === 'online'
+                'bg-accent': tab === 'online'
               }
             )}
           >
