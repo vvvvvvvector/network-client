@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
@@ -26,10 +27,9 @@ import { Icons } from '@/components/icons';
 
 import { useProfileActions } from '@/hooks/use-profile-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import type { AuthorisedUser } from '@/lib/types';
-import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
+import { DROPDOWN_MENU_ICON_STYLES, PAGES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
 
 import { toogleAuthorizedUserEmailPrivacy } from '@/api-calls/users';
@@ -38,7 +38,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
   const [open, setOpen] = useState(false);
   const [bio, setBio] = useState('');
 
-  const { router } = useFrequentlyUsedHooks();
+  const { replace } = useRouter();
 
   const { openPhoto } = useCommonActions();
 
@@ -118,9 +118,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
                   done.
                 </DialogDescription>
               </DialogHeader>
-              <div>
-                <Input onChange={(e) => setBio(e.target.value)} value={bio} />
-              </div>
+              <Input onChange={(e) => setBio(e.target.value)} value={bio} />
               <DialogFooter>
                 <DialogClose asChild>
                   <Button type='button' variant='secondary'>
@@ -160,7 +158,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
               onCheckedChange={async () => {
                 await toogleAuthorizedUserEmailPrivacy();
 
-                router.replace(router.asPath);
+                replace(PAGES.MY_PROFILE);
               }}
             />
           </div>
