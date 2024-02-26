@@ -1,52 +1,36 @@
 import { useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
 import { FriendsList } from '@/components/friends/friends-list';
 
-import type { UserFromListOfUsers } from '@/lib/types';
+import { type UserFromListOfUsers } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { PAGES } from '@/lib/constants';
 
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
-interface Props {
-  users: UserFromListOfUsers[];
-}
+export const Friends = ({ users }: { users: UserFromListOfUsers[] }) => {
+  const router = useRouter();
 
-export const Friends = ({ users }: Props) => {
-  const { router } = useFrequentlyUsedHooks();
+  const searchParams = useSearchParams();
+
+  const params = new URLSearchParams(searchParams?.toString());
 
   useEffect(() => {
-    switch (router.query.tab) {
+    switch (params.get('tab')) {
       case 'all':
-        router.push({
-          pathname: PAGES.FRIENDS,
-          query: {
-            tab: 'all'
-          }
-        });
+        router.replace(`${PAGES.FRIENDS}?tab=all`);
         break;
       case 'online':
-        router.push({
-          pathname: PAGES.FRIENDS,
-          query: {
-            tab: 'online'
-          }
-        });
+        router.replace(`${PAGES.FRIENDS}?tab=online`);
         break;
       default:
-        router.push({
-          pathname: PAGES.FRIENDS,
-          query: {
-            tab: 'all'
-          }
-        });
-        break;
+        router.replace(`${PAGES.FRIENDS}?tab=all`);
     }
-  }, [router.query.tab]);
+  }, [router]);
 
   const connectionsInformation = useConnectionsInformation(
     users.reduce(
@@ -63,18 +47,11 @@ export const Friends = ({ users }: Props) => {
       <div className='flex items-center justify-between text-sm'>
         <ul className='flex gap-3 sm:gap-7'>
           <li
-            onClick={() =>
-              router.push({
-                pathname: PAGES.FRIENDS,
-                query: {
-                  tab: 'all'
-                }
-              })
-            }
+            onClick={() => router.replace(`${PAGES.FRIENDS}?tab=all`)}
             className={cn(
               `cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-accent`,
               {
-                'bg-accent': router.query.tab === 'all'
+                'bg-accent': params.get('tab') === 'all'
               }
             )}
           >
@@ -82,18 +59,11 @@ export const Friends = ({ users }: Props) => {
             <span className='hidden sm:flex'>{`All friends [${users.length}]`}</span>
           </li>
           <li
-            onClick={() =>
-              router.push({
-                pathname: PAGES.FRIENDS,
-                query: {
-                  tab: 'online'
-                }
-              })
-            }
+            onClick={() => router.replace(`${PAGES.FRIENDS}?tab=online`)}
             className={cn(
               `cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-accent`,
               {
-                'bg-accent': router.query.tab === 'online'
+                'bg-accent': params.get('tab') === 'online'
               }
             )}
           >
@@ -104,21 +74,12 @@ export const Friends = ({ users }: Props) => {
             }]`}
           </li>
         </ul>
-        <Button
-          onClick={() => {
-            router.push({
-              pathname: PAGES.FRIENDS_FIND,
-              query: {
-                page: 1
-              }
-            });
-          }}
-        >
+        <Button onClick={() => router.replace(`${PAGES.FRIENDS_FIND}?page=1`)}>
           <span className='flex sm:hidden'>Find</span>
           <span className='hidden sm:flex'>Find friends</span>
         </Button>
       </div>
-      <Separator className='mb-4 mt-4' />
+      <Separator className='my-4' />
       <FriendsList
         friends={users}
         connectionsInformation={connectionsInformation}
