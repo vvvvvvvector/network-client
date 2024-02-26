@@ -14,10 +14,10 @@ import { useTab } from '@/hooks/use-tab';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 import { type UserFromListOfUsers } from '@/lib/types';
 
-import { tabs } from '@/pages/friends/requests';
+import { types } from '@/pages/friends/requests';
 
 const BUTTONS: Record<
-  (typeof tabs)[number],
+  (typeof types)[number],
   ({
     onClicks
   }: {
@@ -74,11 +74,11 @@ export const RequestsList = ({ requests }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const type = useTab<typeof tabs>('type');
+  const type = useTab<typeof types>('type');
 
   const { accept, reject, cancel } = useRequestsActions();
 
-  const ON_CLICKS = (type: (typeof tabs)[number]) => {
+  const ON_CLICKS = (type: (typeof types)[number]) => {
     return (username: string) => {
       switch (type) {
         case 'incoming':

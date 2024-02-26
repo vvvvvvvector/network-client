@@ -1,4 +1,5 @@
 import { type GetServerSideProps } from 'next';
+import { useRouter } from 'next/navigation';
 
 import { type NextPageWithLayout } from '@/pages/_app';
 
@@ -16,12 +17,12 @@ import {
   getRejectedFriendRequests
 } from '@/api-calls/friends';
 
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
-
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import { capitalize, cn } from '@/lib/utils';
 import { type UserFromListOfUsers } from '@/lib/types';
 import { PAGES } from '@/lib/constants';
+
+import { useTab } from '@/hooks/use-tab';
 
 interface Props {
   requests: {
@@ -31,10 +32,12 @@ interface Props {
   } | null;
 }
 
-export const tabs = ['incoming', 'outgoing', 'rejected'] as const;
+export const types = ['incoming', 'outgoing', 'rejected'] as const;
 
 const Requests: NextPageWithLayout<Props> = ({ requests }) => {
-  const { router } = useFrequentlyUsedHooks();
+  const { push } = useRouter();
+
+  const activeType = useTab<typeof types>('type');
 
   if (!requests) {
     return (
@@ -50,23 +53,18 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
     <>
       <div className='text-sm'>
         <ul className='flex gap-7'>
-          {tabs.map((tab) => (
+          {types.map((type) => (
             <li
-              key={tab}
-              onClick={() =>
-                router.push({
-                  pathname: PAGES.FRIENDS_REQUESTS,
-                  query: { type: tab }
-                })
-              }
+              key={type}
+              onClick={() => push(`${PAGES.FRIENDS_REQUESTS}?type=${type}`)}
               className={cn(
                 'cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] transition-[background-color] hover:bg-accent',
                 {
-                  'bg-accent': router.query.type === tab
+                  'bg-accent': activeType === type
                 }
               )}
             >
-              {`${capitalize(tab)} [${requests[tab].length}]`}
+              {`${capitalize(type)} [${requests[type].length}]`}
             </li>
           ))}
         </ul>
