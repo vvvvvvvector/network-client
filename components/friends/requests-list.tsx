@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-
-import { type RequestsTypes } from '@/pages/friends/requests';
+import { useRouter, usePathname } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 
@@ -11,12 +9,15 @@ import { Icons } from '@/components/icons';
 import { Avatar } from '@/components/avatar';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
+import { useTab } from '@/hooks/use-tab';
 
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 import { type UserFromListOfUsers } from '@/lib/types';
 
+import { tabs } from '@/pages/friends/requests';
+
 const BUTTONS: Record<
-  RequestsTypes,
+  (typeof tabs)[number],
   ({
     onClicks
   }: {
@@ -71,18 +72,13 @@ interface Props {
 
 export const RequestsList = ({ requests }: Props) => {
   const router = useRouter();
-
   const pathname = usePathname();
 
-  const searchParams = useSearchParams();
-
-  const params = new URLSearchParams(searchParams?.toString());
-
-  const type = params.get('type') as RequestsTypes;
+  const type = useTab<typeof tabs>('type');
 
   const { accept, reject, cancel } = useRequestsActions();
 
-  const ON_CLICKS = (type: RequestsTypes) => {
+  const ON_CLICKS = (type: (typeof tabs)[number]) => {
     return (username: string) => {
       switch (type) {
         case 'incoming':

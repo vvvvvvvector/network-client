@@ -23,9 +23,6 @@ import { capitalize, cn } from '@/lib/utils';
 import { type UserFromListOfUsers } from '@/lib/types';
 import { PAGES } from '@/lib/constants';
 
-const lis = ['incoming', 'outgoing', 'rejected'] as const;
-export type RequestsTypes = (typeof lis)[number];
-
 interface Props {
   requests: {
     incoming: Array<UserFromListOfUsers>;
@@ -33,6 +30,8 @@ interface Props {
     rejected: Array<UserFromListOfUsers>;
   } | null;
 }
+
+export const tabs = ['incoming', 'outgoing', 'rejected'] as const;
 
 const Requests: NextPageWithLayout<Props> = ({ requests }) => {
   const { router } = useFrequentlyUsedHooks();
@@ -51,23 +50,23 @@ const Requests: NextPageWithLayout<Props> = ({ requests }) => {
     <>
       <div className='text-sm'>
         <ul className='flex gap-7'>
-          {lis.map((li) => (
+          {tabs.map((tab) => (
             <li
-              key={li}
+              key={tab}
               onClick={() =>
                 router.push({
                   pathname: PAGES.FRIENDS_REQUESTS,
-                  query: { type: li }
+                  query: { type: tab }
                 })
               }
               className={cn(
                 'cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] transition-[background-color] hover:bg-accent',
                 {
-                  'bg-accent': router.query.type === li
+                  'bg-accent': router.query.type === tab
                 }
               )}
             >
-              {`${capitalize(li)} [${requests[li].length}]`}
+              {`${capitalize(tab)} [${requests[tab].length}]`}
             </li>
           ))}
         </ul>

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -10,20 +10,15 @@ import { type UserFromListOfUsers } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { PAGES } from '@/lib/constants';
 
+import { useTab } from '@/hooks/use-tab';
 import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
 const tabs = ['all', 'online'] as const;
 
-type TabsTypes = (typeof tabs)[number];
-
 export const Friends = ({ users }: { users: UserFromListOfUsers[] }) => {
   const router = useRouter();
 
-  const searchParams = useSearchParams();
-
-  const params = new URLSearchParams(searchParams?.toString());
-
-  const tab = params.get('tab') as TabsTypes;
+  const tab = useTab<typeof tabs>('tab');
 
   useEffect(() => {
     switch (tab) {
