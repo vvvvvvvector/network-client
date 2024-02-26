@@ -14,13 +14,15 @@ import { Icons } from '@/components/icons';
 
 import { useCommonActions } from '@/hooks/use-common-actions';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+import { useTab } from '@/hooks/use-tab';
 
 import { type UserFromListOfUsers } from '@/lib/types';
 import {
   DROPDOWN_MENU_ICON_STYLES,
   ICON_INSIDE_BUTTON_SIZE
 } from '@/lib/constants';
+
+import { tabs } from '@/components/friends/friends';
 
 interface Props {
   friends: UserFromListOfUsers[];
@@ -30,16 +32,14 @@ interface Props {
 }
 
 export const FriendsList = ({ friends, connectionsInformation }: Props) => {
-  const { router } = useFrequentlyUsedHooks();
-
   const { unfriend } = useRequestsActions();
 
   const { writeMessage } = useCommonActions();
 
-  const listType = router.query.tab as 'all' | 'online';
+  const tab = useTab<typeof tabs>('tab');
 
   const users =
-    listType === 'all'
+    tab === 'all'
       ? friends
       : friends.filter(
           (user) => connectionsInformation[user.username] === 'online'
@@ -48,7 +48,7 @@ export const FriendsList = ({ friends, connectionsInformation }: Props) => {
   if (!users.length) {
     return (
       <span className='my-7 text-center'>
-        {listType === 'all'
+        {tab === 'all'
           ? "You don't have any friends yet."
           : 'None of your friends are online.'}
       </span>

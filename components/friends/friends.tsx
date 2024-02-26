@@ -13,7 +13,7 @@ import { PAGES } from '@/lib/constants';
 import { useTab } from '@/hooks/use-tab';
 import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
-const tabs = ['all', 'online'] as const;
+export const tabs = ['all', 'online'] as const;
 
 export const Friends = ({ users }: { users: UserFromListOfUsers[] }) => {
   const router = useRouter();
