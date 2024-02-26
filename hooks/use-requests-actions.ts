@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 import {
   unfriend,
@@ -11,12 +11,10 @@ import {
 } from '@/api-calls/friends';
 
 export const useRequestsActions = () => {
-  const { router, toast } = useFrequentlyUsedHooks();
+  const { refresh } = useRouter();
 
   const revalidate = () => {
-    router.replace(router.asPath, undefined, {
-      scroll: false
-    });
+    refresh();
   };
 
   const onClickUnfriend = (username: string) => async () => {
