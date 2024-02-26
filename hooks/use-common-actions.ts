@@ -1,17 +1,17 @@
 import axios from 'axios';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 import { getChatIdByAddresseeUsername, initiateChat } from '@/api-calls/chats';
-
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { env } from '@/lib/env';
 import { PAGES } from '@/lib/constants';
 
 export const useCommonActions = () => {
-  const { router, toast } = useFrequentlyUsedHooks();
+  const { push } = useRouter();
 
   const onClickGoToProfile = (username: string) => () => {
-    router.push(`/${username}`);
+    push(`/${username}`);
   };
 
   const onClickOpenPhoto = (avatarName: string | undefined) => () => {
@@ -23,21 +23,11 @@ export const useCommonActions = () => {
       const existingChatId = await getChatIdByAddresseeUsername(username); // Object.is(existingChatId, '') -> true
 
       if (existingChatId) {
-        router.push({
-          pathname: PAGES.MESSENGER_CHAT,
-          query: {
-            id: existingChatId
-          }
-        });
+        push(`${PAGES.MESSENGER_CHAT}?id=${existingChatId}`);
       } else {
         const newlyInitiatedChatId = await initiateChat(username);
 
-        router.push({
-          pathname: PAGES.MESSENGER_CHAT,
-          query: {
-            id: newlyInitiatedChatId
-          }
-        });
+        push(`${PAGES.MESSENGER_CHAT}?id=${newlyInitiatedChatId}`);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
