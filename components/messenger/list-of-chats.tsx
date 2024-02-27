@@ -1,10 +1,11 @@
+import Link from 'next/link';
+
 import { Avatar } from '@/components/avatar';
 
 import type { ChatFromListOfChats } from '@/lib/types';
 import { formatDate, formatTime } from '@/lib/utils';
 import { PAGES } from '@/lib/constants';
 
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
 interface Props {
@@ -13,8 +14,6 @@ interface Props {
 }
 
 export const ListOfChats = ({ chats, filterChats }: Props) => {
-  const { router } = useFrequentlyUsedHooks();
-
   const connectionsInformation = useConnectionsInformation(
     chats.reduce(
       (accumulator, currentValue) =>
@@ -48,46 +47,37 @@ export const ListOfChats = ({ chats, filterChats }: Props) => {
   return (
     <ul className='flex flex-col pb-5'>
       {filteredByFriendUsernameChats.map((chat) => (
-        <li
-          key={chat.id}
-          onClick={() =>
-            router.push({
-              pathname: PAGES.MESSENGER_CHAT,
-              query: {
-                id: chat.id
-              }
-            })
-          }
-          className='group flex cursor-pointer items-center gap-5 px-5 py-3 transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-700'
-        >
-          <div className='relative'>
-            <Avatar
-              size='medium'
-              username={chat.friendUsername}
-              avatar={chat.friendAvatar || undefined}
-            />
-            {connectionsInformation[chat.friendUsername] === 'online' && (
-              <span className='absolute bottom-0 right-0 size-4 rounded-full border-[2px] border-background bg-emerald-400 transition-[background-color] group-hover:border-neutral-200 group-hover:dark:border-neutral-700' />
-            )}
-          </div>
-          <div className='flex w-full flex-col gap-5 overflow-hidden'>
-            <div className='flex justify-between'>
-              <span className='font-bold'>{chat.friendUsername}</span>
-              <time>
-                {(chat.lastMessageSentAt &&
-                  `${formatDate(
-                    chat.lastMessageSentAt,
-                    'short'
-                  )} / ${formatTime(chat.lastMessageSentAt)}`) ||
-                  ''}
-              </time>
+        <Link href={`${PAGES.MESSENGER_CHAT}?id=${chat.id}`} key={chat.id}>
+          <li className='group flex cursor-pointer items-center gap-5 px-5 py-3 transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-700'>
+            <div className='relative'>
+              <Avatar
+                size='medium'
+                username={chat.friendUsername}
+                avatar={chat.friendAvatar || undefined}
+              />
+              {connectionsInformation[chat.friendUsername] === 'online' && (
+                <span className='absolute bottom-0 right-0 size-4 rounded-full border-[2px] border-background bg-emerald-400 transition-[background-color] group-hover:border-neutral-200 group-hover:dark:border-neutral-700' />
+              )}
             </div>
-            <span className='overflow-hidden text-ellipsis whitespace-nowrap'>
-              {chat.lastMessageContent ??
-                'There are no messages in this chat yet 😗'}
-            </span>
-          </div>
-        </li>
+            <div className='flex w-full flex-col gap-5 overflow-hidden'>
+              <div className='flex justify-between'>
+                <span className='font-bold'>{chat.friendUsername}</span>
+                <time>
+                  {(chat.lastMessageSentAt &&
+                    `${formatDate(
+                      chat.lastMessageSentAt,
+                      'short'
+                    )} / ${formatTime(chat.lastMessageSentAt)}`) ||
+                    ''}
+                </time>
+              </div>
+              <span className='overflow-hidden text-ellipsis whitespace-nowrap'>
+                {chat.lastMessageContent ??
+                  'There are no messages in this chat yet 😗'}
+              </span>
+            </div>
+          </li>
+        </Link>
       ))}
     </ul>
   );
