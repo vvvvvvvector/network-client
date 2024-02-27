@@ -1,4 +1,5 @@
 import { type ComponentProps, useContext, createContext } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { buttonVariants } from '@/components/ui/button';
 
@@ -6,8 +7,6 @@ import { Icons } from '@/components/icons';
 
 import { cn } from '@/lib/utils';
 import { PAGES } from '@/lib/constants';
-
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 const PagesContext = createContext<{
   totalPages: number;
@@ -30,13 +29,15 @@ const Pagination = ({
   children,
   ...props
 }: { totalPages: number } & ComponentProps<'nav'>) => {
-  const { router } = useFrequentlyUsedHooks();
+  const searchParams = useSearchParams();
+
+  const params = new URLSearchParams(searchParams?.toString());
 
   if (totalPages <= 1) return null;
 
   return (
     <PagesContext.Provider
-      value={{ currentPage: +(router.query.page as string), totalPages }}
+      value={{ currentPage: Number(params.get('page')), totalPages }}
     >
       <nav className={cn('mt-4', className)} {...props}>
         {children}
@@ -69,13 +70,11 @@ const PaginationItem = ({
 }: PaginationItemProps) => {
   const { currentPage } = usePages();
 
-  const { router } = useFrequentlyUsedHooks();
+  const { push } = useRouter();
 
   return (
     <li
-      onClick={() =>
-        router.push({ pathname: PAGES.FRIENDS_FIND, query: { page: selected } })
-      }
+      onClick={() => push(`${PAGES.FRIENDS_FIND}?page=${selected}`)}
       className={cn(
         'cursor-pointer',
         buttonVariants({
@@ -97,18 +96,13 @@ const PaginationItem = ({
 const PaginationNext = () => {
   const { currentPage, totalPages } = usePages();
 
-  const { router } = useFrequentlyUsedHooks();
+  const { push } = useRouter();
 
   const disabled = currentPage === totalPages;
 
   return (
     <PaginationItem
-      onClick={() =>
-        router.push({
-          pathname: PAGES.FRIENDS_FIND,
-          query: { page: currentPage + 1 }
-        })
-      }
+      onClick={() => push(`${PAGES.FRIENDS_FIND}?page=${currentPage + 1}`)}
       disabled={disabled}
     >
       <Icons.arrowRight />
@@ -119,18 +113,17 @@ const PaginationNext = () => {
 const PaginationPrevious = () => {
   const { currentPage } = usePages();
 
-  const { router } = useFrequentlyUsedHooks();
+  const { push } = useRouter();
 
-  const disabled = router.query.page === '1';
+  const searchParams = useSearchParams();
+
+  const params = new URLSearchParams(searchParams?.toString());
+
+  const disabled = params.get('page') === '1';
 
   return (
     <PaginationItem
-      onClick={() =>
-        router.push({
-          pathname: PAGES.FRIENDS_FIND,
-          query: { page: currentPage - 1 }
-        })
-      }
+      onClick={() => push(`${PAGES.FRIENDS_FIND}?page=${currentPage - 1}`)}
       disabled={disabled}
     >
       <Icons.arrowLeft />

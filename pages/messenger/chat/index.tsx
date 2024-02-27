@@ -1,4 +1,5 @@
 import { type PropsWithChildren } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 import { type NextPageWithLayout } from '@/pages/_app';
 
@@ -6,18 +7,19 @@ import { Main } from '@/layouts/main';
 import { Authorized } from '@/layouts/authorised';
 
 import { Chat } from '@/components/messenger/chat';
-
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useChat } from '@/hooks/use-chat';
+
 import { Icons } from '@/components/icons';
 
 const container_styles =
   'flex h-[calc(100vh-3.5rem-0.8rem-0.8rem)] flex-col gap-2 rounded-lg bg-background p-4';
 
 const Index: NextPageWithLayout = () => {
-  const { data, isLoading } = useChat(
-    useFrequentlyUsedHooks()['router'].query.id as string | undefined
-  );
+  const searchParams = useSearchParams();
+
+  const params = new URLSearchParams(searchParams?.toString());
+
+  const { data, isLoading } = useChat(params.get('id'));
 
   if (isLoading) {
     return (

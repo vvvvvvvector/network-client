@@ -15,16 +15,17 @@ import { Tooltip } from '@/components/tooltip';
 import { Avatar } from '@/components/avatar';
 import { Pagination, PaginationItem } from '@/components/friends/pagination';
 
+import { Icons } from '@/components/icons';
+
 import { getNetworkUsersUsernames } from '@/api-calls/friends';
 
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useFocus } from '@/hooks/use-focus';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import type { BaseFriendRequestStatus, UserFromListOfUsers } from '@/lib/types';
-import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
-import { Icons } from '@/components/icons';
+import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export type RequestStatus = BaseFriendRequestStatus | 'none';
 
@@ -49,37 +50,17 @@ const Find: NextPageWithLayout<Props> = ({
 
   const inputRef = useFocus<HTMLInputElement>();
 
-  const { router } = useFrequentlyUsedHooks();
+  const { replace } = useRouter();
+
+  const searchParams = useSearchParams();
+
+  const params = new URLSearchParams(searchParams?.toString());
 
   const { send } = useRequestsActions();
 
-  const onSearch = async () => {
-    if (searchValue) {
-      await router.push(
-        {
-          query: {
-            page: 1,
-            username: searchValue.trim()
-          }
-        },
-        undefined,
-        { scroll: false }
-      );
-    }
-  };
-
-  const onResetSearch = async () => {
-    await router.push(
-      {
-        query: {
-          page: 1
-        }
-      },
-      undefined,
-      { scroll: false }
-    );
-
-    setSearchValue('');
+  const onSearch = () => {
+    if (searchValue)
+      replace(`${PAGES.FRIENDS_FIND}?page=1&username=${searchValue.trim()}`);
   };
 
   if (!users) {
@@ -101,19 +82,27 @@ const Find: NextPageWithLayout<Props> = ({
         <Input
           ref={inputRef}
           value={searchValue}
+          placeholder='Search...'
           onChange={(e) => setSearchValue(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') onSearch();
           }}
-          placeholder='Search...'
         />
-        {!router.query.username ? (
+        {!params.get('username') ? (
           <Button onClick={onSearch} size='icon' className='w-14'>
             <Icons.search className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         ) : (
           <Tooltip text='Reset search'>
-            <Button onClick={onResetSearch} size='icon' className='w-14'>
+            <Button
+              size='icon'
+              className='w-14'
+              onClick={() => {
+                replace(`${PAGES.FRIENDS_FIND}?page=1`);
+
+                setSearchValue('');
+              }}
+            >
               <Icons.resetSearch className={ICON_INSIDE_BUTTON_SIZE} />
             </Button>
           </Tooltip>

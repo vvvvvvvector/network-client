@@ -26,7 +26,9 @@ const getAuthorizedUserUsernameAndAvatar = async (url: string) => {
 };
 
 const getAuthorizedUserUsername = async () => {
-  const { data } = await axiosApiInstance.get<string>(`${ROUTE}/me/username`);
+  const { data } = await axiosApiInstance.get<{ username: string }>(
+    `${ROUTE}/me/username`
+  );
 
   return data;
 };

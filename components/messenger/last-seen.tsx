@@ -2,11 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { prettifyLastSeenDate } from '@/lib/utils';
 
-interface Props {
-  lastSeen: string;
-}
-
-export const LastSeen = ({ lastSeen }: Props) => {
+export const LastSeen = ({ lastSeen }: { lastSeen: string }) => {
   const [state, setState] = useState(prettifyLastSeenDate(lastSeen));
 
   useEffect(() => {

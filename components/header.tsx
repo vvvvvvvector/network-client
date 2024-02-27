@@ -1,6 +1,8 @@
 import useSWR from 'swr';
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import {
   DropdownMenu,
@@ -29,8 +31,6 @@ import { MobileNav } from '@/components/mobile-nav';
 
 import { signOut } from '@/api-calls/auth';
 import { getAuthorizedUserUsernameAndAvatar, url } from '@/api-calls/users';
-
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 
 import { DROPDOWN_MENU_ICON_STYLES, PAGES } from '@/lib/constants';
 import type { AvatarWithoutLikes, User } from '@/lib/types';
@@ -76,7 +76,7 @@ const Header = () => {
     whatActiveTheme(theme)
   );
 
-  const { router, toast } = useFrequentlyUsedHooks();
+  const { push } = useRouter();
 
   const { data } = useSWR<Omit<User, 'lastSeen'> & AvatarWithoutLikes>(
     url,
@@ -96,7 +96,7 @@ const Header = () => {
           </li>
           <li className='flex flex-1'>
             <div
-              onClick={() => router.push(PAGES.NEWS)}
+              onClick={() => push(PAGES.NEWS)}
               className='mr-14 hidden cursor-pointer items-center gap-3 md:flex'
             >
               <Icons.appLogo />
@@ -129,7 +129,7 @@ const Header = () => {
                       <span>Profile: </span>
                       <span
                         onClick={() => {
-                          router.push(PAGES.MY_PROFILE);
+                          push(PAGES.MY_PROFILE);
 
                           setDropdownMenuOpen(false);
                         }}
@@ -200,7 +200,7 @@ const Header = () => {
 
                         toast.success('You have successfully signed out.');
 
-                        router.push(PAGES.SIGN_IN);
+                        push(PAGES.SIGN_IN);
                       }}
                     >
                       Confirm

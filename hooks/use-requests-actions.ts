@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+import { toast } from 'sonner';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import {
   unfriend,
@@ -11,12 +11,13 @@ import {
 } from '@/api-calls/friends';
 
 export const useRequestsActions = () => {
-  const { router, toast } = useFrequentlyUsedHooks();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const { replace } = useRouter();
 
   const revalidate = () => {
-    router.replace(router.asPath, undefined, {
-      scroll: false
-    });
+    replace(`${pathname}?${searchParams}`);
   };
 
   const onClickUnfriend = (username: string) => async () => {

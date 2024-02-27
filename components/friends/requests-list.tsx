@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
-
-import { type RequestsTypes } from '@/pages/friends/requests';
+import { useRouter, usePathname } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 
@@ -10,13 +9,15 @@ import { Icons } from '@/components/icons';
 import { Avatar } from '@/components/avatar';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+import { useTab } from '@/hooks/use-tab';
 
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 import { type UserFromListOfUsers } from '@/lib/types';
 
+import { types } from '@/pages/friends/requests';
+
 const BUTTONS: Record<
-  RequestsTypes,
+  (typeof types)[number],
   ({
     onClicks
   }: {
@@ -70,13 +71,14 @@ interface Props {
 }
 
 export const RequestsList = ({ requests }: Props) => {
-  const { router } = useFrequentlyUsedHooks();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const type = router.query.type as RequestsTypes;
+  const type = useTab<typeof types>('type');
 
   const { accept, reject, cancel } = useRequestsActions();
 
-  const ON_CLICKS = (type: RequestsTypes) => {
+  const ON_CLICKS = (type: (typeof types)[number]) => {
     return (username: string) => {
       switch (type) {
         case 'incoming':
@@ -90,41 +92,20 @@ export const RequestsList = ({ requests }: Props) => {
   };
 
   useEffect(() => {
-    switch (router.query.type) {
+    switch (type) {
       case 'incoming':
-        router.push({
-          pathname: router.pathname,
-          query: {
-            type: 'incoming'
-          }
-        });
+        router.replace(`${pathname}?type=${type}`);
         break;
       case 'outgoing':
-        router.push({
-          pathname: router.pathname,
-          query: {
-            type: 'outgoing'
-          }
-        });
+        router.replace(`${pathname}?type=${type}`);
         break;
       case 'rejected':
-        router.push({
-          pathname: router.pathname,
-          query: {
-            type: 'rejected'
-          }
-        });
+        router.replace(`${pathname}?type=${type}`);
         break;
       default:
-        router.push({
-          pathname: router.pathname,
-          query: {
-            type: 'incoming'
-          }
-        });
-        break;
+        router.replace(`${pathname}?type=incoming`);
     }
-  }, [type]);
+  }, [router]);
 
   if (!requests[type]?.length) {
     return (

@@ -13,7 +13,6 @@ import type { Chat as TChat, Message } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 import { cn, formatDate, formatTime } from '@/lib/utils';
 
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
 import { useFocus } from '@/hooks/use-focus';
 
 import { useSocketStore } from '@/zustand/socket.store';
@@ -102,8 +101,6 @@ export const Chat = ({ chat }: Props) => {
   const messagesListMountedFlag = useRef(false);
 
   const messageInputRef = useFocus<HTMLTextAreaElement>();
-
-  const { router } = useFrequentlyUsedHooks();
 
   const { socket } = useSocketStore();
 
@@ -209,12 +206,10 @@ export const Chat = ({ chat }: Props) => {
   return (
     <>
       <div className='flex items-center justify-between'>
-        <Button
-          size='icon'
-          variant='outline'
-          onClick={() => router.push(PAGES.MESSENGER)}
-        >
-          <Icons.arrowLeft className='h-4 w-4' />
+        <Button size='icon' variant='outline' asChild>
+          <Link href={PAGES.MESSENGER}>
+            <Icons.arrowLeft className='size-4' />
+          </Link>
         </Button>
         <div className='flex flex-col gap-1 text-center text-sm'>
           <Link href={`/${chat.friendUsername}`} target='_blank'>

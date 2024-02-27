@@ -1,6 +1,8 @@
 import { type ChangeEvent } from 'react';
 import { useSWRConfig } from 'swr';
 import axios from 'axios';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 import {
   updateBio,
@@ -9,18 +11,19 @@ import {
   uploadAvatar
 } from '@/api-calls/profiles';
 
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
+import { PAGES } from '@/lib/constants';
 
 export const useProfileActions = (
   controlDropdown?: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const { mutate } = useSWRConfig();
-  const { toast, router } = useFrequentlyUsedHooks();
+
+  const { replace } = useRouter();
 
   const revalidate = () => {
     mutate('/users/me/username-avatar');
 
-    router.replace(router.asPath, undefined, { scroll: false });
+    replace(`${PAGES.MY_PROFILE}`);
 
     controlDropdown && controlDropdown(false);
   };
@@ -88,7 +91,7 @@ export const useProfileActions = (
 
         toast.success('Bio was successfully updated.');
 
-        router.replace(router.asPath, undefined, { scroll: false });
+        replace(`${PAGES.MY_PROFILE}`);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast.error(`${error.response?.data.message}`);
