@@ -12,11 +12,13 @@ type Redirect = {
   permanent: boolean;
 };
 
-const AUTH_USER_USERNAME_KEY_NAME = 'authorizedUserUsername';
+const AUTH_USER_USERNAME_KEY_NAME = 'user';
 
 type IsAuthorizedNarrowedReturnType =
   | {
-      [AUTH_USER_USERNAME_KEY_NAME]: string;
+      [AUTH_USER_USERNAME_KEY_NAME]: {
+        username: string;
+      };
     }
   | {
       redirect: Redirect;

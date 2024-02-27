@@ -1,5 +1,6 @@
 import { type GetServerSideProps } from 'next';
 import { type PropsWithChildren } from 'react';
+import { usePathname } from 'next/navigation';
 
 import { type NextPageWithLayout } from '@/pages/_app';
 
@@ -15,8 +16,6 @@ import { isAuthorized, isRedirect } from '@/lib/auth';
 import type { NetworkUser } from '@/lib/types';
 import { PAGES } from '@/lib/constants';
 
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
-
 type PageUrlParams = {
   username: string;
 };
@@ -26,13 +25,13 @@ interface Props {
 }
 
 const Index: NextPageWithLayout<Props> = ({ user }) => {
-  const { router } = useFrequentlyUsedHooks();
+  const pathname = usePathname();
 
   if (!user) {
     return (
       <OnErrorLayout>
         User
-        <b>{` ${router.query.username} `}</b>
+        <b>{` ${pathname?.slice(1)} `}</b>
         doesn&apos;t exist.
         <br /> <span className='text-4xl'>🧐</span>
       </OnErrorLayout>
@@ -87,7 +86,7 @@ export const getServerSideProps = (async (context) => {
 
     const { username: networkUserUsername } = context.params!; // ! operator is a type assertion operator that tells the TypeScript compiler that a variable is not null or undefined, and it should be treated as such.
 
-    if (networkUserUsername === res.authorizedUserUsername)
+    if (networkUserUsername === res.user.username)
       return {
         redirect: {
           destination: PAGES.MY_PROFILE,
