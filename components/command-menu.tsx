@@ -17,9 +17,8 @@ import { Icons } from '@/components/icons';
 import { PAGES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
-import { useFrequentlyUsedHooks } from '@/hooks/use-frequently-used-hooks';
-
 import { useCommandMenuStore } from '@/zustand/command-menu.store';
+import { useRouter } from 'next/navigation';
 
 const COMMAND_ITEM_ICON_STYLE = 'mr-2 size-4';
 
@@ -33,7 +32,7 @@ export const CommandMenu = ({ className }: Props) => {
 
   const { setTheme } = useTheme();
 
-  const { router } = useFrequentlyUsedHooks();
+  const { push } = useRouter();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -80,41 +79,30 @@ export const CommandMenu = ({ className }: Props) => {
           <CommandEmpty>No results found 🥲</CommandEmpty>
           <CommandGroup heading='Pages'>
             <CommandItem
-              onSelect={() => runCommand(() => router.push(PAGES.MY_PROFILE))}
+              onSelect={() => runCommand(() => push(PAGES.MY_PROFILE))}
             >
               <Icons.myProfile className={COMMAND_ITEM_ICON_STYLE} />
               <span>My profile</span>
             </CommandItem>
-            <CommandItem
-              onSelect={() => runCommand(() => router.push(PAGES.NEWS))}
-            >
+            <CommandItem onSelect={() => runCommand(() => push(PAGES.NEWS))}>
               <Icons.news className={COMMAND_ITEM_ICON_STYLE} />
               <span>News</span>
             </CommandItem>
             <CommandItem
-              onSelect={() => runCommand(() => router.push(PAGES.MESSENGER))}
+              onSelect={() => runCommand(() => push(PAGES.MESSENGER))}
             >
               <Icons.messenger className={COMMAND_ITEM_ICON_STYLE} />
               <span>Messenger</span>
             </CommandItem>
             <CommandItem
               onSelect={() =>
-                runCommand(() =>
-                  router.push({
-                    pathname: PAGES.FRIENDS,
-                    query: {
-                      tab: 'all'
-                    }
-                  })
-                )
+                runCommand(() => push(`${PAGES.FRIENDS}?tab=all`))
               }
             >
               <Icons.friends className={COMMAND_ITEM_ICON_STYLE} />
               <span>Friends</span>
             </CommandItem>
-            <CommandItem
-              onSelect={() => runCommand(() => router.push(PAGES.PHOTOS))}
-            >
+            <CommandItem onSelect={() => runCommand(() => push(PAGES.PHOTOS))}>
               <Icons.photos className={COMMAND_ITEM_ICON_STYLE} />
               <span>Photos</span>
             </CommandItem>
@@ -123,12 +111,7 @@ export const CommandMenu = ({ className }: Props) => {
           <CommandGroup heading='Friends'>
             <CommandItem
               onSelect={() =>
-                runCommand(() =>
-                  router.push({
-                    pathname: PAGES.FRIENDS_FIND,
-                    query: { page: 1 }
-                  })
-                )
+                runCommand(() => push(`${PAGES.FRIENDS_FIND}?page=1`))
               }
             >
               <Icons.searchUser className={COMMAND_ITEM_ICON_STYLE} />
@@ -137,10 +120,7 @@ export const CommandMenu = ({ className }: Props) => {
             <CommandItem
               onSelect={() =>
                 runCommand(() =>
-                  router.push({
-                    pathname: PAGES.FRIENDS_REQUESTS,
-                    query: { type: 'incoming' }
-                  })
+                  push(`${PAGES.FRIENDS_REQUESTS}?type=incoming`)
                 )
               }
             >
@@ -149,14 +129,7 @@ export const CommandMenu = ({ className }: Props) => {
             </CommandItem>
             <CommandItem
               onSelect={() =>
-                runCommand(() =>
-                  router.push({
-                    pathname: PAGES.FRIENDS,
-                    query: {
-                      tab: 'all'
-                    }
-                  })
-                )
+                runCommand(() => push(`${PAGES.FRIENDS}?tab=all`))
               }
             >
               <Icons.friends className={COMMAND_ITEM_ICON_STYLE} />
@@ -164,14 +137,7 @@ export const CommandMenu = ({ className }: Props) => {
             </CommandItem>
             <CommandItem
               onSelect={() =>
-                runCommand(() =>
-                  router.push({
-                    pathname: PAGES.FRIENDS,
-                    query: {
-                      tab: 'online'
-                    }
-                  })
-                )
+                runCommand(() => push(`${PAGES.FRIENDS}?tab=online`))
               }
             >
               <Icons.online className={COMMAND_ITEM_ICON_STYLE} />
@@ -183,10 +149,7 @@ export const CommandMenu = ({ className }: Props) => {
             <CommandItem
               onSelect={() =>
                 runCommand(() =>
-                  router.push({
-                    pathname: PAGES.FRIENDS_REQUESTS,
-                    query: { type: 'incoming' }
-                  })
+                  push(`${PAGES.FRIENDS_REQUESTS}?type=incoming`)
                 )
               }
             >
@@ -196,10 +159,7 @@ export const CommandMenu = ({ className }: Props) => {
             <CommandItem
               onSelect={() =>
                 runCommand(() =>
-                  router.push({
-                    pathname: PAGES.FRIENDS_REQUESTS,
-                    query: { type: 'outgoing' }
-                  })
+                  push(`${PAGES.FRIENDS_REQUESTS}?type=outgoing`)
                 )
               }
             >
@@ -209,10 +169,7 @@ export const CommandMenu = ({ className }: Props) => {
             <CommandItem
               onSelect={() =>
                 runCommand(() =>
-                  router.push({
-                    pathname: PAGES.FRIENDS_REQUESTS,
-                    query: { type: 'rejected' }
-                  })
+                  push(`${PAGES.FRIENDS_REQUESTS}?type=rejected`)
                 )
               }
             >
