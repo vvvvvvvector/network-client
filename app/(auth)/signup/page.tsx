@@ -1,7 +1,7 @@
 import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import { isAuthorized } from '@/app/(auth)/auth';
+import { isAuthorized } from '@/app/(auth)/api';
 
 import { SignUpForm } from '@/components/forms/signup-form';
 

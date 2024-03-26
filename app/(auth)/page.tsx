@@ -1,9 +1,9 @@
 import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import { isAuthorized } from '@/app/(auth)/auth';
-
 import { SignInForm } from '@/components/forms/signin-form';
+
+import { isAuthorized } from '@/app/(auth)/api';
 
 import { PAGES } from '@/lib/constants';
 
