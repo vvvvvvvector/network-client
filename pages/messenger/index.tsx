@@ -4,7 +4,7 @@ import useSWR from 'swr';
 
 import { type NextPageWithLayout } from '@/pages/_app';
 
-import { CHATS_ROUTE, getAutorizedUserChats } from '@/api-calls/chats';
+import { CHATS_ROUTE, getAutorizedUserChats } from '@/axios/chats';
 
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';

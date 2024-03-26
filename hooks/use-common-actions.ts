@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
-import { getChatIdByAddresseeUsername, initiateChat } from '@/api-calls/chats';
+import { getChatIdByAddresseeUsername, initiateChat } from '@/axios/chats';
 
 import { env } from '@/lib/env';
 import { PAGES } from '@/lib/constants';

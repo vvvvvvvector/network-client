@@ -10,7 +10,7 @@ import { AuthorisedProfile } from '@/components/profiles/authorised-profile';
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import type { AuthorisedUser } from '@/lib/types';
 
-import { getAuthorizedUserData } from '@/api-calls/users';
+import { getAuthorizedUserData } from '@/axios/users';
 
 interface Props {
   user: AuthorisedUser | null;

@@ -21,7 +21,7 @@ import { Input } from '@/components/ui/input';
 
 import { Icons } from '@/components/icons';
 
-import { signUp } from '@/api-calls/auth';
+import { signUp } from '@/axios/auth';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 import { cn } from '@/lib/utils';

@@ -8,7 +8,7 @@ import {
   rejectFriendRequest,
   cancelFriendRequest,
   sendFriendRequest
-} from '@/api-calls/friends';
+} from '@/axios/friends';
 
 export const useRequestsActions = () => {
   const pathname = usePathname();

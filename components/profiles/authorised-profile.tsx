@@ -32,7 +32,7 @@ import type { AuthorisedUser } from '@/lib/types';
 import { DROPDOWN_MENU_ICON_STYLES, PAGES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
 
-import { toogleAuthorizedUserEmailPrivacy } from '@/api-calls/users';
+import { toogleAuthorizedUserEmailPrivacy } from '@/axios/users';
 
 export const AuthorisedProfile = (user: AuthorisedUser) => {
   const [open, setOpen] = useState(false);

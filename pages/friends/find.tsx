@@ -17,7 +17,7 @@ import { Pagination, PaginationItem } from '@/components/friends/pagination';
 
 import { Icons } from '@/components/icons';
 
-import { getNetworkUsersUsernames } from '@/api-calls/friends';
+import { getNetworkUsersUsernames } from '@/axios/friends';
 
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useFocus } from '@/hooks/use-focus';

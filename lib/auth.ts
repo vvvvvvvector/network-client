@@ -3,7 +3,7 @@ import nookies from 'nookies';
 
 import { axiosApiInstance } from '@/axios';
 
-import { getAuthorizedUserUsername } from '@/api-calls/users';
+import { getAuthorizedUserUsername } from '@/axios/users';
 
 import { PAGES, TOKEN_NAME } from '@/lib/constants';
 

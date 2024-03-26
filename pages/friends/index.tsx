@@ -8,7 +8,7 @@ import { Friends as FriendsLayout } from '@/layouts/friends';
 
 import { Friends } from '@/components/friends/friends';
 
-import { getMyFriends } from '@/api-calls/friends';
+import { getMyFriends } from '@/axios/friends';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import { type UserFromListOfUsers } from '@/lib/types';

@@ -9,7 +9,7 @@ import {
   deleteAvatar,
   updateAvatar,
   uploadAvatar
-} from '@/api-calls/profiles';
+} from '@/axios/profiles';
 
 import { PAGES } from '@/lib/constants';
 

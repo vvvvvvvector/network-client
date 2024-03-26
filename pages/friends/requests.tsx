@@ -15,7 +15,7 @@ import {
   getIncomingFriendRequests,
   getOutgoingFriendRequests,
   getRejectedFriendRequests
-} from '@/api-calls/friends';
+} from '@/axios/friends';
 
 import { isAuthorized, isRedirect } from '@/lib/auth';
 import { capitalize, cn } from '@/lib/utils';
