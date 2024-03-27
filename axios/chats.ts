@@ -5,7 +5,7 @@ import type { Chat, ChatFromListOfChats } from '@/lib/types';
 export const CHATS_ROUTE = '/chats';
 
 // ------------------- swr uses this functions -------------------
-const getAutorizedUserChats = async (url: string) => {
+const getAutorisedUserChats = async (url: string) => {
   const { data } = await axiosApiInstance.get<ChatFromListOfChats[]>(`${url}`);
 
   return data;
@@ -35,7 +35,7 @@ const getChatData = async (url: string, id: string) => {
 };
 
 export {
-  getAutorizedUserChats,
+  getAutorisedUserChats,
   initiateChat,
   getChatIdByAddresseeUsername,
   getChatData

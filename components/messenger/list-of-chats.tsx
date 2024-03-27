@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 import { Avatar } from '@/components/avatar';
@@ -10,10 +12,9 @@ import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
 interface Props {
   chats: ChatFromListOfChats[];
-  filterChats: (chats: ChatFromListOfChats[]) => ChatFromListOfChats[];
 }
 
-export const ListOfChats = ({ chats, filterChats }: Props) => {
+export const ListOfChats = ({ chats }: Props) => {
   const connectionsInformation = useConnectionsInformation(
     chats.reduce(
       (accumulator, currentValue) =>
@@ -32,21 +33,9 @@ export const ListOfChats = ({ chats, filterChats }: Props) => {
     );
   }
 
-  const filteredByFriendUsernameChats = filterChats(chats);
-
-  if (!filteredByFriendUsernameChats.length) {
-    return (
-      <div className='rounded-lg bg-background px-5 pb-5'>
-        <p className='my-7 text-center leading-9'>
-          Your search returned no results 😭
-        </p>
-      </div>
-    );
-  }
-
   return (
     <ul className='flex flex-col pb-5'>
-      {filteredByFriendUsernameChats.map((chat) => (
+      {chats.map((chat) => (
         <Link href={`${PAGES.MESSENGER_CHAT}?id=${chat.id}`} key={chat.id}>
           <li className='group flex cursor-pointer items-center gap-5 px-5 py-3 transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-700'>
             <div className='relative'>
@@ -62,7 +51,7 @@ export const ListOfChats = ({ chats, filterChats }: Props) => {
             <div className='flex w-full flex-col gap-5 overflow-hidden'>
               <div className='flex justify-between'>
                 <span className='font-bold'>{chat.friendUsername}</span>
-                <time>
+                <time suppressHydrationWarning>
                   {(chat.lastMessageSentAt &&
                     `${formatDate(
                       chat.lastMessageSentAt,
