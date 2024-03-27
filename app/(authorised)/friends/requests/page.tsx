@@ -15,7 +15,7 @@ import {
 import { PAGES } from '@/lib/constants';
 import { capitalize, cn } from '@/lib/utils';
 
-export const types = ['incoming', 'outgoing', 'rejected'] as const;
+const types = ['incoming', 'outgoing', 'rejected'] as const;
 
 interface Props {
   searchParams: {

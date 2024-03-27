@@ -16,7 +16,7 @@ import { useTab } from '@/hooks/use-tab';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 import { type UserFromListOfUsers } from '@/lib/types';
 
-import { types } from '@/app/(authorised)/friends/requests/page';
+const types = ['incoming', 'outgoing', 'rejected'] as const;
 
 const BUTTONS: Record<
   (typeof types)[number],
