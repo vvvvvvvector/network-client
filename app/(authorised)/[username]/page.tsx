@@ -1,7 +1,11 @@
 import { type Metadata } from 'next';
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
+
+import { FriendProfile } from '@/components/profiles/friend-profile';
+import { DefaultProfile } from '@/components/profiles/default-profile';
 
 import { isAuthorised } from '@/app/(auth)/api';
+import { getNetworkUserPubliclyAvailableData } from '@/app/(authorised)/[username]/api';
 
 import { PAGES } from '@/lib/constants';
 
@@ -22,5 +26,24 @@ export default async function NetworkUserPage({ params }: Props) {
 
   if (signedInUserUsername === params.username) redirect(PAGES.MY_PROFILE);
 
-  return <div>hello owrold</div>;
+  const user = await getNetworkUserPubliclyAvailableData(params.username);
+
+  if ('error' in user) notFound();
+
+  const commonProps = {
+    username: user.username,
+    profile: user.profile,
+    lastSeen: user.lastSeen,
+    contacts: user.contacts
+  };
+
+  if (user.extendedFriendRequestStatus === 'friend')
+    return <FriendProfile {...commonProps} />;
+
+  return (
+    <DefaultProfile
+      extendedFriendRequestStatus={user.extendedFriendRequestStatus}
+      {...commonProps}
+    />
+  );
 }
