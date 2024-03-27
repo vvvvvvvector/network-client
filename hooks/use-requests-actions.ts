@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { toast } from 'sonner';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import {
   unfriend,
@@ -8,16 +8,13 @@ import {
   rejectFriendRequest,
   cancelFriendRequest,
   sendFriendRequest
-} from '@/api-calls/friends';
+} from '@/axios/friends';
 
 export const useRequestsActions = () => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const { replace } = useRouter();
+  const { refresh } = useRouter();
 
   const revalidate = () => {
-    replace(`${pathname}?${searchParams}`);
+    refresh();
   };
 
   const onClickUnfriend = (username: string) => async () => {

@@ -1,33 +1,30 @@
+'use client';
+
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import type { GetServerSideProps } from 'next';
 import Link from 'next/link';
 
-import { type NextPageWithLayout } from '@/pages/_app';
-
-import { Main } from '@/layouts/main';
-import { Authorized } from '@/layouts/authorised';
-import { Friends } from '@/layouts/friends';
-
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Input } from '@/components/ui/input';
-import { Tooltip } from '@/components/tooltip';
-import { Avatar } from '@/components/avatar';
-import { Pagination, PaginationItem } from '@/components/friends/pagination';
 
 import { Icons } from '@/components/icons';
+import { Avatar } from '@/components/avatar';
+import { Tooltip } from '@/components/tooltip';
+import { Pagination, PaginationItem } from '@/components/friends/pagination';
 
-import { getNetworkUsersUsernames } from '@/api-calls/friends';
+import { getNetworkUsersUsernames } from '@/app/(authorised)/friends/api';
 
-import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useFocus } from '@/hooks/use-focus';
+import { useRequestsActions } from '@/hooks/use-requests-actions';
 
-import { isAuthorized, isRedirect } from '@/lib/auth';
-import type { BaseFriendRequestStatus, UserFromListOfUsers } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
-import { useRouter, useSearchParams } from 'next/navigation';
 
-export type RequestStatus = BaseFriendRequestStatus | 'none';
+import { RequestStatus } from '@/axios/friends';
+
+interface Props {
+  data: Awaited<ReturnType<typeof getNetworkUsersUsernames>>;
+}
 
 const REQUEST_INFO: Record<Exclude<RequestStatus, 'none'>, string> = {
   rejected: 'Request already exists',
@@ -35,17 +32,7 @@ const REQUEST_INFO: Record<Exclude<RequestStatus, 'none'>, string> = {
   pending: 'Request already exists'
 };
 
-interface Props {
-  users: (UserFromListOfUsers & { requestStatus: RequestStatus })[] | null;
-  totalPages: number;
-  limitPerPage: number;
-}
-
-const Find: NextPageWithLayout<Props> = ({
-  users,
-  totalPages,
-  limitPerPage // eslint-disable-line
-}) => {
+export const NetworkUsersList = ({ data: { users, pages } }: Props) => {
   const [searchValue, setSearchValue] = useState('');
 
   const inputRef = useFocus<HTMLInputElement>();
@@ -62,16 +49,6 @@ const Find: NextPageWithLayout<Props> = ({
     if (searchValue)
       replace(`${PAGES.FRIENDS_FIND}?page=1&username=${searchValue.trim()}`);
   };
-
-  if (!users) {
-    return (
-      <p className='my-7 text-center leading-9'>
-        Something went wrong
-        <br /> Please, try again later
-        <br /> <span className='text-4xl'>😭</span>
-      </p>
-    );
-  }
 
   return (
     <>
@@ -148,10 +125,10 @@ const Find: NextPageWithLayout<Props> = ({
         </span>
       )}
       {users.length > 0 && (
-        <Pagination totalPages={totalPages}>
+        <Pagination totalPages={pages}>
           <Pagination.Content>
             <PaginationItem.Previous />
-            {[...Array(totalPages)].map((_, index) => (
+            {[...Array(pages)].map((_, index) => (
               <PaginationItem key={index} selected={index + 1}>
                 {index + 1}
               </PaginationItem>
@@ -163,42 +140,3 @@ const Find: NextPageWithLayout<Props> = ({
     </>
   );
 };
-
-Find.getLayout = (page) => (
-  <Main title='Friends / Find'>
-    <Authorized>
-      <Friends>{page}</Friends>
-    </Authorized>
-  </Main>
-);
-
-export const getServerSideProps = (async (context) => {
-  try {
-    const res = await isAuthorized(context);
-
-    if (isRedirect(res)) return res;
-
-    const response = await getNetworkUsersUsernames(
-      context.query.page as string,
-      context.query.username as string | undefined
-    );
-
-    return {
-      props: {
-        users: response.users,
-        totalPages: response.pages,
-        limitPerPage: response.limit
-      }
-    };
-  } catch (error) {
-    return {
-      props: {
-        users: null,
-        totalPages: 0,
-        limitPerPage: 0
-      }
-    };
-  }
-}) satisfies GetServerSideProps<Props>;
-
-export default Find;

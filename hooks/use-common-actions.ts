@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
-import { getChatIdByAddresseeUsername, initiateChat } from '@/api-calls/chats';
+import { getChatIdByAddresseeUsername, initiateChat } from '@/axios/chats';
 
 import { env } from '@/lib/env';
 import { PAGES } from '@/lib/constants';
@@ -23,11 +23,11 @@ export const useCommonActions = () => {
       const existingChatId = await getChatIdByAddresseeUsername(username); // Object.is(existingChatId, '') -> true
 
       if (existingChatId) {
-        push(`${PAGES.MESSENGER_CHAT}?id=${existingChatId}`);
+        push(`${PAGES.MESSENGER}/${existingChatId}`);
       } else {
         const newlyInitiatedChatId = await initiateChat(username);
 
-        push(`${PAGES.MESSENGER_CHAT}?id=${newlyInitiatedChatId}`);
+        push(`${PAGES.MESSENGER}/${newlyInitiatedChatId}`);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {

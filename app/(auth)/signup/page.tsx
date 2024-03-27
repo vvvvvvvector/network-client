@@ -1,7 +1,7 @@
 import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import { isAuthorized } from '@/app/(auth)/auth';
+import { isAuthorised } from '@/app/(auth)/api';
 
 import { SignUpForm } from '@/components/forms/signup-form';
 
@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default async function SignUpPage() {
-  const authorized = await isAuthorized();
+  const { signedInUserUsername } = await isAuthorised();
 
-  if (authorized) redirect(PAGES.MY_PROFILE);
+  if (signedInUserUsername) redirect(PAGES.MY_PROFILE);
 
   return <SignUpForm />;
 }

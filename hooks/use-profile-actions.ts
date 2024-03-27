@@ -9,21 +9,19 @@ import {
   deleteAvatar,
   updateAvatar,
   uploadAvatar
-} from '@/api-calls/profiles';
-
-import { PAGES } from '@/lib/constants';
+} from '@/axios/profiles';
 
 export const useProfileActions = (
   controlDropdown?: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const { mutate } = useSWRConfig();
 
-  const { replace } = useRouter();
+  const { refresh } = useRouter();
 
   const revalidate = () => {
     mutate('/users/me/username-avatar');
 
-    replace(`${PAGES.MY_PROFILE}`);
+    refresh();
 
     controlDropdown && controlDropdown(false);
   };
@@ -91,7 +89,7 @@ export const useProfileActions = (
 
         toast.success('Bio was successfully updated.');
 
-        replace(`${PAGES.MY_PROFILE}`);
+        refresh();
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast.error(`${error.response?.data.message}`);

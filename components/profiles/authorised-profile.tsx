@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -29,16 +31,16 @@ import { useProfileActions } from '@/hooks/use-profile-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 import type { AuthorisedUser } from '@/lib/types';
-import { DROPDOWN_MENU_ICON_STYLES, PAGES } from '@/lib/constants';
+import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
 
-import { toogleAuthorizedUserEmailPrivacy } from '@/api-calls/users';
+import { toogleAuthorisedUserEmailPrivacy } from '@/axios/users';
 
 export const AuthorisedProfile = (user: AuthorisedUser) => {
   const [open, setOpen] = useState(false);
   const [bio, setBio] = useState('');
 
-  const { replace } = useRouter();
+  const { refresh } = useRouter();
 
   const { openPhoto } = useCommonActions();
 
@@ -156,9 +158,8 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
             <Switch
               checked={!user.contacts.email.isPublic}
               onCheckedChange={async () => {
-                await toogleAuthorizedUserEmailPrivacy();
-
-                replace(PAGES.MY_PROFILE);
+                await toogleAuthorisedUserEmailPrivacy();
+                refresh();
               }}
             />
           </div>

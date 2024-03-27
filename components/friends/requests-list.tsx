@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
@@ -14,7 +16,7 @@ import { useTab } from '@/hooks/use-tab';
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 import { type UserFromListOfUsers } from '@/lib/types';
 
-import { types } from '@/pages/friends/requests';
+const types = ['incoming', 'outgoing', 'rejected'] as const;
 
 const BUTTONS: Record<
   (typeof types)[number],

@@ -22,7 +22,7 @@ import { Input } from '@/components/ui/input';
 
 import { Icons } from '@/components/icons';
 
-import { signIn } from '@/api-calls/auth';
+import { signIn } from '@/axios/auth';
 
 import { env } from '@/lib/env';
 import { ICON_INSIDE_BUTTON_SIZE, PAGES, TOKEN_NAME } from '@/lib/constants';

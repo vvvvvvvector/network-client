@@ -3,7 +3,7 @@ import nookies from 'nookies';
 
 import { axiosApiInstance } from '@/axios';
 
-import { getAuthorizedUserUsername } from '@/api-calls/users';
+import { getAuthorisedUserUsername } from '@/axios/users';
 
 import { PAGES, TOKEN_NAME } from '@/lib/constants';
 
@@ -40,7 +40,7 @@ export const isAuthorized = async (
   axiosApiInstance.defaults.headers.Authorization = `Bearer ${token}`; // set cookie / token on the server
 
   try {
-    const username = await getAuthorizedUserUsername(); // request which requires token. It will return error if user is not authorized
+    const username = await getAuthorisedUserUsername(); // request which requires token. It will return error if user is not authorized
 
     return {
       [AUTH_USER_USERNAME_KEY_NAME]: username
