@@ -18,12 +18,12 @@ export const useProfileActions = (
 ) => {
   const { mutate } = useSWRConfig();
 
-  const { replace } = useRouter();
+  const { replace, refresh } = useRouter();
 
   const revalidate = () => {
     mutate('/users/me/username-avatar');
 
-    replace(`${PAGES.MY_PROFILE}`);
+    refresh();
 
     controlDropdown && controlDropdown(false);
   };
