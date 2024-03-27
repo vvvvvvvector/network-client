@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 
 import { SignInForm } from '@/components/forms/signin-form';
 
-import { isAuthorized } from '@/app/(auth)/api';
+import { isAuthorised } from '@/app/(auth)/api';
 
 import { PAGES } from '@/lib/constants';
 
@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default async function SignInPage() {
-  const authorized = await isAuthorized();
+  const { signedInUserUsername } = await isAuthorised();
 
-  if (authorized) redirect(PAGES.MY_PROFILE);
+  if (signedInUserUsername) redirect(PAGES.MY_PROFILE);
 
   return <SignInForm />;
 }
