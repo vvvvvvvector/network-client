@@ -1,8 +1,7 @@
 import { type Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import { FriendProfile } from '@/components/profiles/friend-profile';
-import { DefaultProfile } from '@/components/profiles/default-profile';
+import { NetworkUserProfile } from '@/components/profiles/network-user-profile';
 
 import { isAuthorised } from '@/app/(auth)/api';
 import { getNetworkUserPubliclyAvailableData } from '@/app/(authorised)/[username]/api';
@@ -30,20 +29,5 @@ export default async function NetworkUserPage({ params }: Props) {
 
   if ('error' in user) notFound();
 
-  const commonProps = {
-    username: user.username,
-    profile: user.profile,
-    lastSeen: user.lastSeen,
-    contacts: user.contacts
-  };
-
-  if (user.extendedFriendRequestStatus === 'friend')
-    return <FriendProfile {...commonProps} />;
-
-  return (
-    <DefaultProfile
-      extendedFriendRequestStatus={user.extendedFriendRequestStatus}
-      {...commonProps}
-    />
-  );
+  return <NetworkUserProfile user={user} />;
 }
