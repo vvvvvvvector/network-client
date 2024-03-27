@@ -36,7 +36,7 @@ export const ListOfChats = ({ chats }: Props) => {
   return (
     <ul className='flex flex-col pb-5'>
       {chats.map((chat) => (
-        <Link href={`${PAGES.MESSENGER_CHAT}?id=${chat.id}`} key={chat.id}>
+        <Link href={`${PAGES.MESSENGER}/${chat.id}`} key={chat.id}>
           <li className='group flex cursor-pointer items-center gap-5 px-5 py-3 transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-700'>
             <div className='relative'>
               <Avatar

@@ -23,11 +23,11 @@ export const useCommonActions = () => {
       const existingChatId = await getChatIdByAddresseeUsername(username); // Object.is(existingChatId, '') -> true
 
       if (existingChatId) {
-        push(`${PAGES.MESSENGER_CHAT}?id=${existingChatId}`);
+        push(`${PAGES.MESSENGER}/${existingChatId}`);
       } else {
         const newlyInitiatedChatId = await initiateChat(username);
 
-        push(`${PAGES.MESSENGER_CHAT}?id=${newlyInitiatedChatId}`);
+        push(`${PAGES.MESSENGER}/${newlyInitiatedChatId}`);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
