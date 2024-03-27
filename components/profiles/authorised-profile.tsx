@@ -34,7 +34,7 @@ import type { AuthorisedUser } from '@/lib/types';
 import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
 
-import { toogleAuthorizedUserEmailPrivacy } from '@/axios/users';
+import { toogleAuthorisedUserEmailPrivacy } from '@/axios/users';
 
 export const AuthorisedProfile = (user: AuthorisedUser) => {
   const [open, setOpen] = useState(false);
@@ -158,7 +158,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
             <Switch
               checked={!user.contacts.email.isPublic}
               onCheckedChange={async () => {
-                await toogleAuthorizedUserEmailPrivacy();
+                await toogleAuthorisedUserEmailPrivacy();
                 refresh();
               }}
             />

@@ -9,9 +9,9 @@ import type {
 
 const ROUTE = '/users';
 
-// vvv ------------------authorized------------------ vvv
+// vvv ------------------authorised------------------ vvv
 
-const getAuthorizedUserData = async () => {
+const getAuthorisedUserData = async () => {
   const { data } = await axiosApiInstance.get<AuthorisedUser>(`${ROUTE}/me`);
 
   return data;
@@ -19,13 +19,13 @@ const getAuthorizedUserData = async () => {
 
 export const url = `${ROUTE}/me/username-avatar`;
 
-const getAuthorizedUserUsernameAndAvatar = async (url: string) => {
+const getAuthorisedUserUsernameAndAvatar = async (url: string) => {
   const { data } = await axiosApiInstance.get<User & AvatarWithoutLikes>(url);
 
   return data;
 };
 
-const getAuthorizedUserUsername = async () => {
+const getAuthorisedUserUsername = async () => {
   const { data } = await axiosApiInstance.get<{ username: string }>(
     `${ROUTE}/me/username`
   );
@@ -33,7 +33,7 @@ const getAuthorizedUserUsername = async () => {
   return data;
 };
 
-const toogleAuthorizedUserEmailPrivacy = async () => {
+const toogleAuthorisedUserEmailPrivacy = async () => {
   await axiosApiInstance.patch<{
     email: {
       isPublic: boolean;
@@ -41,7 +41,7 @@ const toogleAuthorizedUserEmailPrivacy = async () => {
   }>(`${ROUTE}/me/contacts/email/privacy`);
 };
 
-// ^^^ ------------------authorized------------------ ^^^
+// ^^^ ------------------authorised------------------ ^^^
 
 const getNetworkUserPubliclyAvailableData = async (username: string) => {
   const { data } = await axiosApiInstance.get<NetworkUser>(
@@ -52,9 +52,9 @@ const getNetworkUserPubliclyAvailableData = async (username: string) => {
 };
 
 export {
-  getAuthorizedUserData,
+  getAuthorisedUserData,
   getNetworkUserPubliclyAvailableData,
-  getAuthorizedUserUsername,
-  toogleAuthorizedUserEmailPrivacy,
-  getAuthorizedUserUsernameAndAvatar
+  getAuthorisedUserUsername,
+  toogleAuthorisedUserEmailPrivacy,
+  getAuthorisedUserUsernameAndAvatar
 };

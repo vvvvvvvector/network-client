@@ -30,7 +30,7 @@ import { CommandMenu } from '@/components/command-menu';
 import { MobileNav } from '@/components/mobile-nav';
 
 import { signOut } from '@/axios/auth';
-import { getAuthorizedUserUsernameAndAvatar, url } from '@/axios/users';
+import { getAuthorisedUserUsernameAndAvatar, url } from '@/axios/users';
 
 import { DROPDOWN_MENU_ICON_STYLES, PAGES } from '@/lib/constants';
 import type { AvatarWithoutLikes, User } from '@/lib/types';
@@ -80,7 +80,7 @@ const Header = () => {
 
   const { data } = useSWR<Omit<User, 'lastSeen'> & AvatarWithoutLikes>(
     url,
-    getAuthorizedUserUsernameAndAvatar
+    getAuthorisedUserUsernameAndAvatar
   );
 
   useEffect(() => {
