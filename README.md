@@ -1,3 +1,5 @@
+# The project was moved to the [monorepo (Turborepo)](https://github.com/vvvvvvvector/social-network-turborepo)
+
 An open source application built using [Next.js](https://nextjs.org/).
 
 [👉 Screenshots 👈](https://drive.google.com/drive/folders/18ECGstBfa0534t8nTC6LbmJpjc6w4QL9?usp=drive_link)
